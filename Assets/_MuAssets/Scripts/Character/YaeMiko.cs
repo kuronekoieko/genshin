@@ -295,7 +295,7 @@ public class YaeMiko
             ["スコア"] = artSub.score.ToString()
         };
 
-        Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));
+        // Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));
 
         return result;
     }
