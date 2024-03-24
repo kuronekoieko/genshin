@@ -5,31 +5,10 @@ using Newtonsoft.Json;
 
 public class YaeMiko : BaseCharacter
 {
-
-    public Status status = new();
-    Ascend ascend = new();
-
-    public class Status
+    CharacterSO characterSO;
+    public YaeMiko(CharacterSO characterSO)
     {
-        // 基礎ステータス Lv90
-        public float baseAtk = 340;
-        public float baseDef = 569;
-        public float baseCritRate = 0.05f;
-        public float baseCritDmg = 0.5f;
-        public float baseHp = 10372;
-        public string weaponType = "法器";
-    }
-
-    //突破ステータス
-    public class Ascend
-    {
-        public float critRate = 0.192f;
-        public float critDmg = 0;
-        public float dmgBonus = 0;
-        public float atkPer = 0;
-        public float energyRecharge = 0;
-        public float hpPer = 0;
-        public float defPer = 0;
+        this.characterSO = characterSO;
     }
 
     // スキル Lv9
@@ -46,16 +25,16 @@ public class YaeMiko : BaseCharacter
         float hpPerSum
             = datas.hpPerSum()
             + datas.artSub.hp_rate
-            + ascend.hpPer;
+            + characterSO.ascend.hpPer;
 
         var hpSum
-            = status.baseHp * (1 + hpPerSum)
+            = characterSO.status.baseHp * (1 + hpPerSum)
             + datas.hp();
 
 
         float energyRecharge
             = 1 + datas.energy_recharge()
-            + ascend.energyRecharge;
+            + characterSO.ascend.energyRecharge;
 
         float elementalMastery
             = datas.elemental_mastery();
@@ -64,18 +43,18 @@ public class YaeMiko : BaseCharacter
             = datas.def_rate();
 
         var def
-            = status.baseDef * (1 + defPerSum)
+            = characterSO.status.baseDef * (1 + defPerSum)
             + datas.def();
 
         float atkPerSum
             = datas.atk_rate()
-            + ascend.atkPer;
+            + characterSO.ascend.atkPer;
 
         var homa_atkAdd = hpSum * datas.weapon.homa;
         var sekisa_atkAdd = elementalMastery * datas.weapon.sekisha;
 
         var atk
-            = (status.baseAtk + datas.weapon.base_atk)
+            = (characterSO.status.baseAtk + datas.weapon.base_atk)
             * (1 + atkPerSum)
             + datas.atk()
             + homa_atkAdd
@@ -83,7 +62,7 @@ public class YaeMiko : BaseCharacter
 
         float dmgBonus
             = datas.dmg_bonus()
-            + ascend.dmgBonus;
+            + characterSO.ascend.dmgBonus;
 
         float normalAtkDmgBonus
             = datas.normal_atk_bonus();
@@ -103,8 +82,8 @@ public class YaeMiko : BaseCharacter
 
         float critRate
             = datas.crit_rate()
-            + ascend.critRate
-            + status.baseCritRate;
+            + characterSO.ascend.critRate
+            + characterSO.status.baseCritRate;
 
 
         var critRate_skill
@@ -117,8 +96,8 @@ public class YaeMiko : BaseCharacter
 
         float critDmg
             = datas.crit_dmg()
-            + ascend.critDmg
-            + status.baseCritDmg;
+            + characterSO.ascend.critDmg
+            + characterSO.status.baseCritDmg;
 
         float dmgAdd = datas.add();
 

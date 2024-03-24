@@ -7,20 +7,52 @@ using System.IO;
 using UnityEditor;
 using Newtonsoft.Json;
 
-public class Main
+public class Main : EditorWindow
 {
+    [SerializeField] static CharacterSO characterSO;
+    static readonly Vector2 buttonSize = new Vector2(200, 40);
+    static Main tMProFontAssetUpdater;
+
+
+    async private void OnGUI()
+    {
+        EditorGUILayout.Space();
+
+        characterSO = EditorGUILayout.ObjectField("CharacterSO", characterSO, typeof(CharacterSO), true) as CharacterSO;
+
+        EditorGUILayout.Space();
+
+        EditorGUILayout.BeginHorizontal();
+        {
+            EditorGUILayout.Space();
+
+            if (GUILayout.Button("Change ", GUILayout.Width(buttonSize.x), GUILayout.Height(buttonSize.y)))
+            {
+                Debug.Log("CSVロード開始");
+
+                await CSVManager.InitializeAsync();
+
+                var texts = await Calc();
+
+                Save("YaeMiko", texts);
+            }
+
+            EditorGUILayout.Space();
+        }
+        EditorGUILayout.EndHorizontal();
+    }
 
     [MenuItem("Genshin/Start")]
-    async static void Start()
+    static void Start()
     {
-        Debug.Log("CSVロード開始");
 
-        await CSVManager.InitializeAsync();
-
-        var texts = await Calc();
-
-        Save("YaeMiko", texts);
+        if (tMProFontAssetUpdater == null)
+        {
+            tMProFontAssetUpdater = CreateInstance<Main>();
+        }
+        tMProFontAssetUpdater.Show();
     }
+
 
 
 
@@ -38,8 +70,7 @@ public class Main
         }
 
         Debug.Log("ダメージ計算開始");
-
-        var character = new YaeMiko();
+        var character = new YaeMiko(characterSO);
 
         int progress = 0;
         int max = CSVManager.weaponDatas.Length * CSVManager.artSetDatas.Length * CSVManager.partyDatas.Length * CSVManager.artSubDatas.Length * artMainArray.Length;
@@ -47,7 +78,7 @@ public class Main
         foreach (var weapon in CSVManager.weaponDatas)
         {
             if (weapon.skip == 1) continue;
-            if (weapon.type != character.status.weaponType) continue;
+            if (weapon.type != characterSO.status.weaponType) continue;
 
             foreach (var artSets in CSVManager.artSetDatas)
             {
