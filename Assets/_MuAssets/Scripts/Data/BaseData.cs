@@ -15,7 +15,7 @@ public class BaseData
     public float hp;
     public float hp_rate;
 
-    public float dmg_bonus; 
+    public float dmg_bonus;
     public float physics_bonus;
     public float normal_atk_bonus;
     public float charged_atk_bonus;
@@ -26,9 +26,13 @@ public class BaseData
     public float crit_rate;
     public float crit_dmg;
     public float crit_rate_skill;
+    public float crit_rate_burst;
     public float crit_dmg_burst;
     public float atk_speed;
     public float heal_bonus;
     public float res;
+    public float add;
+    public float add_normal_atk;
+    public float add_skill;
 
 }

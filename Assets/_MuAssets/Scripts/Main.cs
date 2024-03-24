@@ -14,23 +14,13 @@ public class Main : MonoBehaviour
 
 
     private bool isSub;
-    private List<List<string>> results = new List<List<string>>();
+    private List<Dictionary<string, string>> results = new();
 
     public void ReadAndWrite()
     {
-
-        // Assuming these methods are defined elsewhere
-        // List<Dictionary<string, string>> artMainArray = GetArtMainConbinations();
         // List<Dictionary<string, string>> getArtSubConbinations(Dictionary<string, string> artMain);
 
-        var artMainArray = Artifacts_Main.GetArtMainDatas(); // Dummy initialization
-        foreach (var item in artMainArray)
-        {
-            Debug.Log(JsonUtility.ToJson(item, true));
-
-        }
-
-        return;
+        var artMainArray = Artifacts_Main.GetArtMainDatas();
 
         if (isSub)
         {
@@ -60,9 +50,8 @@ public class Main : MonoBehaviour
                             foreach (var artMainItem in artMainArray)
                             {
                                 artMain = artMainItem;
-
-                                // List<string> result = CalcDmg(weapon, artMain, artSets, chara, artSub);
-                                // results.Add(result);
+                                Dictionary<string, string> result = YaeMiko.CalcDmg(weapon, artMain, artSets, chara, artSub);
+                                results.Add(result);
                             }
                         }
                     }
@@ -71,7 +60,6 @@ public class Main : MonoBehaviour
         }
 
         // results = GetTopResults(results, 4);
-        // Dummy code for setting values in C# Console Application
         foreach (var result in results)
         {
             Debug.Log(string.Join(", ", result));
