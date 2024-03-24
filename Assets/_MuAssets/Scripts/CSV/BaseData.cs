@@ -15,7 +15,8 @@ public class BaseData
     public float hp;
     public float hp_rate;
 
-    public float dmg_bonus;
+    public float dmg_bonus; 
+    public float physics_bonus;
     public float normal_atk_bonus;
     public float charged_atk_bonus;
     public float skill_bonus;
