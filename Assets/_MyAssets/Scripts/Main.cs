@@ -4,61 +4,30 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using System.Linq;
 using System.IO;
-using UnityEditor;
 using Newtonsoft.Json;
 
-public class Main : EditorWindow
+public class Main : MonoBehaviour
 {
-    [SerializeField] static CharacterSO characterSO;
-    static readonly Vector2 buttonSize = new Vector2(200, 40);
-    static Main tMProFontAssetUpdater;
+    [SerializeField] CharacterSO characterSO;
 
 
-    async private void OnGUI()
+    async void Start()
     {
-        EditorGUILayout.Space();
+        Debug.Log("CSVロード開始");
 
-        characterSO = EditorGUILayout.ObjectField("CharacterSO", characterSO, typeof(CharacterSO), true) as CharacterSO;
+        await CSVManager.InitializeAsync();
 
-        EditorGUILayout.Space();
+        var texts = await Calc();
 
-        EditorGUILayout.BeginHorizontal();
-        {
-            EditorGUILayout.Space();
-
-            if (GUILayout.Button("Change ", GUILayout.Width(buttonSize.x), GUILayout.Height(buttonSize.y)))
-            {
-                Debug.Log("CSVロード開始");
-
-                await CSVManager.InitializeAsync();
-
-                var texts = await Calc();
-
-                Save("YaeMiko", texts);
-            }
-
-            EditorGUILayout.Space();
-        }
-        EditorGUILayout.EndHorizontal();
-    }
-
-    [MenuItem("Genshin/Start")]
-    static void Start()
-    {
-
-        if (tMProFontAssetUpdater == null)
-        {
-            tMProFontAssetUpdater = CreateInstance<Main>();
-        }
-        tMProFontAssetUpdater.Show();
+        Save("YaeMiko", texts);
     }
 
 
 
 
-    static bool isSub;
+    bool isSub;
 
-    static async UniTask<List<string>> Calc()
+    async UniTask<List<string>> Calc()
     {
         List<Dictionary<string, string>> results = new();
 
@@ -161,7 +130,7 @@ public class Main : EditorWindow
         return texts;
     }
 
-    static void Save(string fileName, List<string> list)
+    void Save(string fileName, List<string> list)
     {
         Debug.Log("書き込み開始");
 
@@ -181,7 +150,7 @@ public class Main : EditorWindow
             sw.WriteLine(line);
         }
 
-        AssetDatabase.Refresh();
+        //AssetDatabase.Refresh();
         Debug.Log("生成完了 " + fileName);
     }
 
