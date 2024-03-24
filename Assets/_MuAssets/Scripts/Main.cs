@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class Main : MonoBehaviour
@@ -16,7 +17,7 @@ public class Main : MonoBehaviour
     private bool isSub;
     private List<Dictionary<string, string>> results = new();
 
-    public void ReadAndWrite()
+    public async void ReadAndWrite()
     {
         // List<Dictionary<string, string>> getArtSubConbinations(Dictionary<string, string> artMain);
 
@@ -52,6 +53,7 @@ public class Main : MonoBehaviour
                                 artMain = artMainItem;
                                 Dictionary<string, string> result = YaeMiko.CalcDmg(weapon, artMain, artSets, chara, artSub);
                                 results.Add(result);
+                                await UniTask.DelayFrame(1);
                             }
                         }
                     }
