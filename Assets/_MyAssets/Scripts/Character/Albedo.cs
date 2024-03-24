@@ -1,15 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Newtonsoft.Json;
 
-public class YaeMiko : BaseCharacter
+public class Albedo : BaseCharacter
 {
     // スキル Lv9
-    float[] skillPerArray = { 1.031f, 1.289f, 1.612f };
+    float[] skillPerArray = { 2.27f };
 
     // 固有天賦
-    float passive_dmgBonusPerEM = 0.15f * 0.01f;
+    //  float passive_dmgBonusPerEM = 0.15f * 0.01f;
 
 
     public override Dictionary<string, string> CalcDmg(Datas datas, CharacterSO characterSO)
@@ -65,8 +64,7 @@ public class YaeMiko : BaseCharacter
             = datas.charged_atk_bonus();
 
         float skillDmgBonus
-            = datas.skill_bonus()
-            + passive_dmgBonusPerEM * elementalMastery;
+            = datas.skill_bonus();
 
         float burstDmgBonus
             = datas.burst_bonus();
@@ -137,27 +135,8 @@ public class YaeMiko : BaseCharacter
         */
         var expectedDmg_gekika
           = GetExpectedDamage(
-            atk,
+            def,
             skillPerArray[0],
-            dmgAdd + dmgAdd_skill + addAggravate,
-            dmgBonus + skillDmgBonus,
-            crit_skill.ExpectedCritDmg,
-            enemyRES,
-            1);
-        expectedDmg_gekika
-          += GetExpectedDamage(
-            atk,
-            skillPerArray[1],
-            dmgAdd + dmgAdd_skill,
-            dmgBonus + skillDmgBonus,
-            crit_skill.ExpectedCritDmg,
-            enemyRES,
-            1);
-
-        expectedDmg_gekika
-          += GetExpectedDamage(
-            atk,
-            skillPerArray[2],
             dmgAdd + dmgAdd_skill,
             dmgBonus + skillDmgBonus,
             crit_skill.ExpectedCritDmg,
@@ -189,7 +168,4 @@ public class YaeMiko : BaseCharacter
 
         return result;
     }
-
-
-
 }

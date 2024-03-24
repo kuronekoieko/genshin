@@ -19,7 +19,7 @@ public class Main : MonoBehaviour
 
         var texts = await Calc();
 
-        Save("YaeMiko", texts);
+        Save("Albedo", texts);
     }
 
 
@@ -39,7 +39,7 @@ public class Main : MonoBehaviour
         }
 
         Debug.Log("ダメージ計算開始");
-        var character = new YaeMiko(characterSO);
+        var character = new Albedo();
 
         int progress = 0;
         int max = CSVManager.weaponDatas.Length * CSVManager.artSetDatas.Length * CSVManager.partyDatas.Length * CSVManager.artSubDatas.Length * artMainArray.Length;
@@ -84,7 +84,7 @@ public class Main : MonoBehaviour
                                     partyData = chara,
                                     artSub = artSub,
                                 };
-                                Dictionary<string, string> result = character.CalcDmg(datas);
+                                Dictionary<string, string> result = character.CalcDmg(datas, characterSO);
                                 results.Add(result);
                                 progress++;
 
@@ -130,11 +130,11 @@ public class Main : MonoBehaviour
         return texts;
     }
 
-    void Save(string fileName, List<string> list)
+    async void Save(string fileName, List<string> list)
     {
         Debug.Log("書き込み開始");
 
-        string directoryPath = Application.dataPath + @"/_MyAssets/CSV/YaeMiko/";
+        string directoryPath = Application.dataPath + $"/_MyAssets/CSV/{fileName}/";
         fileName += ".csv";
         string path = directoryPath + fileName;
         // ディレクトリが存在しない場合は作成
@@ -152,6 +152,9 @@ public class Main : MonoBehaviour
 
         //AssetDatabase.Refresh();
         Debug.Log("生成完了 " + fileName);
+
+        await UniTask.DelayFrame(1);
+        UnityEditor.EditorApplication.isPlaying = false;
     }
 
 
