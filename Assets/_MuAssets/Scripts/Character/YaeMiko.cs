@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public class YaeMiko
 {
@@ -294,7 +295,7 @@ public class YaeMiko
             ["スコア"] = artSub.score.ToString()
         };
 
-        Debug.Log(result);
+        Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));
 
         return result;
     }
