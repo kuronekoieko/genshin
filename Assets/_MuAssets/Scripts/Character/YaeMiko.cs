@@ -273,24 +273,28 @@ public class YaeMiko
             enemyRES,
             1);
 
-        Dictionary<string, string> result = new(){
-                {"武器",""},
-                 {"聖遺物セット",""}
-  , {"聖遺物メイン",""}
-  , {"バフキャラ",""}
-  , {"スキル期待値",""}
-  , {"攻撃力",""}
-  , {"HP",""}
-  , {"バフ",""}
-  , {"会心ダメ期待値",""}
-  , {"熟知",""}
-  , {"率ダメ",""}
-  , {"会心ダメ比率",""}
-  , {"聖遺物組み合わせ",""}
-  , {"サブステ",""}
-  , {"サブHP%",""}
-  , {"サブHP",""}
-  , {"スコア",""}};
+        Dictionary<string, string> result = new()
+        {
+            ["武器"] = weapon.name,
+            ["聖遺物セット"] = artSets.name,
+            ["聖遺物メイン"] = artMain.name,
+            ["バフキャラ"] = partyData.name,
+            ["スキル期待値"] = expectedDmg_gekika.ToString(),
+            ["攻撃力"] = atk.ToString(),
+            ["HP"] = hpSum.ToString(),
+            ["バフ"] = dmgBonus.ToString(),
+            ["会心ダメ期待値"] = crit_skill.ExpectedCritDmg.ToString(),
+            ["熟知"] = elementalMastery.ToString(),
+            ["率ダメ"] = crit_skill.RateDmg,
+            ["会心ダメ比率"] = crit_skill.CritProportion,
+            ["聖遺物組み合わせ"] = artSub.name,
+            ["サブステ"] = crit_skill.SubCritRate.ToString(),
+            ["サブHP%"] = artSub.hp_rate.ToString(),
+            ["サブHP"] = artSub.hp.ToString(),
+            ["スコア"] = artSub.score.ToString()
+        };
+
+        Debug.Log(result);
 
         return result;
     }
