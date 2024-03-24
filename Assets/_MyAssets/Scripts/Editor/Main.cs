@@ -111,10 +111,6 @@ public class Main
             texts.Add(line);
         }
 
-        foreach (var text in texts)
-        {
-            Debug.Log(text);
-        }
         return texts;
     }
 
