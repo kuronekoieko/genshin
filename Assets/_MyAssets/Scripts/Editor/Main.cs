@@ -39,13 +39,15 @@ public class Main
 
         Debug.Log("ダメージ計算開始");
 
+        var character = new YaeMiko();
+
         int progress = 0;
         int max = CSVManager.weaponDatas.Length * CSVManager.artSetDatas.Length * CSVManager.partyDatas.Length * CSVManager.artSubDatas.Length * artMainArray.Length;
 
         foreach (var weapon in CSVManager.weaponDatas)
         {
             if (weapon.skip == 1) continue;
-            if (weapon.type != YaeMiko.weaponType) continue;
+            if (weapon.type != character.status.weaponType) continue;
 
             foreach (var artSets in CSVManager.artSetDatas)
             {
@@ -74,7 +76,15 @@ public class Main
                                 if (artMainItem.skip == 1) continue;
 
                                 artMain = artMainItem;
-                                Dictionary<string, string> result = YaeMiko.CalcDmg(weapon, artMain, artSets, chara, artSub);
+                                Datas datas = new()
+                                {
+                                    weapon = weapon,
+                                    artMain = artMain,
+                                    artSets = artSets,
+                                    partyData = chara,
+                                    artSub = artSub,
+                                };
+                                Dictionary<string, string> result = character.CalcDmg(datas);
                                 results.Add(result);
                                 progress++;
 
