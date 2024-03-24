@@ -12,6 +12,8 @@ public class Main
     [MenuItem("Genshin/Start")]
     async static void Start()
     {
+        Debug.Log("CSVロード開始");
+
         await CSVManager.InitializeAsync();
 
         var texts = await Calc();
@@ -43,12 +45,19 @@ public class Main
 
         foreach (var weapon in CSVManager.weaponDatas)
         {
+            if (weapon.skip == 1) continue;
             foreach (var artSets in CSVManager.artSetDatas)
             {
+                if (artSets.skip == 1) continue;
+
                 foreach (var chara in CSVManager.partyDatas)
                 {
+                    if (chara.skip == 1) continue;
+
                     foreach (var artSub in CSVManager.artSubDatas)
                     {
+                        if (artSub.skip == 1) continue;
+
                         ArtMainData artMain;
                         if (isSub)
                         {
@@ -61,6 +70,8 @@ public class Main
                         {
                             foreach (var artMainItem in artMainArray)
                             {
+                                if (artMainItem.skip == 1) continue;
+
                                 artMain = artMainItem;
                                 Dictionary<string, string> result = YaeMiko.CalcDmg(weapon, artMain, artSets, chara, artSub);
                                 results.Add(result);
@@ -83,7 +94,11 @@ public class Main
         Debug.Log("計算終了");
 
         results = results
-            .OrderByDescending(result => result["スキル期待値"])
+            .OrderByDescending(result =>
+            {
+                float.TryParse(result["スキル期待値"], out float val);
+                return val;
+            })
             .Take(100)
             .ToList();
 

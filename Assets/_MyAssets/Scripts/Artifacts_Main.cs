@@ -20,6 +20,8 @@ public static class Artifacts_Main
 
     static public ArtMainData[] GetArtMainDatas()
     {
+        Debug.Log("聖遺物メイン計算開始");
+
         List<ArtMainData> artMainDatas = new List<ArtMainData>();
         var artMainDictionaries = GetArtMainDictionaries();
         foreach (var item in artMainDictionaries)

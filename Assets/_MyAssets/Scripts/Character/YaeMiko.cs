@@ -223,8 +223,8 @@ public class YaeMiko
         + artSub.add_skill;
 
         var crit_skill = Crit.GetCrit(critRate_skill, critDmg, artSub);
-        var crit_ChargedAttack = Crit.GetCrit(critRate, critDmg, artSub);
-        var crit_normalAttack = Crit.GetCrit(critRate, critDmg, artSub);
+        // var crit_ChargedAttack = Crit.GetCrit(critRate, critDmg, artSub);
+        //var crit_normalAttack = Crit.GetCrit(critRate, critDmg, artSub);
 
         var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
         var vaporize = ElementalReaction.VaporizeForPyro(elementalMastery, artSets.er_rate);
@@ -234,17 +234,17 @@ public class YaeMiko
 
         var enemyRES = GetElementalRes(partyData.res) * 0.5f;
 
-
-        var expectedDmg
-          = GetExpectedDamageSum(
-            atk,
-            skillPerArray,
-            dmgAdd + dmgAdd_skill,
-            dmgBonus + skillDmgBonus,
-            crit_skill.ExpectedCritDmg,
-            enemyRES,
-            1);
-
+        /*
+                var expectedDmg
+                  = GetExpectedDamageSum(
+                    atk,
+                    skillPerArray,
+                    dmgAdd + dmgAdd_skill,
+                    dmgBonus + skillDmgBonus,
+                    crit_skill.ExpectedCritDmg,
+                    enemyRES,
+                    1);
+        */
         var expectedDmg_gekika
           = GetExpectedDamage(
             atk,
