@@ -12,6 +12,7 @@ public class YaeMiko
     static float baseCritDmg = 0.5f;
     static float baseHp = 10372;
     static Ascend ascend = new();
+    public static string weaponType = "法器";
 
     //突破ステータス
     public class Ascend
@@ -295,7 +296,7 @@ public class YaeMiko
             ["スコア"] = artSub.score.ToString()
         };
 
-        // Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));
+        //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));
 
         return result;
     }

@@ -6,10 +6,15 @@ using UnityEngine;
 [Serializable]
 public class WeaponData : BaseData
 {
+    public string type;
     public float base_atk;
     public float homa;
     public float sekisha;
     public float sekikaku;
     public float suikou;
-    public float seiken;
+    public float seiken_hp;
+    public float seiken_em;
+    public float kusanagi;
+    public float kariudo;
+
 }

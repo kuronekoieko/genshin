@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Linq;
 using System.IO;
 using UnityEditor;
+using Newtonsoft.Json;
 
 public class Main
 {
@@ -29,8 +30,6 @@ public class Main
     {
         List<Dictionary<string, string>> results = new();
 
-        // List<Dictionary<string, string>> getArtSubConbinations(Dictionary<string, string> artMain);
-
         var artMainArray = Artifacts_Main.GetArtMainDatas();
 
         if (isSub)
@@ -46,6 +45,8 @@ public class Main
         foreach (var weapon in CSVManager.weaponDatas)
         {
             if (weapon.skip == 1) continue;
+            if (weapon.type != YaeMiko.weaponType) continue;
+
             foreach (var artSets in CSVManager.artSetDatas)
             {
                 if (artSets.skip == 1) continue;
@@ -93,6 +94,11 @@ public class Main
 
         Debug.Log("計算終了");
 
+        foreach (var result in results)
+        {
+            //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));
+        }
+
         results = results
             .OrderByDescending(result =>
             {
@@ -107,7 +113,7 @@ public class Main
         texts.Add(header);
         foreach (var result in results)
         {
-            string line = string.Join(",", results[0].Values.ToArray());
+            string line = string.Join(",", result.Values.ToArray());
             texts.Add(line);
         }
 
