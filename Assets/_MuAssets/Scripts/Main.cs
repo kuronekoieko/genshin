@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class Main : MonoBehaviour
 {
-    void Start()
+    async void Start()
     {
+        await CSVManager.InitializeAsync();
 
+        foreach (var item in CSVManager.weaponDatas)
+        {
+            Debug.Log(JsonUtility.ToJson(item, true));
+            // Debug.Log(item.name);
+        }
     }
 
 

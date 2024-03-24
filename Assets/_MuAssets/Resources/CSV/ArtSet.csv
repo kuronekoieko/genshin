@@ -1,4 +1,4 @@
-スキップ,聖遺物セット,攻撃%,防御%,元素バフ,通常バフ,重撃バフ,スキルバフ,爆発バフ,元素反応(倍率),元素反応(固定),元素反応(激化),元素熟知,元チャ,絶縁爆発バフ倍率,会心率,攻撃速度,HP%,治癒効果
+skip,name,atk_rate,def_rate,dmg_bonus,normal_atk_bonus,charged_atk_bonus,skill_bonus,burst_bonus,er_rate,er_fixed,er_aggravate,elemental_mastery,energy_recharge,zetsuen,crit_rate,atk_speed,hp_rate,heal_bonus
 1,ファントムハンター,,,,0.15,0.15,,,,,,,,,0.36,,,
 0,砂上4,,,0,0.4,0.4,,,,,,,,,,0.1,,
 0,沈淪4,,,0,0.3,0.3,,,,,,,,,,,,

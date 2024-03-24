@@ -1,17 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using System.IO;
 
-public class CSVManager
+public static class CSVManager
 {
-    /*
-    public static HomeText[] HomeTexts { get; private set; }
+
+    public static PartyData[] partyDatas { get; private set; }
+    public static ArtSetData[] artSetDatas { get; private set; }
+    public static ArtSubData[] artSubDatas { get; private set; }
+    public static WeaponData[] weaponDatas { get; private set; }
 
     public static async UniTask InitializeAsync()
     {
-
+        partyDatas = await DeserializeAsync<PartyData>("Chara");
+        artSetDatas = await DeserializeAsync<ArtSetData>("ArtSet");
+        artSubDatas = await DeserializeAsync<ArtSubData>("ArtSub");
+        weaponDatas = await DeserializeAsync<WeaponData>("Catalyst");
     }
 
     public static async UniTask<T[]> DeserializeAsync<T>(string fileName)
@@ -51,7 +57,7 @@ public class CSVManager
         //if (ary == null) Debug.LogError("csvデシリアライズに失敗しました: " + fileName);
         return stringDics;
     }
-*/
+
     static List<Dictionary<string, string>> CSVToStringDics(List<string[]> stringLists)
     {
         List<Dictionary<string, string>> datas = new();

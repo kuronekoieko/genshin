@@ -1,4 +1,4 @@
-スキップ,バフキャラ,攻撃%,攻撃,防御%,防御,通常バフ,重撃バフ,スキルバフ,爆発バフ,元素バフ,通常加算,会心率,会心ダメージ,加算,加算回数,HP%,元素熟知,耐性ダウン,治癒効果
+skip,name,atk_rate,atk,def_rate,def,normal_atk_bonus,charged_atk_bonus,skill_bonus,burst_bonus,dmg_bonus,add_normal_atk,crit_rate,crit_dmg,add,add_count,hp_rate,elemental_mastery,res,heal_bonus
 1,雲菫,,,,,0.15,,,,,1301.5,,,,,,,,
 1,雲菫(悠久4)+氷キャラ,,,,,0.15,,,,0.35,1301.5,0.15,,,,,,,
 1,ベネット(西風、炎共鳴),0.25,845,,,,,,,,,,,,,,,,
