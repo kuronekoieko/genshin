@@ -66,7 +66,7 @@ public class Main
                                 results.Add(result);
                                 progress++;
 
-                                if (progress % 100000 == 0)
+                                if (progress % 200000 == 0)
                                 {
                                     await UniTask.DelayFrame(1);
                                     Debug.Log("progress: " + progress + "/" + max);
