@@ -16,5 +16,5 @@ public class WeaponData : BaseData
     public float seiken_em;
     public float kusanagi;
     public float kariudo;
-
+    public float cinnabar;
 }

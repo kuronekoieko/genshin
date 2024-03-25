@@ -19,7 +19,7 @@ public class Main : MonoBehaviour
 
         var texts = await Calc();
 
-        Save("Albedo", texts);
+        Save(characterSO.name, texts);
     }
 
 
@@ -39,7 +39,7 @@ public class Main : MonoBehaviour
         }
 
         Debug.Log("ダメージ計算開始");
-        var character = new Albedo();
+        var character = new Chiori();
 
         int progress = 0;
         int max = CSVManager.weaponDatas.Length * CSVManager.artSetDatas.Length * CSVManager.partyDatas.Length * CSVManager.artSubDatas.Length * artMainArray.Length;
@@ -112,7 +112,7 @@ public class Main : MonoBehaviour
         results = results
             .OrderByDescending(result =>
             {
-                float.TryParse(result["スキル期待値"], out float val);
+                float.TryParse(result["通常期待値"], out float val);
                 return val;
             })
             .Take(100)

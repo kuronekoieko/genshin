@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Albedo : BaseCharacter
+public class Chiori : BaseCharacter
 {
     // スキル Lv9
-    float[] skillPerArray = { 2.27f };
+    float[] normalAtkPerArray_atk = { 0.908f, 0.860f, 0.559f, 0.559f, 1.38f };
 
+    float[] skillPerArray = { 1.40f };
+    float skillAddPerDef = 1.74f;
     // 固有天賦
     //  float passive_dmgBonusPerEM = 0.15f * 0.01f;
+    float constellation_addNormalAtkPerDef = 2.35f;
 
 
     public override Dictionary<string, string> CalcDmg(Datas datas, CharacterSO characterSO)
@@ -102,7 +105,8 @@ public class Albedo : BaseCharacter
         var dmgAdd_normalAttack
         = datas.add_normal_atk()
         + dmgAdd_sekikaku
-        + dmgAdd_talent;
+        + dmgAdd_talent
+        + def * constellation_addNormalAtkPerDef;
 
         var dmgAdd_chargedAttack = dmgAdd_sekikaku;
         // = getNum(weapon, "狩人ダメージアップ")
@@ -110,11 +114,12 @@ public class Albedo : BaseCharacter
 
         var dmgAdd_skill
         = datas.add_skill()
-        + def * datas.weapon.cinnabar;
+        + def * datas.weapon.cinnabar
+        + def * skillAddPerDef;
 
         var crit_skill = Crit.GetCrit(critRate_skill, critDmg, datas.artSub);
         // var crit_ChargedAttack = Crit.GetCrit(critRate, critDmg, artSub);
-        //var crit_normalAttack = Crit.GetCrit(critRate, critDmg, artSub);
+        var crit_normalAttack = Crit.GetCrit(critRate, critDmg, datas.artSub);
 
         var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
         var vaporize = ElementalReaction.VaporizeForPyro(elementalMastery, datas.artSets.er_rate);
@@ -135,7 +140,7 @@ public class Albedo : BaseCharacter
                     enemyRES,
                     1);
         */
-        var expectedDmg_gekika
+        var expectedDmg_skill
           = GetExpectedDamage(
             def,
             skillPerArray[0],
@@ -145,13 +150,24 @@ public class Albedo : BaseCharacter
             enemyRES,
             1);
 
+        var expectedDmg_normalAtk
+            = GetExpectedDamageSum(
+atk,
+skillPerArray,
+dmgAdd + dmgAdd_normalAttack,
+dmgBonus + normalAtkDmgBonus,
+crit_normalAttack.ExpectedCritDmg,
+enemyRES,
+1);
+
         Dictionary<string, string> result = new()
         {
             ["武器"] = datas.weapon.name,
             ["聖遺物セット"] = datas.artSets.name,
             ["聖遺物メイン"] = datas.artMain.name,
             ["バフキャラ"] = datas.partyData.name,
-            ["スキル期待値"] = expectedDmg_gekika.ToString(),
+            ["通常期待値"] = expectedDmg_normalAtk.ToString(),
+            ["スキル期待値"] = expectedDmg_skill.ToString(),
             ["攻撃力"] = atk.ToString(),
             ["HP"] = hpSum.ToString(),
             ["バフ"] = dmgBonus.ToString(),
