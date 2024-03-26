@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Arataki : BaseCharacter
+public class Noelle : BaseCharacter
 {
     // スキル Lv9
-    float[] normalAtkPerArray = { 1.456f, 1.403f, 1.684f, 2.154f, };
-    float[] chargedAtkPerArray = { 1.675f, 1.675f, 1.675f, 1.675f, 3.508f, };
-    float burst_addAtkPerDef = 0.979f;
-    float talent_addDmg_chargedAtk_PerDef = 0.35f;
+    float[] normalAtkPerArray = { 1.45f, 1.35f, 1.58f, 2.08f, };
+    float[] chargedAtkPerArray = { };
+    float burst_addAtkPerDef = 0.68f;
+    float constellation_addAtkPerDef = 0.5f;
 
 
     public override Dictionary<string, string> CalcDmg(Datas datas)
@@ -40,7 +40,8 @@ public class Arataki : BaseCharacter
             + datas.atk()
             + homa_atkAdd
             + sekisa_atkAdd
-            + burst_addAtkPerDef * def;
+            + burst_addAtkPerDef * def
+            + constellation_addAtkPerDef * def;
 
         float dmgBonus
             = datas.dmg_bonus()
@@ -80,8 +81,7 @@ public class Arataki : BaseCharacter
         + dmgAdd_sekikaku;
 
         var dmgAdd_chargedAttack
-        = dmgAdd_sekikaku
-        + talent_addDmg_chargedAtk_PerDef * def;
+        = dmgAdd_sekikaku;
         // = getNum(weapon, "狩人ダメージアップ")
         // * elementalMastery;
 
@@ -132,7 +132,6 @@ crit_normalAttack.ExpectedCritDmg,
 enemyRES,
 1);
 
-        var sum = expectedDmg_normalAtk + expectedDmg_chargedAtk;
 
         Dictionary<string, string> result = new()
         {
@@ -140,7 +139,7 @@ enemyRES,
             ["聖遺物セット"] = datas.artSets.name,
             ["聖遺物メイン"] = datas.artMain.name,
             ["バフキャラ"] = datas.partyData.name,
-            ["合計期待値"] = sum.ToString(),
+            ["合計期待値"] = expectedDmg_normalAtk.ToString(),
             ["攻撃力"] = atk.ToString(),
             ["HP"] = hpSum.ToString(),
             ["バフ"] = dmgBonus.ToString(),
