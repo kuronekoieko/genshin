@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 
 public abstract class BaseCharacter : MonoBehaviour
@@ -71,6 +70,7 @@ public abstract class BaseCharacter : MonoBehaviour
     }
 
 }
+
 [Serializable]
 public class Status
 {
@@ -81,8 +81,8 @@ public class Status
     public float baseAtk = 340;
     public float baseDef = 569;
     public float baseHp = 10372;
-    public readonly float baseCritRate = 0.05f;
-    public readonly float baseCritDmg = 0.5f;
+    public readonly float defaultCritRate = 0.05f;
+    public readonly float defaultCritDmg = 0.5f;
     public string WeaponTypeName
     {
         get
@@ -111,6 +111,9 @@ public class Ascend
     public float energyRecharge = 0;
     public float hpPer = 0;
     public float defPer = 0;
+    public float heal_bonus = 0;
+    public float elemental_mastery = 0;
+
 }
 
 public enum WeaponType

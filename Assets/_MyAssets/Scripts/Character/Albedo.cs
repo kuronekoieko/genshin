@@ -16,9 +16,7 @@ public class Albedo : BaseCharacter
         float healPerSum = datas.heal_bonus();
 
         float hpPerSum
-            = datas.hpPerSum()
-            + datas.artSub.hp_rate
-            + ascend.hpPer;
+            = datas.hpPerSum();
 
         var hpSum
             = status.baseHp * (1 + hpPerSum)
@@ -26,8 +24,7 @@ public class Albedo : BaseCharacter
 
 
         float energyRecharge
-            = 1 + datas.energy_recharge()
-            + ascend.energyRecharge;
+            = 1 + datas.energy_recharge();
 
         float elementalMastery
             = datas.elemental_mastery();
@@ -40,8 +37,7 @@ public class Albedo : BaseCharacter
             + datas.def();
 
         float atkPerSum
-            = datas.atk_rate()
-            + ascend.atkPer;
+            = datas.atk_rate();
 
         var homa_atkAdd = hpSum * datas.weapon.homa;
         var sekisa_atkAdd = elementalMastery * datas.weapon.sekisha;
@@ -54,8 +50,7 @@ public class Albedo : BaseCharacter
             + sekisa_atkAdd;
 
         float dmgBonus
-            = datas.dmg_bonus()
-            + ascend.dmgBonus;
+            = datas.dmg_bonus();
 
         float normalAtkDmgBonus
             = datas.normal_atk_bonus();
@@ -73,9 +68,7 @@ public class Albedo : BaseCharacter
             = datas.atk_speed();
 
         float critRate
-            = datas.crit_rate()
-            + ascend.critRate
-            + status.baseCritRate;
+            = datas.crit_rate();
 
 
         var critRate_skill
@@ -87,9 +80,7 @@ public class Albedo : BaseCharacter
             + datas.crit_rate_burst();
 
         float critDmg
-            = datas.crit_dmg()
-            + ascend.critDmg
-            + status.baseCritDmg;
+            = datas.crit_dmg();
 
         float dmgAdd = datas.add();
 

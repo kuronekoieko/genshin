@@ -9,6 +9,13 @@ public class Datas
     public ArtSetData artSets;
     public PartyData partyData;
     public ArtSubData artSub;
+    public Status status;
+    public Ascend ascend;
+
+    public float base_atk()
+    {
+        return status.baseAtk + weapon.base_atk;
+    }
 
     public float heal_bonus()
     {
@@ -16,7 +23,8 @@ public class Datas
         + artMain.heal_bonus
         + artSets.heal_bonus
         + partyData.heal_bonus
-        + artSub.heal_bonus;
+        + artSub.heal_bonus
+        + ascend.heal_bonus;
     }
 
     public float hp()
@@ -33,7 +41,9 @@ public class Datas
         + artMain.hp_rate
         + artSets.hp_rate
         + partyData.hp_rate
-        + artSub.hp_rate;
+        + artSub.hp_rate
+        + ascend.hpPer;
+
     }
     public float energy_recharge()
     {
@@ -41,7 +51,9 @@ public class Datas
         + artMain.energy_recharge
         + artSets.energy_recharge
         + partyData.energy_recharge
-        + artSub.energy_recharge;
+        + artSub.energy_recharge
+        + ascend.energyRecharge;
+
     }
     public float elemental_mastery()
     {
@@ -49,7 +61,8 @@ public class Datas
         + artMain.elemental_mastery
         + artSets.elemental_mastery
         + partyData.elemental_mastery
-        + artSub.elemental_mastery;
+        + artSub.elemental_mastery
+        + ascend.elemental_mastery;
     }
     public float def_rate()
     {
@@ -57,7 +70,8 @@ public class Datas
         + artMain.def_rate
         + artSets.def_rate
         + partyData.def_rate
-        + artSub.def_rate;
+        + artSub.def_rate
+        + ascend.defPer;
     }
     public float def()
     {
@@ -73,7 +87,8 @@ public class Datas
         + artMain.atk_rate
         + artSets.atk_rate
         + partyData.atk_rate
-        + artSub.atk_rate;
+        + artSub.atk_rate
+        + ascend.atkPer;
     }
     public float atk()
     {
@@ -89,10 +104,9 @@ public class Datas
         + artMain.dmg_bonus
         + artSets.dmg_bonus
         + partyData.dmg_bonus
-        + artSub.dmg_bonus;
+        + artSub.dmg_bonus
+        + ascend.dmgBonus;
     }
-
-
 
     public float pyro_bonus()
     {
@@ -206,7 +220,9 @@ public class Datas
         + artMain.crit_rate
         + artSets.crit_rate
         + partyData.crit_rate
-        + artSub.crit_rate;
+        + artSub.crit_rate
+        + status.defaultCritRate
+        + ascend.critRate;
     }
     public float crit_rate_skill()
     {
@@ -231,7 +247,10 @@ public class Datas
         + artMain.crit_dmg
         + artSets.crit_dmg
         + partyData.crit_dmg
-        + artSub.crit_dmg;
+        + artSub.crit_dmg
+        + status.defaultCritDmg
+        + ascend.critDmg;
+
     }
     public float add()
     {

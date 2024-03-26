@@ -17,69 +17,48 @@ public class Chiori : BaseCharacter
     public override Dictionary<string, string> CalcDmg(Datas datas)
     {
         float healPerSum = datas.heal_bonus();
+        float hpPerSum = datas.hpPerSum();
 
-        float hpPerSum
-            = datas.hpPerSum()
-            + datas.artSub.hp_rate
-            + ascend.hpPer;
 
         var hpSum
             = status.baseHp * (1 + hpPerSum)
             + datas.hp();
 
 
-        float energyRecharge
-            = 1 + datas.energy_recharge()
-            + ascend.energyRecharge;
+        float energyRecharge = 1 + datas.energy_recharge();
 
-        float elementalMastery
-            = datas.elemental_mastery();
+        float elementalMastery = datas.elemental_mastery();
 
-        float defPerSum
-            = datas.def_rate();
+        float defPerSum = datas.def_rate();
 
-        var def
-            = status.baseDef * (1 + defPerSum)
-            + datas.def();
+        var def = status.baseDef * (1 + defPerSum) + datas.def();
 
-        float atkPerSum
-            = datas.atk_rate()
-            + ascend.atkPer;
+        float atkPerSum = datas.atk_rate();
 
         var homa_atkAdd = hpSum * datas.weapon.homa;
         var sekisa_atkAdd = elementalMastery * datas.weapon.sekisha;
 
         var atk
-            = (status.baseAtk + datas.weapon.base_atk)
-            * (1 + atkPerSum)
+            = datas.base_atk() * (1 + atkPerSum)
             + datas.atk()
             + homa_atkAdd
             + sekisa_atkAdd;
 
         float dmgBonus
             = datas.dmg_bonus()
-            + ascend.dmgBonus
             + ElementalDmgBonus(datas);
 
-        float normalAtkDmgBonus
-                = datas.normal_atk_bonus();
+        float normalAtkDmgBonus = datas.normal_atk_bonus();
 
-        float chargedAtkDmgBonus
-            = datas.charged_atk_bonus();
+        float chargedAtkDmgBonus = datas.charged_atk_bonus();
 
-        float skillDmgBonus
-            = datas.skill_bonus();
+        float skillDmgBonus = datas.skill_bonus();
 
-        float burstDmgBonus
-            = datas.burst_bonus();
+        float burstDmgBonus = datas.burst_bonus();
 
-        float attackSpeed
-            = datas.atk_speed();
+        float attackSpeed = datas.atk_speed();
 
-        float critRate
-            = datas.crit_rate()
-            + ascend.critRate
-            + status.baseCritRate;
+        float critRate = datas.crit_rate();
 
 
         var critRate_skill
@@ -91,9 +70,7 @@ public class Chiori : BaseCharacter
             + datas.crit_rate_burst();
 
         float critDmg
-            = datas.crit_dmg()
-            + ascend.critDmg
-            + status.baseCritDmg;
+            = datas.crit_dmg();
 
         float dmgAdd = datas.add();
 

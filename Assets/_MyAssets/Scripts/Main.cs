@@ -82,6 +82,8 @@ public class Main : MonoBehaviour
                                     artSets = artSets,
                                     partyData = chara,
                                     artSub = artSub,
+                                    status = character.status,
+                                    ascend = character.ascend,
                                 };
                                 Dictionary<string, string> result = character.CalcDmg(datas);
                                 results.Add(result);
