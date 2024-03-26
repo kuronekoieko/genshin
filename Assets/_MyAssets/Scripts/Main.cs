@@ -19,7 +19,7 @@ public class Main : MonoBehaviour
 
         var texts = await Calc();
 
-        Save(character.name, texts);
+        Save(character.Name, texts);
     }
 
 
