@@ -55,6 +55,11 @@ public class Main : MonoBehaviour
                 foreach (var chara in CSVManager.partyDatas)
                 {
                     if (chara.skip == 1) continue;
+                    if (artSets.name == "ファントムハンター")
+                    {
+                        bool hasSelfHarm = character.status.hasSelfHarm || chara.has_self_harm;
+                        if (hasSelfHarm == false) continue;
+                    }
 
                     foreach (var artSub in CSVManager.artSubDatas)
                     {

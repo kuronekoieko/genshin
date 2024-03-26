@@ -190,6 +190,15 @@ public class Datas
         + partyData.charged_atk_bonus
         + artSub.charged_atk_bonus;
     }
+    public float plugged_atk_bonus()
+    {
+        return weapon.plugged_atk_bonus
+        + artMain.plugged_atk_bonus
+        + artSets.plugged_atk_bonus
+        + partyData.plugged_atk_bonus
+        + artSub.plugged_atk_bonus;
+    }
+    
     public float skill_bonus()
     {
         return weapon.skill_bonus
@@ -268,6 +277,15 @@ public class Datas
         + partyData.add_normal_atk
         + artSub.add_normal_atk;
     }
+    
+    public float add_plugged_atk()
+    {
+        return weapon.add_plugged_atk
+        + artMain.add_plugged_atk
+        + artSets.add_plugged_atk
+        + partyData.add_plugged_atk
+        + artSub.add_plugged_atk;
+    }
     public float add_skill()
     {
         return weapon.add_skill
@@ -276,4 +294,5 @@ public class Datas
         + partyData.add_skill
         + artSub.add_skill;
     }
+
 }

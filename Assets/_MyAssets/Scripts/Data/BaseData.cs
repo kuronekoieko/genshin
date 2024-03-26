@@ -24,9 +24,10 @@ public class BaseData
     public float anemo_bonus;
     public float dendro_bonus;
     public float physics_bonus;
-    
+
     public float normal_atk_bonus;
     public float charged_atk_bonus;
+    public float plugged_atk_bonus;
     public float skill_bonus;
     public float burst_bonus;
     public float elemental_mastery;
@@ -41,6 +42,8 @@ public class BaseData
     public float res;
     public float add;
     public float add_normal_atk;
+    public float add_plugged_atk;
     public float add_skill;
+    public bool has_self_harm;
 
 }

@@ -7,6 +7,8 @@ public class Noelle : BaseCharacter
     // スキル Lv9
     float[] normalAtkPerArray = { 1.45f, 1.35f, 1.58f, 2.08f, };
     float[] chargedAtkPerArray = { };
+    float[] pluggedAtkPerArray = { 2.74f };
+
     float burst_addAtkPerDef = 0.68f;
     float constellation_addAtkPerDef = 0.5f;
 
@@ -51,6 +53,8 @@ public class Noelle : BaseCharacter
 
         float chargedAtkDmgBonus = datas.charged_atk_bonus();
 
+        float plugged_atk_bonus = datas.plugged_atk_bonus();
+
         float skillDmgBonus = datas.skill_bonus();
 
         float burstDmgBonus = datas.burst_bonus();
@@ -85,13 +89,17 @@ public class Noelle : BaseCharacter
         // = getNum(weapon, "狩人ダメージアップ")
         // * elementalMastery;
 
+        var add_plugged_atk
+        = datas.add_plugged_atk();
+
         var dmgAdd_skill
         = datas.add_skill()
         + def * datas.weapon.cinnabar;
 
         var crit_skill = Crit.GetCrit(critRate_skill, critDmg, datas.artSub);
-        var crit_ChargedAttack = Crit.GetCrit(critRate, critDmg, datas.artSub);
         var crit_normalAttack = Crit.GetCrit(critRate, critDmg, datas.artSub);
+        var crit_ChargedAttack = Crit.GetCrit(critRate, critDmg, datas.artSub);
+        var crit_pluggedAttack = Crit.GetCrit(critRate, critDmg, datas.artSub);
 
         var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
         var vaporize = ElementalReaction.VaporizeForPyro(elementalMastery, datas.artSets.er_rate);
@@ -101,26 +109,7 @@ public class Noelle : BaseCharacter
 
         var enemyRES = GetElementalRes(datas.partyData.res) * 0.5f;
 
-        /*
-                var expectedDmg
-                  = GetExpectedDamageSum(
-                    atk,
-                    skillPerArray,
-                    dmgAdd + dmgAdd_skill,
-                    dmgBonus + skillDmgBonus,
-                    crit_skill.ExpectedCritDmg,
-                    enemyRES,
-                    1);
-        */
-        var expectedDmg_chargedAtk
-          = GetExpectedDamageSum(
-            def,
-            chargedAtkPerArray,
-            dmgAdd + dmgAdd_chargedAttack,
-            dmgBonus + chargedAtkDmgBonus,
-            crit_ChargedAttack.ExpectedCritDmg,
-            enemyRES,
-            1);
+
 
         var expectedDmg_normalAtk
             = GetExpectedDamageSum(
@@ -131,6 +120,16 @@ dmgBonus + normalAtkDmgBonus,
 crit_normalAttack.ExpectedCritDmg,
 enemyRES,
 1);
+
+        var expectedDmg_plugged_atk
+        = GetExpectedDamageSum(
+        atk,
+        pluggedAtkPerArray,
+        dmgAdd + add_plugged_atk,
+        dmgBonus + plugged_atk_bonus,
+        crit_pluggedAttack.ExpectedCritDmg,
+        enemyRES,
+        1);
 
 
         Dictionary<string, string> result = new()
