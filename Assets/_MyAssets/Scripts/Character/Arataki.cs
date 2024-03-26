@@ -114,7 +114,7 @@ public class Arataki : BaseCharacter
         */
         var expectedDmg_chargedAtk
           = GetExpectedDamageSum(
-            def,
+            atk,
             chargedAtkPerArray,
             dmgAdd + dmgAdd_chargedAttack,
             dmgBonus + chargedAtkDmgBonus,
