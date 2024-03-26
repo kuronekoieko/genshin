@@ -6,6 +6,8 @@ public class Noelle : BaseCharacter
 {
     // スキル Lv9
     float[] normalAtkPerArray = { 1.45f, 1.35f, 1.58f, 2.08f, };
+    // float[] normalAtkPerArray = { 1.45f, };
+
     float[] chargedAtkPerArray = { };
     float[] pluggedAtkPerArray = { 2.74f };
 
@@ -138,7 +140,7 @@ enemyRES,
             ["聖遺物セット"] = datas.artSets.name,
             ["聖遺物メイン"] = datas.artMain.name,
             ["バフキャラ"] = datas.partyData.name,
-            ["合計期待値"] = expectedDmg_normalAtk.ToString(),
+            ["合計期待値"] = expectedDmg_plugged_atk.ToString(),
             ["攻撃力"] = atk.ToString(),
             ["HP"] = hpSum.ToString(),
             ["バフ"] = dmgBonus.ToString(),

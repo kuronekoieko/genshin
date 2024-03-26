@@ -51,6 +51,7 @@ public class Main : MonoBehaviour
             foreach (var artSets in CSVManager.artSetDatas)
             {
                 if (artSets.skip == 1) continue;
+                if (artSets.name == "しめ縄4" && character.status.notUseShimenawa) continue;
 
                 foreach (var chara in CSVManager.partyDatas)
                 {
