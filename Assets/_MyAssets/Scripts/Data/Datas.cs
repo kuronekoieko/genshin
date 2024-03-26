@@ -91,6 +91,75 @@ public class Datas
         + partyData.dmg_bonus
         + artSub.dmg_bonus;
     }
+
+
+
+    public float pyro_bonus()
+    {
+        return weapon.pyro_bonus
+        + artMain.pyro_bonus
+        + artSets.pyro_bonus
+        + partyData.pyro_bonus
+        + artSub.pyro_bonus;
+    }
+    public float hydro_bonus()
+    {
+        return weapon.hydro_bonus
+        + artMain.hydro_bonus
+        + artSets.hydro_bonus
+        + partyData.hydro_bonus
+        + artSub.hydro_bonus;
+    }
+    public float electro_bonus()
+    {
+        return weapon.electro_bonus
+        + artMain.electro_bonus
+        + artSets.electro_bonus
+        + partyData.electro_bonus
+        + artSub.electro_bonus;
+    }
+    public float cryo_bonus()
+    {
+        return weapon.cryo_bonus
+        + artMain.cryo_bonus
+        + artSets.cryo_bonus
+        + partyData.cryo_bonus
+        + artSub.cryo_bonus;
+    }
+    public float geo_bonus()
+    {
+        return weapon.geo_bonus
+        + artMain.geo_bonus
+        + artSets.geo_bonus
+        + partyData.geo_bonus
+        + artSub.geo_bonus;
+    }
+    public float anemo_bonus()
+    {
+        return weapon.anemo_bonus
+        + artMain.anemo_bonus
+        + artSets.anemo_bonus
+        + partyData.anemo_bonus
+        + artSub.anemo_bonus;
+    }
+    public float dendro_bonus()
+    {
+        return weapon.dendro_bonus
+        + artMain.dendro_bonus
+        + artSets.dendro_bonus
+        + partyData.dendro_bonus
+        + artSub.dendro_bonus;
+    }
+    public float physics_bonus()
+    {
+        return weapon.physics_bonus
+        + artMain.physics_bonus
+        + artSets.physics_bonus
+        + partyData.physics_bonus
+        + artSub.physics_bonus;
+    }
+
+
     public float normal_atk_bonus()
     {
         return weapon.normal_atk_bonus

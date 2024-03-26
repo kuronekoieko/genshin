@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 public class Main : MonoBehaviour
 {
-    [SerializeField] CharacterSO characterSO;
+    [SerializeField] BaseCharacter character;
 
 
     async void Start()
@@ -19,7 +19,7 @@ public class Main : MonoBehaviour
 
         var texts = await Calc();
 
-        Save(characterSO.name, texts);
+        Save(character.name, texts);
     }
 
 
@@ -39,7 +39,6 @@ public class Main : MonoBehaviour
         }
 
         Debug.Log("ダメージ計算開始");
-        var character = new Chiori();
 
         int progress = 0;
         int max = CSVManager.weaponDatas.Length * CSVManager.artSetDatas.Length * CSVManager.partyDatas.Length * CSVManager.artSubDatas.Length * artMainArray.Length;
@@ -47,7 +46,7 @@ public class Main : MonoBehaviour
         foreach (var weapon in CSVManager.weaponDatas)
         {
             if (weapon.skip == 1) continue;
-            if (weapon.type != characterSO.status.weaponType) continue;
+            if (weapon.type != character.WeaponType) continue;
 
             foreach (var artSets in CSVManager.artSetDatas)
             {
@@ -84,7 +83,7 @@ public class Main : MonoBehaviour
                                     partyData = chara,
                                     artSub = artSub,
                                 };
-                                Dictionary<string, string> result = character.CalcDmg(datas, characterSO);
+                                Dictionary<string, string> result = character.CalcDmg(datas);
                                 results.Add(result);
                                 progress++;
 

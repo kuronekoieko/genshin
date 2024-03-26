@@ -12,7 +12,7 @@ public class YaeMiko : BaseCharacter
     float passive_dmgBonusPerEM = 0.15f * 0.01f;
 
 
-    public override Dictionary<string, string> CalcDmg(Datas datas, CharacterSO characterSO)
+    public override Dictionary<string, string> CalcDmg(Datas datas)
     {
         float healPerSum = datas.heal_bonus();
 

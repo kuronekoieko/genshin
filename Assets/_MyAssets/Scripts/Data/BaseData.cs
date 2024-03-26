@@ -16,7 +16,15 @@ public class BaseData
     public float hp_rate;
 
     public float dmg_bonus;
+    public float pyro_bonus;
+    public float hydro_bonus;
+    public float electro_bonus;
+    public float cryo_bonus;
+    public float geo_bonus;
+    public float anemo_bonus;
+    public float dendro_bonus;
     public float physics_bonus;
+    
     public float normal_atk_bonus;
     public float charged_atk_bonus;
     public float skill_bonus;

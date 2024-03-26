@@ -14,7 +14,7 @@ public class Chiori : BaseCharacter
     float constellation_addNormalAtkPerDef = 2.35f;
 
 
-    public override Dictionary<string, string> CalcDmg(Datas datas, CharacterSO characterSO)
+    public override Dictionary<string, string> CalcDmg(Datas datas)
     {
         float healPerSum = datas.heal_bonus();
 
@@ -58,10 +58,11 @@ public class Chiori : BaseCharacter
 
         float dmgBonus
             = datas.dmg_bonus()
-            + characterSO.ascend.dmgBonus;
+            + characterSO.ascend.dmgBonus
+            + ElementalDmgBonus(datas);
 
         float normalAtkDmgBonus
-            = datas.normal_atk_bonus();
+                = datas.normal_atk_bonus();
 
         float chargedAtkDmgBonus
             = datas.charged_atk_bonus();
