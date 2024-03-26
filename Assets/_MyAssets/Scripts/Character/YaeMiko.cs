@@ -19,16 +19,16 @@ public class YaeMiko : BaseCharacter
         float hpPerSum
             = datas.hpPerSum()
             + datas.artSub.hp_rate
-            + characterSO.ascend.hpPer;
+            + ascend.hpPer;
 
         var hpSum
-            = characterSO.status.baseHp * (1 + hpPerSum)
+            = status.baseHp * (1 + hpPerSum)
             + datas.hp();
 
 
         float energyRecharge
             = 1 + datas.energy_recharge()
-            + characterSO.ascend.energyRecharge;
+            + ascend.energyRecharge;
 
         float elementalMastery
             = datas.elemental_mastery();
@@ -37,18 +37,18 @@ public class YaeMiko : BaseCharacter
             = datas.def_rate();
 
         var def
-            = characterSO.status.baseDef * (1 + defPerSum)
+            = status.baseDef * (1 + defPerSum)
             + datas.def();
 
         float atkPerSum
             = datas.atk_rate()
-            + characterSO.ascend.atkPer;
+            + ascend.atkPer;
 
         var homa_atkAdd = hpSum * datas.weapon.homa;
         var sekisa_atkAdd = elementalMastery * datas.weapon.sekisha;
 
         var atk
-            = (characterSO.status.baseAtk + datas.weapon.base_atk)
+            = (status.baseAtk + datas.weapon.base_atk)
             * (1 + atkPerSum)
             + datas.atk()
             + homa_atkAdd
@@ -56,7 +56,7 @@ public class YaeMiko : BaseCharacter
 
         float dmgBonus
             = datas.dmg_bonus()
-            + characterSO.ascend.dmgBonus;
+            + ascend.dmgBonus;
 
         float normalAtkDmgBonus
             = datas.normal_atk_bonus();
@@ -76,8 +76,8 @@ public class YaeMiko : BaseCharacter
 
         float critRate
             = datas.crit_rate()
-            + characterSO.ascend.critRate
-            + characterSO.status.baseCritRate;
+            + ascend.critRate
+            + status.baseCritRate;
 
 
         var critRate_skill
@@ -90,8 +90,8 @@ public class YaeMiko : BaseCharacter
 
         float critDmg
             = datas.crit_dmg()
-            + characterSO.ascend.critDmg
-            + characterSO.status.baseCritDmg;
+            + ascend.critDmg
+            + status.baseCritDmg;
 
         float dmgAdd = datas.add();
 
