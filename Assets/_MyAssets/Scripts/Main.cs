@@ -110,10 +110,14 @@ public class Main : MonoBehaviour
             //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));
         }
 
+        var sortKey = results[0].Keys.ToArray()[4];
+
         results = results
             .OrderByDescending(result =>
             {
-                float.TryParse(result["合計期待値"], out float val);
+
+                // float.TryParse(result["通常期待値"], out float val);
+                float.TryParse(result[sortKey], out float val);
                 return val;
             })
             .Take(100)
