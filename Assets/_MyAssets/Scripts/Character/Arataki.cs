@@ -2,16 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chiori : BaseCharacter
+public class Arataki : BaseCharacter
 {
     // スキル Lv9
-    float[] normalAtkPerArray_atk = { 0.908f, 0.860f, 0.559f, 0.559f, 1.38f };
-
-    float[] skillPerArray = { 1.40f };
-    float skillAddPerDef = 1.74f;
-    // 固有天賦
-    //  float passive_dmgBonusPerEM = 0.15f * 0.01f;
-    float constellation_addNormalAtkPerDef = 2.35f;
+    float[] normalAtkPerArray = { 145.6f, 140.3f, 168.4f, 215.4f, };
+    float[] chargedAtkPerArray = { 167.5f, 167.5f, 167.5f, 167.5f, 350.8f, };
+    float burst_addAtkPerDef = 0.979f;
+    float talent_addDmg_chargedAtk_PerDef = 0.35f;
 
 
     public override Dictionary<string, string> CalcDmg(Datas datas)
@@ -42,7 +39,8 @@ public class Chiori : BaseCharacter
             = datas.base_atk() * (1 + atkPerSum)
             + datas.atk()
             + homa_atkAdd
-            + sekisa_atkAdd;
+            + sekisa_atkAdd
+            + burst_addAtkPerDef * def;
 
         float dmgBonus
             = datas.dmg_bonus()
@@ -74,29 +72,25 @@ public class Chiori : BaseCharacter
 
         float dmgAdd = datas.add();
 
-        var dmgAdd_sekikaku
-            = def * datas.weapon.sekikaku;
+        var dmgAdd_sekikaku = def * datas.weapon.sekikaku;
 
-        var dmgAdd_talent = 0;
-        //= hpSum * (burst_addDmgPerHp + passive_addDmgPerHeal * healPerSum)
 
         var dmgAdd_normalAttack
         = datas.add_normal_atk()
-        + dmgAdd_sekikaku
-        + dmgAdd_talent
-        + def * constellation_addNormalAtkPerDef;
+        + dmgAdd_sekikaku;
 
-        var dmgAdd_chargedAttack = dmgAdd_sekikaku;
+        var dmgAdd_chargedAttack
+        = dmgAdd_sekikaku
+        + talent_addDmg_chargedAtk_PerDef * def;
         // = getNum(weapon, "狩人ダメージアップ")
         // * elementalMastery;
 
         var dmgAdd_skill
         = datas.add_skill()
-        + def * datas.weapon.cinnabar
-        + def * skillAddPerDef;
+        + def * datas.weapon.cinnabar;
 
         var crit_skill = Crit.GetCrit(critRate_skill, critDmg, datas.artSub);
-        // var crit_ChargedAttack = Crit.GetCrit(critRate, critDmg, artSub);
+        var crit_ChargedAttack = Crit.GetCrit(critRate, critDmg, datas.artSub);
         var crit_normalAttack = Crit.GetCrit(critRate, critDmg, datas.artSub);
 
         var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
@@ -118,25 +112,27 @@ public class Chiori : BaseCharacter
                     enemyRES,
                     1);
         */
-        var expectedDmg_skill
-          = GetExpectedDamage(
+        var expectedDmg_chargedAtk
+          = GetExpectedDamageSum(
             def,
-            skillPerArray[0],
-            dmgAdd + dmgAdd_skill,
-            dmgBonus + skillDmgBonus,
-            crit_skill.ExpectedCritDmg,
+            chargedAtkPerArray,
+            dmgAdd + dmgAdd_chargedAttack,
+            dmgBonus + chargedAtkDmgBonus,
+            crit_ChargedAttack.ExpectedCritDmg,
             enemyRES,
             1);
 
         var expectedDmg_normalAtk
             = GetExpectedDamageSum(
 atk,
-normalAtkPerArray_atk,
+normalAtkPerArray,
 dmgAdd + dmgAdd_normalAttack,
 dmgBonus + normalAtkDmgBonus,
 crit_normalAttack.ExpectedCritDmg,
 enemyRES,
 1);
+
+        var sum = expectedDmg_normalAtk + expectedDmg_chargedAtk;
 
         Dictionary<string, string> result = new()
         {
@@ -144,8 +140,7 @@ enemyRES,
             ["聖遺物セット"] = datas.artSets.name,
             ["聖遺物メイン"] = datas.artMain.name,
             ["バフキャラ"] = datas.partyData.name,
-            ["通常期待値"] = expectedDmg_normalAtk.ToString(),
-            ["スキル期待値"] = expectedDmg_skill.ToString(),
+            ["合計期待値"] = sum.ToString(),
             ["攻撃力"] = atk.ToString(),
             ["HP"] = hpSum.ToString(),
             ["バフ"] = dmgBonus.ToString(),

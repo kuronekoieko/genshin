@@ -74,7 +74,6 @@ public abstract class BaseCharacter : MonoBehaviour
 [Serializable]
 public class Status
 {
-    public string name = "八重神子";
     public WeaponType weaponType = WeaponType.Catalyst;
     public ElementType elementType = ElementType.Electro;
     // 基礎ステータス Lv90
