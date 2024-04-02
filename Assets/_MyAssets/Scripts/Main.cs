@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using System.Linq;
-using System.IO;
-using Newtonsoft.Json;
+
 
 public class Main : MonoBehaviour
 {
@@ -19,7 +18,7 @@ public class Main : MonoBehaviour
 
         var texts = await Calc();
 
-        Save(character.Name, texts);
+        FileWriter.Save(character.Name, texts);
     }
 
 
@@ -31,7 +30,12 @@ public class Main : MonoBehaviour
     {
         List<Dictionary<string, string>> results = new();
 
-        var artMainArray = Artifacts_Main.GetArtMainDatas();
+        var artMainDatas = Artifacts_Main.GetArtMainDatas();
+        var weaponDatas = CSVManager.weaponDatas;
+        var artSetDatas = CSVManager.artSetDatas;
+        var partyDatas = Party.GetPartyDatas(CSVManager.partyDatas);
+        var artSubDatas = CSVManager.artSubDatas;
+
 
         if (isSub)
         {
@@ -41,19 +45,19 @@ public class Main : MonoBehaviour
         Debug.Log("ダメージ計算開始");
 
         int progress = 0;
-        int max = CSVManager.weaponDatas.Length * CSVManager.artSetDatas.Length * CSVManager.partyDatas.Length * CSVManager.artSubDatas.Length * artMainArray.Length;
+        int max = weaponDatas.Length * artSetDatas.Length * partyDatas.Length * artSubDatas.Length * artMainDatas.Length;
 
-        foreach (var weapon in CSVManager.weaponDatas)
+        foreach (var weapon in weaponDatas)
         {
             if (weapon.skip == 1) continue;
             if (weapon.type != character.WeaponType) continue;
 
-            foreach (var artSets in CSVManager.artSetDatas)
+            foreach (var artSets in artSetDatas)
             {
                 if (artSets.skip == 1) continue;
                 if (artSets.name == "しめ縄4" && character.status.notUseShimenawa) continue;
 
-                foreach (var chara in CSVManager.partyDatas)
+                foreach (var chara in partyDatas)
                 {
                     if (chara.skip == 1) continue;
                     if (artSets.name == "ファントムハンター")
@@ -62,7 +66,7 @@ public class Main : MonoBehaviour
                         if (hasSelfHarm == false) continue;
                     }
 
-                    foreach (var artSub in CSVManager.artSubDatas)
+                    foreach (var artSub in artSubDatas)
                     {
                         if (artSub.skip == 1) continue;
 
@@ -76,7 +80,7 @@ public class Main : MonoBehaviour
                         }
                         else
                         {
-                            foreach (var artMainItem in artMainArray)
+                            foreach (var artMainItem in artMainDatas)
                             {
                                 if (artMainItem.skip == 1) continue;
 
@@ -142,33 +146,5 @@ public class Main : MonoBehaviour
 
         return texts;
     }
-
-    async void Save(string fileName, List<string> list)
-    {
-        Debug.Log("書き込み開始");
-
-        string directoryPath = Application.dataPath + $"/_MyAssets/CSV/{fileName}/";
-        fileName += ".csv";
-        string path = directoryPath + fileName;
-        // ディレクトリが存在しない場合は作成
-        if (!Directory.Exists(directoryPath))
-        {
-            Directory.CreateDirectory(directoryPath);
-        }
-        using StreamWriter sw = File.CreateText(path);
-
-
-        foreach (var line in list)
-        {
-            sw.WriteLine(line);
-        }
-
-        //AssetDatabase.Refresh();
-        Debug.Log("生成完了 " + fileName);
-
-        await UniTask.DelayFrame(1);
-        UnityEditor.EditorApplication.isPlaying = false;
-    }
-
 
 }
