@@ -92,7 +92,8 @@ public class Main : MonoBehaviour
                                     ascend = character.ascend,
                                 };
                                 Dictionary<string, string> result = character.CalcDmg(datas);
-                                results.Add(result);
+                                if (result != null) results.Add(result);
+
                                 progress++;
 
                                 if (progress % 200000 == 0)
@@ -100,6 +101,7 @@ public class Main : MonoBehaviour
                                     await UniTask.DelayFrame(1);
                                     Debug.Log("progress: " + progress + "/" + max);
                                 }
+
                             }
 
                         }
