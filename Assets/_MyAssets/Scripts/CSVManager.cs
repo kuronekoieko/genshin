@@ -14,6 +14,7 @@ public static class CSVManager
 
     public static async UniTask InitializeAsync()
     {
+        Debug.Log("CSVロード開始");
         partyDatas = await DeserializeAsync<PartyData>("Chara");
         artSetDatas = await DeserializeAsync<ArtSetData>("ArtSet");
         artSubDatas = await DeserializeAsync<ArtSubData>("ArtSub");

@@ -1,6 +1,6 @@
 skip,name,option,atk_rate,atk,def_rate,def,pyro_bonus,hydro_bonus,electro_bonus,cryo_bonus,geo_bonus,anemo_bonus,dendro_bonus,physics_bonus,normal_atk_bonus,dmg_bonus,charged_atk_bonus,add,add_count,add_plugged_atk,add_normal_atk,skill_bonus,burst_bonus,crit_rate,crit_rate_plugged_atk,crit_dmg,hp_rate,elemental_mastery,res,heal_bonus,has_self_harm
 1,雲菫,,,,,,,,,,,,,,0.15,,,,,,1301.5,,,,,,,,,,
-1,ベネット,西風、旧貴族,0.2,845,,,,,,,,,,,,,,,,,,,,,,,,,,,
+0,ベネット,西風、旧貴族,0.2,845,,,,,,,,,,,,,,,,,,,,,,,,,,,
 1,申鶴,一回押し,,,,,,,,,,,,,,,,2328,5,,,0.15,0.15,0.15,,,,,,,
 1,申鶴,長押し,,,,,,,,,,,,,0.15,,0.15,2328,7,,,,,0.15,,,,,,,
 0,鍾離,,,,,,,,,,,,,,,,,,,,,,,,,,,,-0.2,,
@@ -11,5 +11,5 @@ skip,name,option,atk_rate,atk,def_rate,def,pyro_bonus,hydro_bonus,electro_bonus,
 0,閑雲,,,,,,,,,,,,,,,,,,,7000,,,,,0.1,,,,,,
 0,ジン,,,,,,,,,,,,,,,,,,,,,,,,,,,,-0.4,,
 0,ファルザン,西風,,,,,,,,,,0.342,,,,,,208,,,,,,,,,,,-0.3,,
-0,ファルザン,完凸、西風,,,,,,,,,,0.342,,,,,,208,,,,,,,,0.4,,,-0.3,,
+1,ファルザン,完凸、西風,,,,,,,,,,0.342,,,,,,208,,,,,,,,0.4,,,-0.3,,
 0,フリーナ,,,,,,,,,,,,,,,0.35,,,,,,,,,,,,,,,TRUE

@@ -12,8 +12,6 @@ public class Main : MonoBehaviour
 
     async void Start()
     {
-        Debug.Log("CSVロード開始");
-
         await CSVManager.InitializeAsync();
 
         var texts = await Calc();
