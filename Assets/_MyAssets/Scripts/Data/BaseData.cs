@@ -34,6 +34,9 @@ public class BaseData
     public float energy_recharge;
     public float crit_rate;
     public float crit_dmg;
+    public float crit_rate_normal_atk;
+    public float crit_rate_charged_atk;
+    public float crit_rate_plugged_atk;
     public float crit_rate_skill;
     public float crit_rate_burst;
     public float crit_dmg_burst;

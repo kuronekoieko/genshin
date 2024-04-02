@@ -17,6 +17,8 @@ public class Xiao : BaseCharacter
     public override Dictionary<string, string> CalcDmg(Datas datas)
     {
         // if (datas.energy_recharge() < 0.5f) return null;
+        // if (datas.weapon.name != "草薙の稲光") return null;
+        if (datas.weapon.name != "和璞鳶") return null;
 
         float healPerSum = datas.heal_bonus();
         float hpPerSum = datas.hpPerSum();
@@ -39,12 +41,14 @@ public class Xiao : BaseCharacter
 
         var homa_atkAdd = hpSum * datas.weapon.homa;
         var sekisa_atkAdd = elementalMastery * datas.weapon.sekisha;
+        var kusanagi_atkAdd = (energyRecharge - 1) * datas.weapon.kusanagi;
 
         var atk
             = datas.base_atk() * (1 + atkPerSum)
             + datas.atk()
             + homa_atkAdd
-            + sekisa_atkAdd;
+            + sekisa_atkAdd
+            + kusanagi_atkAdd;
 
 
         float dmgBonus
@@ -55,7 +59,7 @@ public class Xiao : BaseCharacter
 
         float chargedAtkDmgBonus = datas.charged_atk_bonus();
 
-        float pluggedAtkDmgBonus = datas.plugged_atk_bonus();
+        float pluggedAtkDmgBonus = datas.plugged_atk_bonus() + burst_bonus;
 
         float skillDmgBonus = datas.skill_bonus();
 
@@ -65,14 +69,11 @@ public class Xiao : BaseCharacter
 
         float critRate = datas.crit_rate();
 
-
-        var critRate_skill
-            = critRate
-            + datas.crit_rate_skill();
-
-        var ritRate_burst
-            = critRate
-            + datas.crit_rate_burst();
+        var critRate_normalAtk = critRate + datas.crit_rate_normal_atk();
+        var critRate_chargedAtk = critRate + datas.crit_rate_charged_atk();
+        var critRate_pluggedAtk = critRate + datas.crit_rate_plugged_atk();
+        var critRate_skill = critRate + datas.crit_rate_skill();
+        var ritRate_burst = critRate + datas.crit_rate_burst();
 
         float critDmg
             = datas.crit_dmg();
@@ -100,10 +101,10 @@ public class Xiao : BaseCharacter
         = datas.add_skill()
         + def * datas.weapon.cinnabar;
 
+        var crit_ChargedAttack = Crit.GetCrit(critRate_chargedAtk, critDmg, datas.artSub);
+        var crit_normalAttack = Crit.GetCrit(critRate_normalAtk, critDmg, datas.artSub);
+        var crit_pluggedAttack = Crit.GetCrit(critRate_pluggedAtk, critDmg, datas.artSub);
         var crit_skill = Crit.GetCrit(critRate_skill, critDmg, datas.artSub);
-        var crit_ChargedAttack = Crit.GetCrit(critRate, critDmg, datas.artSub);
-        var crit_normalAttack = Crit.GetCrit(critRate, critDmg, datas.artSub);
-        var crit_pluggedAttack = Crit.GetCrit(critRate, critDmg, datas.artSub);
 
         var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
         var vaporize = ElementalReaction.VaporizeForPyro(elementalMastery, datas.artSets.er_rate);

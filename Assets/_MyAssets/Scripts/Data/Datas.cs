@@ -233,6 +233,30 @@ public class Datas
         + status.defaultCritRate
         + ascend.critRate;
     }
+    public float crit_rate_normal_atk()
+    {
+        return weapon.crit_rate_normal_atk
+        + artMain.crit_rate_normal_atk
+        + artSets.crit_rate_normal_atk
+        + partyData.crit_rate_normal_atk
+        + artSub.crit_rate_normal_atk;
+    }
+    public float crit_rate_charged_atk()
+    {
+        return weapon.crit_rate_charged_atk
+        + artMain.crit_rate_charged_atk
+        + artSets.crit_rate_charged_atk
+        + partyData.crit_rate_charged_atk
+        + artSub.crit_rate_charged_atk;
+    }
+    public float crit_rate_plugged_atk()
+    {
+        return weapon.crit_rate_plugged_atk
+        + artMain.crit_rate_plugged_atk
+        + artSets.crit_rate_plugged_atk
+        + partyData.crit_rate_plugged_atk
+        + artSub.crit_rate_plugged_atk;
+    }
     public float crit_rate_skill()
     {
         return weapon.crit_rate_skill
