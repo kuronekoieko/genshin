@@ -18,7 +18,7 @@ public class Xiao : BaseCharacter
     {
         // if (datas.energy_recharge() < 0.5f) return null;
         // if (datas.weapon.name != "草薙の稲光") return null;
-        if (datas.weapon.name != "和璞鳶") return null;
+        // if (datas.weapon.name != "和璞鳶") return null;
 
         float healPerSum = datas.heal_bonus();
         float hpPerSum = datas.hpPerSum();
