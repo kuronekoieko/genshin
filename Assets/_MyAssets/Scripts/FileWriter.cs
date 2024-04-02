@@ -11,6 +11,7 @@ public class FileWriter
 {
     public static async void Save(string fileName, List<string> list)
     {
+        if (list == null) return;
         Debug.Log("書き込み開始");
 
         string directoryPath = Application.dataPath + $"/_MyAssets/CSV/{fileName}/";

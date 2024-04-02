@@ -36,7 +36,6 @@ public class Main : MonoBehaviour
         var partyDatas = Party.GetPartyDatas(CSVManager.partyDatas);
         var artSubDatas = CSVManager.artSubDatas;
 
-
         if (isSub)
         {
             // artSubArray = GetArtSubConbinations(artMainArray[0]);

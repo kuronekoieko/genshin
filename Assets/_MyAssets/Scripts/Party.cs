@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public static class Party
@@ -15,6 +16,7 @@ public static class Party
         foreach (var member1 in originPartyDatas)
         {
             if (member1.skip == 1) continue;
+
             foreach (var member2 in originPartyDatas)
             {
                 if (member2.skip == 1) continue;
@@ -23,17 +25,28 @@ public static class Party
                 {
                     if (member3.skip == 1) continue;
 
-                    var partyMenbers = new SortedSet<PartyData>
+                    // SortedSetだとGetHashCode()がうごかないため、先にHashSetにする
+                    var partyMemberHashSet = new HashSet<PartyData>
                     {
                         member1,
                         member2,
                         member3
                     };
+                    var partyMemberSortedSet = new SortedSet<PartyData>(partyMemberHashSet);
 
-                    partyMenbersList.Add(partyMenbers);
+                    //  Debug.Log(string.Join("+", partyMenbers.Select(partyData => partyData.CombinedName).ToArray()));
+
+                    string newName = string.Join("+", partyMemberSortedSet.Select(partyData => partyData.CombinedName).ToArray());
+
+                    if (IsDuplicate(partyMenbersList, newName)) continue;
+                    // Debug.Log(newName);
+
+                    partyMenbersList.Add(partyMemberSortedSet);
                 }
             }
         }
+
+
 
         SortedSet<PartyData> partyDatas = new()
         {
@@ -41,13 +54,11 @@ public static class Party
         };
         foreach (var partyMenbers in partyMenbersList)
         {
-            // Debug.Log(JsonConvert.SerializeObject(partyMenbers, Formatting.Indented));
-
             PartyData partyData = AddInstances(partyMenbers.ToArray());
-            partyDatas.Add(partyData);
-            //  Debug.Log(partyData.name);
+            string[] combinedNames = partyMenbers.Select(partyData => partyData.CombinedName).ToArray();
+            partyData.name = string.Join("+", combinedNames);
 
-            // Debug.Log(JsonConvert.SerializeObject(partyData, Formatting.Indented));
+            partyDatas.Add(partyData);
 
         }
 
@@ -66,7 +77,6 @@ public static class Party
                 int sum = 0;
                 foreach (T instance in instances)
                 {
-
                     sum += (int)fieldInfo.GetValue(instance);
                 }
                 fieldInfo.SetValue(newInstance, sum);
@@ -100,7 +110,19 @@ public static class Party
                 fieldInfo.SetValue(newInstance, name.TrimEnd('+'));
             }
         }
-
         return newInstance;
+    }
+
+    public static bool IsDuplicate(List<SortedSet<PartyData>> partyMenbersList, string newName)
+    {
+        foreach (var item in partyMenbersList)
+        {
+            string oldName = string.Join("+", item.Select(partyData => partyData.CombinedName).ToArray());
+            if (newName == oldName)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
