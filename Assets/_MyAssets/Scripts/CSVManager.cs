@@ -14,7 +14,6 @@ public static class CSVManager
 
     public static async UniTask InitializeAsync()
     {
-        Debug.Log("CSVロード開始");
         partyDatas = await DeserializeAsync<PartyData>("Chara");
         artSetDatas = await DeserializeAsync<ArtSetData>("ArtSet");
         artSubDatas = await DeserializeAsync<ArtSubData>("ArtSub");
@@ -25,6 +24,8 @@ public static class CSVManager
     {
         // パスに拡張子つけない
         string path = "CSV/" + fileName;
+        Debug.Log("CSVロード開始 " + path);
+
         var result = await Resources.LoadAsync<TextAsset>(path);
         var textAsset = result as TextAsset;
         if (textAsset == null)
