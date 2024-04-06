@@ -11,7 +11,7 @@ public class Artifact
 {
 
 
-    List<ArtifactGroup> ArtifactGroups()
+    public static List<ArtifactGroup> GetArtifactGroups()
     {
         List<ArtifactGroup> artifactGroups = new();
 
@@ -47,7 +47,7 @@ public class Artifact
         return artifactGroups;
     }
 
-    ArtifactGroup GetArtifactGroup(ArtifactData flower, ArtifactData plume, ArtifactData sands, ArtifactData goblet, ArtifactData circlet)
+    static ArtifactGroup GetArtifactGroup(ArtifactData flower, ArtifactData plume, ArtifactData sands, ArtifactData goblet, ArtifactData circlet)
     {
         ArtifactGroup artifactGroup = new();
 
@@ -56,10 +56,9 @@ public class Artifact
 
         ArtifactData combinedArtifactData = AddInstances(artifactCombination);
 
-        artifactGroup.artSubData = GetArtSubData(combinedArtifactData);
-
+        artifactGroup.artSubData = new(combinedArtifactData);
         //メインステ================
-        var artMainCount = Artifacts_Main.GetArtMainCount(new string[] { sands.part, goblet.part, circlet.part });
+        var artMainCount = Artifacts_Main.GetArtMainCount(new string[] { sands.art_main, goblet.art_main, circlet.art_main });
         artifactGroup.artMainData = new(artMainCount);
 
         //セット================
@@ -135,29 +134,7 @@ public class Artifact
     }
 
 
-    public ArtSubData GetArtSubData(ArtifactData artifactData)
-    {
-
-        ArtSubData artSubData = new()
-        {
-            skip = artifactData.skip,
-            crit_rate = artifactData.crit_rate,
-            crit_dmg = artifactData.crit_dmg,
-            hp = artifactData.hp,
-            hp_rate = artifactData.hp_rate,
-            atk = artifactData.atk,
-            atk_rate = artifactData.atk_rate,
-            def = artifactData.def,
-            def_rate = artifactData.def_rate,
-            energy_recharge = artifactData.energy_recharge,
-            elemental_mastery = artifactData.elemental_mastery,
-        };
-
-        return artSubData;
-    }
-
-
-    class ArtifactGroup
+    public class ArtifactGroup
     {
         public ArtMainData artMainData = null;
         public ArtSetData artSetData = null;

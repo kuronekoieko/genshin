@@ -7,5 +7,9 @@ using System;
 public class ArtSetData : BaseData
 {
 
+    public string set_2;
+    public string set_4;
+    
     public float zetsuen;
+
 }

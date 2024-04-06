@@ -9,7 +9,6 @@ public static class CSVManager
 
     public static PartyData[] partyDatas { get; private set; }
     public static ArtSetData[] artSetDatas { get; private set; }
-    public static ArtSubData[] artSubDatas { get; private set; }
     public static WeaponData[] weaponDatas { get; private set; }
     public static ArtifactData[] artifactDatas { get; private set; }
 
@@ -17,7 +16,6 @@ public static class CSVManager
     {
         partyDatas = await DeserializeAsync<PartyData>("Chara");
         artSetDatas = await DeserializeAsync<ArtSetData>("ArtSet");
-        artSubDatas = await DeserializeAsync<ArtSubData>("ArtSub");
         weaponDatas = await DeserializeAsync<WeaponData>("Weapon");
         artifactDatas = await DeserializeAsync<ArtifactData>("Artifacts");
     }

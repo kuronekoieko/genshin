@@ -8,6 +8,20 @@ public class ArtSubData : BaseData
 {
     public float score;
 
-    public string set_2;
-    public string set_4;
+    public ArtSubData(ArtifactData artifactData)
+    {
+        skip = artifactData.skip;
+        crit_rate = artifactData.crit_rate;
+        crit_dmg = artifactData.crit_dmg;
+        hp = artifactData.hp;
+        hp_rate = artifactData.hp_rate;
+        atk = artifactData.atk;
+        atk_rate = artifactData.atk_rate;
+        def = artifactData.def;
+        def_rate = artifactData.def_rate;
+        energy_recharge = artifactData.energy_recharge;
+        elemental_mastery = artifactData.elemental_mastery;
+    }
+
+
 }
