@@ -104,6 +104,10 @@ public class Main : MonoBehaviour
     {
         Debug.Log("ダメージ計算開始");
 
+        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
+
+
         List<Dictionary<string, string>> results = new();
 
         int progress = 0;
@@ -121,6 +125,10 @@ public class Main : MonoBehaviour
                 Debug.Log("progress: " + progress + "/" + max);
             }
         }
+
+
+        sw.Stop();
+        Debug.Log("処理時間 " + sw.ElapsedMilliseconds / 1000f + "s");
 
         return results;
     }
