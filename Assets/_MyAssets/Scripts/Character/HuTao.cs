@@ -16,7 +16,7 @@ public class HuTao : BaseCharacter
 
     public override Dictionary<string, string> CalcDmg(Data data)
     {
-        if (data.partyData.name.Contains("フリーナ") == false) return null;
+        if (data.partyData.name.Contains("夜蘭") == false) return null;
         // if (data.energy_recharge() < 0.5f) return null;
         // if (data.weapon.name != "草薙の稲光") return null;
         // if (data.weapon.name != "和璞鳶") return null;
@@ -170,6 +170,7 @@ public class HuTao : BaseCharacter
             ["バフキャラ"] = data.partyData.name,
             ["合計期待値"] = sum.ToString(),
             ["攻撃力"] = atk.ToString(),
+            ["防御力"] = def.ToString(),
             ["HP"] = hpSum.ToString(),
             ["バフ"] = dmgBonus.ToString(),
             ["会心ダメ期待値"] = crit_ChargedAttack.ExpectedCritDmg.ToString(),
