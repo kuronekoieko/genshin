@@ -6,7 +6,7 @@ using System;
 [Serializable]
 public class ArtSubData : BaseData
 {
-    public float score;
+    public float Score { get; private set; }
     public bool Exist { get; private set; }
 
     public ArtSubData(ArtifactData artifactData)
@@ -14,7 +14,7 @@ public class ArtSubData : BaseData
         if (artifactData == null)
         {
             Exist = false;
-            score = 1.6f;
+            Score = 1.6f;
             return;
         }
         Exist = true;
@@ -32,7 +32,7 @@ public class ArtSubData : BaseData
         energy_recharge = artifactData.energy_recharge * 0.01f;
         elemental_mastery = artifactData.elemental_mastery;
 
-        score = crit_rate * 2 + crit_dmg + atk_rate;
+        Score = crit_rate * 2 + crit_dmg + atk_rate;
     }
 
 

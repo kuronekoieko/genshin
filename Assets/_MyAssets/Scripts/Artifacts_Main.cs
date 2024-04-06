@@ -6,20 +6,6 @@ using UnityEngine;
 
 public static class Artifacts_Main
 {
-    //聖遺物メイン
-    static readonly float artMainHpFixed = 4780;
-    static readonly float artMainAtkFixed = 311;
-    static readonly float artMainAtkPer = 0.466f;
-    static readonly float artMainDefPer = 0.583f;
-    static readonly float artMainBuffPer = 0.466f;
-    static readonly float artMainPhysicsBuffPer = 0.583f;
-    static readonly float artMainHPPer = 0.466f;
-    static readonly float artMainCritRate = 0.311f;
-    static readonly float artMainCritDmg = 0.622f;
-    static readonly float artMainElementalMastery = 187;
-    static readonly float artMainEnergyRecharge = 0.518f;
-    static readonly float artMainHealPer = 0.359f;
-
     static readonly string[] artMainTokeiArray = { "攻撃%", "防御%", "HP%", "元素熟知", "元チャ" };
     static readonly string[] artMainSakadukiArray = { "攻撃%", "防御%", "HP%", "元素熟知", "元素バフ", "物理バフ" };
     static readonly string[] artMainKanmuriArray = { "攻撃%", "防御%", "HP%", "元素熟知", "会心率", "会心ダメージ", "治癒効果" };

@@ -32,7 +32,7 @@ public class Crit
 
         if (artSub.Exist == false)
         {
-            (subCritRate, subCritDmg) = GetSubCrits(critRate, critDmg, artSub.score);
+            (subCritRate, subCritDmg) = GetSubCrits(critRate, critDmg, artSub.Score);
             critRate += subCritRate;
             critDmg += subCritDmg;
         }
