@@ -16,7 +16,7 @@ public class Main : MonoBehaviour
     async void Start()
     {
         await CSVManager.InitializeAsync();
-        return;
+
         var texts = await Calc();
 
         FileWriter.Save(character.Name, texts);
