@@ -79,7 +79,7 @@ public class Artifact
         //サブステ================
         ArtifactData[] artifactCombination = new[] { flower, plume, sands, goblet, circlet };
 
-        ArtifactData combinedArtifactData = AddInstances(artifactCombination);
+        ArtifactData combinedArtifactData = Utils.AddInstances(artifactCombination);
 
         artifactGroup.artSubData = new(combinedArtifactData);
 
@@ -91,28 +91,9 @@ public class Artifact
 
         //セット================
 
+        artifactGroup.artSetData = GetArtSetData(artifactCombination);
 
-        var setNameGroup = artifactCombination
-            .Select(artifactData => artifactData.art_set_name)
-            .GroupBy(x => x);
-
-        List<string> twoSetList = setNameGroup
-            .Where(x => x.Count() >= 2)
-            .Select(x => x.Key + "2")
-            .ToList();
-
-        List<string> fourSetList = setNameGroup
-            .Where(x => x.Count() >= 4)
-            .Select(x => x.Key + "4")
-            .ToList();
-
-        string setName = string.Join("+", twoSetList);
-        if (fourSetList.Count > 0) setName = fourSetList[0];
-
-        artifactGroup.artSetData = new() { name = setName };
-
-        // 2セットが一種だけの場合は飛ばす
-        if (twoSetList.Count <= 1 && fourSetList.Count == 0) return null;
+        if (artifactGroup.artSetData == null) return null;
 
         // string a = string.Join("/", artifactCombination.Select(artifactData => artifactData.art_set_name).ToArray());
         //  Debug.Log(a + "\n" + setName);
@@ -121,53 +102,74 @@ public class Artifact
         return artifactGroup;
     }
 
-    public static T AddInstances<T>(T[] instances) where T : new()
-    {
-        Type type = typeof(T);
-        T newInstance = new(); // デフォルトの値をセットする
 
-        foreach (FieldInfo fieldInfo in type.GetFields())
+    static ArtSetData GetArtSetData(ArtifactData[] artifactCombination)
+    {
+        var setNameGroup = artifactCombination
+            .Select(artifactData => artifactData.art_set_name)
+            .GroupBy(x => x);
+
+        List<string> twoSetList = setNameGroup
+            .Where(x => x.Count() >= 2)
+            .Select(x => x.Key)
+            .ToList();
+
+        List<string> fourSetList = setNameGroup
+            .Where(x => x.Count() >= 4)
+            .Select(x => x.Key)
+            .ToList();
+
+        if (twoSetList.Count == 0) return null;
+
+        var artSetDatas_2set = CSVManager.artSetDatas
+             .Where(artSetData => artSetData.set == 2);
+
+        ArtSetData artSetData_1 = artSetDatas_2set
+            .Where(artSetData => artSetData.name.Contains(twoSetList[0]))
+            .FirstOrDefault();
+
+        if (artSetData_1 == null)
         {
-            if (fieldInfo.FieldType == typeof(int))
-            {
-                int sum = 0;
-                foreach (T instance in instances)
-                {
-                    sum += (int)fieldInfo.GetValue(instance);
-                }
-                fieldInfo.SetValue(newInstance, sum);
-            }
-            if (fieldInfo.FieldType == typeof(float))
-            {
-                float sum = 0;
-                foreach (T instance in instances)
-                {
-                    sum += (float)fieldInfo.GetValue(instance);
-                }
-                fieldInfo.SetValue(newInstance, sum);
-            }
-            if (fieldInfo.FieldType == typeof(bool))
-            {
-                bool flag = false;
-                foreach (T instance in instances)
-                {
-                    flag = (bool)fieldInfo.GetValue(instance);
-                    if (flag) break;
-                }
-                fieldInfo.SetValue(newInstance, flag);
-            }
-            if (fieldInfo.FieldType == typeof(string))
-            {
-                string name = "";
-                foreach (T instance in instances)
-                {
-                    name += (string)fieldInfo.GetValue(instance) + "+";
-                }
-                fieldInfo.SetValue(newInstance, name.TrimEnd('+'));
-            }
+            Debug.LogError($"{twoSetList[0]} 2セットが見つかりません");
         }
-        return newInstance;
+
+        if (twoSetList.Count == 2)
+        {
+            ArtSetData artSetData_2 = artSetDatas_2set
+                .Where(artSetData => artSetData.name.Contains(twoSetList[1]))
+                .FirstOrDefault();
+
+            if (artSetData_2 == null)
+            {
+                Debug.LogError($"{twoSetList[1]} 2セットが見つかりません");
+            }
+
+            var artSetData = Utils.AddInstances(new[] { artSetData_1, artSetData_2 });
+
+            return artSetData;
+        }
+
+        if (fourSetList.Count == 1)
+        {
+
+            ArtSetData artSetData_2 = CSVManager.artSetDatas
+                .Where(artSetData => artSetData.set == 4)
+                .Where(artSetData => artSetData.name.Contains(fourSetList[0]))
+                .FirstOrDefault();
+
+            if (artSetData_2 == null)
+            {
+                Debug.LogError($"{fourSetList[0]} 4セットが見つかりません");
+            }
+
+            var artSetData = Utils.AddInstances(new[] { artSetData_1, artSetData_2 });
+
+            return artSetData;
+        }
+
+        return null;
     }
+
 
 
     public class ArtifactGroup
