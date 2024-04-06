@@ -8,6 +8,61 @@ public class PartyData : BaseData, IComparable<PartyData>
 {
     public float add_count;
     public string option;
+    public int pyro_count, hydro_count, electro_count, cryo_count, geo_count, anemo_count, dendro_count;
+
+    public void SetElementalResonance(ElementType elementType)
+    {
+
+        switch (elementType)
+        {
+            case ElementType.Pyro:
+                pyro_count++;
+                break;
+            case ElementType.Hydro:
+                hydro_count++;
+                break;
+            case ElementType.Electro:
+                electro_count++;
+                break;
+            case ElementType.Cryo:
+                cryo_count++;
+                break;
+            case ElementType.Geo:
+                geo_count++;
+                break;
+            case ElementType.Anemo:
+                anemo_count++;
+                break;
+            case ElementType.Dendro:
+                dendro_count++;
+                break;
+            default:
+                break;
+        }
+
+
+        if (pyro_count >= 2)
+        {
+            atk_rate += 0.25f;
+        }
+        if (hydro_count >= 2)
+        {
+            hp_rate += 0.25f;
+        }
+        if (cryo_count >= 2)
+        {
+            crit_rate += 0.15f;
+        }
+        if (geo_count >= 2)
+        {
+            dmg_bonus += 0.15f;
+            // TODO岩耐性ダウン
+        }
+        if (dendro_count >= 2)
+        {
+            elemental_mastery += 100;
+        }
+    }
 
     public string CombinedName
     {

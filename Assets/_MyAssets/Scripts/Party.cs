@@ -8,7 +8,7 @@ using UnityEngine;
 
 public static class Party
 {
-    public static PartyData[] GetPartyDatas(PartyData[] originPartyDatas)
+    public static PartyData[] GetPartyDatas(PartyData[] originPartyDatas, ElementType characterElementType)
     {
         Debug.Log("パーティ計算開始");
 
@@ -57,9 +57,10 @@ public static class Party
             PartyData partyData = AddInstances(partyMenbers.ToArray());
             string[] combinedNames = partyMenbers.Select(partyData => partyData.CombinedName).ToArray();
             partyData.name = string.Join("+", combinedNames);
+            partyData.SetElementalResonance(characterElementType);
 
             partyDatas.Add(partyData);
-
+            // Debug.Log(JsonConvert.SerializeObject(partyData, Formatting.Indented));
         }
 
         return partyDatas.ToArray();

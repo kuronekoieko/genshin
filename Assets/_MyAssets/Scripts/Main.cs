@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using System.Linq;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 
 public class Main : MonoBehaviour
@@ -26,12 +28,44 @@ public class Main : MonoBehaviour
 
     async UniTask<List<string>> Calc()
     {
+        var results = await GetResultsAsync();
+
+        Debug.Log("計算終了");
+
+        var sortKey = results[0].Keys.ToArray()[4];
+
+        results = results
+            .OrderByDescending(result =>
+            {
+
+                // float.TryParse(result["通常期待値"], out float val);
+                float.TryParse(result[sortKey], out float val);
+                return val;
+            })
+            .Take(100)
+            .ToList();
+
+        List<string> texts = new();
+        string header = string.Join(",", results[0].Keys.ToArray());
+        texts.Add(header);
+        foreach (var result in results)
+        {
+            string line = string.Join(",", result.Values.ToArray());
+            texts.Add(line);
+        }
+
+        return texts;
+    }
+
+
+    async Task<List<Dictionary<string, string>>> GetResultsAsync()
+    {
         List<Dictionary<string, string>> results = new();
 
         var artMainDatas = Artifacts_Main.GetArtMainDatas();
         var weaponDatas = CSVManager.weaponDatas;
         var artSetDatas = CSVManager.artSetDatas;
-        var partyDatas = Party.GetPartyDatas(CSVManager.partyDatas);
+        var partyDatas = Party.GetPartyDatas(CSVManager.partyDatas, character.status.elementType);
         var artSubDatas = CSVManager.artSubDatas;
 
         if (isSub)
@@ -54,12 +88,12 @@ public class Main : MonoBehaviour
                 if (artSets.skip == 1) continue;
                 if (artSets.name == "しめ縄4" && character.status.notUseShimenawa) continue;
 
-                foreach (var chara in partyDatas)
+                foreach (var partyData in partyDatas)
                 {
-                    if (chara.skip == 1) continue;
+                    if (partyData.skip == 1) continue;
                     if (artSets.name == "ファントムハンター")
                     {
-                        bool hasSelfHarm = character.status.hasSelfHarm || chara.has_self_harm;
+                        bool hasSelfHarm = character.status.hasSelfHarm || partyData.has_self_harm;
                         if (hasSelfHarm == false) continue;
                     }
 
@@ -87,7 +121,7 @@ public class Main : MonoBehaviour
                                     weapon = weapon,
                                     artMain = artMain,
                                     artSets = artSets,
-                                    partyData = chara,
+                                    partyData = partyData,
                                     artSub = artSub,
                                     status = character.status,
                                     ascend = character.ascend,
@@ -96,7 +130,6 @@ public class Main : MonoBehaviour
                                 if (result != null) results.Add(result);
 
                                 progress++;
-
                                 if (progress % 200000 == 0)
                                 {
                                     await UniTask.DelayFrame(1);
@@ -111,37 +144,7 @@ public class Main : MonoBehaviour
             }
 
         }
-
-        Debug.Log("計算終了");
-
-        foreach (var result in results)
-        {
-            //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));
-        }
-
-        var sortKey = results[0].Keys.ToArray()[4];
-
-        results = results
-            .OrderByDescending(result =>
-            {
-
-                // float.TryParse(result["通常期待値"], out float val);
-                float.TryParse(result[sortKey], out float val);
-                return val;
-            })
-            .Take(100)
-            .ToList();
-
-        List<string> texts = new();
-        string header = string.Join(",", results[0].Keys.ToArray());
-        texts.Add(header);
-        foreach (var result in results)
-        {
-            string line = string.Join(",", result.Values.ToArray());
-            texts.Add(line);
-        }
-
-        return texts;
+        return results;
     }
 
 }
