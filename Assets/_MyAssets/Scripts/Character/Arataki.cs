@@ -154,7 +154,7 @@ enemyRES,
             ["率ダメ"] = crit_skill.RateDmg,
             ["会心ダメ比率"] = crit_skill.CritProportion,
             ["聖遺物組み合わせ"] = data.artSub.name,
-            ["サブステ"] = crit_skill.SubCritRate.ToString(),
+            ["サブステ"] = crit_skill.SubCrit.ToString(),
             ["サブHP%"] = data.artSub.hp_rate.ToString(),
             ["サブHP"] = data.artSub.hp.ToString(),
             ["スコア"] = data.artSub.Score.ToString()

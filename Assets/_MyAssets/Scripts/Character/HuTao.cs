@@ -174,16 +174,15 @@ public class HuTao : BaseCharacter
             ["防御力"] = def.ToString(),
             ["HP"] = hpSum.ToString(),
             ["バフ"] = dmgBonus.ToString(),
-            ["会心ダメ期待値"] = crit_ChargedAttack.ExpectedCritDmg.ToString(),
+            // ["会心ダメ期待値"] = crit_ChargedAttack.ExpectedCritDmg.ToString(),
             ["熟知"] = elementalMastery.ToString(),
             ["率ダメ"] = crit_ChargedAttack.RateDmg,
-            ["会心ダメ比率"] = crit_ChargedAttack.CritProportion,
+            // ["会心ダメ比率"] = crit_ChargedAttack.CritProportion,
             ["聖遺物組み合わせ"] = data.artSub.name,
-            ["サブステ"] = crit_ChargedAttack.SubCritRate.ToString(),
-            ["サブHP%"] = data.artSub.hp_rate.ToString(),
-            ["サブHP"] = data.artSub.hp.ToString(),
+            ["サブステ"] = crit_ChargedAttack.SubCrit.ToString(),
+            // ["サブHP%"] = data.artSub.hp_rate.ToString(),
+            // ["サブHP"] = data.artSub.hp.ToString(),
             ["スコア"] = data.artSub.Score.ToString(),
-            ["重撃バフ"] = chargedAtkDmgBonus.ToString()
         };
 
         //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));
