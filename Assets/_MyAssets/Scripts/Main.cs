@@ -24,7 +24,7 @@ public class Main : MonoBehaviour
 
 
 
-    bool isSub;
+    bool isSub = true;
 
     async UniTask<List<string>> Calc()
     {
@@ -64,57 +64,39 @@ public class Main : MonoBehaviour
     {
         List<Data> datas = new();
 
-        var artMainDatas = Artifacts_Main.GetArtMainDatas();
-        var weaponDatas = CSVManager.weaponDatas;
-        var artSetDatas = CSVManager.artSetDatas;
+        var weaponDatas = CSVManager.weaponDatas.Where(weaponData => weaponData.skip != 1).ToArray();
         var partyDatas = Party.GetPartyDatas(CSVManager.partyDatas, character.status.elementType);
-        // var artSubDatas = CSVManager.artSubDatas;
 
-        if (isSub)
-        {
-            // artSubArray = GetArtSubConbinations(artMainArray[0]);
-        }
+        var artifactGroups = Artifact.GetArtifactGroups(isSub);
 
         Debug.Log("ダメージ計算開始");
 
         foreach (var weapon in weaponDatas)
         {
-            if (weapon.skip == 1) continue;
-
             foreach (var partyData in partyDatas)
             {
-                if (partyData.skip == 1) continue;
-
-                foreach (var artSets in artSetDatas)
+                foreach (var artifactGroup in artifactGroups)
                 {
-                    if (artSets.skip == 1) continue;
-
-                    foreach (var artMain in artMainDatas)
+                    if (weapon.type != character.WeaponType) continue;
+                    if (artifactGroup.artSetData.name == "しめ縄4" && character.status.notUseShimenawa) continue;
+                    if (artifactGroup.artSetData.name == "ファントムハンター")
                     {
-                        if (artMain.skip == 1) continue;
-
-
-                        if (weapon.type != character.WeaponType) continue;
-                        if (artSets.name == "しめ縄4" && character.status.notUseShimenawa) continue;
-                        if (artSets.name == "ファントムハンター")
-                        {
-                            bool hasSelfHarm = character.status.hasSelfHarm || partyData.has_self_harm;
-                            if (hasSelfHarm == false) continue;
-                        }
-
-
-                        Data data = new()
-                        {
-                            weapon = weapon,
-                            artMain = artMain,
-                            artSets = artSets,
-                            partyData = partyData,
-                            artSub = new ArtSubData(),
-                            status = character.status,
-                            ascend = character.ascend,
-                        };
-                        datas.Add(data);
+                        bool hasSelfHarm = character.status.hasSelfHarm || partyData.has_self_harm;
+                        if (hasSelfHarm == false) continue;
                     }
+
+
+                    Data data = new()
+                    {
+                        weapon = weapon,
+                        artMain = artifactGroup.artMainData,
+                        artSets = artifactGroup.artSetData,
+                        partyData = partyData,
+                        artSub = artifactGroup.artSubData,
+                        status = character.status,
+                        ascend = character.ascend,
+                    };
+                    datas.Add(data);
                 }
             }
 

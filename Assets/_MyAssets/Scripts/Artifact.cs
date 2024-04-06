@@ -12,9 +12,33 @@ public class Artifact
 {
 
 
-    public static List<ArtifactGroup> GetArtifactGroups()
+    public static List<ArtifactGroup> GetArtifactGroups(bool isSub)
     {
+
         List<ArtifactGroup> artifactGroups = new();
+
+        if (isSub == false)
+        {
+            var artMainDatas = Artifacts_Main.GetArtMainDatas();
+            var artSetDatas = CSVManager.artSetDatas.Where(artSetData => artSetData.skip != 1).ToArray();
+
+            foreach (var artSets in artSetDatas)
+            {
+                foreach (var artMain in artMainDatas)
+                {
+                    ArtifactGroup artifactGroup = new()
+                    {
+                        artSetData = artSets,
+                        artMainData = artMain,
+                        artSubData = null,
+                    };
+                    artifactGroups.Add(artifactGroup);
+                }
+            }
+            return artifactGroups;
+        }
+
+
 
         var artifactDatas = CSVManager.artifactDatas;
 

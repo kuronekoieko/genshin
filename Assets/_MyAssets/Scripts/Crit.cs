@@ -12,7 +12,6 @@ public class Crit
     public string RateDmg { get; }
     public string CritProportion { get; }
     public string SubCrit { get; }
-    static bool isSub = false;
 
     public Crit(float critRate, float critDmg, float subCritRate, float subCritDmg, float expectedCritDmg, string rateDmg, string critProportion, string subCrit)
     {
@@ -47,13 +46,13 @@ public class Crit
 
     public static (float, float) GetSubCrits(float critRate, float critDmg, ArtSubData artSub, float score)
     {
-        float subCritRate = 0;
-        float subCritDmg = 0;
+        float subCritRate;
+        float subCritDmg;
 
-        if (isSub)
+        if (artSub != null)
         {
-            // subCritRate = Convert.ToSingle(((dynamic)artSub)["会心率"]);
-            // subCritDmg = Convert.ToSingle(((dynamic)artSub)["会心ダメージ"]);
+            subCritRate = artSub.crit_rate;
+            subCritDmg = artSub.crit_dmg;
         }
         else
         {
