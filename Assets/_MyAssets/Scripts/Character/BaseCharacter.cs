@@ -77,9 +77,9 @@ public class Status
     public WeaponType weaponType = WeaponType.Catalyst;
     public ElementType elementType = ElementType.Electro;
     // 基礎ステータス Lv90
-    public float baseAtk = 340;
-    public float baseDef = 569;
-    public float baseHp = 10372;
+    public float baseAtk;
+    public float baseDef;
+    public int baseHp;
     public bool hasSelfHarm = false;
     public bool notUseShimenawa = false;
     public readonly float defaultCritRate = 0.05f;
