@@ -10,18 +10,18 @@ public abstract class BaseCharacter : MonoBehaviour
     public string Name => gameObject.name;
     public string WeaponType => status.WeaponTypeName;
 
-    public abstract Dictionary<string, string> CalcDmg(Datas datas);
+    public abstract Dictionary<string, string> CalcDmg(Data data);
 
-    protected float ElementalDmgBonus(Datas datas)
+    protected float ElementalDmgBonus(Data data)
     {
-        float pyro_bonus = datas.pyro_bonus();
-        float hydro_bonus = datas.hydro_bonus();
-        float electro_bonus = datas.electro_bonus();
-        float cryo_bonus = datas.cryo_bonus();
-        float geo_bonus = datas.geo_bonus();
-        float anemo_bonus = datas.anemo_bonus();
-        float dendro_bonus = datas.dendro_bonus();
-        float physics_bonus = datas.physics_bonus();
+        float pyro_bonus = data.pyro_bonus();
+        float hydro_bonus = data.hydro_bonus();
+        float electro_bonus = data.electro_bonus();
+        float cryo_bonus = data.cryo_bonus();
+        float geo_bonus = data.geo_bonus();
+        float anemo_bonus = data.anemo_bonus();
+        float dendro_bonus = data.dendro_bonus();
+        float physics_bonus = data.physics_bonus();
 
         return status.elementType switch
         {

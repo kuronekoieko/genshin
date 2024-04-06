@@ -28,7 +28,9 @@ public class Main : MonoBehaviour
 
     async UniTask<List<string>> Calc()
     {
-        var results = await GetResultsAsync();
+        List<Data> datas = GetDatas();
+
+        var results = await GetResultsAsync(datas);
 
         Debug.Log("計算終了");
 
@@ -58,15 +60,15 @@ public class Main : MonoBehaviour
     }
 
 
-    async Task<List<Dictionary<string, string>>> GetResultsAsync()
+    List<Data> GetDatas()
     {
-        List<Dictionary<string, string>> results = new();
+        List<Data> datas = new();
 
         var artMainDatas = Artifacts_Main.GetArtMainDatas();
         var weaponDatas = CSVManager.weaponDatas;
         var artSetDatas = CSVManager.artSetDatas;
         var partyDatas = Party.GetPartyDatas(CSVManager.partyDatas, character.status.elementType);
-        var artSubDatas = CSVManager.artSubDatas;
+        // var artSubDatas = CSVManager.artSubDatas;
 
         if (isSub)
         {
@@ -75,75 +77,71 @@ public class Main : MonoBehaviour
 
         Debug.Log("ダメージ計算開始");
 
-        int progress = 0;
-        int max = weaponDatas.Length * artSetDatas.Length * partyDatas.Length * artSubDatas.Length * artMainDatas.Length;
-
         foreach (var weapon in weaponDatas)
         {
             if (weapon.skip == 1) continue;
-            if (weapon.type != character.WeaponType) continue;
 
-            foreach (var artSets in artSetDatas)
+            foreach (var partyData in partyDatas)
             {
-                if (artSets.skip == 1) continue;
-                if (artSets.name == "しめ縄4" && character.status.notUseShimenawa) continue;
+                if (partyData.skip == 1) continue;
 
-                foreach (var partyData in partyDatas)
+                foreach (var artSets in artSetDatas)
                 {
-                    if (partyData.skip == 1) continue;
-                    if (artSets.name == "ファントムハンター")
+                    if (artSets.skip == 1) continue;
+
+                    foreach (var artMain in artMainDatas)
                     {
-                        bool hasSelfHarm = character.status.hasSelfHarm || partyData.has_self_harm;
-                        if (hasSelfHarm == false) continue;
-                    }
+                        if (artMain.skip == 1) continue;
 
-                    foreach (var artSub in artSubDatas)
-                    {
-                        if (artSub.skip == 1) continue;
 
-                        ArtMainData artMain;
-                        if (isSub)
+                        if (weapon.type != character.WeaponType) continue;
+                        if (artSets.name == "しめ縄4" && character.status.notUseShimenawa) continue;
+                        if (artSets.name == "ファントムハンター")
                         {
-                            //artMain = artSub["聖遺物メイン"];
-
-                            // List<string> result = CalcDmg(weapon, artMain, artSets, chara, artSub);
-                            // results.Add(result);
+                            bool hasSelfHarm = character.status.hasSelfHarm || partyData.has_self_harm;
+                            if (hasSelfHarm == false) continue;
                         }
-                        else
+
+
+                        Data data = new()
                         {
-                            foreach (var artMainItem in artMainDatas)
-                            {
-                                if (artMainItem.skip == 1) continue;
-
-                                artMain = artMainItem;
-                                Datas datas = new()
-                                {
-                                    weapon = weapon,
-                                    artMain = artMain,
-                                    artSets = artSets,
-                                    partyData = partyData,
-                                    artSub = artSub,
-                                    status = character.status,
-                                    ascend = character.ascend,
-                                };
-                                Dictionary<string, string> result = character.CalcDmg(datas);
-                                if (result != null) results.Add(result);
-
-                                progress++;
-                                if (progress % 200000 == 0)
-                                {
-                                    await UniTask.DelayFrame(1);
-                                    Debug.Log("progress: " + progress + "/" + max);
-                                }
-
-                            }
-
-                        }
+                            weapon = weapon,
+                            artMain = artMain,
+                            artSets = artSets,
+                            partyData = partyData,
+                            artSub = new ArtSubData(),
+                            status = character.status,
+                            ascend = character.ascend,
+                        };
+                        datas.Add(data);
                     }
                 }
             }
 
         }
+        return datas;
+    }
+
+    async Task<List<Dictionary<string, string>>> GetResultsAsync(List<Data> datas)
+    {
+        List<Dictionary<string, string>> results = new();
+
+        int progress = 0;
+        int max = datas.Count;
+
+        foreach (var data in datas)
+        {
+            Dictionary<string, string> result = character.CalcDmg(data);
+            if (result != null) results.Add(result);
+
+            progress++;
+            if (progress % 200000 == 0)
+            {
+                await UniTask.DelayFrame(1);
+                Debug.Log("progress: " + progress + "/" + max);
+            }
+        }
+
         return results;
     }
 

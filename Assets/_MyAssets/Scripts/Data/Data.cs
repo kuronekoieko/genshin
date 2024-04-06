@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Datas
+public class Data
 {
     public WeaponData weapon;
     public ArtMainData artMain;

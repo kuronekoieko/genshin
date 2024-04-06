@@ -13,104 +13,104 @@ public class Gaming : BaseCharacter
     float constellation_critDmg = 0.4f;
 
 
-    public override Dictionary<string, string> CalcDmg(Datas datas)
+    public override Dictionary<string, string> CalcDmg(Data data)
     {
-        if (datas.partyData.name.Contains("フリーナ") == false) return null;
-        // if (datas.energy_recharge() < 0.5f) return null;
-        // if (datas.weapon.name != "草薙の稲光") return null;
-        // if (datas.weapon.name != "和璞鳶") return null;
+        if (data.partyData.name.Contains("フリーナ") == false) return null;
+        // if (data.energy_recharge() < 0.5f) return null;
+        // if (data.weapon.name != "草薙の稲光") return null;
+        // if (data.weapon.name != "和璞鳶") return null;
 
-        float healPerSum = datas.heal_bonus();
-        float hpPerSum = datas.hpPerSum();
-
-
-        var hpSum = status.baseHp * (1 + hpPerSum) + datas.hp();
+        float healPerSum = data.heal_bonus();
+        float hpPerSum = data.hpPerSum();
 
 
-        float energyRecharge = 1 + datas.energy_recharge();
+        var hpSum = status.baseHp * (1 + hpPerSum) + data.hp();
 
-        float elementalMastery = datas.elemental_mastery();
 
-        float defPerSum = datas.def_rate();
+        float energyRecharge = 1 + data.energy_recharge();
 
-        var def = status.baseDef * (1 + defPerSum) + datas.def();
+        float elementalMastery = data.elemental_mastery();
 
-        float atkPerSum = datas.atk_rate() + constellation_atkRate;
+        float defPerSum = data.def_rate();
 
-        var homa_atkAdd = hpSum * datas.weapon.homa;
-        var sekisa_atkAdd = elementalMastery * datas.weapon.sekisha;
-        var kusanagi_atkAdd = (energyRecharge - 1) * datas.weapon.kusanagi;
+        var def = status.baseDef * (1 + defPerSum) + data.def();
+
+        float atkPerSum = data.atk_rate() + constellation_atkRate;
+
+        var homa_atkAdd = hpSum * data.weapon.homa;
+        var sekisa_atkAdd = elementalMastery * data.weapon.sekisha;
+        var kusanagi_atkAdd = (energyRecharge - 1) * data.weapon.kusanagi;
 
         var atk
-            = datas.base_atk() * (1 + atkPerSum)
-            + datas.atk()
+            = data.base_atk() * (1 + atkPerSum)
+            + data.atk()
             + homa_atkAdd
             + sekisa_atkAdd
             + kusanagi_atkAdd;
 
 
         float dmgBonus
-            = datas.dmg_bonus()
-            + ElementalDmgBonus(datas);
+            = data.dmg_bonus()
+            + ElementalDmgBonus(data);
 
-        float normalAtkDmgBonus = datas.normal_atk_bonus();
+        float normalAtkDmgBonus = data.normal_atk_bonus();
 
-        float chargedAtkDmgBonus = datas.charged_atk_bonus();
+        float chargedAtkDmgBonus = data.charged_atk_bonus();
 
-        float pluggedAtkDmgBonus = datas.plugged_atk_bonus() + talent_addDmgBonusChargedAtk;
+        float pluggedAtkDmgBonus = data.plugged_atk_bonus() + talent_addDmgBonusChargedAtk;
 
-        float skillDmgBonus = datas.skill_bonus();
+        float skillDmgBonus = data.skill_bonus();
 
-        float burstDmgBonus = datas.burst_bonus();
+        float burstDmgBonus = data.burst_bonus();
 
-        float attackSpeed = datas.atk_speed();
+        float attackSpeed = data.atk_speed();
 
-        float critRate = datas.crit_rate();
+        float critRate = data.crit_rate();
 
-        var critRate_normalAtk = critRate + datas.crit_rate_normal_atk();
-        var critRate_chargedAtk = critRate + datas.crit_rate_charged_atk();
-        var critRate_pluggedAtk = critRate + datas.crit_rate_plugged_atk() + constellation_critRate;
-        var critRate_skill = critRate + datas.crit_rate_skill();
-        var ritRate_burst = critRate + datas.crit_rate_burst();
+        var critRate_normalAtk = critRate + data.crit_rate_normal_atk();
+        var critRate_chargedAtk = critRate + data.crit_rate_charged_atk();
+        var critRate_pluggedAtk = critRate + data.crit_rate_plugged_atk() + constellation_critRate;
+        var critRate_skill = critRate + data.crit_rate_skill();
+        var ritRate_burst = critRate + data.crit_rate_burst();
 
-        float critDmg = datas.crit_dmg();
+        float critDmg = data.crit_dmg();
         float critDmg_pluggedAtk = critDmg + constellation_critDmg;
 
 
-        float dmgAdd = datas.add();
+        float dmgAdd = data.add();
 
-        var dmgAdd_sekikaku = def * datas.weapon.sekikaku;
+        var dmgAdd_sekikaku = def * data.weapon.sekikaku;
 
 
         var dmgAdd_normalAttack
-        = datas.add_normal_atk()
+        = data.add_normal_atk()
         + dmgAdd_sekikaku;
 
         var dmgAdd_chargedAttack
         = dmgAdd_sekikaku;
 
         var dmgAdd_pluggedAttack
-        = datas.add_plugged_atk();
+        = data.add_plugged_atk();
 
 
         // = getNum(weapon, "狩人ダメージアップ")
         // * elementalMastery;
 
         var dmgAdd_skill
-        = datas.add_skill()
-        + def * datas.weapon.cinnabar;
+        = data.add_skill()
+        + def * data.weapon.cinnabar;
 
-        var crit_ChargedAttack = Crit.GetCrit(critRate_chargedAtk, critDmg, datas.artSub);
-        var crit_normalAttack = Crit.GetCrit(critRate_normalAtk, critDmg, datas.artSub);
-        var crit_pluggedAttack = Crit.GetCrit(critRate_pluggedAtk, critDmg_pluggedAtk, datas.artSub);
-        var crit_skill = Crit.GetCrit(critRate_skill, critDmg, datas.artSub);
+        var crit_ChargedAttack = Crit.GetCrit(critRate_chargedAtk, critDmg, data.artSub);
+        var crit_normalAttack = Crit.GetCrit(critRate_normalAtk, critDmg, data.artSub);
+        var crit_pluggedAttack = Crit.GetCrit(critRate_pluggedAtk, critDmg_pluggedAtk, data.artSub);
+        var crit_skill = Crit.GetCrit(critRate_skill, critDmg, data.artSub);
 
         var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
-        var vaporize = ElementalReaction.VaporizeForPyro(elementalMastery, datas.er_rate());
+        var vaporize = ElementalReaction.VaporizeForPyro(elementalMastery, data.er_rate());
 
-        var addAggravate = ElementalReaction.Aggravate(elementalMastery, datas.er_aggravate());
+        var addAggravate = ElementalReaction.Aggravate(elementalMastery, data.er_aggravate());
 
-        var enemyRES = GetElementalRes(datas.partyData.res) * 0.5f;
+        var enemyRES = GetElementalRes(data.partyData.res) * 0.5f;
 
         /*
                 var expectedDmg
@@ -159,10 +159,10 @@ public class Gaming : BaseCharacter
 
         Dictionary<string, string> result = new()
         {
-            ["武器"] = datas.weapon.name,
-            ["聖遺物セット"] = datas.artSets.name,
-            ["聖遺物メイン"] = datas.artMain.name,
-            ["バフキャラ"] = datas.partyData.name,
+            ["武器"] = data.weapon.name,
+            ["聖遺物セット"] = data.artSets.name,
+            ["聖遺物メイン"] = data.artMain.name,
+            ["バフキャラ"] = data.partyData.name,
             ["合計期待値"] = sum.ToString(),
             ["攻撃力"] = atk.ToString(),
             ["HP"] = hpSum.ToString(),
@@ -171,11 +171,11 @@ public class Gaming : BaseCharacter
             ["熟知"] = elementalMastery.ToString(),
             ["率ダメ"] = crit_skill.RateDmg,
             ["会心ダメ比率"] = crit_skill.CritProportion,
-            ["聖遺物組み合わせ"] = datas.artSub.name,
+            ["聖遺物組み合わせ"] = data.artSub.name,
             ["サブステ"] = crit_skill.SubCritRate.ToString(),
-            ["サブHP%"] = datas.artSub.hp_rate.ToString(),
-            ["サブHP"] = datas.artSub.hp.ToString(),
-            ["スコア"] = datas.artSub.score.ToString()
+            ["サブHP%"] = data.artSub.hp_rate.ToString(),
+            ["サブHP"] = data.artSub.hp.ToString(),
+            ["スコア"] = data.artSub.score.ToString()
         };
 
         //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));
