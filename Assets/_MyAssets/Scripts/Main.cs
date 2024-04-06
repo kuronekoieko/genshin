@@ -79,7 +79,7 @@ public class Main : MonoBehaviour
                 {
                     if (weapon.type != character.WeaponType) continue;
                     if (artifactGroup.artSetData.name == "しめ縄4" && character.status.notUseShimenawa) continue;
-                    if (artifactGroup.artSetData.name == "ファントムハンター")
+                    if (artifactGroup.artSetData.name == "ファントム4")
                     {
                         bool hasSelfHarm = character.status.hasSelfHarm || partyData.has_self_harm;
                         if (hasSelfHarm == false) continue;

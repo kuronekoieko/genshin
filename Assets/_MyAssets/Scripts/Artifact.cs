@@ -20,7 +20,9 @@ public class Artifact
         if (isSub == false)
         {
             var artMainDatas = Artifacts_Main.GetArtMainDatas();
-            var artSetDatas = CSVManager.artSetDatas.Where(artSetData => artSetData.skip != 1).ToArray();
+            var artSetDatas = Artifacts_Set.GetArtSetDatas().Where(artSetData => artSetData.skip != 1).ToArray();
+
+            //var artSetDatas = CSVManager.artSetDatas.Where(artSetData => artSetData.skip != 1).ToArray();
 
             foreach (var artSets in artSetDatas)
             {
