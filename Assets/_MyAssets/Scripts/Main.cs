@@ -16,6 +16,9 @@ public class Main : MonoBehaviour
     async void Start()
     {
         await CSVManager.InitializeAsync();
+        Artifacts_Set.GetArtSetDatas();
+
+        return;
 
         var texts = await Calc();
 

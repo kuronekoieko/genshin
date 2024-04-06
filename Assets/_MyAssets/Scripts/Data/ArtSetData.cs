@@ -7,6 +7,20 @@ using System;
 public class ArtSetData : BaseData
 {
 
+    public string DisplayName
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(option) == false)
+            {
+                return $"{name}({option})";
+            }
+            else
+            {
+                return name;
+            }
+        }
+    }
     public string option;
     public int set;
 

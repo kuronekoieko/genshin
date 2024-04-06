@@ -40,7 +40,13 @@ public class Artifacts_Set
             var sorted = new[] { artSetData_2set, artSetData_4set }.OrderBy(artSetData => artSetData.name).ToArray();
 
             var artSetData = Utils.AddInstances(sorted);
+
             artSetData.name = $"{artSetData_4set.name}4";
+            if (string.IsNullOrEmpty(artSetData_4set.option) == false)
+            {
+                artSetData.name += $"({artSetData_4set.option})";
+            }
+
             artSetDatas.Add(artSetData);
         }
 
