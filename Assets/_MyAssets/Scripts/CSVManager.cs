@@ -3,21 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using System.IO;
+using System.Linq;
 
 public static class CSVManager
 {
 
     public static PartyData[] partyDatas { get; private set; }
     public static ArtSetData[] artSetDatas { get; private set; }
+    public static ArtSetData[] artSetDatas_notSkipped { get; private set; }
     public static WeaponData[] weaponDatas { get; private set; }
     public static ArtifactData[] artifactDatas { get; private set; }
 
     public static async UniTask InitializeAsync()
     {
         partyDatas = await DeserializeAsync<PartyData>("Chara");
-        artSetDatas = await DeserializeAsync<ArtSetData>("ArtSet");
+        partyDatas = partyDatas.Where(data => data.skip != 1).ToArray();
+
+        artSetDatas_notSkipped = await DeserializeAsync<ArtSetData>("ArtSet");
+        artSetDatas = artSetDatas_notSkipped.Where(data => data.skip != 1).ToArray();
+
         weaponDatas = await DeserializeAsync<WeaponData>("Weapon");
+        weaponDatas = weaponDatas.Where(data => data.skip != 1).ToArray();
+
         artifactDatas = await DeserializeAsync<ArtifactData>("Artifacts");
+        artifactDatas = artifactDatas.Where(data => data.skip != 1).ToArray();
+
     }
 
     public static async UniTask<T[]> DeserializeAsync<T>(string fileName)

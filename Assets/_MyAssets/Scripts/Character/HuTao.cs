@@ -165,8 +165,8 @@ public class HuTao : BaseCharacter
         Dictionary<string, string> result = new()
         {
             ["武器"] = data.weapon.name,
-            ["聖遺物セット"] = data.artSets.name,
-            ["聖遺物メイン"] = data.artMain.name,
+            ["聖遺物セット"] = data.artSetData.name,
+            ["聖遺物メイン"] = data.artMainData.name,
             ["バフキャラ"] = data.partyData.name,
             ["合計期待値"] = sum.ToString(),
             ["攻撃力"] = atk.ToString(),

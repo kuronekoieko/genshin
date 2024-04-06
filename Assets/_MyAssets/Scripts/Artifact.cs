@@ -20,7 +20,7 @@ public class Artifact
         if (isSub == false)
         {
             var artMainDatas = Artifacts_Main.GetArtMainDatas();
-            var artSetDatas = Artifacts_Set.GetArtSetDatas().Where(artSetData => artSetData.skip != 1).ToArray();
+            var artSetDatas = Artifacts_Set.GetArtSetDatas().ToArray();
 
             //var artSetDatas = CSVManager.artSetDatas.Where(artSetData => artSetData.skip != 1).ToArray();
 
@@ -41,15 +41,13 @@ public class Artifact
         }
 
 
-
         var artifactDatas = CSVManager.artifactDatas;
 
-
-        var flowerList = artifactDatas.Where(artifactData => artifactData.part == "花" && artifactData.skip != 1).ToList();
-        var plumeList = artifactDatas.Where(artifactData => artifactData.part == "羽" && artifactData.skip != 1).ToList();
-        var sandsList = artifactDatas.Where(artifactData => artifactData.part == "時計" && artifactData.skip != 1).ToList();
-        var gobletList = artifactDatas.Where(artifactData => artifactData.part == "杯" && artifactData.skip != 1).ToList();
-        var circletList = artifactDatas.Where(artifactData => artifactData.part == "冠" && artifactData.skip != 1).ToList();
+        var flowerList = artifactDatas.Where(artifactData => artifactData.part == "花").ToList();
+        var plumeList = artifactDatas.Where(artifactData => artifactData.part == "羽").ToList();
+        var sandsList = artifactDatas.Where(artifactData => artifactData.part == "時計").ToList();
+        var gobletList = artifactDatas.Where(artifactData => artifactData.part == "杯").ToList();
+        var circletList = artifactDatas.Where(artifactData => artifactData.part == "冠").ToList();
 
 
         foreach (var flower in flowerList)
@@ -125,7 +123,7 @@ public class Artifact
 
         // var  artSetDatas= Artifacts_Set.GetArtSetDatas();
 
-        var artSetDatas_2set = CSVManager.artSetDatas
+        var artSetDatas_2set = CSVManager.artSetDatas_notSkipped
              .Where(artSetData => artSetData.set == 2);
 
         ArtSetData artSetData_1 = artSetDatas_2set
@@ -156,7 +154,7 @@ public class Artifact
         if (fourSetList.Count == 1)
         {
 
-            ArtSetData artSetData_2 = CSVManager.artSetDatas
+            ArtSetData artSetData_2 = CSVManager.artSetDatas_notSkipped
                 .Where(artSetData => artSetData.set == 4)
                 .Where(artSetData => artSetData.name.Contains(fourSetList[0]))
                 .FirstOrDefault();

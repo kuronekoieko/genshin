@@ -101,10 +101,10 @@ public class Chiori : BaseCharacter
         var crit_normalAttack = Crit.GetCrit(critRate, critDmg, data.artSub);
 
         var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
-        var vaporize = ElementalReaction.VaporizeForPyro(elementalMastery, data.artSets.er_rate);
+        var vaporize = ElementalReaction.VaporizeForPyro(elementalMastery, data.artSetData.er_rate);
 
         var addAggravate
-          = ElementalReaction.Aggravate(elementalMastery, data.artSets.er_aggravate);
+          = ElementalReaction.Aggravate(elementalMastery, data.artSetData.er_aggravate);
 
         var enemyRES = GetElementalRes(data.partyData.res) * 0.5f;
 
@@ -142,8 +142,8 @@ enemyRES,
         Dictionary<string, string> result = new()
         {
             ["武器"] = data.weapon.name,
-            ["聖遺物セット"] = data.artSets.name,
-            ["聖遺物メイン"] = data.artMain.name,
+            ["聖遺物セット"] = data.artSetData.name,
+            ["聖遺物メイン"] = data.artMainData.name,
             ["バフキャラ"] = data.partyData.name,
             ["通常期待値"] = expectedDmg_normalAtk.ToString(),
             ["スキル期待値"] = expectedDmg_skill.ToString(),

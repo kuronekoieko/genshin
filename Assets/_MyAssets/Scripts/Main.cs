@@ -16,7 +16,7 @@ public class Main : MonoBehaviour
     async void Start()
     {
         await CSVManager.InitializeAsync();
-
+        return;
         var texts = await Calc();
 
         FileWriter.Save(character.Name, texts);
@@ -67,10 +67,9 @@ public class Main : MonoBehaviour
         List<Data> datas = new();
 
         var weaponDatas = CSVManager.weaponDatas
-            .Where(weaponData => weaponData.skip != 1)
             .Where(weaponData => weaponData.type == character.WeaponType)
             .ToArray();
-        var partyDatas = Party.GetPartyDatas(CSVManager.partyDatas, character.status.elementType);
+        var partyDatas = Party.GetPartyDatas(character.status.elementType);
 
         var artifactGroups = Artifact.GetArtifactGroups(isSub);
 
@@ -81,8 +80,18 @@ public class Main : MonoBehaviour
             {
                 foreach (var artifactGroup in artifactGroups)
                 {
-                    Data data = GetData(weapon, partyData, artifactGroup);
-                    if (data != null) datas.Add(data);
+                    Data data = new()
+                    {
+                        weapon = weapon,
+                        artMainData = artifactGroup.artMainData,
+                        artSetData = artifactGroup.artSetData,
+                        partyData = partyData,
+                        artSub = artifactGroup.artSubData,
+                        status = character.status,
+                        ascend = character.ascend,
+                    };
+
+                    if (data.IsSkip() == false) datas.Add(data);
                 }
             }
 
@@ -90,82 +99,6 @@ public class Main : MonoBehaviour
         return datas;
     }
 
-
-    Data GetData(WeaponData weapon, PartyData partyData, Artifact.ArtifactGroup artifactGroup)
-    {
-        if (artifactGroup.artSetData.name == "しめ縄4" && character.status.notUseShimenawa) return null;
-
-        bool isGakudan = character.status.weaponType == WeaponType.Catalyst || character.status.weaponType == WeaponType.Bow;
-
-        if (artifactGroup.artSetData.name == "楽団4" && isGakudan == false)
-        {
-            return null;
-        }
-        if (artifactGroup.artSetData.name == "剣闘士4" && isGakudan == true)
-        {
-            return null;
-        }
-
-        bool hasSelfHarm = character.status.hasSelfHarm || partyData.has_self_harm;
-
-        if ((artifactGroup.artSetData.name == "ファントム4" ||
-             artifactGroup.artSetData.name == "花海4" ||
-             artifactGroup.artSetData.name == "辰砂4") &&
-            !hasSelfHarm)
-        {
-            return null;
-        }
-        if (artifactGroup.artSetData.name == "劇団4(控え)" && character.status.isFront)
-        {
-            return null;
-        }
-        if (artifactGroup.artSetData.name == "劇団4(表)" && !character.status.isFront)
-        {
-            return null;
-        }
-        if (artifactGroup.artSetData.name == "深林4" && character.status.elementType != ElementType.Dendro)
-        {
-            return null;
-        }
-
-        bool isFrozen = partyData.cryo_count > 0 && partyData.hydro_count > 0;
-
-        if (artifactGroup.artSetData.name == "氷風4(凍結)" && isFrozen == false)
-        {
-            return null;
-        }
-        if (artifactGroup.artSetData.name == "氷風4(凍結無し)" && partyData.cryo_count == 0)
-        {
-            return null;
-        }
-        if (artifactGroup.artSetData.name == "雷4" && partyData.electro_count == 0)
-        {
-            return null;
-        }
-
-        if (artifactGroup.artMainData.physics_bonus > 0 && character.status.elementType != ElementType.Physics)
-        {
-            return null;
-        }
-        if (artifactGroup.artMainData.dmg_bonus > 0 && character.status.elementType == ElementType.Physics)
-        {
-            return null;
-        }
-        // TODO:残響
-
-
-        Data data = new()
-        {
-            weapon = weapon,
-            artMain = artifactGroup.artMainData,
-            artSets = artifactGroup.artSetData,
-            partyData = partyData,
-            artSub = artifactGroup.artSubData,
-            status = character.status,
-            ascend = character.ascend,
-        };
-        return data;
-    }
 
     async Task<List<Dictionary<string, string>>> GetResultsAsync(List<Data> datas)
     {

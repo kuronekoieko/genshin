@@ -8,23 +8,17 @@ using UnityEngine;
 
 public static class Party
 {
-    public static PartyData[] GetPartyDatas(PartyData[] originPartyDatas, ElementType characterElementType)
+    public static PartyData[] GetPartyDatas(ElementType characterElementType)
     {
         Debug.Log("パーティ計算開始");
 
         var partyMenbersList = new List<SortedSet<PartyData>>();
-        foreach (var member1 in originPartyDatas)
+        foreach (var member1 in CSVManager.partyDatas)
         {
-            if (member1.skip == 1) continue;
-
-            foreach (var member2 in originPartyDatas)
+            foreach (var member2 in CSVManager.partyDatas)
             {
-                if (member2.skip == 1) continue;
-
-                foreach (var member3 in originPartyDatas)
+                foreach (var member3 in CSVManager.partyDatas)
                 {
-                    if (member3.skip == 1) continue;
-
                     // SortedSetだとGetHashCode()がうごかないため、先にHashSetにする
                     var partyMemberHashSet = new HashSet<PartyData>
                     {
