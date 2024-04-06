@@ -79,6 +79,12 @@ public class Main : MonoBehaviour
                 {
                     if (weapon.type != character.WeaponType) continue;
                     if (artifactGroup.artSetData.name == "しめ縄4" && character.status.notUseShimenawa) continue;
+                    if (artifactGroup.artSetData.name == "楽団4")
+                    {
+                        bool isGakudan = character.status.weaponType == WeaponType.Catalyst || character.status.weaponType == WeaponType.Bow;
+                        if (isGakudan == false) continue;
+                    }
+
                     if (artifactGroup.artSetData.name == "ファントム4")
                     {
                         bool hasSelfHarm = character.status.hasSelfHarm || partyData.has_self_harm;
