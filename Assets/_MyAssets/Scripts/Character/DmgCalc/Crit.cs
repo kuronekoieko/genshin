@@ -13,19 +13,7 @@ public class Crit
     public string CritProportion { get; }
     public string SubCrit { get; }
 
-    public Crit(float critRate, float critDmg, float subCritRate, float subCritDmg, float expectedCritDmg, string rateDmg, string critProportion, string subCrit)
-    {
-        CritRate = critRate;
-        CritDmg = critDmg;
-        SubCritRate = subCritRate;
-        SubCritDmg = subCritDmg;
-        ExpectedCritDmg = expectedCritDmg;
-        RateDmg = rateDmg;
-        CritProportion = critProportion;
-        SubCrit = subCrit;
-    }
-
-    public static Crit GetCrit(float critRate, float critDmg, ArtSubData artSub)
+    public Crit(float critRate, float critDmg, ArtSubData artSub)
     {
         float subCritRate;
         float subCritDmg;
@@ -51,10 +39,18 @@ public class Crit
         string critProportion = $"{(critDmg / critRate):F2}";
         string subCrit = $"{subCritRate:F2}:{subCritDmg:F2}";
 
-        return new Crit(critRate, critDmg, subCritRate, subCritDmg, expectedCritDmg, rateDmg, critProportion, subCrit);
+
+        CritRate = critRate;
+        CritDmg = critDmg;
+        SubCritRate = subCritRate;
+        SubCritDmg = subCritDmg;
+        ExpectedCritDmg = expectedCritDmg;
+        RateDmg = rateDmg;
+        CritProportion = critProportion;
+        SubCrit = subCrit;
     }
 
-    public static (float, float) GetSubCrits(float critRate, float critDmg, float score)
+    (float, float) GetSubCrits(float critRate, float critDmg, float score)
     {
         float subCritRate = (score - 2 * critRate + critDmg) / 4;
         if (critRate + subCritRate >= 1) subCritRate = 1 - critRate;

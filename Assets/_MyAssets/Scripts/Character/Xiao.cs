@@ -101,10 +101,10 @@ public class Xiao : BaseCharacter
     = data.add_skill()
     + def * data.weapon.cinnabar;
 
-    var crit_ChargedAttack = Crit.GetCrit(critRate_chargedAtk, critDmg, data.artSub);
-    var crit_normalAttack = Crit.GetCrit(critRate_normalAtk, critDmg, data.artSub);
-    var crit_pluggedAttack = Crit.GetCrit(critRate_pluggedAtk, critDmg, data.artSub);
-    var crit_skill = Crit.GetCrit(critRate_skill, critDmg, data.artSub);
+    var crit_ChargedAttack = new Crit(critRate_chargedAtk, critDmg, data.artSub);
+    var crit_normalAttack = new Crit(critRate_normalAtk, critDmg, data.artSub);
+    var crit_pluggedAttack = new Crit(critRate_pluggedAtk, critDmg, data.artSub);
+    var crit_skill = new Crit(critRate_skill, critDmg, data.artSub);
 
     var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
     var vaporize = ElementalReaction.VaporizeForPyro(elementalMastery, data.artSetData.er_rate);

@@ -98,10 +98,10 @@ public class Noelle : BaseCharacter
         = data.add_skill()
         + def * data.weapon.cinnabar;
 
-        var crit_skill = Crit.GetCrit(critRate_skill, critDmg, data.artSub);
-        var crit_normalAttack = Crit.GetCrit(critRate, critDmg, data.artSub);
-        var crit_ChargedAttack = Crit.GetCrit(critRate, critDmg, data.artSub);
-        var crit_pluggedAttack = Crit.GetCrit(critRate, critDmg, data.artSub);
+        var crit_skill = new Crit(critRate_skill, critDmg, data.artSub);
+        var crit_normalAttack = new Crit(critRate, critDmg, data.artSub);
+        var crit_ChargedAttack = new Crit(critRate, critDmg, data.artSub);
+        var crit_pluggedAttack = new Crit(critRate, critDmg, data.artSub);
 
         var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
         var vaporize = ElementalReaction.VaporizeForPyro(elementalMastery, data.artSetData.er_rate);
