@@ -78,8 +78,13 @@ public class Artifact
             .Select(x => x.Key + "4")
             .ToList();
 
-        string setName = string.Join("+", twoSetList) + string.Join("+", fourSetList);
+        string setName = string.Join("+", twoSetList);
+        if (fourSetList.Count > 0) setName = fourSetList[0];
+
         artifactGroup.artSetData = new() { name = setName };
+
+        // string a = string.Join("/", artifactCombination.Select(artifactData => artifactData.art_set_name).ToArray());
+        //  Debug.Log(a + "\n" + setName);
 
 
         return artifactGroup;
