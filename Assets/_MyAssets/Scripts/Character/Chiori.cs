@@ -5,7 +5,8 @@ using UnityEngine;
 public class Chiori : BaseCharacter
 {
     // スキル Lv9
-    float[] normalAtkPerArray_atk = { 0.908f, 0.860f, 0.559f, 0.559f, 1.38f };
+    // float[] normalAtkPerArray_atk = { 0.908f, 0.860f, 0.559f, 0.559f, 1.38f };
+    float[] normalAtkPerArray_atk = { 0.908f };
 
     float[] skillPerArray = { 1.40f };
     float skillAddPerDef = 1.74f;
@@ -149,15 +150,15 @@ enemyRES,
             ["攻撃力"] = atk.ToString(),
             ["HP"] = hpSum.ToString(),
             ["バフ"] = dmgBonus.ToString(),
-            ["会心ダメ期待値"] = crit_skill.ExpectedCritDmg.ToString(),
+            ["会心ダメ期待値"] = crit_normalAttack.ExpectedCritDmg.ToString(),
             ["熟知"] = elementalMastery.ToString(),
-            ["率ダメ"] = crit_skill.RateDmg,
-            ["会心ダメ比率"] = crit_skill.CritProportion,
+            ["率ダメ"] = crit_normalAttack.RateDmg,
+            ["会心ダメ比率"] = crit_normalAttack.CritProportion,
             ["聖遺物組み合わせ"] = data.artSub.name,
-            ["サブステ"] = crit_skill.SubCritRate.ToString(),
+            ["サブステ"] = crit_normalAttack.SubCrit.ToString(),
             ["サブHP%"] = data.artSub.hp_rate.ToString(),
             ["サブHP"] = data.artSub.hp.ToString(),
-            ["スコア"] = data.artSub.score.ToString()
+            ["スコア"] = data.artSub.score.ToString(),
         };
 
         //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));

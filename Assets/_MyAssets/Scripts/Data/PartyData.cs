@@ -57,6 +57,10 @@ public class PartyData : BaseData, IComparable<PartyData>
         {
             dmg_bonus += 0.15f;
             // TODO岩耐性ダウン
+            if (elementType == ElementType.Geo)
+            {
+                res += -0.2f;
+            }
         }
         if (dendro_count >= 2)
         {
