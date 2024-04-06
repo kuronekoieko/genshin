@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,7 +62,7 @@ public static class Artifacts_Main
 
         Debug.Log("聖遺物メイン計算開始");
 
-        List<ArtMainCount> artMainCounts = new();
+        HashSet<ArtMainCount> artMainCounts = new();
 
         for (int k = 0; k < artMainTokeiArray.Length; k++)
         {
@@ -82,7 +83,7 @@ public static class Artifacts_Main
             }
         }
 
-        return artMainCounts;
+        return artMainCounts.ToList();
     }
 
     public static ArtMainCount GetArtMainCount(string[] nameCombinations)
@@ -105,10 +106,10 @@ public static class Artifacts_Main
             artMainCombination[i] = count;
         }
 
-
         ArtMainCount artMainCount = new()
         {
-            name = name,
+            displayName = name,
+            compareName = string.Join("+", nameCombinations.OrderBy(n => n).ToArray()),
             artMainDictionaries = ArrayToDictionary(artMainCombinations[0], artMainCombination)
         };
         return artMainCount;
@@ -128,7 +129,22 @@ public static class Artifacts_Main
 
     public class ArtMainCount
     {
-        public string name;
+        public string displayName;
+        public string compareName;
         public Dictionary<string, int> artMainDictionaries = new();
+
+        // https://www.mum-meblog.com/entry/tyr-utility/csharp-hashset
+        public override bool Equals(object obj)
+        {
+            ArtMainCount other = obj as ArtMainCount;
+            if (other == null) return false;
+            return this.compareName == other.compareName;
+        }
+
+        public override int GetHashCode()
+        {
+            // hashsetは通るが、sortedsetは通らない
+            return compareName.GetHashCode();
+        }
     }
 }

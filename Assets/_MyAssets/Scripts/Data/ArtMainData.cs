@@ -19,7 +19,7 @@ public class ArtMainData : BaseData
 
     public ArtMainData(Artifacts_Main.ArtMainCount artMainCount)
     {
-        name = artMainCount.name;
+        name = artMainCount.displayName;
         atk = artMainAtkFixed;
         atk_rate = artMainCount.artMainDictionaries["攻撃%"] * artMainAtkPer;
         def_rate = artMainCount.artMainDictionaries["防御%"] * artMainDefPer;
