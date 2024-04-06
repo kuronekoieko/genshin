@@ -10,6 +10,7 @@ public class ArtSubData : BaseData
 
     public ArtSubData(ArtifactData artifactData)
     {
+        name = artifactData.id;
         skip = artifactData.skip;
         crit_rate = artifactData.crit_rate;
         crit_dmg = artifactData.crit_dmg;
