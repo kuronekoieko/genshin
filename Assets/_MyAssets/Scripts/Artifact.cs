@@ -30,7 +30,7 @@ public class Artifact
                     {
                         artSetData = artSets,
                         artMainData = artMain,
-                        artSubData = null,
+                        artSubData = new ArtSubData(null),
                     };
                     artifactGroups.Add(artifactGroup);
                 }

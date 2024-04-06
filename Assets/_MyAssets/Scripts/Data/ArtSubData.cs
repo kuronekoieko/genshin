@@ -7,9 +7,18 @@ using System;
 public class ArtSubData : BaseData
 {
     public float score;
+    public bool Exist { get; private set; }
 
     public ArtSubData(ArtifactData artifactData)
     {
+        if (artifactData == null)
+        {
+            Exist = false;
+            score = 1.6f;
+            return;
+        }
+        Exist = true;
+
         name = artifactData.id;
         skip = artifactData.skip;
         crit_rate = artifactData.crit_rate * 0.01f;
@@ -23,7 +32,7 @@ public class ArtSubData : BaseData
         energy_recharge = artifactData.energy_recharge * 0.01f;
         elemental_mastery = artifactData.elemental_mastery;
 
-        score = artifactData.crit_rate * 2 + artifactData.crit_dmg + atk_rate;
+        score = crit_rate * 2 + crit_dmg + atk_rate;
     }
 
 

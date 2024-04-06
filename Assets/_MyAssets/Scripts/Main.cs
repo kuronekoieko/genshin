@@ -24,7 +24,7 @@ public class Main : MonoBehaviour
 
 
 
-    bool isSub = true;
+    bool isSub;
 
     async UniTask<List<string>> Calc()
     {

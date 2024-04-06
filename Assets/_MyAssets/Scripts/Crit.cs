@@ -30,9 +30,9 @@ public class Crit
         float subCritRate;
         float subCritDmg;
 
-        if (artSub == null)
+        if (artSub.Exist == false)
         {
-            (subCritRate, subCritDmg) = GetSubCrits(critRate, critDmg, 1.6f);
+            (subCritRate, subCritDmg) = GetSubCrits(critRate, critDmg, artSub.score);
             critRate += subCritRate;
             critDmg += subCritDmg;
         }
