@@ -41,7 +41,7 @@ public class Artifact
         }
 
 
-        var artifactDatas = CSVManager.artifactDatas;
+        var artifactDatas = CSVManager.ArtifactDatas;
 
         var flowerList = artifactDatas.Where(artifactData => artifactData.part == "花").ToList();
         var plumeList = artifactDatas.Where(artifactData => artifactData.part == "羽").ToList();
@@ -123,7 +123,7 @@ public class Artifact
 
         // var  artSetDatas= Artifacts_Set.GetArtSetDatas();
 
-        var artSetDatas_2set = CSVManager.artSetDatas_notSkipped
+        var artSetDatas_2set = CSVManager.ArtSetDatas_notSkipped
              .Where(artSetData => artSetData.set == 2);
 
         ArtSetData artSetData_1 = artSetDatas_2set
@@ -154,7 +154,7 @@ public class Artifact
         if (fourSetList.Count == 1)
         {
 
-            ArtSetData artSetData_2 = CSVManager.artSetDatas_notSkipped
+            ArtSetData artSetData_2 = CSVManager.ArtSetDatas_notSkipped
                 .Where(artSetData => artSetData.set == 4)
                 .Where(artSetData => artSetData.name.Contains(fourSetList[0]))
                 .FirstOrDefault();

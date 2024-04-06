@@ -8,25 +8,25 @@ using System.Linq;
 public static class CSVManager
 {
 
-    public static PartyData[] partyDatas { get; private set; }
-    public static ArtSetData[] artSetDatas { get; private set; }
-    public static ArtSetData[] artSetDatas_notSkipped { get; private set; }
-    public static WeaponData[] weaponDatas { get; private set; }
-    public static ArtifactData[] artifactDatas { get; private set; }
+    public static PartyData[] PartyDatas { get; private set; }
+    public static ArtSetData[] ArtSetDatas { get; private set; }
+    public static ArtSetData[] ArtSetDatas_notSkipped { get; private set; }
+    public static WeaponData[] WeaponDatas { get; private set; }
+    public static ArtifactData[] ArtifactDatas { get; private set; }
 
     public static async UniTask InitializeAsync()
     {
-        partyDatas = await DeserializeAsync<PartyData>("Chara");
-        partyDatas = partyDatas.Where(data => data.skip != 1).ToArray();
+        PartyDatas = await DeserializeAsync<PartyData>("Chara");
+        PartyDatas = PartyDatas.Where(data => data.skip != 1).ToArray();
 
-        artSetDatas_notSkipped = await DeserializeAsync<ArtSetData>("ArtSet");
-        artSetDatas = artSetDatas_notSkipped.Where(data => data.skip != 1).ToArray();
+        ArtSetDatas_notSkipped = await DeserializeAsync<ArtSetData>("ArtSet");
+        ArtSetDatas = ArtSetDatas_notSkipped.Where(data => data.skip != 1).ToArray();
 
-        weaponDatas = await DeserializeAsync<WeaponData>("Weapon");
-        weaponDatas = weaponDatas.Where(data => data.skip != 1).ToArray();
+        WeaponDatas = await DeserializeAsync<WeaponData>("Weapon");
+        WeaponDatas = WeaponDatas.Where(data => data.skip != 1).ToArray();
 
-        artifactDatas = await DeserializeAsync<ArtifactData>("Artifacts");
-        artifactDatas = artifactDatas.Where(data => data.skip != 1).ToArray();
+        ArtifactDatas = await DeserializeAsync<ArtifactData>("Artifacts");
+        ArtifactDatas = ArtifactDatas.Where(data => data.skip != 1).ToArray();
 
     }
 

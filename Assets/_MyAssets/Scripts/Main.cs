@@ -66,7 +66,7 @@ public class Main : MonoBehaviour
 
         List<Data> datas = new();
 
-        var weaponDatas = CSVManager.weaponDatas
+        var weaponDatas = CSVManager.WeaponDatas
             .Where(weaponData => weaponData.type == character.WeaponType)
             .ToArray();
         var partyDatas = Party.GetPartyDatas(character.status.elementType);

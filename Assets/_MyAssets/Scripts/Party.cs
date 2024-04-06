@@ -13,11 +13,11 @@ public static class Party
         Debug.Log("パーティ計算開始");
 
         var partyMenbersList = new List<SortedSet<PartyData>>();
-        foreach (var member1 in CSVManager.partyDatas)
+        foreach (var member1 in CSVManager.PartyDatas)
         {
-            foreach (var member2 in CSVManager.partyDatas)
+            foreach (var member2 in CSVManager.PartyDatas)
             {
-                foreach (var member3 in CSVManager.partyDatas)
+                foreach (var member3 in CSVManager.PartyDatas)
                 {
                     // SortedSetだとGetHashCode()がうごかないため、先にHashSetにする
                     var partyMemberHashSet = new HashSet<PartyData>
