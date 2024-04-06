@@ -32,5 +32,15 @@ public class ArtMainData : BaseData
         crit_rate = artMainCount.artMainDictionaries["会心率"] * artMainCritRate;
         crit_dmg = artMainCount.artMainDictionaries["会心ダメージ"] * artMainCritDmg;
         heal_bonus = artMainCount.artMainDictionaries["治癒効果"] * artMainHealPer;
+
+        /*
+                if (characterElementType == ElementType.Physics)
+                {
+                    dmg_bonus = artMainCount.artMainDictionaries["元素バフ"] * artMainPhysicsBuffPer;
+                }
+                else
+                {
+                    dmg_bonus = artMainCount.artMainDictionaries["元素バフ"] * artMainBuffPer;
+                }*/
     }
 }

@@ -91,6 +91,15 @@ public class Main : MonoBehaviour
                         if (hasSelfHarm == false) continue;
                     }
 
+                    if (artifactGroup.artMainData.physics_bonus > 0 && character.status.elementType != ElementType.Physics)
+                    {
+                        continue;
+                    }
+                    if (artifactGroup.artMainData.dmg_bonus > 0 && character.status.elementType == ElementType.Physics)
+                    {
+                        continue;
+                    }
+
 
                     Data data = new()
                     {

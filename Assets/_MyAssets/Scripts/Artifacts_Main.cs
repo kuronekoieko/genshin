@@ -31,12 +31,15 @@ public static class Artifacts_Main
     {
         Debug.Log("聖遺物メイン計算開始");
 
-        List<ArtMainData> artMainDatas = new List<ArtMainData>();
+        List<ArtMainData> artMainDatas = new();
         var artMainCounts = GetArtMainDictionaries();
         foreach (var item in artMainCounts)
         {
             // Debug.Log(item.artMainDictionaries["攻撃%"]);
             ArtMainData artMainData = new(item);
+
+
+
             artMainDatas.Add(artMainData);
         }
 
