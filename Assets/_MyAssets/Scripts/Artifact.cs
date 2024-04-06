@@ -121,6 +121,8 @@ public class Artifact
 
         if (twoSetList.Count == 0) return null;
 
+        // var  artSetDatas= Artifacts_Set.GetArtSetDatas();
+
         var artSetDatas_2set = CSVManager.artSetDatas
              .Where(artSetData => artSetData.set == 2);
 
@@ -163,6 +165,7 @@ public class Artifact
             }
 
             var artSetData = Utils.AddInstances(new[] { artSetData_1, artSetData_2 });
+            artSetData.name = $"{artSetData_2.name}4";
 
             return artSetData;
         }

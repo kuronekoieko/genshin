@@ -53,7 +53,7 @@ public class Artifacts_Set
 
         foreach (var artSetData in artSetDatas)
         {
-            Debug.Log(artSetData.name);
+            // Debug.Log(artSetData.name);
             // Utils.LogJson(artSetData);
         }
 

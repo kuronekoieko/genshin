@@ -181,7 +181,8 @@ public class HuTao : BaseCharacter
             ["サブステ"] = crit_ChargedAttack.SubCritRate.ToString(),
             ["サブHP%"] = data.artSub.hp_rate.ToString(),
             ["サブHP"] = data.artSub.hp.ToString(),
-            ["スコア"] = data.artSub.Score.ToString()
+            ["スコア"] = data.artSub.Score.ToString(),
+            ["重撃バフ"] = chargedAtkDmgBonus.ToString()
         };
 
         //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));
