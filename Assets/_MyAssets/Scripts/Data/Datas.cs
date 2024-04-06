@@ -319,4 +319,30 @@ public class Datas
         + artSub.add_skill;
     }
 
+    public float er_rate()
+    {
+        return weapon.er_rate
+        + artMain.er_rate
+        + artSets.er_rate
+        + partyData.er_rate
+        + artSub.er_rate;
+    }
+
+    public float er_fixed()
+    {
+        return weapon.er_fixed
+        + artMain.er_fixed
+        + artSets.er_fixed
+        + partyData.er_fixed
+        + artSub.er_fixed;
+    }
+    public float er_aggravate()
+    {
+        return weapon.er_aggravate
+        + artMain.er_aggravate
+        + artSets.er_aggravate
+        + partyData.er_aggravate
+        + artSub.er_aggravate;
+    }
+
 }

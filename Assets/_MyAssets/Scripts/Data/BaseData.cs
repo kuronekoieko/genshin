@@ -48,5 +48,7 @@ public class BaseData
     public float add_plugged_atk;
     public float add_skill;
     public bool has_self_harm;
-
+    public float er_rate;
+    public float er_fixed;
+    public float er_aggravate;
 }

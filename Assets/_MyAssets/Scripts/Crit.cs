@@ -26,7 +26,7 @@ public class Crit
         SubCrit = subCrit;
     }
 
-    public static Crit GetCrit(float critRate, float critDmg, object artSub)
+    public static Crit GetCrit(float critRate, float critDmg, ArtSubData artSub)
     {
         (float subCritRate, float subCritDmg) = GetSubCrits(critRate, critDmg, artSub, 1.6f);
 
@@ -45,7 +45,7 @@ public class Crit
         return new Crit(critRate, critDmg, subCritRate, subCritDmg, expectedCritDmg, rateDmg, critProportion, subCrit);
     }
 
-    public static (float, float) GetSubCrits(float critRate, float critDmg, object artSub, float score)
+    public static (float, float) GetSubCrits(float critRate, float critDmg, ArtSubData artSub, float score)
     {
         float subCritRate = 0;
         float subCritDmg = 0;
