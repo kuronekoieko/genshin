@@ -77,46 +77,53 @@ public class Main : MonoBehaviour
             {
                 foreach (var artifactGroup in artifactGroups)
                 {
-                    if (weapon.type != character.WeaponType) continue;
-                    if (artifactGroup.artSetData.name == "しめ縄4" && character.status.notUseShimenawa) continue;
-                    if (artifactGroup.artSetData.name == "楽団4")
-                    {
-                        bool isGakudan = character.status.weaponType == WeaponType.Catalyst || character.status.weaponType == WeaponType.Bow;
-                        if (isGakudan == false) continue;
-                    }
-
-                    if (artifactGroup.artSetData.name == "ファントム4")
-                    {
-                        bool hasSelfHarm = character.status.hasSelfHarm || partyData.has_self_harm;
-                        if (hasSelfHarm == false) continue;
-                    }
-
-                    if (artifactGroup.artMainData.physics_bonus > 0 && character.status.elementType != ElementType.Physics)
-                    {
-                        continue;
-                    }
-                    if (artifactGroup.artMainData.dmg_bonus > 0 && character.status.elementType == ElementType.Physics)
-                    {
-                        continue;
-                    }
-
-
-                    Data data = new()
-                    {
-                        weapon = weapon,
-                        artMain = artifactGroup.artMainData,
-                        artSets = artifactGroup.artSetData,
-                        partyData = partyData,
-                        artSub = artifactGroup.artSubData,
-                        status = character.status,
-                        ascend = character.ascend,
-                    };
-                    datas.Add(data);
+                    Data data = GetData(weapon, partyData, artifactGroup);
+                    if (data != null) datas.Add(data);
                 }
             }
 
         }
         return datas;
+    }
+
+
+    Data GetData(WeaponData weapon, PartyData partyData, Artifact.ArtifactGroup artifactGroup)
+    {
+        if (weapon.type != character.WeaponType) return null;
+        if (artifactGroup.artSetData.name == "しめ縄4" && character.status.notUseShimenawa) return null;
+        if (artifactGroup.artSetData.name == "楽団4")
+        {
+            bool isGakudan = character.status.weaponType == WeaponType.Catalyst || character.status.weaponType == WeaponType.Bow;
+            if (isGakudan == false) return null;
+        }
+
+        if (artifactGroup.artSetData.name == "ファントム4")
+        {
+            bool hasSelfHarm = character.status.hasSelfHarm || partyData.has_self_harm;
+            if (hasSelfHarm == false) return null;
+        }
+
+        if (artifactGroup.artMainData.physics_bonus > 0 && character.status.elementType != ElementType.Physics)
+        {
+            return null;
+        }
+        if (artifactGroup.artMainData.dmg_bonus > 0 && character.status.elementType == ElementType.Physics)
+        {
+            return null;
+        }
+
+
+        Data data = new()
+        {
+            weapon = weapon,
+            artMain = artifactGroup.artMainData,
+            artSets = artifactGroup.artSetData,
+            partyData = partyData,
+            artSub = artifactGroup.artSubData,
+            status = character.status,
+            ascend = character.ascend,
+        };
+        return data;
     }
 
     async Task<List<Dictionary<string, string>>> GetResultsAsync(List<Data> datas)
