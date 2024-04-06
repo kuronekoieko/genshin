@@ -41,7 +41,9 @@ public class Artifact
 
                             ArtSubData artSubData = GetArtSubData(combinedArtifactData);
 
-                            
+                            var artMainCount = Artifacts_Main.GetArtMainCount(new string[] { sands.part, goblet.part, circlet.part });
+                            ArtMainData artMainData = new(artMainCount);
+
 
                         }
                     }

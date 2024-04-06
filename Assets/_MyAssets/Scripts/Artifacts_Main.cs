@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class Artifacts_Main
@@ -18,45 +19,12 @@ public static class Artifacts_Main
     static readonly float artMainEnergyRecharge = 0.518f;
     static readonly float artMainHealPer = 0.359f;
 
-    static public ArtMainData[] GetArtMainDatas()
+    static readonly string[] artMainTokeiArray = { "攻撃%", "防御%", "HP%", "元素熟知", "元チャ" };
+    static readonly string[] artMainSakadukiArray = { "攻撃%", "防御%", "HP%", "元素熟知", "元素バフ", "物理バフ" };
+    static readonly string[] artMainKanmuriArray = { "攻撃%", "防御%", "HP%", "元素熟知", "会心率", "会心ダメージ", "治癒効果" };
+
+    static readonly List<string[]> artMainCombinations = new()
     {
-        Debug.Log("聖遺物メイン計算開始");
-
-        List<ArtMainData> artMainDatas = new List<ArtMainData>();
-        var artMainDictionaries = GetArtMainDictionaries();
-        foreach (var item in artMainDictionaries)
-        {
-            // Debug.Log(item.artMainDictionaries["攻撃%"]);
-            ArtMainData artMainData = new()
-            {
-                name = item.name,
-                atk = artMainAtkFixed,
-                atk_rate = item.artMainDictionaries["攻撃%"] * artMainAtkPer,
-                def_rate = item.artMainDictionaries["防御%"] * artMainDefPer,
-                hp = artMainHpFixed,
-                hp_rate = item.artMainDictionaries["HP%"] * artMainHPPer,
-                elemental_mastery = item.artMainDictionaries["元素熟知"] * artMainElementalMastery,
-                energy_recharge = item.artMainDictionaries["元チャ"] * artMainEnergyRecharge,
-                dmg_bonus = item.artMainDictionaries["元素バフ"] * artMainBuffPer,
-                physics_bonus = item.artMainDictionaries["物理バフ"] * artMainPhysicsBuffPer,
-                crit_rate = item.artMainDictionaries["会心率"] * artMainCritRate,
-                crit_dmg = item.artMainDictionaries["会心ダメージ"] * artMainCritDmg,
-                heal_bonus = item.artMainDictionaries["治癒効果"] * artMainHealPer,
-            };
-            artMainDatas.Add(artMainData);
-        }
-
-        return artMainDatas.ToArray();
-    }
-
-    static List<ArtMainCount> GetArtMainDictionaries()
-    {
-        string[] artMainTokeiArray = { "攻撃%", "防御%", "HP%", "元素熟知", "元チャ" };
-        string[] artMainSakadukiArray = { "攻撃%", "防御%", "HP%", "元素熟知", "元素バフ", "物理バフ" };
-        string[] artMainKanmuriArray = { "攻撃%", "防御%", "HP%", "元素熟知", "会心率", "会心ダメージ", "治癒効果" };
-
-        List<string[]> artMainCombinations = new List<string[]>
-        {
             new string[] {
             "攻撃%",
             "防御%",
@@ -69,7 +37,27 @@ public static class Artifacts_Main
             "会心ダメージ",
             "治癒効果"
         }
-        };
+    };
+
+
+    static public ArtMainData[] GetArtMainDatas()
+    {
+        Debug.Log("聖遺物メイン計算開始");
+
+        List<ArtMainData> artMainDatas = new List<ArtMainData>();
+        var artMainCounts = GetArtMainDictionaries();
+        foreach (var item in artMainCounts)
+        {
+            // Debug.Log(item.artMainDictionaries["攻撃%"]);
+            ArtMainData artMainData = new(item);
+            artMainDatas.Add(artMainData);
+        }
+
+        return artMainDatas.ToArray();
+    }
+
+    static List<ArtMainCount> GetArtMainDictionaries()
+    {
 
         Debug.Log("聖遺物メイン計算開始");
 
@@ -87,26 +75,7 @@ public static class Artifacts_Main
 
                     string[] nameCombinations = { artMainTokei, artMainSakaduki, artMainKanmuri };
 
-                    string name = $"{artMainTokei}、{artMainSakaduki}、{artMainKanmuri}";
-                    int[] artMainCombination = new int[artMainCombinations[0].Length];
-
-                    for (int i = 0; i < artMainCombinations[0].Length; i++)
-                    {
-                        int count = 0;
-
-                        foreach (string nameCombination in nameCombinations)
-                        {
-                            count += artMainCombinations[0][i] == nameCombination ? 1 : 0;
-                        }
-
-                        artMainCombination[i] = count;
-                    }
-
-                    ArtMainCount artMainCount = new()
-                    {
-                        name = name,
-                        artMainDictionaries = ArrayToDictionary(artMainCombinations[0], artMainCombination)
-                    };
+                    ArtMainCount artMainCount = GetArtMainCount(nameCombinations);
 
                     artMainCounts.Add(artMainCount);
                 }
@@ -114,6 +83,35 @@ public static class Artifacts_Main
         }
 
         return artMainCounts;
+    }
+
+    public static ArtMainCount GetArtMainCount(string[] nameCombinations)
+    {
+
+        string name = string.Join("+", nameCombinations);
+
+
+        int[] artMainCombination = new int[artMainCombinations[0].Length];
+
+        for (int i = 0; i < artMainCombinations[0].Length; i++)
+        {
+            int count = 0;
+
+            foreach (string nameCombination in nameCombinations)
+            {
+                count += artMainCombinations[0][i] == nameCombination ? 1 : 0;
+            }
+
+            artMainCombination[i] = count;
+        }
+
+
+        ArtMainCount artMainCount = new()
+        {
+            name = name,
+            artMainDictionaries = ArrayToDictionary(artMainCombinations[0], artMainCombination)
+        };
+        return artMainCount;
     }
 
     static private Dictionary<string, int> ArrayToDictionary(string[] keys, int[] values)
