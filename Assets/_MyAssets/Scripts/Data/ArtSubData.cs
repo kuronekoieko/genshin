@@ -8,4 +8,6 @@ public class ArtSubData : BaseData
 {
     public float score;
 
+    public string set_2;
+    public string set_4;
 }

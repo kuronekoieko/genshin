@@ -35,16 +35,8 @@ public class Artifact
                     {
                         foreach (var circlet in circletList)
                         {
-                            ArtifactData[] artifactCombination = new[] { flower, plume, sands, goblet, circlet };
-
-                            ArtifactData combinedArtifactData = AddInstances(artifactCombination);
-
-                            ArtSubData artSubData = GetArtSubData(combinedArtifactData);
-
-                            var artMainCount = Artifacts_Main.GetArtMainCount(new string[] { sands.part, goblet.part, circlet.part });
-                            ArtMainData artMainData = new(artMainCount);
-
-
+                            ArtifactGroup artifactGroup = GetArtifactGroup(flower, plume, sands, goblet, circlet);
+                            artifactGroups.Add(artifactGroup);
                         }
                     }
                 }
@@ -53,6 +45,45 @@ public class Artifact
 
 
         return artifactGroups;
+    }
+
+    ArtifactGroup GetArtifactGroup(ArtifactData flower, ArtifactData plume, ArtifactData sands, ArtifactData goblet, ArtifactData circlet)
+    {
+        ArtifactGroup artifactGroup = new();
+
+        //サブステ================
+        ArtifactData[] artifactCombination = new[] { flower, plume, sands, goblet, circlet };
+
+        ArtifactData combinedArtifactData = AddInstances(artifactCombination);
+
+        artifactGroup.artSubData = GetArtSubData(combinedArtifactData);
+
+        //メインステ================
+        var artMainCount = Artifacts_Main.GetArtMainCount(new string[] { sands.part, goblet.part, circlet.part });
+        artifactGroup.artMainData = new(artMainCount);
+
+        //セット================
+
+
+        var setNameGroup = artifactCombination
+            .Select(artifactData => artifactData.art_set_name)
+            .GroupBy(x => x);
+
+        List<string> twoSetList = setNameGroup
+            .Where(x => x.Count() >= 2)
+            .Select(x => x.Key + "2")
+            .ToList();
+
+        List<string> fourSetList = setNameGroup
+            .Where(x => x.Count() >= 4)
+            .Select(x => x.Key + "4")
+            .ToList();
+
+        string setName = string.Join("+", twoSetList) + string.Join("+", fourSetList);
+        artifactGroup.artSetData = new() { name = setName };
+
+
+        return artifactGroup;
     }
 
     public static T AddInstances<T>(T[] instances) where T : new()
