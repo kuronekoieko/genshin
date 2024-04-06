@@ -82,6 +82,8 @@ public class Status
     public int baseHp;
     public bool hasSelfHarm = false;
     public bool notUseShimenawa = false;
+    public bool isFront = true;
+
     public readonly float defaultCritRate = 0.05f;
     public readonly float defaultCritDmg = 0.5f;
     public string WeaponTypeName

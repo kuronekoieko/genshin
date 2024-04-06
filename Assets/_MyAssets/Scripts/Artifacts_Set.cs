@@ -10,9 +10,8 @@ public class Artifacts_Set
     {
         HashSet<ArtSetData> artSetDatas = new();
 
-        var artSetDatas_2set = CSVManager.artSetDatas.Where(artSetData => artSetData.set == 2).ToArray();
-        var artSetDatas_4set = CSVManager.artSetDatas.Where(artSetData => artSetData.set == 4).ToArray();
-
+        var artSetDatas_2set = CSVManager.artSetDatas.Where(artSetData => artSetData.set == 2 && artSetData.skip != 1).ToArray();
+        var artSetDatas_4set = CSVManager.artSetDatas.Where(artSetData => artSetData.set == 4 && artSetData.skip != 1).ToArray();
 
         foreach (var artSetData_1 in artSetDatas_2set)
         {

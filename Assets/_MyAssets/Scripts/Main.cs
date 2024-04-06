@@ -62,14 +62,18 @@ public class Main : MonoBehaviour
 
     List<Data> GetDatas()
     {
+        Debug.Log("組み合わせ作成開始");
+
         List<Data> datas = new();
 
-        var weaponDatas = CSVManager.weaponDatas.Where(weaponData => weaponData.skip != 1).ToArray();
+        var weaponDatas = CSVManager.weaponDatas
+            .Where(weaponData => weaponData.skip != 1)
+            .Where(weaponData => weaponData.type == character.WeaponType)
+            .ToArray();
         var partyDatas = Party.GetPartyDatas(CSVManager.partyDatas, character.status.elementType);
 
         var artifactGroups = Artifact.GetArtifactGroups(isSub);
 
-        Debug.Log("ダメージ計算開始");
 
         foreach (var weapon in weaponDatas)
         {
@@ -89,18 +93,54 @@ public class Main : MonoBehaviour
 
     Data GetData(WeaponData weapon, PartyData partyData, Artifact.ArtifactGroup artifactGroup)
     {
-        if (weapon.type != character.WeaponType) return null;
         if (artifactGroup.artSetData.name == "しめ縄4" && character.status.notUseShimenawa) return null;
-        if (artifactGroup.artSetData.name == "楽団4")
+
+        bool isGakudan = character.status.weaponType == WeaponType.Catalyst || character.status.weaponType == WeaponType.Bow;
+
+        if (artifactGroup.artSetData.name == "楽団4" && isGakudan == false)
         {
-            bool isGakudan = character.status.weaponType == WeaponType.Catalyst || character.status.weaponType == WeaponType.Bow;
-            if (isGakudan == false) return null;
+            return null;
+        }
+        if (artifactGroup.artSetData.name == "剣闘士4" && isGakudan == true)
+        {
+            return null;
         }
 
-        if (artifactGroup.artSetData.name == "ファントム4")
+        bool hasSelfHarm = character.status.hasSelfHarm || partyData.has_self_harm;
+
+        if ((artifactGroup.artSetData.name == "ファントム4" ||
+             artifactGroup.artSetData.name == "花海4" ||
+             artifactGroup.artSetData.name == "辰砂4") &&
+            !hasSelfHarm)
         {
-            bool hasSelfHarm = character.status.hasSelfHarm || partyData.has_self_harm;
-            if (hasSelfHarm == false) return null;
+            return null;
+        }
+        if (artifactGroup.artSetData.name == "劇団4(控え)" && character.status.isFront)
+        {
+            return null;
+        }
+        if (artifactGroup.artSetData.name == "劇団4(表)" && !character.status.isFront)
+        {
+            return null;
+        }
+        if (artifactGroup.artSetData.name == "深林4" && character.status.elementType != ElementType.Dendro)
+        {
+            return null;
+        }
+
+        bool isFrozen = partyData.cryo_count > 0 && partyData.hydro_count > 0;
+
+        if (artifactGroup.artSetData.name == "氷風4(凍結)" && isFrozen == false)
+        {
+            return null;
+        }
+        if (artifactGroup.artSetData.name == "氷風4(凍結無し)" && partyData.cryo_count == 0)
+        {
+            return null;
+        }
+        if (artifactGroup.artSetData.name == "雷4" && partyData.electro_count == 0)
+        {
+            return null;
         }
 
         if (artifactGroup.artMainData.physics_bonus > 0 && character.status.elementType != ElementType.Physics)
@@ -111,6 +151,7 @@ public class Main : MonoBehaviour
         {
             return null;
         }
+        // TODO:残響
 
 
         Data data = new()
@@ -128,6 +169,8 @@ public class Main : MonoBehaviour
 
     async Task<List<Dictionary<string, string>>> GetResultsAsync(List<Data> datas)
     {
+        Debug.Log("ダメージ計算開始");
+
         List<Dictionary<string, string>> results = new();
 
         int progress = 0;
