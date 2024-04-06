@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 public class Main : MonoBehaviour
 {
     [SerializeField] BaseCharacter character;
+    [SerializeField] bool isSub;
 
 
     async void Start()
@@ -24,7 +25,6 @@ public class Main : MonoBehaviour
 
 
 
-    bool isSub;
 
     async UniTask<List<string>> Calc()
     {
