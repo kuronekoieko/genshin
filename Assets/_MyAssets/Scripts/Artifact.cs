@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Newtonsoft.Json;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
@@ -36,7 +37,7 @@ public class Artifact
                         foreach (var circlet in circletList)
                         {
                             ArtifactGroup artifactGroup = GetArtifactGroup(flower, plume, sands, goblet, circlet);
-                            artifactGroups.Add(artifactGroup);
+                            if (artifactGroup != null) artifactGroups.Add(artifactGroup);
                         }
                     }
                 }
@@ -57,6 +58,9 @@ public class Artifact
         ArtifactData combinedArtifactData = AddInstances(artifactCombination);
 
         artifactGroup.artSubData = new(combinedArtifactData);
+
+        //Debug.Log(JsonConvert.SerializeObject(artifactGroup.artSubData, Formatting.Indented));
+
         //メインステ================
         var artMainCount = Artifacts_Main.GetArtMainCount(new string[] { sands.art_main, goblet.art_main, circlet.art_main });
         artifactGroup.artMainData = new(artMainCount);
@@ -82,6 +86,9 @@ public class Artifact
         if (fourSetList.Count > 0) setName = fourSetList[0];
 
         artifactGroup.artSetData = new() { name = setName };
+
+        // 2セットが一種だけの場合は飛ばす
+        if (twoSetList.Count <= 1 && fourSetList.Count == 0) return null;
 
         // string a = string.Join("/", artifactCombination.Select(artifactData => artifactData.art_set_name).ToArray());
         //  Debug.Log(a + "\n" + setName);
