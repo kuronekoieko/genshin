@@ -6,24 +6,29 @@ public class Gaming : BaseCharacter
 {
   readonly float[] normalAtkPerArray = { 0, };
   readonly float[] chargedAtkPerArray = { 0, };
-  readonly float[] pluggedAtkPerArray = { 3.91f, };
+  //readonly float[] pluggedAtkPerArray = { 3.91f, };
+  // lv8
+  readonly float[] pluggedAtkPerArray = { 3.686f, };
+
   readonly float[] skillPerArray = { 0, };
   readonly float[] burstPerArray = { 0, };
 
   float talent_addDmgBonusPluggedAtk = 0.2f;
 
   float constellation_atkRate = 0.2f;
-  // float constellation_critRate = 0.2f;
-  // float constellation_critDmg = 0.4f;
-  float constellation_critRate = 0;
-  float constellation_critDmg = 0;
+  float constellation_critRate = 0.2f;
+  float constellation_critDmg = 0.4f;
+  // float constellation_critRate = 0;
+  //float constellation_critDmg = 0;
 
   public override Dictionary<string, string> CalcDmg(Data data)
   {
+    if (!data.artSetData.name.Contains("ファントム") && !data.artSetData.name.Contains("火魔女") && !data.artSetData.name.Contains("金メッキ")) return null;
+    //if (data.partyData.name.Contains("閑雲")) return null;
     // if (data.partyData.name.Contains("ベネット")) return null;
-    if (data.weapon.name.Contains("螭龍の剣") && !data.partyData.name.Contains("鍾離")) return null;
+    if (data.weapon.name.Contains("螭龍の剣(完凸)") && !data.partyData.name.Contains("鍾離")) return null;
     // if (data.energy_recharge() == 0) return null;
-    if (data.partyData.name.Contains("ベネット") == false && data.energy_recharge() == 0) return null;
+    //if (data.partyData.name.Contains("ベネット") == false && data.energy_recharge() == 0) return null;
     // if (data.partyData.name.Contains("鍾離") == false) return null;
     if (data.partyData.hydro_count == 0) return null;
 
@@ -34,9 +39,9 @@ public class Gaming : BaseCharacter
 
     BaseData baseData = GetBaseData(data);
 
-    var melt = ElementalReaction.MeltForPyro(baseData.elemental_mastery, 0);
+    // var melt = ElementalReaction.MeltForPyro(baseData.elemental_mastery, 0);
     var vaporize = ElementalReaction.VaporizeForPyro(baseData.elemental_mastery, data.er_rate());
-    var addAggravate = ElementalReaction.Aggravate(baseData.elemental_mastery, data.er_aggravate());
+    // var addAggravate = ElementalReaction.Aggravate(baseData.elemental_mastery, data.er_aggravate());
 
     // var (expectedDamage, crit) = ExpectedDmg_normalAtk(property);
     // var (expectedDamage, crit) = ExpectedDmg_chargedAtk(property);
@@ -56,9 +61,12 @@ public class Gaming : BaseCharacter
       ["バフキャラ"] = data.partyData.name,
       ["合計期待値"] = sum.ToString(),
       ["攻撃力"] = baseData.atk.ToString(),
-      ["HP"] = baseData.hp.ToString(),
-      ["バフ"] = baseData.dmg_bonus.ToString(),
-      //["会心ダメ期待値"] = crit_skill.ExpectedCritDmg.ToString(),
+      // ["HP"] = baseData.hp.ToString(),
+      // ["加算"] = (baseData.add + data.add_plugged_atk()).ToString(),
+      //["バフ"] = (baseData.dmg_bonus + data.plugged_atk_bonus() + talent_addDmgBonusPluggedAtk).ToString(),
+      //["会心ダメ期待値"] = crit.ExpectedCritDmg.ToString(),
+      // ["耐性"] = baseData.res.ToString(),
+      // ["蒸発"] = vaporize.ToString(),
       ["熟知"] = baseData.elemental_mastery.ToString(),
       ["率ダメ"] = crit.RateDmg,
       // ["会心ダメ比率"] = crit_skill.CritProportion,
@@ -66,7 +74,7 @@ public class Gaming : BaseCharacter
       ["サブステ"] = crit.SubCrit.ToString(),
       //["サブHP%"] = data.artSub.hp_rate.ToString(),
       //["サブHP"] = data.artSub.hp.ToString(),
-      // ["スコア"] = data.artSub.Score.ToString()
+      ["スコア"] = data.artSub.Score.ToString()
     };
 
     //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));
