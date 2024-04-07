@@ -51,10 +51,7 @@ public class HuTao : BaseCharacter
             + skill_addAtkPerHp * hpSum;
 
 
-        float dmgBonus
-            = data.dmg_bonus()
-            + ElementalDmgBonus(data)
-            + talent_dmgBonus;
+        float dmgBonus = data.dmg_bonus() + talent_dmgBonus;
 
         float normalAtkDmgBonus = data.normal_atk_bonus();
 

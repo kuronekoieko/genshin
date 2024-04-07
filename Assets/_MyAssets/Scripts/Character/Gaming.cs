@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class Gaming : BaseCharacter
 {
-  float[] pluggedAtkPerArray = { 3.91f, };
+  readonly float[] normalAtkPerArray = { 0, };
+  readonly float[] chargedAtkPerArray = { 0, };
+  readonly float[] pluggedAtkPerArray = { 3.91f, };
+  readonly float[] skillPerArray = { 0, };
+  readonly float[] burstPerArray = { 0, };
 
   float talent_addDmgBonusPluggedAtk = 0.2f;
 
@@ -28,140 +32,19 @@ public class Gaming : BaseCharacter
     // if (data.weapon.name != "草薙の稲光") return null;
     // if (data.weapon.name != "和璞鳶") return null;
 
-    float healPerSum = data.heal_bonus();
-    float hpPerSum = data.hpPerSum();
+    BaseData baseData = GetBaseData(data);
 
+    var melt = ElementalReaction.MeltForPyro(baseData.elemental_mastery, 0);
+    var vaporize = ElementalReaction.VaporizeForPyro(baseData.elemental_mastery, data.er_rate());
+    var addAggravate = ElementalReaction.Aggravate(baseData.elemental_mastery, data.er_aggravate());
 
-    var hpSum = status.baseHp * (1 + hpPerSum) + data.hp();
+    // var (expectedDamage, crit) = ExpectedDmg_normalAtk(property);
+    // var (expectedDamage, crit) = ExpectedDmg_chargedAtk(property);
+    var (expectedDamage, crit) = ExpectedDmg_pluggedAtk(baseData, data, vaporize);
 
+    //  var (expectedDamage, crit) = ExpectedDmg_skill(property);
+    // var (expectedDamage, crit) = ExpectedDmg_burst(property);
 
-    float energyRecharge = 1 + data.energy_recharge();
-
-    float elementalMastery = data.elemental_mastery();
-
-    float defPerSum = data.def_rate();
-
-    var def = status.baseDef * (1 + defPerSum) + data.def();
-
-    float atkPerSum = data.atk_rate() + constellation_atkRate;
-
-    var homa_atkAdd = hpSum * data.weapon.homa;
-    var sekisa_atkAdd = elementalMastery * data.weapon.sekisha;
-    var kusanagi_atkAdd = (energyRecharge - 1) * data.weapon.kusanagi;
-
-    var atk
-        = data.base_atk() * (1 + atkPerSum)
-        + data.atk()
-        + homa_atkAdd
-        + sekisa_atkAdd
-        + kusanagi_atkAdd;
-
-
-    float dmgBonus
-        = data.dmg_bonus()
-        + ElementalDmgBonus(data);
-
-    float normalAtkDmgBonus = data.normal_atk_bonus();
-
-    float chargedAtkDmgBonus = data.charged_atk_bonus();
-
-
-    float skillDmgBonus = data.skill_bonus();
-
-    float burstDmgBonus = data.burst_bonus();
-
-    float attackSpeed = data.atk_speed();
-
-    float critRate = data.crit_rate();
-
-    var critRate_normalAtk = critRate + data.crit_rate_normal_atk();
-    var critRate_chargedAtk = critRate + data.crit_rate_charged_atk();
-    var critRate_skill = critRate + data.crit_rate_skill();
-    var ritRate_burst = critRate + data.crit_rate_burst();
-
-    float critDmg = data.crit_dmg();
-
-
-    float dmgAdd = data.add();
-
-    var dmgAdd_sekikaku = def * data.weapon.sekikaku;
-
-
-    var dmgAdd_normalAttack
-    = data.add_normal_atk()
-    + dmgAdd_sekikaku;
-
-    var dmgAdd_chargedAttack
-    = dmgAdd_sekikaku;
-
-
-
-
-    // = getNum(weapon, "狩人ダメージアップ")
-    // * elementalMastery;
-
-    var dmgAdd_skill
-    = data.add_skill()
-    + def * data.weapon.cinnabar;
-
-    //  var crit_ChargedAttack = new Crit(critRate_chargedAtk, critDmg, data.artSub);
-    // var crit_normalAttack = new Crit(critRate_normalAtk, critDmg, data.artSub);
-    //var crit_skill = new Crit(critRate_skill, critDmg, data.artSub);
-
-    var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
-    var vaporize = ElementalReaction.VaporizeForPyro(elementalMastery, data.er_rate());
-
-    var addAggravate = ElementalReaction.Aggravate(elementalMastery, data.er_aggravate());
-
-    var enemyRES = GetElementalRes(data.partyData.res) * 0.5f;
-
-    /*
-            var expectedDmg
-              = GetExpectedDamageSum(
-                atk,
-                skillPerArray,
-                dmgAdd + dmgAdd_skill,
-                dmgBonus + skillDmgBonus,
-                crit_skill.ExpectedCritDmg,
-                enemyRES,
-                1);
-    */
-    Property property = new()
-    {
-      data = data,
-      critRate = critRate,
-      critDmg = critDmg,
-      atk = atk,
-      dmgAdd = dmgAdd,
-      dmgBonus = dmgBonus,
-      res = enemyRES,
-      elementalReaction = vaporize,
-    };
-
-
-    var (expectedDamage, crit) = ExpectedDmg_pluggedAtk(property);
-
-    /*        var expectedDmg_chargedAtk
-  = GetExpectedDamageSum(
-    atk,
-    chargedAtkPerArray,
-    dmgAdd + dmgAdd_chargedAttack,
-    dmgBonus + chargedAtkDmgBonus,
-    crit_ChargedAttack.ExpectedCritDmg,
-    enemyRES,
-    1);
-*/
-
-    /*      var expectedDmg_normalAtk
-                = GetExpectedDamageSum(
-    atk,
-    normalAtkPerArray,
-    dmgAdd + dmgAdd_normalAttack,
-    dmgBonus + normalAtkDmgBonus,
-    crit_normalAttack.ExpectedCritDmg,
-    enemyRES,
-    1);
-    */
 
     var sum = expectedDamage;
 
@@ -172,11 +55,11 @@ public class Gaming : BaseCharacter
       ["聖遺物メイン"] = data.artMainData.name,
       ["バフキャラ"] = data.partyData.name,
       ["合計期待値"] = sum.ToString(),
-      ["攻撃力"] = atk.ToString(),
-      ["HP"] = hpSum.ToString(),
-      ["バフ"] = dmgBonus.ToString(),
+      ["攻撃力"] = baseData.atk.ToString(),
+      ["HP"] = baseData.hp.ToString(),
+      ["バフ"] = baseData.dmg_bonus.ToString(),
       //["会心ダメ期待値"] = crit_skill.ExpectedCritDmg.ToString(),
-      ["熟知"] = elementalMastery.ToString(),
+      ["熟知"] = baseData.elemental_mastery.ToString(),
       ["率ダメ"] = crit.RateDmg,
       // ["会心ダメ比率"] = crit_skill.CritProportion,
       //["聖遺物組み合わせ"] = data.artSub.name,
@@ -191,82 +74,163 @@ public class Gaming : BaseCharacter
     return result;
   }
 
-
-  (float, Crit) ExpectedDmg_pluggedAtk(Property property)
+  BaseData GetBaseData(Data data)
   {
-    var dmgAdd_pluggedAttack = property.data.add_plugged_atk();
-    float pluggedAtkDmgBonus = property.data.plugged_atk_bonus() + talent_addDmgBonusPluggedAtk;
-    var critRate_pluggedAtk = property.critRate + property.data.crit_rate_plugged_atk() + constellation_critRate;
-    float critDmg_pluggedAtk = property.critDmg + constellation_critDmg;
+    BaseData baseData = new()
+    {
+      heal_bonus = data.heal_bonus(),
+      hp_rate = data.hpPerSum(),
+      energy_recharge = 1 + data.energy_recharge(),
+      elemental_mastery = data.elemental_mastery(),
+      def_rate = data.def_rate(),
+      atk_rate = data.atk_rate() + constellation_atkRate,
+      dmg_bonus = data.dmg_bonus(),
+      atk_speed = data.atk_speed(),
+      crit_rate = data.crit_rate(),
+      crit_dmg = data.crit_dmg(),
+      add = data.add(),
+      res = GetElementalRes(data.partyData.res) * 0.5f
+    };
 
-    var crit_pluggedAttack = new Crit(critRate_pluggedAtk, critDmg_pluggedAtk, property.data.artSub);
+    baseData.hp = status.baseHp * (1 + baseData.hp_rate) + data.hp();
+    baseData.def = status.baseDef * (1 + baseData.def_rate) + data.def();
+
+
+    var homa_atkAdd = baseData.hp * data.weapon.homa;
+    var sekisa_atkAdd = baseData.elemental_mastery * data.weapon.sekisha;
+    var kusanagi_atkAdd = (baseData.energy_recharge - 1) * data.weapon.kusanagi;
+
+    baseData.atk
+        = data.base_atk() * (1 + baseData.atk_rate)
+        + data.atk()
+        + homa_atkAdd
+        + sekisa_atkAdd
+        + kusanagi_atkAdd;
+
+    return baseData;
+  }
+
+
+  (float, Crit) ExpectedDmg_pluggedAtk(BaseData baseData, Data data, float elementalReaction)
+  {
+    float dmgAdd = data.add_plugged_atk();
+    float dmgBonus = data.plugged_atk_bonus() + talent_addDmgBonusPluggedAtk;
+    float critRate = baseData.crit_rate + data.crit_rate_plugged_atk() + constellation_critRate;
+    float critDmg = baseData.crit_dmg + constellation_critDmg;
+
+    var crit = new Crit(critRate, critDmg, data.artSub);
 
     ExpectedDamage expectedDamage_pluggedAtk = new(
-      property.atk,
-      property.dmgAdd + dmgAdd_pluggedAttack,
-      property.dmgBonus + pluggedAtkDmgBonus,
-      crit_pluggedAttack.ExpectedCritDmg,
-      property.res
+      baseData.atk,
+      baseData.add + dmgAdd,
+      baseData.dmg_bonus + dmgBonus,
+      crit.ExpectedCritDmg,
+      baseData.res
     );
 
-    float expectedDamage = expectedDamage_pluggedAtk.GetExpectedDamageSum(pluggedAtkPerArray, property.elementalReaction);
+    float expectedDamage = expectedDamage_pluggedAtk.GetExpectedDamageSum(pluggedAtkPerArray, elementalReaction);
 
-    return (expectedDamage, crit_pluggedAttack);
+    return (expectedDamage, crit);
 
   }
 
-  public class ExpectedDamage
+
+
+  (float, Crit) ExpectedDmg_normalAtk(BaseData baseData, Data data, float elementalReaction)
   {
-    readonly float atk;
-    readonly float dmgAdd;
-    readonly float dmgBonus;
-    readonly float expectedCritDmg;
-    readonly float res;
+    var dmgAdd_sekikaku = baseData.def * data.weapon.sekikaku;
 
-    public ExpectedDamage(float atk, float dmgAdd, float dmgBonus, float expectedCritDmg, float res)
-    {
-      this.atk = atk;
-      this.dmgAdd = dmgAdd;
-      this.dmgBonus = dmgBonus;
-      this.expectedCritDmg = expectedCritDmg;
-      this.res = res;
-    }
+    float dmgAdd = data.add_normal_atk() + dmgAdd_sekikaku;
+    float dmgBonus = data.normal_atk_bonus();
+    float critRate = baseData.crit_rate + data.crit_rate_normal_atk();
+    float critDmg = baseData.crit_dmg;
 
+    var crit = new Crit(critRate, critDmg, data.artSub);
 
+    ExpectedDamage expectedDamage_pluggedAtk = new(
+      baseData.atk,
+      baseData.add + dmgAdd,
+      baseData.dmg_bonus + dmgBonus,
+      crit.ExpectedCritDmg,
+      baseData.res
+    );
 
-    public float GetExpectedDamage(float talentRate, float elementalReaction = 1)
-    {
-      float dmg = (atk * talentRate + dmgAdd) * (1 + dmgBonus) * expectedCritDmg * res * elementalReaction;
-      return dmg;
-    }
+    float expectedDamage = expectedDamage_pluggedAtk.GetExpectedDamageSum(pluggedAtkPerArray, elementalReaction);
 
-    public float GetExpectedDamageSum(float[] talentRates, float elementalReaction = 1)
-    {
-      float dmg = 0;
+    return (expectedDamage, crit);
 
-      for (int i = 0; i < talentRates.Length; i++)
-      {
-        dmg += GetExpectedDamage(talentRates[i], elementalReaction);
-      }
-      return dmg;
-    }
   }
 
-  public class Property
+  (float, Crit) ExpectedDmg_chargedAtk(BaseData baseData, Data data, float elementalReaction)
   {
-    public Data data;
-    public float critRate;
-    public float critDmg;
-    public float atk;
-    public float dmgAdd;
-    public float dmgBonus;
-    public float res;
-    public float elementalReaction;
+    var dmgAdd_sekikaku = baseData.def * data.weapon.sekikaku;
+
+    float dmgAdd = data.add_charged_atk() + dmgAdd_sekikaku;
+    float dmgBonus = data.charged_atk_bonus();
+    float critRate = baseData.crit_rate + data.crit_rate_charged_atk();
+    float critDmg = baseData.crit_dmg;
+
+    var crit = new Crit(critRate, critDmg, data.artSub);
+
+    ExpectedDamage expectedDamage_pluggedAtk = new(
+      baseData.atk,
+      baseData.add + dmgAdd,
+      baseData.dmg_bonus + dmgBonus,
+      crit.ExpectedCritDmg,
+      baseData.res
+    );
+
+    float expectedDamage = expectedDamage_pluggedAtk.GetExpectedDamageSum(pluggedAtkPerArray, elementalReaction);
+
+    return (expectedDamage, crit);
+
   }
 
+  (float, Crit) ExpectedDmg_skill(BaseData baseData, Data data, float elementalReaction)
+  {
+    float dmgAdd = data.add_skill() + baseData.def * data.weapon.cinnabar;
+    float dmgBonus = data.skill_bonus();
+    float critRate = baseData.crit_rate + data.crit_rate_skill();
+    float critDmg = baseData.crit_dmg;
 
+    var crit = new Crit(critRate, critDmg, data.artSub);
 
+    ExpectedDamage expectedDamage_pluggedAtk = new(
+      baseData.atk,
+      baseData.add + dmgAdd,
+      baseData.dmg_bonus + dmgBonus,
+      crit.ExpectedCritDmg,
+      baseData.res
+    );
 
+    float expectedDamage = expectedDamage_pluggedAtk.GetExpectedDamageSum(pluggedAtkPerArray, elementalReaction);
+
+    return (expectedDamage, crit);
+
+  }
+
+  (float, Crit) ExpectedDmg_burst(BaseData baseData, Data data, float elementalReaction)
+  {
+    float dmgAdd = data.add_burst();
+    float dmgBonus = data.burst_bonus();
+    float critRate = baseData.crit_rate + data.crit_rate_burst();
+    float critDmg = baseData.crit_dmg;
+
+    var crit = new Crit(critRate, critDmg, data.artSub);
+
+    ExpectedDamage expectedDamage_pluggedAtk = new(
+      baseData.atk,
+      baseData.add + dmgAdd,
+      baseData.dmg_bonus + dmgBonus,
+      crit.ExpectedCritDmg,
+      baseData.res
+    );
+
+    float expectedDamage = expectedDamage_pluggedAtk.GetExpectedDamageSum(pluggedAtkPerArray, elementalReaction);
+
+    return (expectedDamage, crit);
+
+  }
 }
 
 

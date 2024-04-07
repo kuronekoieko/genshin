@@ -176,7 +176,24 @@ public class Data
         + artSetData.dmg_bonus
         + partyData.dmg_bonus
         + artSub.dmg_bonus
-        + ascend.dmgBonus;
+        + ascend.dmgBonus
+        + ElementalDmgBonus();
+    }
+
+    public float ElementalDmgBonus()
+    {
+        return status.elementType switch
+        {
+            ElementType.Pyro => pyro_bonus(),
+            ElementType.Hydro => hydro_bonus(),
+            ElementType.Electro => electro_bonus(),
+            ElementType.Cryo => cryo_bonus(),
+            ElementType.Geo => geo_bonus(),
+            ElementType.Anemo => anemo_bonus(),
+            ElementType.Dendro => dendro_bonus(),
+            ElementType.Physics => physics_bonus(),
+            _ => 0,
+        };
     }
 
     public float pyro_bonus()
@@ -373,6 +390,15 @@ public class Data
         + artSub.add_normal_atk;
     }
 
+    public float add_charged_atk()
+    {
+        return weapon.add_charged_atk
+        + artMainData.add_charged_atk
+        + artSetData.add_charged_atk
+        + partyData.add_charged_atk
+        + artSub.add_charged_atk;
+    }
+
     public float add_plugged_atk()
     {
         return weapon.add_plugged_atk
@@ -388,6 +414,15 @@ public class Data
         + artSetData.add_skill
         + partyData.add_skill
         + artSub.add_skill;
+    }
+
+    public float add_burst()
+    {
+        return weapon.add_burst
+        + artMainData.add_burst
+        + artSetData.add_burst
+        + partyData.add_burst
+        + artSub.add_burst;
     }
 
     public float er_rate()

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Newtonsoft.Json;
 
 [Serializable]
 public class BaseData
@@ -45,10 +46,19 @@ public class BaseData
     public float res;
     public float add;
     public float add_normal_atk;
+    public float add_charged_atk;
     public float add_plugged_atk;
     public float add_skill;
+    public float add_burst;
     public bool has_self_harm;
     public float er_rate;
     public float er_fixed;
     public float er_aggravate;
+
+
+    public BaseData DeepCopy()
+    {
+        string json = JsonConvert.SerializeObject(this);
+        return JsonConvert.DeserializeObject<BaseData>(json);
+    }
 }

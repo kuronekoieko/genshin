@@ -48,8 +48,7 @@ public class Arataki : BaseCharacter
             + burst_addAtkPerDef * def;
 
         float dmgBonus
-            = data.dmg_bonus()
-            + ElementalDmgBonus(data);
+            = data.dmg_bonus();
 
         float normalAtkDmgBonus = data.normal_atk_bonus();
 

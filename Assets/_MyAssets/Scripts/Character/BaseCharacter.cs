@@ -12,31 +12,6 @@ public abstract class BaseCharacter : MonoBehaviour
 
     public abstract Dictionary<string, string> CalcDmg(Data data);
 
-    protected float ElementalDmgBonus(Data data)
-    {
-        float pyro_bonus = data.pyro_bonus();
-        float hydro_bonus = data.hydro_bonus();
-        float electro_bonus = data.electro_bonus();
-        float cryo_bonus = data.cryo_bonus();
-        float geo_bonus = data.geo_bonus();
-        float anemo_bonus = data.anemo_bonus();
-        float dendro_bonus = data.dendro_bonus();
-        float physics_bonus = data.physics_bonus();
-
-        return status.elementType switch
-        {
-            ElementType.Pyro => pyro_bonus,
-            ElementType.Hydro => hydro_bonus,
-            ElementType.Electro => electro_bonus,
-            ElementType.Cryo => cryo_bonus,
-            ElementType.Geo => geo_bonus,
-            ElementType.Anemo => anemo_bonus,
-            ElementType.Dendro => dendro_bonus,
-            ElementType.Physics => physics_bonus,
-            _ => 0,
-        };
-    }
-
     protected float GetExpectedDamage(float atk, float talentRate, float dmgAdd, float dmgBonus, float expectedCritDmg, float res, float elementalReaction)
     {
         float dmg = 0;
@@ -67,6 +42,56 @@ public abstract class BaseCharacter : MonoBehaviour
         if (enemyElementalRes < 0)
             elementalRes = 1 - enemyElementalRes / 2;
         return elementalRes;
+    }
+
+
+    public class ExpectedDamage
+    {
+        readonly float atk;
+        readonly float dmgAdd;
+        readonly float dmgBonus;
+        readonly float expectedCritDmg;
+        readonly float res;
+
+        public ExpectedDamage(float atk, float dmgAdd, float dmgBonus, float expectedCritDmg, float res)
+        {
+            this.atk = atk;
+            this.dmgAdd = dmgAdd;
+            this.dmgBonus = dmgBonus;
+            this.expectedCritDmg = expectedCritDmg;
+            this.res = res;
+        }
+
+
+
+        public float GetExpectedDamage(float talentRate, float elementalReaction = 1)
+        {
+            float dmg = (atk * talentRate + dmgAdd) * (1 + dmgBonus) * expectedCritDmg * res * elementalReaction;
+            return dmg;
+        }
+
+        public float GetExpectedDamageSum(float[] talentRates, float elementalReaction = 1)
+        {
+            float dmg = 0;
+
+            for (int i = 0; i < talentRates.Length; i++)
+            {
+                dmg += GetExpectedDamage(talentRates[i], elementalReaction);
+            }
+            return dmg;
+        }
+    }
+
+    public class Property
+    {
+        public Data data;
+        public float critRate;
+        public float critDmg;
+        public float atk;
+        public float dmgAdd;
+        public float dmgBonus;
+        public float res;
+        public float elementalReaction;
     }
 
 }

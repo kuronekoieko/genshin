@@ -51,9 +51,7 @@ public class Xiao : BaseCharacter
         + kusanagi_atkAdd;
 
 
-    float dmgBonus
-        = data.dmg_bonus()
-        + ElementalDmgBonus(data);
+    float dmgBonus = data.dmg_bonus();
 
     float normalAtkDmgBonus = data.normal_atk_bonus();
 
