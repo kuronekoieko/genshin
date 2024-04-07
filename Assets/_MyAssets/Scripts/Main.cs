@@ -44,7 +44,7 @@ public class Main : MonoBehaviour
                 float.TryParse(result[sortKey], out float val);
                 return val;
             })
-            .Take(100)
+            .Take(1000)
             .ToList();
 
         List<string> texts = new();
@@ -122,7 +122,9 @@ public class Main : MonoBehaviour
             if (progress % 200000 == 0)
             {
                 await UniTask.DelayFrame(1);
-                Debug.Log("progress: " + progress + "/" + max);
+                int per = (int)((float)progress / (float)max * 100f);
+
+                Debug.Log("progress: " + progress + "/" + max + " " + per + "%");
             }
         }
 
