@@ -23,7 +23,11 @@ public class Gaming : BaseCharacter
 
   public override Dictionary<string, string> CalcDmg(Data data)
   {
-    if (!data.artSetData.name.Contains("ファントム") && !data.artSetData.name.Contains("火魔女") && !data.artSetData.name.Contains("金メッキ")) return null;
+    if (!data.artSetData.name.Contains("ファントム") &&
+      !data.artSetData.name.Contains("火魔女") &&
+      !data.artSetData.name.Contains("金メッキ") &&
+      !data.artSetData.name.Contains("辰砂")
+      ) return null;
     //if (data.partyData.name.Contains("閑雲")) return null;
     // if (data.partyData.name.Contains("ベネット")) return null;
     if (data.weapon.name.Contains("螭龍の剣(完凸)") && !data.partyData.name.Contains("鍾離")) return null;
