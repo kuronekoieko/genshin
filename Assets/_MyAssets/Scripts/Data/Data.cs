@@ -63,6 +63,10 @@ public class Data
         {
             return true;
         }
+        if (partyData.name.Contains("万葉") && partyData.option.Contains("翠緑"))
+        {
+            return true;
+        }
 
         if (artMainData.physics_bonus > 0 && status.elementType != ElementType.Physics)
         {
