@@ -6,16 +6,24 @@ public class Gaming : BaseCharacter
 {
   float[] pluggedAtkPerArray = { 3.91f, };
 
-  float talent_addDmgBonusChargedAtk = 0.2f;
+  float talent_addDmgBonusPluggedAtk = 0.2f;
 
   float constellation_atkRate = 0.2f;
-  float constellation_critRate = 0.2f;
-  float constellation_critDmg = 0.4f;
-
+  // float constellation_critRate = 0.2f;
+  // float constellation_critDmg = 0.4f;
+  float constellation_critRate = 0;
+  float constellation_critDmg = 0;
 
   public override Dictionary<string, string> CalcDmg(Data data)
   {
-    if (data.partyData.name.Contains("フリーナ") == false) return null;
+    // if (data.partyData.name.Contains("ベネット")) return null;
+    if (data.weapon.name.Contains("螭龍の剣") && !data.partyData.name.Contains("鍾離")) return null;
+    // if (data.energy_recharge() == 0) return null;
+    if (data.partyData.name.Contains("ベネット") == false && data.energy_recharge() == 0) return null;
+    // if (data.partyData.name.Contains("鍾離") == false) return null;
+    if (data.partyData.hydro_count == 0) return null;
+
+    //if (data.partyData.name.Contains("フリーナ") == false) return null;
     // if (data.energy_recharge() < 0.5f) return null;
     // if (data.weapon.name != "草薙の稲光") return null;
     // if (data.weapon.name != "和璞鳶") return null;
@@ -57,7 +65,6 @@ public class Gaming : BaseCharacter
 
     float chargedAtkDmgBonus = data.charged_atk_bonus();
 
-    float pluggedAtkDmgBonus = data.plugged_atk_bonus() + talent_addDmgBonusChargedAtk;
 
     float skillDmgBonus = data.skill_bonus();
 
@@ -69,12 +76,10 @@ public class Gaming : BaseCharacter
 
     var critRate_normalAtk = critRate + data.crit_rate_normal_atk();
     var critRate_chargedAtk = critRate + data.crit_rate_charged_atk();
-    var critRate_pluggedAtk = critRate + data.crit_rate_plugged_atk() + constellation_critRate;
     var critRate_skill = critRate + data.crit_rate_skill();
     var ritRate_burst = critRate + data.crit_rate_burst();
 
     float critDmg = data.crit_dmg();
-    float critDmg_pluggedAtk = critDmg + constellation_critDmg;
 
 
     float dmgAdd = data.add();
@@ -89,8 +94,7 @@ public class Gaming : BaseCharacter
     var dmgAdd_chargedAttack
     = dmgAdd_sekikaku;
 
-    var dmgAdd_pluggedAttack
-    = data.add_plugged_atk();
+
 
 
     // = getNum(weapon, "狩人ダメージアップ")
@@ -100,10 +104,9 @@ public class Gaming : BaseCharacter
     = data.add_skill()
     + def * data.weapon.cinnabar;
 
-    var crit_ChargedAttack = new Crit(critRate_chargedAtk, critDmg, data.artSub);
-    var crit_normalAttack = new Crit(critRate_normalAtk, critDmg, data.artSub);
-    var crit_pluggedAttack = new Crit(critRate_pluggedAtk, critDmg_pluggedAtk, data.artSub);
-    var crit_skill = new Crit(critRate_skill, critDmg, data.artSub);
+    //  var crit_ChargedAttack = new Crit(critRate_chargedAtk, critDmg, data.artSub);
+    // var crit_normalAttack = new Crit(critRate_normalAtk, critDmg, data.artSub);
+    //var crit_skill = new Crit(critRate_skill, critDmg, data.artSub);
 
     var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
     var vaporize = ElementalReaction.VaporizeForPyro(elementalMastery, data.er_rate());
@@ -123,15 +126,20 @@ public class Gaming : BaseCharacter
                 enemyRES,
                 1);
     */
-    var expectedDmg_pluggedAtk
-      = GetExpectedDamageSum(
-        atk,
-        pluggedAtkPerArray,
-        dmgAdd + dmgAdd_pluggedAttack,
-        dmgBonus + pluggedAtkDmgBonus,
-        crit_pluggedAttack.ExpectedCritDmg,
-        enemyRES,
-        vaporize);
+    Property property = new()
+    {
+      data = data,
+      critRate = critRate,
+      critDmg = critDmg,
+      atk = atk,
+      dmgAdd = dmgAdd,
+      dmgBonus = dmgBonus,
+      res = enemyRES,
+      elementalReaction = vaporize,
+    };
+
+
+    var (expectedDamage, crit) = ExpectedDmg_pluggedAtk(property);
 
     /*        var expectedDmg_chargedAtk
   = GetExpectedDamageSum(
@@ -155,7 +163,7 @@ public class Gaming : BaseCharacter
     1);
     */
 
-    var sum = expectedDmg_pluggedAtk;
+    var sum = expectedDamage;
 
     Dictionary<string, string> result = new()
     {
@@ -167,19 +175,98 @@ public class Gaming : BaseCharacter
       ["攻撃力"] = atk.ToString(),
       ["HP"] = hpSum.ToString(),
       ["バフ"] = dmgBonus.ToString(),
-      ["会心ダメ期待値"] = crit_skill.ExpectedCritDmg.ToString(),
+      //["会心ダメ期待値"] = crit_skill.ExpectedCritDmg.ToString(),
       ["熟知"] = elementalMastery.ToString(),
-      ["率ダメ"] = crit_skill.RateDmg,
-      ["会心ダメ比率"] = crit_skill.CritProportion,
-      ["聖遺物組み合わせ"] = data.artSub.name,
-      ["サブステ"] = crit_skill.SubCrit.ToString(),
-      ["サブHP%"] = data.artSub.hp_rate.ToString(),
-      ["サブHP"] = data.artSub.hp.ToString(),
-      ["スコア"] = data.artSub.Score.ToString()
+      ["率ダメ"] = crit.RateDmg,
+      // ["会心ダメ比率"] = crit_skill.CritProportion,
+      //["聖遺物組み合わせ"] = data.artSub.name,
+      ["サブステ"] = crit.SubCrit.ToString(),
+      //["サブHP%"] = data.artSub.hp_rate.ToString(),
+      //["サブHP"] = data.artSub.hp.ToString(),
+      // ["スコア"] = data.artSub.Score.ToString()
     };
 
     //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));
 
     return result;
   }
+
+
+  (float, Crit) ExpectedDmg_pluggedAtk(Property property)
+  {
+    var dmgAdd_pluggedAttack = property.data.add_plugged_atk();
+    float pluggedAtkDmgBonus = property.data.plugged_atk_bonus() + talent_addDmgBonusPluggedAtk;
+    var critRate_pluggedAtk = property.critRate + property.data.crit_rate_plugged_atk() + constellation_critRate;
+    float critDmg_pluggedAtk = property.critDmg + constellation_critDmg;
+
+    var crit_pluggedAttack = new Crit(critRate_pluggedAtk, critDmg_pluggedAtk, property.data.artSub);
+
+    ExpectedDamage expectedDamage_pluggedAtk = new(
+      property.atk,
+      property.dmgAdd + dmgAdd_pluggedAttack,
+      property.dmgBonus + pluggedAtkDmgBonus,
+      crit_pluggedAttack.ExpectedCritDmg,
+      property.res
+    );
+
+    float expectedDamage = expectedDamage_pluggedAtk.GetExpectedDamageSum(pluggedAtkPerArray, property.elementalReaction);
+
+    return (expectedDamage, crit_pluggedAttack);
+
+  }
+
+  public class ExpectedDamage
+  {
+    readonly float atk;
+    readonly float dmgAdd;
+    readonly float dmgBonus;
+    readonly float expectedCritDmg;
+    readonly float res;
+
+    public ExpectedDamage(float atk, float dmgAdd, float dmgBonus, float expectedCritDmg, float res)
+    {
+      this.atk = atk;
+      this.dmgAdd = dmgAdd;
+      this.dmgBonus = dmgBonus;
+      this.expectedCritDmg = expectedCritDmg;
+      this.res = res;
+    }
+
+
+
+    public float GetExpectedDamage(float talentRate, float elementalReaction = 1)
+    {
+      float dmg = (atk * talentRate + dmgAdd) * (1 + dmgBonus) * expectedCritDmg * res * elementalReaction;
+      return dmg;
+    }
+
+    public float GetExpectedDamageSum(float[] talentRates, float elementalReaction = 1)
+    {
+      float dmg = 0;
+
+      for (int i = 0; i < talentRates.Length; i++)
+      {
+        dmg += GetExpectedDamage(talentRates[i], elementalReaction);
+      }
+      return dmg;
+    }
+  }
+
+  public class Property
+  {
+    public Data data;
+    public float critRate;
+    public float critDmg;
+    public float atk;
+    public float dmgAdd;
+    public float dmgBonus;
+    public float res;
+    public float elementalReaction;
+  }
+
+
+
+
 }
+
+
