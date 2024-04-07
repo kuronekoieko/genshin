@@ -9,7 +9,7 @@ public class Crit
     float CritDmg;
     float SubCritRate;
     float SubCritDmg;
-    public float ExpectedCritDmg { get; }
+    public float ExpectedCritDmg { get => (1 + CritDmg) * CritRate + 1 - CritRate; }
     // この３つ重い
     public string RateDmg { get => $"{CritRate:F2}:{CritDmg:F2}"; }
     public string CritProportion { get => $"{(CritDmg / CritRate):F2}"; }
@@ -30,15 +30,12 @@ public class Crit
         }
         CritRate = Mathf.Clamp01(critRate);
         CritDmg = critDmg;
-
-        ExpectedCritDmg = (1 + critDmg) * critRate + 1 - critRate;
     }
 
     (float, float) GetSubCrits(float critRate, float critDmg, float score)
     {
         float subCritRate = (score - 2f * critRate + critDmg) / 4f;
-        // subCritRate = Mathf.Clamp(subCritRate, -critRate, 1 - critRate);
-        subCritRate = Mathf.Clamp(subCritRate, 0, 1);
+        subCritRate = Mathf.Clamp(subCritRate, 0, score / 2f);
         float subCritDmg = score - 2f * subCritRate;
         return (subCritRate, subCritDmg);
     }
