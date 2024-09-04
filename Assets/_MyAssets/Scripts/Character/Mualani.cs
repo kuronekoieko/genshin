@@ -28,6 +28,7 @@ public class Mualani : BaseCharacter
         var hpSum = status.baseHp * (1 + hpPerSum) + data.hp();
 
 
+
         float energyRecharge = 1 + data.energy_recharge();
 
         float elementalMastery = data.elemental_mastery();
@@ -106,7 +107,8 @@ public class Mualani : BaseCharacter
         // var crit_skill = new Crit(critRate_skill, critDmg, data.artSub);
 
         var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
-        var vaporize = ElementalReaction.VaporizeForPyro(elementalMastery, data.er_rate());
+        var vaporizeForPyro = ElementalReaction.VaporizeForPyro(elementalMastery, data.er_rate());
+        var vaporizeForHydro = ElementalReaction.VaporizeForHydro(elementalMastery, data.er_rate());
 
         var addAggravate = ElementalReaction.Aggravate(elementalMastery, data.er_aggravate());
 
@@ -156,7 +158,19 @@ public class Mualani : BaseCharacter
         dmgBonus + normalAtkDmgBonus,
         crit_normalAttack.ExpectedCritDmg,
         enemyRES,
-        vaporize);
+        vaporizeForHydro);
+
+        var expectedDmg_normalAtk_1
+        = GetExpectedDamage(
+        hpSum,
+        normalAtkPer + const_addAtkPerHp,
+        dmgAdd + dmgAdd_normalAttack,
+        dmgBonus + normalAtkDmgBonus,
+        crit_normalAttack.ExpectedCritDmg,
+        enemyRES,
+        vaporizeForHydro);
+
+        //        var hpSum = status.baseHp * (1 + hpPerSum) + data.hp();
 
 
         var sum = expectedDmg_normalAtk;
@@ -168,6 +182,7 @@ public class Mualani : BaseCharacter
             ["聖遺物メイン"] = data.artMainData.name,
             ["バフキャラ"] = data.partyData.name,
             ["合計期待値"] = sum.ToString(),
+            ["一発目期待値"] = expectedDmg_normalAtk_1.ToString(),
             ["攻撃力"] = atk.ToString(),
             ["防御力"] = def.ToString(),
             ["HP"] = hpSum.ToString(),
