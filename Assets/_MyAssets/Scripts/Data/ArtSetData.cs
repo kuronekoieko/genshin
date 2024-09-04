@@ -25,6 +25,7 @@ public class ArtSetData : BaseData
     public int set;
 
     public float zetsuen;
+    public bool is_night_soul;
 
 
     // https://www.mum-meblog.com/entry/tyr-utility/csharp-hashset

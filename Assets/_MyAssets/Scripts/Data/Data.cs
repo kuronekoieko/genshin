@@ -63,6 +63,10 @@ public class Data
         {
             return true;
         }
+        if (artSetData.is_night_soul)
+        {
+            return !status.isNightSoul;
+        }
         if (partyData.name.Contains("万葉") && partyData.option.Contains("翠緑"))
         {
             return true;
@@ -76,6 +80,7 @@ public class Data
         {
             return true;
         }
+
         // TODO:残響
 
         int skip = weapon.skip
