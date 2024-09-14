@@ -32,7 +32,13 @@ public class Main : MonoBehaviour
 
         var results = await GetResultsAsync(datas);
 
-        Debug.Log("計算終了");
+        Debug.Log("計算終了: " + results.Count + " 件");
+
+        if (results.Count == 0)
+        {
+            Debug.LogError("結果が0件");
+            return null;
+        }
 
         var sortKey = results[0].Keys.ToArray()[4];
 

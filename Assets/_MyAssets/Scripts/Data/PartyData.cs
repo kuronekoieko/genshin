@@ -77,6 +77,19 @@ public class PartyData : BaseData, IComparable<PartyData>
         }
     }
 
+    public int ElementalTypeCount()
+    {
+        int count = 0;
+        count += pyro_count > 0 ? 1 : 0;
+        count += hydro_count > 0 ? 1 : 0;
+        count += electro_count > 0 ? 1 : 0;
+        count += cryo_count > 0 ? 1 : 0;
+        count += geo_count > 0 ? 1 : 0;
+        count += anemo_count > 0 ? 1 : 0;
+        count += dendro_count > 0 ? 1 : 0;
+        return count;
+    }
+
 
     // https://learn.microsoft.com/ja-jp/dotnet/api/system.string.system-icomparable-compareto?view=netstandard-1.6
     public int CompareTo(PartyData other)
