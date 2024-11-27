@@ -174,6 +174,26 @@ public class Chasca : BaseCharacter
     enemyRES,
     1);
 
+    var expectedDmg_chargedAtk_hydro
+= GetExpectedDamage(
+atk,
+chargedAtkRate_otherElement,
+dmgAdd + dmgAdd_chargedAttack,
+dmgBonus + chargedAtkDmgBonus + hydro_bonus,
+crit_ChargedAttack.ExpectedCritDmg,
+enemyRES,
+1);
+
+    var expectedDmg_chargedAtk_electro
+    = GetExpectedDamage(
+    atk,
+    chargedAtkRate_otherElement,
+    dmgAdd + dmgAdd_chargedAttack,
+    dmgBonus + chargedAtkDmgBonus + electro_bonus,
+    crit_ChargedAttack.ExpectedCritDmg,
+    enemyRES,
+    1);
+
     /*
 
      var expectedDmg_chargedAtk
@@ -191,7 +211,7 @@ public class Chasca : BaseCharacter
     //        var hpSum = status.baseHp * (1 + hpPerSum) + data.hp();
 
 
-    var sum = expectedDmg_chargedAtk_anemo * 3 + expectedDmg_chargedAtk_pyro * 3;
+    var sum = expectedDmg_chargedAtk_anemo * 3 + expectedDmg_chargedAtk_pyro + expectedDmg_chargedAtk_hydro + expectedDmg_chargedAtk_electro;
     var crit = crit_ChargedAttack;
 
     Dictionary<string, string> result = new()
