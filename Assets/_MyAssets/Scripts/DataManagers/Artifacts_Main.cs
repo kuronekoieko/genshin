@@ -7,25 +7,13 @@ using UnityEngine;
 public static class Artifacts_Main
 {
     static readonly string[] artMainTokeiArray = { "攻撃%", "防御%", "HP%", "元素熟知", "元チャ" };
-    static readonly string[] artMainSakadukiArray = { "攻撃%", "防御%", "HP%", "元素熟知", "元素バフ", "物理バフ" };
+    static readonly string[] artMainSakadukiArray = { "攻撃%", "防御%", "HP%", "元素熟知", "炎バフ", "水バフ", "雷バフ", "氷バフ", "岩バフ", "風バフ", "草バフ", "物理バフ" };
     static readonly string[] artMainKanmuriArray = { "攻撃%", "防御%", "HP%", "元素熟知", "会心率", "会心ダメージ", "治癒効果" };
 
     static readonly List<string[]> artMainCombinations = new()
     {
-            new string[] {
-            "攻撃%",
-            "防御%",
-            "HP%",
-            "元素熟知",
-            "元チャ",
-            "元素バフ",
-            "物理バフ",
-            "会心率",
-            "会心ダメージ",
-            "治癒効果"
-        }
+            new string[] { "攻撃%","防御%","HP%", "元素熟知", "元チャ","炎バフ", "水バフ",  "雷バフ", "氷バフ", "岩バフ", "風バフ", "草バフ", "物理バフ", "会心率", "会心ダメージ","治癒効果"  }
     };
-
 
     static public ArtMainData[] GetArtMainDatas()
     {
