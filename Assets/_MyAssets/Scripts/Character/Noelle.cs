@@ -47,8 +47,7 @@ public class Noelle : BaseCharacter
             + burst_addAtkPerDef * def
             + constellation_addAtkPerDef * def;
 
-        float dmgBonus
-            = data.dmg_bonus();
+        float dmgBonus = data.dmg_bonus() + data.ElementalDmgBonus();
 
         float normalAtkDmgBonus = data.normal_atk_bonus();
 

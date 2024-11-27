@@ -51,7 +51,7 @@ public class Mualani : BaseCharacter
             + kusanagi_atkAdd;
 
 
-        float dmgBonus = data.dmg_bonus();
+        float dmgBonus = data.dmg_bonus() + data.ElementalDmgBonus();
 
         float normalAtkDmgBonus = data.normal_atk_bonus();
 

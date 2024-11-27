@@ -185,8 +185,8 @@ public class Data
         + artSetData.dmg_bonus
         + partyData.dmg_bonus
         + artSub.dmg_bonus
-        + ascend.dmgBonus
-        + ElementalDmgBonus();
+        + ascend.dmgBonus;
+        // + ElementalDmgBonus();
     }
 
     public float ElementalDmgBonus()

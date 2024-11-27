@@ -96,7 +96,7 @@ public class Gaming : BaseCharacter
       elemental_mastery = data.elemental_mastery(),
       def_rate = data.def_rate(),
       atk_rate = data.atk_rate() + constellation_atkRate,
-      dmg_bonus = data.dmg_bonus(),
+      dmg_bonus = data.dmg_bonus() + data.ElementalDmgBonus(),
       atk_speed = data.atk_speed(),
       crit_rate = data.crit_rate(),
       crit_dmg = data.crit_dmg(),

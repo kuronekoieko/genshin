@@ -46,7 +46,7 @@ public class Chiori : BaseCharacter
             + sekisa_atkAdd;
 
         float dmgBonus
-            = data.dmg_bonus();
+            = data.dmg_bonus() + data.ElementalDmgBonus();
 
         float normalAtkDmgBonus = data.normal_atk_bonus();
 

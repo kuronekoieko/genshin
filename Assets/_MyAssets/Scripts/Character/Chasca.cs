@@ -5,10 +5,12 @@ using UnityEngine;
 public class Chasca : BaseCharacter
 {
   // lv9
-  // readonly static float chargedAtkPer = 0.1447f;
+  readonly static float chargedAtkRate_anemo = 0.878f;
+  readonly static float chargedAtkRate_otherElement = 2.998f;
+
   // readonly float[] normalAtkPerArray = { normalAtkPer + const_addAtkPerHp, normalAtkPer, normalAtkPer };
 
-  readonly static float[] talent_chargedAtkRateAry = { 2.998f };
+  // readonly static float[] talent_chargedAtkRateAry = { 2.998f };
   readonly static float talent_chargedAtkDmgBonus = 0.65f;//
 
 
@@ -53,6 +55,14 @@ public class Chasca : BaseCharacter
 
 
     float dmgBonus = data.dmg_bonus();
+    float pyro_bonus = data.pyro_bonus();
+    float hydro_bonus = data.hydro_bonus();
+    float electro_bonus = data.electro_bonus();
+    float cryo_bonus = data.cryo_bonus();
+    float geo_bonus = data.geo_bonus();
+    float anemo_bonus = data.anemo_bonus();
+    float dendro_bonus = data.dendro_bonus();
+
 
     float normalAtkDmgBonus = data.normal_atk_bonus();
 
@@ -144,16 +154,25 @@ public class Chasca : BaseCharacter
     int elementalTypeCount = data.partyData.ElementalTypeCount();
     //Debug.Log(elementalTypeCount + " " + data.partyData.name);
 
-    var expectedDmg_chargedAtk
-    = GetExpectedDamageSum(
+    var expectedDmg_chargedAtk_anemo
+    = GetExpectedDamage(
     atk,
-    talent_chargedAtkRateAry,
+    chargedAtkRate_anemo,
     dmgAdd + dmgAdd_chargedAttack,
-    dmgBonus + chargedAtkDmgBonus,
+    dmgBonus + chargedAtkDmgBonus + anemo_bonus,
     crit_ChargedAttack.ExpectedCritDmg,
     enemyRES,
     1);
 
+    var expectedDmg_chargedAtk_pyro
+    = GetExpectedDamage(
+    atk,
+    chargedAtkRate_otherElement,
+    dmgAdd + dmgAdd_chargedAttack,
+    dmgBonus + chargedAtkDmgBonus + pyro_bonus,
+    crit_ChargedAttack.ExpectedCritDmg,
+    enemyRES,
+    1);
 
     /*
 
@@ -172,7 +191,7 @@ public class Chasca : BaseCharacter
     //        var hpSum = status.baseHp * (1 + hpPerSum) + data.hp();
 
 
-    var sum = expectedDmg_chargedAtk;
+    var sum = expectedDmg_chargedAtk_anemo * 3 + expectedDmg_chargedAtk_pyro * 3;
     var crit = crit_ChargedAttack;
 
     Dictionary<string, string> result = new()
@@ -182,7 +201,7 @@ public class Chasca : BaseCharacter
       ["聖遺物メイン"] = data.artMainData.name,
       ["バフキャラ"] = data.partyData.name,
       ["合計期待値"] = sum.ToString(),
-      ["一発目期待値"] = expectedDmg_chargedAtk.ToString(),
+      ["一発目期待値"] = sum.ToString(),
       ["攻撃力"] = atk.ToString(),
       ["防御力"] = def.ToString(),
       ["HP"] = hpSum.ToString(),
