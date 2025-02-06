@@ -45,6 +45,7 @@ public class BaseData
     public float heal_bonus;
     public float res;
     public float add;
+    public float add_cryo;
     public float add_normal_atk;
     public float add_charged_atk;
     public float add_plugged_atk;

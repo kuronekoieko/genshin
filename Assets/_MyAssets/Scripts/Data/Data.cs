@@ -390,6 +390,14 @@ public class Data
         + partyData.add
         + artSub.add;
     }
+    public float add_cryo()
+    {
+        return weapon.add_cryo
+        + artMainData.add_cryo
+        + artSetData.add_cryo
+        + partyData.add_cryo
+        + artSub.add_cryo;
+    }
     public float add_normal_atk()
     {
         return weapon.add_normal_atk

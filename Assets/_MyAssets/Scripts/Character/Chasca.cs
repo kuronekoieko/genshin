@@ -89,6 +89,8 @@ public class Chasca : BaseCharacter
 
 
     float dmgAdd = data.add();
+    float add_cryo = data.add_cryo();
+
 
     var dmgAdd_sekikaku = def * data.weapon.sekikaku;
 
@@ -194,6 +196,16 @@ enemyRES,
     enemyRES,
     1);
 
+    var expectedDmg_chargedAtk_cryo
+= GetExpectedDamage(
+atk,
+chargedAtkRate_otherElement,
+dmgAdd + dmgAdd_chargedAttack + add_cryo,
+dmgBonus + chargedAtkDmgBonus + cryo_bonus,
+crit_ChargedAttack.ExpectedCritDmg,
+enemyRES,
+1);
+
     /*
 
      var expectedDmg_chargedAtk
@@ -211,7 +223,7 @@ enemyRES,
     //        var hpSum = status.baseHp * (1 + hpPerSum) + data.hp();
 
 
-    var sum = expectedDmg_chargedAtk_anemo * 3 + expectedDmg_chargedAtk_pyro + expectedDmg_chargedAtk_hydro + expectedDmg_chargedAtk_electro;
+    var sum = expectedDmg_chargedAtk_anemo * 3 + expectedDmg_chargedAtk_pyro + expectedDmg_chargedAtk_hydro + expectedDmg_chargedAtk_cryo;
     var crit = crit_ChargedAttack;
 
     Dictionary<string, string> result = new()
