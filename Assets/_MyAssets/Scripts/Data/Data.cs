@@ -13,6 +13,11 @@ public class Data
     public Status status;
     public Ascend ascend;
 
+    public Data()
+    {
+
+    }
+
     public bool IsSkip()
     {
         if (artSetData.name == "しめ縄4" && status.notUseShimenawa) return true;
@@ -185,21 +190,6 @@ public class Data
         + ascend.dmgBonus;
     }
 
-    public float ElementalDmgBonus(ElementType elementType)
-    {
-        return elementType switch
-        {
-            ElementType.Pyro => pyro_bonus(),
-            ElementType.Hydro => hydro_bonus(),
-            ElementType.Electro => electro_bonus(),
-            ElementType.Cryo => cryo_bonus(),
-            ElementType.Geo => geo_bonus(),
-            ElementType.Anemo => anemo_bonus(),
-            ElementType.Dendro => dendro_bonus(),
-            ElementType.Physics => physics_bonus(),
-            _ => 0,
-        };
-    }
 
     public float pyro_bonus()
     {

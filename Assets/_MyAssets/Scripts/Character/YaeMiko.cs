@@ -19,14 +19,14 @@ public class YaeMiko : BaseCharacter
 
         var addAggravate = ElementalReaction.Aggravate(charaData.elemental_mastery, data.artSetData.er_aggravate);
 
-        // var (expectedDamage_normal, crit_normal) = ExpectedDmg(AttackType.Normal, charaData, data, normalAtkPerArray);
-        //var (expectedDamage_charged, crit_charged) = ExpectedDmg(AttackType.Charged, charaData, data, chargedAtkPerArray);
-        //var (expectedDamage_plugged, crit_plugged) = ExpectedDmg(AttackType.Plugged, charaData, data, pluggedAtkPerArray);
-        var (expectedDamage_skill_0, crit_skill_0) = ExpectedDmg(AttackType.Skill, charaData, data, skillPerArray[0], addAggravate);
-        var (expectedDamage_skill_1, crit_skill_1) = ExpectedDmg(AttackType.Skill, charaData, data, skillPerArray[1], 1);
-        var (expectedDamage_skill_2, crit_skill_2) = ExpectedDmg(AttackType.Skill, charaData, data, skillPerArray[2], 1);
+        // var (expectedDamage_normal, crit_normal) = ExpectedDmg(AttackType.Normal, charaData, data, status.elementType,normalAtkPerArray);
+        //var (expectedDamage_charged, crit_charged) = ExpectedDmg(AttackType.Charged, charaData, data, status.elementType,chargedAtkPerArray);
+        //var (expectedDamage_plugged, crit_plugged) = ExpectedDmg(AttackType.Plugged, charaData, data, status.elementType,pluggedAtkPerArray);
+        var (expectedDamage_skill_0, crit_skill_0) = ExpectedDmg(AttackType.Skill, charaData, data, skillPerArray[0], er_add: addAggravate);
+        var (expectedDamage_skill_1, crit_skill_1) = ExpectedDmg(AttackType.Skill, charaData, data, skillPerArray[1]);
+        var (expectedDamage_skill_2, crit_skill_2) = ExpectedDmg(AttackType.Skill, charaData, data, skillPerArray[2]);
 
-        //var (expectedDamage_burst, crit_burst) = ExpectedDmg(AttackType.Skill, charaData, data, null);
+        //var (expectedDamage_burst, crit_burst) = ExpectedDmg(AttackType.Skill, charaData, data, status.elementType,null);
 
 
 

@@ -1,3 +1,5 @@
+using System;
+
 public class ExpectedDamage
 {
     readonly float atk;
@@ -10,22 +12,13 @@ public class ExpectedDamage
     readonly float res;
     public Crit Crit { get; private set; }
 
-    public ExpectedDamage(float atk, float dmgAdd, float dmgBonus, float expectedCritDmg, float res)
-    {
-        this.atk = atk;
-        this.dmgAdd = dmgAdd;
-        this.dmgBonus = dmgBonus;
-        this.expectedCritDmg = expectedCritDmg;
-        this.res = res;
-    }
-
-
-    public ExpectedDamage(AttackType attackType, CharaData charaData, ArtSubData artSub)
+    public ExpectedDamage(AttackType attackType, ElementType elementType, CharaData charaData, ArtSubData artSub)
     {
         float dmgAdd = charaData.add;
-        float dmgBonus = charaData.dmg_bonus;
+        float dmgBonus = charaData.dmg_bonus + charaData.ElementalDmgBonus(elementType);
         float critRate = charaData.crit_rate;
         float critDmg = charaData.crit_dmg;
+
 
         switch (attackType)
         {
@@ -74,33 +67,68 @@ public class ExpectedDamage
         this.res = GetElementalRes(charaData.res) * 0.5f;
     }
 
-    public float GetExpectedDamage(float talentRate, float elementalReaction = 1, float addTalentRate = 0)
+    /*
+        public float GetExpectedDamage(float talentRate, float er_multi = 1, float er_add = 0)
+        {
+            float dmg = (atk * talentRate + dmgAdd + er_add) * (1 + dmgBonus) * expectedCritDmg * res * er_multi;
+            return dmg;
+        }
+   
+    public float GetExpectedDamage(
+        float atkRate,
+        float defRate,
+        float hpRate,
+        float emRate,
+        float er_multi,
+        float er_add)
     {
-        float dmg = (atk * (talentRate + addTalentRate) + dmgAdd) * (1 + dmgBonus) * expectedCritDmg * res * elementalReaction;
+        float adkDmg = atk * atkRate;
+        float defDmg = def * defRate;
+        float hpDmg = hp * hpRate;
+        float emDmg = em * emRate;
+        float baseDamage = adkDmg + defDmg + hpDmg + emDmg + dmgAdd + er_add;
+        float dmg = baseDamage * (1 + dmgBonus) * expectedCritDmg * res * er_multi;
+        return dmg;
+    }
+ */
+    public float GetExpectedDamage(
+        ReferenceStatus referenceStatus,
+        float atkRate,
+        float er_multi,
+        float er_add)
+    {
+
+        float baseDamage = referenceStatus switch
+        {
+            ReferenceStatus.Atk => atk * atkRate,
+            ReferenceStatus.Def => atk * atkRate,
+            ReferenceStatus.Hp => atk * atkRate,
+            ReferenceStatus.Em => atk * atkRate,
+            _ => 0,
+        };
+
+        baseDamage += er_add;
+        float dmg = baseDamage * (1 + dmgBonus) * expectedCritDmg * res * er_multi;
         return dmg;
     }
 
-    public float GetExpectedDamage_multi(float atkRate = 0, float defRate = 0, float hpRate = 0, float emRate = 0, float elementalReaction = 1, float addTalentRate = 0)
-    {
-        float adkDmg = atk * (atkRate + addTalentRate);
-        float defDmg = def * (defRate + addTalentRate);
-        float hpDmg = hp * (hpRate + addTalentRate);
-        float emDmg = em * (emRate + addTalentRate);
-
-        float dmg = (adkDmg + defDmg + hpDmg + emDmg + dmgAdd) * (1 + dmgBonus) * expectedCritDmg * res * elementalReaction;
-        return dmg;
-    }
-
-    public float GetExpectedDamageSum(float[] talentRates, float elementalReaction = 1, float addTalentRate = 0)
+    public float GetExpectedDamageSum(
+        ReferenceStatus referenceStatus,
+        float[] atkRates,
+        float er_multi = 1,
+        float er_add = 0)
     {
         float dmg = 0;
 
-        for (int i = 0; i < talentRates.Length; i++)
+        for (int i = 0; i < atkRates.Length; i++)
         {
-            dmg += GetExpectedDamage(talentRates[i], elementalReaction, addTalentRate);
+            dmg += GetExpectedDamage(referenceStatus, atkRates[i], er_multi, er_add);
         }
         return dmg;
     }
+
+
+
 
     float GetElementalRes(float decreasingRes)
     {
@@ -113,7 +141,6 @@ public class ExpectedDamage
         return elementalRes;
     }
 }
-
 
 public enum AttackType
 {

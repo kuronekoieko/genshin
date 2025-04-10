@@ -23,11 +23,11 @@ public class Chasca : BaseCharacter
     charaData.charged_atk_bonus += talent_chargedAtkDmgBonus;
 
 
-    var (expectedDamage_charged_anemo, crit_charged) = ExpectedDmg(AttackType.Charged, ElementType.Anemo, charaData, data, chargedAtkRate_anemo);
-    var (expectedDamage_charged_Pyro, crit_charged_Pyro) = ExpectedDmg(AttackType.Charged, ElementType.Pyro, charaData, data, chargedAtkRate_otherElement);
-    var (expectedDamage_charged_Cryo, crit_charged_Cryo) = ExpectedDmg(AttackType.Charged, ElementType.Cryo, charaData, data, chargedAtkRate_otherElement);
-    var (expectedDamage_charged_Electro, crit_charged_Electro) = ExpectedDmg(AttackType.Charged, ElementType.Electro, charaData, data, chargedAtkRate_otherElement);
-    var (expectedDamage_charged_Hydro, crit_charged_Hydro) = ExpectedDmg(AttackType.Charged, ElementType.Hydro, charaData, data, chargedAtkRate_otherElement);
+    var (expectedDamage_charged_anemo, crit_charged) = ExpectedDmg(AttackType.Charged, charaData, data, chargedAtkRate_anemo, ElementType.Anemo);
+    var (expectedDamage_charged_Pyro, crit_charged_Pyro) = ExpectedDmg(AttackType.Charged, charaData, data, chargedAtkRate_otherElement, ElementType.Pyro);
+    var (expectedDamage_charged_Cryo, crit_charged_Cryo) = ExpectedDmg(AttackType.Charged, charaData, data, chargedAtkRate_otherElement, ElementType.Cryo);
+    var (expectedDamage_charged_Electro, crit_charged_Electro) = ExpectedDmg(AttackType.Charged, charaData, data, chargedAtkRate_otherElement, ElementType.Electro);
+    var (expectedDamage_charged_Hydro, crit_charged_Hydro) = ExpectedDmg(AttackType.Charged, charaData, data, chargedAtkRate_otherElement, ElementType.Hydro);
 
 
     var sum = expectedDamage_charged_anemo * 3 + expectedDamage_charged_Pyro + expectedDamage_charged_Hydro + expectedDamage_charged_Cryo;

@@ -1,62 +1,33 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 
 public class Varesa : BaseCharacter
 {
-    // readonly float[] normalAtkPerArray = { 0, };
-    // readonly float[] chargedAtkPerArray = { 0, };
-    //readonly float[] pluggedAtkPerArray = { 3.91f, };
-    // lv8
+
     readonly float[] pluggedAtkPerArray = { 5.52f, };
 
-    // readonly float[] skillPerArray = { 0, };
-    //readonly float[] burstPerArray = { 0, };
 
-    // float talent_addPerPluggedAtk_1 = 0.5f;
     float talent_addPerPluggedAtk_2 = 1.8f;
 
-
-    // float constellation_atkRate = 0.2f;
-    // float constellation_critRate = 0.2f;
-    // float constellation_critDmg = 0.4f;
-    // float constellation_critRate = 0;
-    //float constellation_critDmg = 0;
 
     public override Dictionary<string, string> CalcDmg(Data data)
     {
 
-        //if (data.partyData.name.Contains("閑雲")) return null;
-        // if (data.partyData.name.Contains("ベネット")) return null;
-        //if (data.weapon.name.Contains("螭龍の剣(完凸)") && !data.partyData.name.Contains("鍾離")) return null;
-        // if (data.energy_recharge() == 0) return null;
-        //if (data.partyData.name.Contains("ベネット") == false && data.energy_recharge() == 0) return null;
-        // if (data.partyData.name.Contains("鍾離") == false) return null;
-        //if (data.partyData.hydro_count == 0) return null;
 
-        //if (data.partyData.name.Contains("フリーナ") == false) return null;
-        // if (data.energy_recharge() < 0.5f) return null;
-        // if (data.weapon.name != "草薙の稲光") return null;
-        // if (data.weapon.name != "和璞鳶") return null;
 
         CharaData charaData = GetCharaData(data);
 
 
-        // var melt = ElementalReaction.MeltForPyro(charaData.elemental_mastery, 0);
-        //  var vaporize = ElementalReaction.VaporizeForPyro(charaData.elemental_mastery, data.er_rate());
         var addAggravate = ElementalReaction.Aggravate(charaData.elemental_mastery, data.er_aggravate());
 
-        float elementalReaction = 1;
+        float elementalReaction = 0;
         if (data.partyData.dendro_count > 0)
         {
             elementalReaction = addAggravate;
         }
-        // var (expectedDamage, crit) = ExpectedDmg_normalAtk(property);
-        // var (expectedDamage, crit) = ExpectedDmg_chargedAtk(property);
-        var (expectedDamage, crit) = ExpectedDmg(AttackType.Plugged, charaData, data, elementalReaction);
 
-        //  var (expectedDamage, crit) = ExpectedDmg_skill(property);
-        // var (expectedDamage, crit) = ExpectedDmg_burst(property);
+        var (expectedDamage, crit) = ExpectedDmg(AttackType.Plugged, charaData, data, pluggedAtkPerArray[0] + talent_addPerPluggedAtk_2, er_add: elementalReaction);
+
 
 
         var sum = Mathf.FloorToInt(expectedDamage);
@@ -93,18 +64,6 @@ public class Varesa : BaseCharacter
         //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));
 
         return result;
-    }
-
-
-    (float, Crit) ExpectedDmg(AttackType attackType, CharaData charaData, Data data, float elementalReaction)
-    {
-
-        ExpectedDamage expectedDamage = new(attackType, charaData, data.artSub);
-
-        float result = expectedDamage.GetExpectedDamageSum(pluggedAtkPerArray, elementalReaction, talent_addPerPluggedAtk_2);
-
-        return (result, expectedDamage.Crit);
-
     }
 }
 

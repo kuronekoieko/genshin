@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,15 +19,8 @@ public class Chiori : BaseCharacter
         CharaData charaData = GetCharaData(data);
 
 
-
-
-        var (expectedDamage_normal, crit_normal) = ExpectedDmg(AttackType.Normal, charaData, data, atkRate: normalAtkPerArray_atk[0], defRate: constellation_addNormalAtkPerDef);
-        //  var (expectedDamage_charged, crit_charged) = ExpectedDmg(AttackType.Charged, charaData, data, chargedAtkPerArray);
-        //  var (expectedDamage_plugged, crit_plugged) = ExpectedDmg(AttackType.Plugged, charaData, data, pluggedAtkPerArray);
-        var (expectedDamage_skill, crit_skill) = ExpectedDmg(AttackType.Skill, charaData, data, atkRate: skillPerAtk, defRate: skillPerDef);
-        // var (expectedDamage_burst, crit_burst) = ExpectedDmg(AttackType.Skill, charaData, data, null);
-
-
+        var (expectedDamage_normal, crit_normal) = ExpectedDmg(AttackType.Normal, charaData, data, constellation_addNormalAtkPerDef, referenceStatus: ReferenceStatus.Def);
+        var (expectedDamage_skill, crit_skill) = ExpectedDmg(AttackType.Skill, charaData, data, skillPerDef, referenceStatus: ReferenceStatus.Def);
 
         Dictionary<string, string> result = new()
         {

@@ -49,7 +49,7 @@ public class Gaming : BaseCharacter
 
     var vaporize = ElementalReaction.VaporizeForPyro(charaData.elemental_mastery, data.er_rate());
 
-    var (expectedDamage, crit) = ExpectedDmg(AttackType.Plugged, charaData, data, pluggedAtkPerArray, vaporize);
+    var (expectedDamage, crit) = ExpectedDmg(AttackType.Plugged, charaData, data, pluggedAtkPerArray[0], er_multi: vaporize);
 
     var sum = expectedDamage;
 

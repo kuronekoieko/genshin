@@ -12,7 +12,7 @@ public class Albedo : BaseCharacter
     {
         CharaData charaData = GetCharaData(data);
 
-        var (expectedDamage_skill, crit_skill) = ExpectedDmg(AttackType.Skill, charaData, data, defRate: skillPerArray[0]);
+        var (expectedDamage_skill, crit_skill) = ExpectedDmg(AttackType.Skill, charaData, data, skillPerArray[0], referenceStatus: ReferenceStatus.Def);
 
 
         Dictionary<string, string> result = new()

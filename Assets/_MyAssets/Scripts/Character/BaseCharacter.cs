@@ -41,41 +41,52 @@ public abstract class BaseCharacter : MonoBehaviour
         return charaData;
     }
 
-    protected (float, Crit) ExpectedDmg(AttackType attackType, ElementType elementType, CharaData charaData, Data data, float[] talentRates, float elementalReaction = 1)
+    protected (float, Crit) ExpectedDmgSum(
+        AttackType attackType,
+        CharaData charaData,
+        Data data,
+        float[] atkRates,
+        ElementType elementType = ElementType.None,
+        ReferenceStatus referenceStatus = ReferenceStatus.Atk,
+        float er_multi = 1,
+        float er_add = 0)
     {
-        ExpectedDamage expectedDamage = new(attackType, charaData, data.artSub);
-        charaData.dmg_bonus += data.ElementalDmgBonus(elementType);
+        if (elementType == ElementType.None) elementType = status.elementType;
+        ExpectedDamage expectedDamage = new(attackType, elementType, charaData, data.artSub);
 
-        float result = expectedDamage.GetExpectedDamageSum(talentRates, elementalReaction, 0);
+        float result = expectedDamage.GetExpectedDamageSum(referenceStatus, atkRates, er_multi, er_add);
 
         return (result, expectedDamage.Crit);
     }
 
-    protected (float, Crit) ExpectedDmg(AttackType attackType, ElementType elementType, CharaData charaData, Data data, float talentRate, float elementalReaction = 1)
+    protected (float, Crit) ExpectedDmg(
+        AttackType attackType,
+        CharaData charaData,
+        Data data,
+        float atkRate,
+        ElementType elementType = ElementType.None,
+        ReferenceStatus referenceStatus = ReferenceStatus.Atk,
+        float er_multi = 1,
+        float er_add = 0)
     {
-        return ExpectedDmg(attackType, elementType, charaData, data, new[] { talentRate }, elementalReaction);
-    }
+        if (elementType == ElementType.None) elementType = status.elementType;
+        ExpectedDamage expectedDamage = new(attackType, elementType, charaData, data.artSub);
 
-    protected (float, Crit) ExpectedDmg(AttackType attackType, CharaData charaData, Data data, float[] talentRates, float elementalReaction = 1)
-    {
-        return ExpectedDmg(attackType, status.elementType, charaData, data, talentRates, elementalReaction);
-    }
+        float result = expectedDamage.GetExpectedDamage(referenceStatus, atkRate, er_multi, er_add);
 
-    protected (float, Crit) ExpectedDmg(AttackType attackType, CharaData charaData, Data data, float talentRate, float elementalReaction = 1)
-    {
-        return ExpectedDmg(attackType, status.elementType, charaData, data, new[] { talentRate }, elementalReaction);
-    }
-
-    protected (float, Crit) ExpectedDmg(AttackType attackType, CharaData charaData, Data data, float atkRate = 0, float defRate = 0, float hpRate = 0, float emRate = 0, float elementalReaction = 1, float addTalentRate = 0)
-    {
-        ExpectedDamage expectedDamage = new(attackType, charaData, data.artSub);
-        charaData.dmg_bonus += data.ElementalDmgBonus(status.elementType);
-
-        float result = expectedDamage.GetExpectedDamage_multi(atkRate, defRate, hpRate, emRate, elementalReaction, 0);
         return (result, expectedDamage.Crit);
     }
-
 }
+
+[System.Flags]
+public enum ReferenceStatus
+{
+    Atk,
+    Def,
+    Hp,
+    Em,
+}
+
 
 [Serializable]
 public class Status
@@ -138,6 +149,7 @@ public enum WeaponType
 
 public enum ElementType
 {
+    None,
     Pyro,
     Hydro,
     Electro,

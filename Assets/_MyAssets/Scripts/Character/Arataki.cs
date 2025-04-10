@@ -23,8 +23,8 @@ public class Arataki : BaseCharacter
         charaData.add_charged_atk += talent_addDmg_chargedAtk_PerDef * charaData.def;
 
 
-        var (expectedDamage_normal, crit_normal) = ExpectedDmg(AttackType.Normal, charaData, data, normalAtkPerArray);
-        var (expectedDamage_charged, crit_charged) = ExpectedDmg(AttackType.Charged, charaData, data, chargedAtkPerArray);
+        var (expectedDamage_normal, crit_normal) = ExpectedDmgSum(AttackType.Normal, charaData, data, normalAtkPerArray);
+        var (expectedDamage_charged, crit_charged) = ExpectedDmgSum(AttackType.Charged, charaData, data, chargedAtkPerArray);
 
         var sum = expectedDamage_normal + expectedDamage_charged;
 

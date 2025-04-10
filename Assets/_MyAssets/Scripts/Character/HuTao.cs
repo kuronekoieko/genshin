@@ -28,11 +28,11 @@ public class HuTao : BaseCharacter
         // var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
         var vaporize = ElementalReaction.VaporizeForPyro(charaData.elemental_mastery, data.er_rate());
 
-        // var (expectedDamage_normal, crit_normal) = ExpectedDmg(AttackType.Normal, charaData, data, normalAtkPerArray);
-        var (expectedDamage_charged, crit_charged) = ExpectedDmg(AttackType.Charged, charaData, data, chargedAtkPerArray, elementalReaction: vaporize);
-        // var (expectedDamage_plugged, crit_plugged) = ExpectedDmg(AttackType.Plugged, charaData, data, pluggedAtkPerArray);
-        // var (expectedDamage_skill, crit_skill) = ExpectedDmg(AttackType.Skill, charaData, data, skillPerArray);
-        // var (expectedDamage_burst, crit_burst) = ExpectedDmg(AttackType.Skill, charaData, data, null);
+        // var (expectedDamage_normal, crit_normal) = ExpectedDmg(AttackType.Normal, charaData, data, status.elementType,normalAtkPerArray);
+        var (expectedDamage_charged, crit_charged) = ExpectedDmg(AttackType.Charged, charaData, data, chargedAtkPerArray[0], er_multi: vaporize);
+        // var (expectedDamage_plugged, crit_plugged) = ExpectedDmg(AttackType.Plugged, charaData, data, status.elementType,pluggedAtkPerArray);
+        // var (expectedDamage_skill, crit_skill) = ExpectedDmg(AttackType.Skill, charaData, data, status.elementType,skillPerArray);
+        // var (expectedDamage_burst, crit_burst) = ExpectedDmg(AttackType.Skill, charaData, data, status.elementType,null);
 
 
 

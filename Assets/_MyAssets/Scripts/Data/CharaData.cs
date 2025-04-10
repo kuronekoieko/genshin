@@ -9,6 +9,14 @@ public class CharaData : BaseData
         def_rate = data.def_rate();
         atk_rate = data.atk_rate();
         dmg_bonus = data.dmg_bonus();
+        pyro_bonus = data.pyro_bonus();
+        hydro_bonus = data.hydro_bonus();
+        electro_bonus = data.electro_bonus();
+        cryo_bonus = data.cryo_bonus();
+        geo_bonus = data.geo_bonus();
+        anemo_bonus = data.anemo_bonus();
+        dendro_bonus = data.dendro_bonus();
+        physics_bonus = data.physics_bonus();
         normal_atk_bonus = data.normal_atk_bonus();
         charged_atk_bonus = data.charged_atk_bonus();
         plugged_atk_bonus = data.plugged_atk_bonus();
@@ -33,5 +41,19 @@ public class CharaData : BaseData
         res = data.partyData.res;
     }
 
-
+    public float ElementalDmgBonus(ElementType elementType)
+    {
+        return elementType switch
+        {
+            ElementType.Pyro => pyro_bonus,
+            ElementType.Hydro => hydro_bonus,
+            ElementType.Electro => electro_bonus,
+            ElementType.Cryo => cryo_bonus,
+            ElementType.Geo => geo_bonus,
+            ElementType.Anemo => anemo_bonus,
+            ElementType.Dendro => dendro_bonus,
+            ElementType.Physics => physics_bonus,
+            _ => 0,
+        };
+    }
 }
