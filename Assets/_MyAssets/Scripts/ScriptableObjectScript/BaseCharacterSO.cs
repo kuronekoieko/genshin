@@ -2,14 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 
-public abstract class BaseCharacter : MonoBehaviour
+public abstract class BaseCharacterSO : ScriptableObject
 {
     public Status status;
     public Ascend ascend;
-    public string Name => gameObject.name;
+    public string Name => name;
     public string WeaponType => status.WeaponTypeName;
     bool isSub = false;
 
@@ -98,122 +100,75 @@ public abstract class BaseCharacter : MonoBehaviour
         //  var ArtSetDatas_notSkipped = await CSVManager.DeserializeAsync<ArtSetData>("ArtSet");
 
 
-        List<Data> datas = Calculator.GetDatas(this, isSub, weaponDatas, memberDatas, artSetDatas, artSetDatas_notSkipped, ArtifactDatas);
+        List<Data> datas = await GetDatas();
 
         var results = await Calculator.GetResultsAsync(datas, this);
         var texts = Calculator.ResultsToList(results);
+        FileWriter.Save(Name, texts);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
     }
 
-
-}
-
-[Serializable]
-public class SelectedWeapon
-{
-    public bool isUse;
-    public string name;
-    public WeaponData WeaponData { get; set; }
-}
-
-[Serializable]
-public class SelectedMember
-{
-    public bool isUse;
-    public string name;
-    public string weapon = "";
-    public string art_set = "";
-    public string option = "";
-    public MemberData Member { get; set; }
-}
-
-[Serializable]
-public class SelectedArtSetData
-{
-    public bool isUse;
-    public string name;
-    public int set;
-    public string option;
-    public ArtSetData ArtSetData { get; set; }
-}
-
-[System.Flags]
-public enum ReferenceStatus
-{
-    Atk,
-    Def,
-    Hp,
-    Em,
-}
-
-
-[Serializable]
-public class Status
-{
-    public WeaponType weaponType = WeaponType.Catalyst;
-    public ElementType elementType = ElementType.Electro;
-    // 基礎ステータス Lv90
-    public float baseAtk;
-    public float baseDef;
-    public int baseHp;
-    public bool hasSelfHarm = false;
-    public bool notUseShimenawa = false;
-    public bool isFront = true;
-    public bool isNightSoul = false;
-
-
-    public readonly float defaultCritRate = 0.05f;
-    public readonly float defaultCritDmg = 0.5f;
-    public string WeaponTypeName
+    async public UniTask<List<Data>> GetDatas()
     {
-        get
+        Debug.Log("組み合わせ作成開始");
+        var weaponDatas = selectedWeapon
+           .Where(s => s.isUse)
+           .Select(s => s.WeaponData)
+           .ToArray();
+
+        var memberDatas = selectedMember
+            .Where(s => s.isUse)
+            .Select(s => s.Member)
+            .ToArray();
+
+        var artSetDatas_notSkipped = selectedArtSet
+            .Select(s => s.ArtSetData)
+            .ToArray();
+
+        var artSetDatas = selectedArtSet
+            .Where(s => s.isUse)
+            .Select(s => s.ArtSetData)
+            .ToArray();
+
+        var artifactDatas = await CSVManager.DeserializeAsync<ArtifactData>("Artifacts");
+
+        artifactDatas = artifactDatas.Where(data => data.skip != 1).ToArray();
+
+        List<Data> datas = new();
+
+
+        weaponDatas = weaponDatas
+            .Where(weaponData => weaponData.type == WeaponType)
+            .ToArray();
+        var partyDatas = Party.GetPartyDatas(status.elementType, memberDatas);
+
+        var artifactGroups = Artifact.GetArtifactGroups(isSub, artSetDatas, artSetDatas_notSkipped, artifactDatas);
+
+
+        foreach (var weapon in weaponDatas)
         {
-            return weaponType switch
+            foreach (var partyData in partyDatas)
             {
-                WeaponType.Sword => "片手剣",
-                WeaponType.Claymore => "両手剣",
-                WeaponType.Bow => "弓",
-                WeaponType.Catalyst => "法器",
-                WeaponType.Polearm => "槍",
-                _ => "",
-            };
+                foreach (var artifactGroup in artifactGroups)
+                {
+                    Data data = new()
+                    {
+                        weapon = weapon,
+                        artMainData = artifactGroup.artMainData,
+                        artSetData = artifactGroup.artSetData,
+                        partyData = partyData,
+                        artSub = artifactGroup.artSubData,
+                        status = status,
+                        ascend = ascend,
+                    };
+
+                    if (data.IsSkip() == false) datas.Add(data);
+                }
+            }
+
         }
+        return datas;
     }
-}
 
-
-[Serializable]
-public class Ascend
-{
-    public float critRate = 0.192f;
-    public float critDmg = 0;
-    public float dmgBonus = 0;
-    public float atkPer = 0;
-    public float energyRecharge = 0;
-    public float hpPer = 0;
-    public float defPer = 0;
-    public float heal_bonus = 0;
-    public float elemental_mastery = 0;
-
-}
-
-public enum WeaponType
-{
-    Sword,
-    Claymore,
-    Bow,
-    Catalyst,
-    Polearm,
-}
-
-public enum ElementType
-{
-    None = -1,
-    Pyro = 0,
-    Hydro = 1,
-    Electro = 2,
-    Cryo = 3,
-    Geo = 4,
-    Anemo = 5,
-    Dendro = 6,
-    Physics = 7,
 }

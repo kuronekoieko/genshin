@@ -6,16 +6,16 @@ using UnityEngine;
 
 public static class Party
 {
-    public static PartyData[] GetPartyDatas(ElementType characterElementType)
+    public static PartyData[] GetPartyDatas(ElementType characterElementType, MemberData[] memberDatas)
     {
         Debug.Log("パーティ計算開始");
 
         var membersList = new List<SortedSet<MemberData>>();
-        foreach (var member1 in CSVManager.MemberDatas)
+        foreach (var member1 in memberDatas)
         {
-            foreach (var member2 in CSVManager.MemberDatas)
+            foreach (var member2 in memberDatas)
             {
-                foreach (var member3 in CSVManager.MemberDatas)
+                foreach (var member3 in memberDatas)
                 {
                     // SortedSetだとGetHashCode()がうごかないため、先にHashSetにする
                     var partyMemberHashSet = new HashSet<MemberData>

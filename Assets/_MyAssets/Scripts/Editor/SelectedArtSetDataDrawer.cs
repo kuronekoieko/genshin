@@ -1,13 +1,13 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomPropertyDrawer(typeof(B))]
-public class MyDataDrawer : PropertyDrawer
+[CustomPropertyDrawer(typeof(SelectedArtSetData))]
+public class SelectedArtSetDataDrawer : PropertyDrawer
 {
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
         // 各フィールドの高さを合計
-        int fieldCount = 2;
+        int fieldCount = 1;
         return EditorGUIUtility.singleLineHeight * fieldCount + EditorGUIUtility.standardVerticalSpacing * (fieldCount - 1);
     }
 
@@ -17,8 +17,11 @@ public class MyDataDrawer : PropertyDrawer
 
         var isUseProp = property.FindPropertyRelative("isUse");
         var nameProp = property.FindPropertyRelative("name");
+        var art_setProp = property.FindPropertyRelative("set");
+        var optionProp = property.FindPropertyRelative("option");
 
-        if (isUseProp == null || nameProp == null)
+
+        if (isUseProp == null || nameProp == null || art_setProp == null || optionProp == null)
         {
             Debug.LogError("プロパティが見つかりません");
             return;
@@ -30,14 +33,20 @@ public class MyDataDrawer : PropertyDrawer
 
         // isUse（true/false）は bool だから幅を少なめに
         float isUseWidth = 20f;
-        float nameWidth = totalWidth - isUseWidth - padding;
+        float fieldWidth = (totalWidth - isUseWidth - padding * 3) / 3f;
+
+
 
         Rect isUseRect = new Rect(position.x, position.y, isUseWidth, EditorGUIUtility.singleLineHeight);
-        Rect nameRect = new Rect(position.x + isUseWidth + padding, position.y, nameWidth, EditorGUIUtility.singleLineHeight);
+        Rect nameRect = new Rect(isUseRect.xMax + padding, position.y, fieldWidth, EditorGUIUtility.singleLineHeight);
+        Rect art_setRect = new Rect(nameRect.xMax + padding, position.y, fieldWidth, EditorGUIUtility.singleLineHeight);
+        Rect optionRect = new Rect(art_setRect.xMax + padding, position.y, fieldWidth, EditorGUIUtility.singleLineHeight);
 
         // フィールドを描画
-        EditorGUI.PropertyField(isUseRect, isUseProp, GUIContent.none);
-        EditorGUI.PropertyField(nameRect, nameProp, GUIContent.none);
+        EditorGUI.PropertyField(isUseRect, isUseProp, GUIContent.none, false);
+        EditorGUI.PropertyField(nameRect, nameProp, GUIContent.none, false);
+        EditorGUI.PropertyField(art_setRect, art_setProp, GUIContent.none, false);
+        EditorGUI.PropertyField(optionRect, optionProp, GUIContent.none, false);
 
         EditorGUI.EndProperty();
     }

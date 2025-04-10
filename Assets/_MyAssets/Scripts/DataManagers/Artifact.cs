@@ -12,7 +12,7 @@ public class Artifact
 {
 
 
-    public static List<ArtifactGroup> GetArtifactGroups(bool isSub)
+    public static List<ArtifactGroup> GetArtifactGroups(bool isSub, ArtSetData[] csvArtSetDatas, ArtSetData[] ArtSetDatas_notSkipped, ArtifactData[] artifactDatas)
     {
 
         List<ArtifactGroup> artifactGroups = new();
@@ -20,7 +20,7 @@ public class Artifact
         if (isSub == false)
         {
             var artMainDatas = Artifacts_Main.GetArtMainDatas();
-            var artSetDatas = Artifacts_Set.GetArtSetDatas().ToArray();
+            var artSetDatas = Artifacts_Set.GetArtSetDatas(csvArtSetDatas).ToArray();
 
             //var artSetDatas = CSVManager.artSetDatas.Where(artSetData => artSetData.skip != 1).ToArray();
 
@@ -40,9 +40,6 @@ public class Artifact
             return artifactGroups;
         }
 
-
-        var artifactDatas = CSVManager.ArtifactDatas;
-
         var flowerList = artifactDatas.Where(artifactData => artifactData.part == "花").ToList();
         var plumeList = artifactDatas.Where(artifactData => artifactData.part == "羽").ToList();
         var sandsList = artifactDatas.Where(artifactData => artifactData.part == "時計").ToList();
@@ -60,7 +57,7 @@ public class Artifact
                     {
                         foreach (var circlet in circletList)
                         {
-                            ArtifactGroup artifactGroup = GetArtifactGroup(flower, plume, sands, goblet, circlet);
+                            ArtifactGroup artifactGroup = GetArtifactGroup(flower, plume, sands, goblet, circlet, ArtSetDatas_notSkipped);
                             if (artifactGroup != null) artifactGroups.Add(artifactGroup);
                         }
                     }
@@ -72,7 +69,7 @@ public class Artifact
         return artifactGroups;
     }
 
-    static ArtifactGroup GetArtifactGroup(ArtifactData flower, ArtifactData plume, ArtifactData sands, ArtifactData goblet, ArtifactData circlet)
+    static ArtifactGroup GetArtifactGroup(ArtifactData flower, ArtifactData plume, ArtifactData sands, ArtifactData goblet, ArtifactData circlet, ArtSetData[] ArtSetDatas_notSkipped)
     {
         ArtifactGroup artifactGroup = new();
 
@@ -91,7 +88,7 @@ public class Artifact
 
         //セット================
 
-        artifactGroup.artSetData = GetArtSetData(artifactCombination);
+        artifactGroup.artSetData = GetArtSetData(artifactCombination, ArtSetDatas_notSkipped);
 
         if (artifactGroup.artSetData == null) return null;
 
@@ -103,7 +100,7 @@ public class Artifact
     }
 
 
-    static ArtSetData GetArtSetData(ArtifactData[] artifactCombination)
+    static ArtSetData GetArtSetData(ArtifactData[] artifactCombination, ArtSetData[] ArtSetDatas_notSkipped)
     {
         var setNameGroup = artifactCombination
             .Select(artifactData => artifactData.art_set_name)
@@ -123,7 +120,7 @@ public class Artifact
 
         // var  artSetDatas= Artifacts_Set.GetArtSetDatas();
 
-        var artSetDatas_2set = CSVManager.ArtSetDatas_notSkipped
+        var artSetDatas_2set = ArtSetDatas_notSkipped
              .Where(artSetData => artSetData.set == 2);
 
         ArtSetData artSetData_1 = artSetDatas_2set
@@ -154,7 +151,7 @@ public class Artifact
         if (fourSetList.Count == 1)
         {
 
-            ArtSetData artSetData_2 = CSVManager.ArtSetDatas_notSkipped
+            ArtSetData artSetData_2 = ArtSetDatas_notSkipped
                 .Where(artSetData => artSetData.set == 4)
                 .Where(artSetData => artSetData.name.Contains(fourSetList[0]))
                 .FirstOrDefault();

@@ -6,12 +6,12 @@ using UnityEngine;
 public class Artifacts_Set
 {
 
-    public static List<ArtSetData> GetArtSetDatas()
+    public static List<ArtSetData> GetArtSetDatas(ArtSetData[] csvArtSetDatas)
     {
         HashSet<ArtSetData> artSetDatas = new();
 
-        var artSetDatas_2set = CSVManager.ArtSetDatas.Where(artSetData => artSetData.set == 2).ToArray();
-        var artSetDatas_4set = CSVManager.ArtSetDatas.Where(artSetData => artSetData.set == 4).ToArray();
+        var artSetDatas_2set = csvArtSetDatas.Where(artSetData => artSetData.set == 2).ToArray();
+        var artSetDatas_4set = csvArtSetDatas.Where(artSetData => artSetData.set == 4).ToArray();
 
         foreach (var artSetData_1 in artSetDatas_2set)
         {
