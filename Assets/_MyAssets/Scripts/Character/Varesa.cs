@@ -53,7 +53,7 @@ public class Varesa : BaseCharacter
         }
         // var (expectedDamage, crit) = ExpectedDmg_normalAtk(property);
         // var (expectedDamage, crit) = ExpectedDmg_chargedAtk(property);
-        var (expectedDamage, crit) = ExpectedDmg_pluggedAtk(baseData, data, elementalReaction);
+        var (expectedDamage, crit) = ExpectedDmg(AttackType.Plugged, baseData, data, elementalReaction);
 
         //  var (expectedDamage, crit) = ExpectedDmg_skill(property);
         // var (expectedDamage, crit) = ExpectedDmg_burst(property);
@@ -131,26 +131,65 @@ public class Varesa : BaseCharacter
     }
 
 
-    (float, Crit) ExpectedDmg_pluggedAtk(BaseData baseData, Data data, float elementalReaction)
+    (float, Crit) ExpectedDmg(AttackType attackType, BaseData baseData, Data data, float elementalReaction)
     {
-        float dmgAdd = data.add_plugged_atk();
-        float dmgBonus = data.plugged_atk_bonus();
-        float critRate = baseData.crit_rate + data.crit_rate_plugged_atk();
-        float critDmg = baseData.crit_dmg + data.crit_dmg_plugged();
+        /*
+        float dmgAdd = baseData.add;
+        float dmgBonus = baseData.dmg_bonus;
+        float critRate = baseData.crit_rate;
+        float critDmg = baseData.crit_dmg;
 
+        switch (attackType)
+        {
+            case AttackType.Normal:
+                dmgAdd += data.add_normal_atk();
+                dmgBonus += data.normal_atk_bonus();
+                critRate += data.crit_rate_normal_atk();
+                //  critDmg += data.crit_dmg_normal_atk();
+                break;
+            case AttackType.Charged:
+                dmgAdd += data.add_charged_atk();
+                dmgBonus += data.charged_atk_bonus();
+                critRate += data.crit_rate_charged_atk();
+                //critDmg += data.crit_dmg_charged_atk();
+                break;
+            case AttackType.Plugged:
+                dmgAdd += data.add_plugged_atk();
+                dmgBonus += data.plugged_atk_bonus();
+                critRate += data.crit_rate_plugged_atk();
+                critDmg += data.crit_dmg_plugged();
+                break;
+            case AttackType.Skill:
+                dmgAdd += data.add_skill();
+                dmgBonus += data.skill_bonus();
+                critRate += data.crit_rate_skill();
+                //  critDmg += data.crit_dmg_skill();
+                break;
+            case AttackType.Burst:
+                dmgAdd += data.add_burst();
+                dmgBonus += data.burst_bonus();
+                critRate += data.crit_rate_burst();
+                critDmg += data.crit_dmg_burst();
+                break;
+            default:
+                break;
+        }
         var crit = new Crit(critRate, critDmg, data.artSub);
 
-        ExpectedDamage expectedDamage_pluggedAtk = new(
-          baseData.atk,
-          baseData.add + dmgAdd,
-          baseData.dmg_bonus + dmgBonus,
-          crit.ExpectedCritDmg,
-          baseData.res
-        );
+        ExpectedDamage expectedDamage = new(
+            baseData.atk,
+            dmgAdd,
+            dmgBonus,
+            crit.ExpectedCritDmg,
+            baseData.res
+        );*/
 
-        float expectedDamage = expectedDamage_pluggedAtk.GetExpectedDamageSum(pluggedAtkPerArray, elementalReaction);
+        ExpectedDamage expectedDamage = new(attackType, baseData, data);
 
-        return (expectedDamage, crit);
+        // float result = expectedDamage.GetExpectedDamageSum(pluggedAtkPerArray, elementalReaction, talent_addPerPluggedAtk_2);
+        float result = expectedDamage.GetExpectedDamageSum(pluggedAtkPerArray, elementalReaction, 0);
+
+        return (result, expectedDamage.Crit);
 
     }
 

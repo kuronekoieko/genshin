@@ -44,58 +44,6 @@ public abstract class BaseCharacter : MonoBehaviour
         return elementalRes;
     }
 
-
-    public class ExpectedDamage
-    {
-        readonly float atk;
-        readonly float dmgAdd;
-        readonly float dmgBonus;
-        readonly float expectedCritDmg;
-        readonly float res;
-        float addTalentRate;
-
-        public ExpectedDamage(float atk, float dmgAdd, float dmgBonus, float expectedCritDmg, float res, float addTalentRate = 0)
-        {
-            this.atk = atk;
-            this.dmgAdd = dmgAdd;
-            this.dmgBonus = dmgBonus;
-            this.expectedCritDmg = expectedCritDmg;
-            this.res = res;
-            this.addTalentRate = addTalentRate;
-        }
-
-
-
-        public float GetExpectedDamage(float talentRate, float elementalReaction = 1)
-        {
-            float dmg = (atk * (talentRate + addTalentRate) + dmgAdd) * (1 + dmgBonus) * expectedCritDmg * res * elementalReaction;
-            return dmg;
-        }
-
-        public float GetExpectedDamageSum(float[] talentRates, float elementalReaction = 1)
-        {
-            float dmg = 0;
-
-            for (int i = 0; i < talentRates.Length; i++)
-            {
-                dmg += GetExpectedDamage(talentRates[i], elementalReaction);
-            }
-            return dmg;
-        }
-    }
-
-    public class Property
-    {
-        public Data data;
-        public float critRate;
-        public float critDmg;
-        public float atk;
-        public float dmgAdd;
-        public float dmgBonus;
-        public float res;
-        public float elementalReaction;
-    }
-
 }
 
 [Serializable]
