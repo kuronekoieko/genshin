@@ -1,6 +1,9 @@
 public class ExpectedDamage
 {
     readonly float atk;
+    readonly float def;
+    readonly float hp;
+    readonly float em;
     readonly float dmgAdd;
     readonly float dmgBonus;
     readonly float expectedCritDmg;
@@ -62,6 +65,9 @@ public class ExpectedDamage
         Crit = new Crit(critRate, critDmg, artSub);
 
         this.atk = charaData.atk;
+        this.def = charaData.def;
+        this.hp = charaData.hp;
+        this.em = charaData.elemental_mastery;
         this.dmgAdd = dmgAdd;
         this.dmgBonus = dmgBonus;
         this.expectedCritDmg = Crit.ExpectedCritDmg;
@@ -71,6 +77,17 @@ public class ExpectedDamage
     public float GetExpectedDamage(float talentRate, float elementalReaction = 1, float addTalentRate = 0)
     {
         float dmg = (atk * (talentRate + addTalentRate) + dmgAdd) * (1 + dmgBonus) * expectedCritDmg * res * elementalReaction;
+        return dmg;
+    }
+
+    public float GetExpectedDamage_multi(float atkRate = 0, float defRate = 0, float hpRate = 0, float emRate = 0, float elementalReaction = 1, float addTalentRate = 0)
+    {
+        float adkDmg = atk * (atkRate + addTalentRate);
+        float defDmg = def * (defRate + addTalentRate);
+        float hpDmg = hp * (hpRate + addTalentRate);
+        float emDmg = em * (emRate + addTalentRate);
+
+        float dmg = (adkDmg + defDmg + hpDmg + emDmg + dmgAdd) * (1 + dmgBonus) * expectedCritDmg * res * elementalReaction;
         return dmg;
     }
 

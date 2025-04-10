@@ -76,7 +76,7 @@ public class Varesa : BaseCharacter
             ["バフ共通"] = charaData.dmg_bonus.ToString(),
             ["バフ落下"] = charaData.plugged_atk_bonus.ToString(),
             ["耐性ダウン"] = charaData.res.ToString(),
-            ["耐性ダウン計算後"] = (GetElementalRes(charaData.res) * 0.5f).ToString(),
+            // ["耐性ダウン計算後"] = (GetElementalRes(charaData.res) * 0.5f).ToString(),
             //["会心ダメ期待値"] = crit.ExpectedCritDmg.ToString(),
             // ["耐性"] = charaData.res.ToString(),
             // ["蒸発"] = vaporize.ToString(),

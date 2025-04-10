@@ -8,7 +8,7 @@ public class CharaData : BaseData
         elemental_mastery = data.elemental_mastery();
         def_rate = data.def_rate();
         atk_rate = data.atk_rate();
-        dmg_bonus = data.dmg_bonus() + data.ElementalDmgBonus();
+        dmg_bonus = data.dmg_bonus();
         normal_atk_bonus = data.normal_atk_bonus();
         charged_atk_bonus = data.charged_atk_bonus();
         plugged_atk_bonus = data.plugged_atk_bonus();

@@ -183,12 +183,11 @@ public class Data
         + partyData.dmg_bonus
         + artSub.dmg_bonus
         + ascend.dmgBonus;
-        // + ElementalDmgBonus();
     }
 
-    public float ElementalDmgBonus()
+    public float ElementalDmgBonus(ElementType elementType)
     {
-        return status.elementType switch
+        return elementType switch
         {
             ElementType.Pyro => pyro_bonus(),
             ElementType.Hydro => hydro_bonus(),
