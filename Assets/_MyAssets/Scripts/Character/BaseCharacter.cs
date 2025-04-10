@@ -87,13 +87,13 @@ public enum WeaponType
 
 public enum ElementType
 {
-    None,
-    Pyro,
-    Hydro,
-    Electro,
-    Cryo,
-    Geo,
-    Anemo,
-    Dendro,
-    Physics,
+    None = -1,
+    Pyro = 0,
+    Hydro = 1,
+    Electro = 2,
+    Cryo = 3,
+    Geo = 4,
+    Anemo = 5,
+    Dendro = 6,
+    Physics = 7,
 }
