@@ -15,7 +15,7 @@ public class Varesa : BaseCharacter
 
 
 
-        CharaData charaData = GetCharaData(data);
+        CharaData charaData = new(data);
 
 
         var addAggravate = ElementalReaction.Aggravate(charaData.elemental_mastery, data.er_aggravate());
@@ -26,7 +26,7 @@ public class Varesa : BaseCharacter
             elementalReaction = addAggravate;
         }
 
-        var (expectedDamage, crit) = ExpectedDmg(AttackType.Plugged, charaData, data, pluggedAtkPerArray[0] + talent_addPerPluggedAtk_2, er_add: elementalReaction);
+        var (expectedDamage, crit) = charaData.ExpectedDmg(AttackType.Plugged, pluggedAtkPerArray[0] + talent_addPerPluggedAtk_2, er_add: elementalReaction);
 
 
 

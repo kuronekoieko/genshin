@@ -14,19 +14,19 @@ public class YaeMiko : BaseCharacter
 
     public override Dictionary<string, string> CalcDmg(Data data)
     {
-        CharaData charaData = GetCharaData(data);
+        CharaData charaData = new(data);
         charaData.skill_bonus += passive_dmgBonusPerEM * charaData.elemental_mastery;
 
         var addAggravate = ElementalReaction.Aggravate(charaData.elemental_mastery, data.artSetData.er_aggravate);
 
-        // var (expectedDamage_normal, crit_normal) = ExpectedDmg(AttackType.Normal, charaData, data, status.elementType,normalAtkPerArray);
-        //var (expectedDamage_charged, crit_charged) = ExpectedDmg(AttackType.Charged, charaData, data, status.elementType,chargedAtkPerArray);
-        //var (expectedDamage_plugged, crit_plugged) = ExpectedDmg(AttackType.Plugged, charaData, data, status.elementType,pluggedAtkPerArray);
-        var (expectedDamage_skill_0, crit_skill_0) = ExpectedDmg(AttackType.Skill, charaData, data, skillPerArray[0], er_add: addAggravate);
-        var (expectedDamage_skill_1, crit_skill_1) = ExpectedDmg(AttackType.Skill, charaData, data, skillPerArray[1]);
-        var (expectedDamage_skill_2, crit_skill_2) = ExpectedDmg(AttackType.Skill, charaData, data, skillPerArray[2]);
+        // var (expectedDamage_normal, crit_normal) = charaData.ExpectedDmg(AttackType.Normal,  status.elementType,normalAtkPerArray);
+        //var (expectedDamage_charged, crit_charged) = charaData.ExpectedDmg(AttackType.Charged,  status.elementType,chargedAtkPerArray);
+        //var (expectedDamage_plugged, crit_plugged) = charaData.ExpectedDmg(AttackType.Plugged,status.elementType,pluggedAtkPerArray);
+        var (expectedDamage_skill_0, crit_skill_0) = charaData.ExpectedDmg(AttackType.Skill, skillPerArray[0], er_add: addAggravate);
+        var (expectedDamage_skill_1, crit_skill_1) = charaData.ExpectedDmg(AttackType.Skill, skillPerArray[1]);
+        var (expectedDamage_skill_2, crit_skill_2) = charaData.ExpectedDmg(AttackType.Skill, skillPerArray[2]);
 
-        //var (expectedDamage_burst, crit_burst) = ExpectedDmg(AttackType.Skill, charaData, data, status.elementType,null);
+        //var (expectedDamage_burst, crit_burst) = charaData.ExpectedDmg(AttackType.Skill, status.elementType,null);
 
 
 

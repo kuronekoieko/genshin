@@ -16,11 +16,11 @@ public class Chiori : BaseCharacter
 
     public override Dictionary<string, string> CalcDmg(Data data)
     {
-        CharaData charaData = GetCharaData(data);
+        CharaData charaData = new(data);
 
 
-        var (expectedDamage_normal, crit_normal) = ExpectedDmg(AttackType.Normal, charaData, data, constellation_addNormalAtkPerDef, referenceStatus: ReferenceStatus.Def);
-        var (expectedDamage_skill, crit_skill) = ExpectedDmg(AttackType.Skill, charaData, data, skillPerDef, referenceStatus: ReferenceStatus.Def);
+        var (expectedDamage_normal, crit_normal) = charaData.ExpectedDmg(AttackType.Normal, constellation_addNormalAtkPerDef, referenceStatus: ReferenceStatus.Def);
+        var (expectedDamage_skill, crit_skill) = charaData.ExpectedDmg(AttackType.Skill, skillPerDef, referenceStatus: ReferenceStatus.Def);
 
         Dictionary<string, string> result = new()
         {

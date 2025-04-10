@@ -15,11 +15,11 @@ public class Noelle : BaseCharacter
 
     public override Dictionary<string, string> CalcDmg(Data data)
     {
-        CharaData charaData = GetCharaData(data);
+        CharaData charaData = new(data);
         charaData.atk += (burst_addAtkPerDef + constellation_addAtkPerDef) * charaData.def;
 
-        var (expectedDamage_normal, crit_normal) = ExpectedDmg(AttackType.Normal, charaData, data, atkRate: normalAtkPerArray[0]);
-        var (expectedDamage_plugged, crit_plugged) = ExpectedDmg(AttackType.Plugged, charaData, data, atkRate: pluggedAtkPerArray[0]);
+        var (expectedDamage_normal, crit_normal) = charaData.ExpectedDmg(AttackType.Normal, atkRate: normalAtkPerArray[0]);
+        var (expectedDamage_plugged, crit_plugged) = charaData.ExpectedDmg(AttackType.Plugged, atkRate: pluggedAtkPerArray[0]);
 
 
         Dictionary<string, string> result = new()

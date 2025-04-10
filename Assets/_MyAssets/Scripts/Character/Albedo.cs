@@ -10,9 +10,9 @@ public class Albedo : BaseCharacter
 
     public override Dictionary<string, string> CalcDmg(Data data)
     {
-        CharaData charaData = GetCharaData(data);
+        CharaData charaData = new(data);
 
-        var (expectedDamage_skill, crit_skill) = ExpectedDmg(AttackType.Skill, charaData, data, skillPerArray[0], referenceStatus: ReferenceStatus.Def);
+        var (expectedDamage_skill, crit_skill) = charaData.ExpectedDmg(AttackType.Skill, skillPerArray[0], referenceStatus: ReferenceStatus.Def);
 
 
         Dictionary<string, string> result = new()

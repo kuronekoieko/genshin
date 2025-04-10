@@ -13,69 +13,7 @@ public abstract class BaseCharacter : MonoBehaviour
     public abstract Dictionary<string, string> CalcDmg(Data data);
 
 
-    protected CharaData GetCharaData(Data data)
-    {
-        CharaData charaData = new(data);
 
-        charaData.hp = status.baseHp * (1 + charaData.hp_rate) + data.hp();
-        charaData.def = status.baseDef * (1 + charaData.def_rate) + data.def();
-
-        var dmgAdd_sekikaku = charaData.def * data.weapon.sekikaku;
-        charaData.add_normal_atk += dmgAdd_sekikaku;
-        charaData.add_charged_atk += dmgAdd_sekikaku;
-
-        var dmgAdd_cinnabar = charaData.def * data.weapon.cinnabar;
-        charaData.add_skill += dmgAdd_cinnabar;
-
-        var homa_atkAdd = charaData.hp * data.weapon.homa;
-        var sekisa_atkAdd = charaData.elemental_mastery * data.weapon.sekisha;
-        var kusanagi_atkAdd = (charaData.energy_recharge - 1) * data.weapon.kusanagi;
-
-        charaData.atk
-            = data.base_atk() * (1 + charaData.atk_rate)
-            + data.atk()
-            + homa_atkAdd
-            + sekisa_atkAdd
-            + kusanagi_atkAdd;
-
-        return charaData;
-    }
-
-    protected (float, Crit) ExpectedDmgSum(
-        AttackType attackType,
-        CharaData charaData,
-        Data data,
-        float[] atkRates,
-        ElementType elementType = ElementType.None,
-        ReferenceStatus referenceStatus = ReferenceStatus.Atk,
-        float er_multi = 1,
-        float er_add = 0)
-    {
-        if (elementType == ElementType.None) elementType = status.elementType;
-        ExpectedDamage expectedDamage = new(attackType, elementType, charaData, data.artSub);
-
-        float result = expectedDamage.GetExpectedDamageSum(referenceStatus, atkRates, er_multi, er_add);
-
-        return (result, expectedDamage.Crit);
-    }
-
-    protected (float, Crit) ExpectedDmg(
-        AttackType attackType,
-        CharaData charaData,
-        Data data,
-        float atkRate,
-        ElementType elementType = ElementType.None,
-        ReferenceStatus referenceStatus = ReferenceStatus.Atk,
-        float er_multi = 1,
-        float er_add = 0)
-    {
-        if (elementType == ElementType.None) elementType = status.elementType;
-        ExpectedDamage expectedDamage = new(attackType, elementType, charaData, data.artSub);
-
-        float result = expectedDamage.GetExpectedDamage(referenceStatus, atkRate, er_multi, er_add);
-
-        return (result, expectedDamage.Crit);
-    }
 }
 
 [System.Flags]

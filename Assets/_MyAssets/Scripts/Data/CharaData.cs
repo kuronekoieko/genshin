@@ -1,7 +1,10 @@
 public class CharaData : BaseData
 {
+    public Data Data { get; private set; }
     public CharaData(Data data)
     {
+        Data = data;
+
         heal_bonus = data.heal_bonus();
         hp_rate = data.hpPerSum();
         energy_recharge = 1 + data.energy_recharge();
@@ -39,6 +42,9 @@ public class CharaData : BaseData
         add_skill = data.add_skill();
         add_burst = data.add_burst();
         res = data.partyData.res;
+
+
+        GetCharaData(data);
     }
 
     public float ElementalDmgBonus(ElementType elementType)
@@ -55,5 +61,65 @@ public class CharaData : BaseData
             ElementType.Physics => physics_bonus,
             _ => 0,
         };
+    }
+
+    void GetCharaData(Data data)
+    {
+        // CharaData charaData = new(data);
+
+        hp = data.status.baseHp * (1 + hp_rate) + data.hp();
+        def = data.status.baseDef * (1 + def_rate) + data.def();
+
+        var dmgAdd_sekikaku = def * data.weapon.sekikaku;
+        add_normal_atk += dmgAdd_sekikaku;
+        add_charged_atk += dmgAdd_sekikaku;
+
+        var dmgAdd_cinnabar = def * data.weapon.cinnabar;
+        add_skill += dmgAdd_cinnabar;
+
+        var homa_atkAdd = hp * data.weapon.homa;
+        var sekisa_atkAdd = elemental_mastery * data.weapon.sekisha;
+        var kusanagi_atkAdd = (energy_recharge - 1) * data.weapon.kusanagi;
+
+        atk
+            = data.base_atk() * (1 + atk_rate)
+            + data.atk()
+            + homa_atkAdd
+            + sekisa_atkAdd
+            + kusanagi_atkAdd;
+
+    }
+
+
+    public (float, Crit) ExpectedDmgSum(
+    AttackType attackType,
+    float[] atkRates,
+    ElementType elementType = ElementType.None,
+    ReferenceStatus referenceStatus = ReferenceStatus.Atk,
+    float er_multi = 1,
+    float er_add = 0)
+    {
+        if (elementType == ElementType.None) elementType = Data.status.elementType;
+        ExpectedDamage expectedDamage = new(attackType, elementType, this, Data.artSub);
+
+        float result = expectedDamage.GetExpectedDamageSum(referenceStatus, atkRates, er_multi, er_add);
+
+        return (result, expectedDamage.Crit);
+    }
+
+    public (float, Crit) ExpectedDmg(
+        AttackType attackType,
+        float atkRate,
+        ElementType elementType = ElementType.None,
+        ReferenceStatus referenceStatus = ReferenceStatus.Atk,
+        float er_multi = 1,
+        float er_add = 0)
+    {
+        if (elementType == ElementType.None) elementType = Data.status.elementType;
+        ExpectedDamage expectedDamage = new(attackType, elementType, this, Data.artSub);
+
+        float result = expectedDamage.GetExpectedDamage(referenceStatus, atkRate, er_multi, er_add);
+
+        return (result, expectedDamage.Crit);
     }
 }

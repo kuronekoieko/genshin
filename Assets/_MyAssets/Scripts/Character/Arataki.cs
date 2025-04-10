@@ -18,13 +18,13 @@ public class Arataki : BaseCharacter
         // 時計原チャじゃないと、かなりdps落ちる
         if (data.energy_recharge() < 0.5f) return null;
 
-        CharaData charaData = GetCharaData(data);
+        CharaData charaData = new(data);
         charaData.atk += burst_addAtkPerDef * charaData.def;
         charaData.add_charged_atk += talent_addDmg_chargedAtk_PerDef * charaData.def;
 
 
-        var (expectedDamage_normal, crit_normal) = ExpectedDmgSum(AttackType.Normal, charaData, data, normalAtkPerArray);
-        var (expectedDamage_charged, crit_charged) = ExpectedDmgSum(AttackType.Charged, charaData, data, chargedAtkPerArray);
+        var (expectedDamage_normal, crit_normal) = charaData.ExpectedDmgSum(AttackType.Normal, normalAtkPerArray);
+        var (expectedDamage_charged, crit_charged) = charaData.ExpectedDmgSum(AttackType.Charged, chargedAtkPerArray);
 
         var sum = expectedDamage_normal + expectedDamage_charged;
 

@@ -39,7 +39,7 @@ public class Gaming : BaseCharacter
     //if (data.partyData.name.Contains("フリーナ") == false) return null;
     // if (data.energy_recharge() < 0.5f) return null;
 
-    CharaData charaData = GetCharaData(data);
+    CharaData charaData = new(data);
     charaData.atk += data.base_atk() * constellation_atkRate;
 
 
@@ -49,7 +49,7 @@ public class Gaming : BaseCharacter
 
     var vaporize = ElementalReaction.VaporizeForPyro(charaData.elemental_mastery, data.er_rate());
 
-    var (expectedDamage, crit) = ExpectedDmg(AttackType.Plugged, charaData, data, pluggedAtkPerArray[0], er_multi: vaporize);
+    var (expectedDamage, crit) = charaData.ExpectedDmg(AttackType.Plugged, pluggedAtkPerArray[0], er_multi: vaporize);
 
     var sum = expectedDamage;
 
