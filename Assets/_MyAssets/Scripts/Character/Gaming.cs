@@ -28,15 +28,15 @@ public class Gaming : BaseCharacter
       !data.artSetData.name.Contains("金メッキ") &&
       !data.artSetData.name.Contains("辰砂")
       ) return null;
-    //if (data.memberData.name.Contains("閑雲")) return null;
-    // if (data.memberData.name.Contains("ベネット")) return null;
-    if (data.weapon.name.Contains("螭龍の剣(完凸)") && !data.memberData.name.Contains("鍾離")) return null;
+    //if (data.partyData.name.Contains("閑雲")) return null;
+    // if (data.partyData.name.Contains("ベネット")) return null;
+    if (data.weapon.name.Contains("螭龍の剣(完凸)") && !data.partyData.name.Contains("鍾離")) return null;
     // if (data.energy_recharge() == 0) return null;
-    //if (data.memberData.name.Contains("ベネット") == false && data.energy_recharge() == 0) return null;
-    // if (data.memberData.name.Contains("鍾離") == false) return null;
-    if (data.memberData.hydro_count == 0) return null;
+    //if (data.partyData.name.Contains("ベネット") == false && data.energy_recharge() == 0) return null;
+    // if (data.partyData.name.Contains("鍾離") == false) return null;
+    if (data.partyData.hydro_count == 0) return null;
 
-    //if (data.memberData.name.Contains("フリーナ") == false) return null;
+    //if (data.partyData.name.Contains("フリーナ") == false) return null;
     // if (data.energy_recharge() < 0.5f) return null;
     // if (data.weapon.name != "草薙の稲光") return null;
     // if (data.weapon.name != "和璞鳶") return null;
@@ -62,7 +62,7 @@ public class Gaming : BaseCharacter
       ["武器"] = data.weapon.name,
       ["聖遺物セット"] = data.artSetData.name,
       ["聖遺物メイン"] = data.artMainData.name,
-      ["バフキャラ"] = data.memberData.name,
+      ["バフキャラ"] = data.partyData.name,
       ["合計期待値"] = sum.ToString(),
       ["攻撃力"] = baseData.atk.ToString(),
       // ["HP"] = baseData.hp.ToString(),
@@ -101,7 +101,7 @@ public class Gaming : BaseCharacter
       crit_rate = data.crit_rate(),
       crit_dmg = data.crit_dmg(),
       add = data.add(),
-      res = GetElementalRes(data.memberData.res) * 0.5f
+      res = GetElementalRes(data.partyData.res) * 0.5f
     };
 
     baseData.hp = status.baseHp * (1 + baseData.hp_rate) + data.hp();

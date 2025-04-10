@@ -15,8 +15,8 @@ public class Mualani : BaseCharacter
 
     public override Dictionary<string, string> CalcDmg(Data data)
     {
-        if (data.memberData.name.Contains("トーマ") == false) return null;
-        // if (data.memberData.name.Contains("夜蘭") == false) return null;
+        if (data.partyData.name.Contains("トーマ") == false) return null;
+        // if (data.partyData.name.Contains("夜蘭") == false) return null;
         // if (data.energy_recharge() < 0.5f) return null;
         // if (data.weapon.name != "草薙の稲光") return null;
         // if (data.weapon.name != "和璞鳶") return null;
@@ -112,7 +112,7 @@ public class Mualani : BaseCharacter
 
         var addAggravate = ElementalReaction.Aggravate(elementalMastery, data.er_aggravate());
 
-        var enemyRES = GetElementalRes(data.memberData.res) * 0.5f;
+        var enemyRES = GetElementalRes(data.partyData.res) * 0.5f;
 
         /*
                 var expectedDmg
@@ -180,7 +180,7 @@ public class Mualani : BaseCharacter
             ["武器"] = data.weapon.name,
             ["聖遺物セット"] = data.artSetData.name,
             ["聖遺物メイン"] = data.artMainData.name,
-            ["バフキャラ"] = data.memberData.name,
+            ["バフキャラ"] = data.partyData.name,
             ["合計期待値"] = sum.ToString(),
             ["一発目期待値"] = expectedDmg_normalAtk_1.ToString(),
             ["攻撃力"] = atk.ToString(),
