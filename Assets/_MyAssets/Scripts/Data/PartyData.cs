@@ -9,11 +9,29 @@ public class PartyData : BaseData, IComparable<PartyData>
 {
     public float add_count;
     public int pyro_count, hydro_count, electro_count, cryo_count, geo_count, anemo_count, dendro_count;
-    public List<MemberData> members = new();
+    public MemberData[] members;
+
+
+    public PartyData(MemberData[] members, ElementType characterElementType)
+    {
+        this.members = members;
+
+        if (members == null)
+        {
+            name = "なし";
+            return;
+        }
+
+        MemberData sumMemberData = Utils.AddInstances(members);
+        Utils.CopyBaseFields<BaseData>(sumMemberData, this);
+        string[] combinedNames = members.Select(memberData => memberData.CombinedName).ToArray();
+        name = string.Join("+", combinedNames);
+        SetElementalResonance(characterElementType);
+        CheckDuplicateOptions();
+    }
 
     public void SetElementalResonance(ElementType elementType)
     {
-
         switch (elementType)
         {
             case ElementType.Pyro:
@@ -76,19 +94,16 @@ public class PartyData : BaseData, IComparable<PartyData>
         if (kaijinCount > 1)
         {
             dmg_bonus -= 0.4f * (kaijinCount - 1);
-            Debug.Log("灰燼 " + dmg_bonus);
+            // Debug.Log("灰燼 " + dmg_bonus);
         }
 
         int suiryokuCount = members.Count((member) => member.option.Contains("翠緑"));
         if (suiryokuCount > 1)
         {
             res += 0.4f * (suiryokuCount - 1);
-            Debug.Log("翠緑 " + res);
-
+            //  Debug.Log("翠緑 " + res);
         }
     }
-
-
 
     public int ElementalTypeCount()
     {

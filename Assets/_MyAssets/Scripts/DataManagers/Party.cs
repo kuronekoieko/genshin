@@ -36,7 +36,7 @@ public static class Party
             }
         }
 
-        PartyData firstPartyData = new() { name = "なし" };
+        PartyData firstPartyData = new(null, characterElementType);
         firstPartyData.SetElementalResonance(characterElementType);
 
         SortedSet<PartyData> partyDatas = new()
@@ -47,14 +47,7 @@ public static class Party
 
         foreach (SortedSet<MemberData> members in membersList)
         {
-            MemberData sumMemberData = Utils.AddInstances(members.ToArray());
-            PartyData partyData = new();
-            Utils.CopyBaseFields<BaseData>(sumMemberData, partyData);
-            string[] combinedNames = members.Select(memberData => memberData.CombinedName).ToArray();
-            partyData.name = string.Join("+", combinedNames);
-            partyData.SetElementalResonance(characterElementType);
-            partyData.members = members.ToList();
-            partyData.CheckDuplicateOptions();
+            PartyData partyData = new(members.ToArray(), characterElementType);
             partyDatas.Add(partyData);
             // Debug.Log(JsonConvert.SerializeObject(partyData, Formatting.Indented));
         }
