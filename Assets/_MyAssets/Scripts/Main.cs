@@ -75,14 +75,14 @@ public class Main : MonoBehaviour
         var weaponDatas = CSVManager.WeaponDatas
             .Where(weaponData => weaponData.type == character.WeaponType)
             .ToArray();
-        var partyDatas = Party.GetPartyDatas(character.status.elementType);
+        var memberDatas = Party.GetMemberDatas(character.status.elementType);
 
         var artifactGroups = Artifact.GetArtifactGroups(isSub);
 
 
         foreach (var weapon in weaponDatas)
         {
-            foreach (var partyData in partyDatas)
+            foreach (var memberData in memberDatas)
             {
                 foreach (var artifactGroup in artifactGroups)
                 {
@@ -91,7 +91,7 @@ public class Main : MonoBehaviour
                         weapon = weapon,
                         artMainData = artifactGroup.artMainData,
                         artSetData = artifactGroup.artSetData,
-                        partyData = partyData,
+                        memberData = memberData,
                         artSub = artifactGroup.artSubData,
                         status = character.status,
                         ascend = character.ascend,

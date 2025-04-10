@@ -7,7 +7,7 @@ public class Data
     public WeaponData weapon;
     public ArtMainData artMainData;
     public ArtSetData artSetData;
-    public PartyData partyData;
+    public MemberData memberData;
     public ArtSubData artSub;
     public Status status;
     public Ascend ascend;
@@ -27,7 +27,7 @@ public class Data
             return true;
         }
 
-        bool hasSelfHarm = status.hasSelfHarm || partyData.has_self_harm;
+        bool hasSelfHarm = status.hasSelfHarm || memberData.has_self_harm;
 
         if ((artSetData.name == "ファントム4" ||
              artSetData.name == "花海4" ||
@@ -49,17 +49,17 @@ public class Data
             return true;
         }
 
-        bool isFrozen = partyData.cryo_count > 0 && partyData.hydro_count > 0;
+        bool isFrozen = memberData.cryo_count > 0 && memberData.hydro_count > 0;
 
         if (artSetData.name == "氷風4(凍結)" && isFrozen == false)
         {
             return true;
         }
-        if (artSetData.name == "氷風4(凍結無し)" && partyData.cryo_count == 0)
+        if (artSetData.name == "氷風4(凍結無し)" && memberData.cryo_count == 0)
         {
             return true;
         }
-        if (artSetData.name == "雷4" && partyData.electro_count == 0)
+        if (artSetData.name == "雷4" && memberData.electro_count == 0)
         {
             return true;
         }
@@ -67,7 +67,7 @@ public class Data
         {
             return !status.isNightSoul;
         }
-        if (partyData.name.Contains("万葉") && partyData.option.Contains("翠緑"))
+        if (memberData.name.Contains("万葉") && memberData.option.Contains("翠緑"))
         {
             return true;
         }
@@ -86,7 +86,7 @@ public class Data
         int skip = weapon.skip
                + artMainData.skip
                + artSetData.skip
-               + partyData.skip
+               + memberData.skip
                + artSub.skip;
 
         return skip > 0;
@@ -102,7 +102,7 @@ public class Data
         return weapon.heal_bonus
         + artMainData.heal_bonus
         + artSetData.heal_bonus
-        + partyData.heal_bonus
+        + memberData.heal_bonus
         + artSub.heal_bonus
         + ascend.heal_bonus;
     }
@@ -112,7 +112,7 @@ public class Data
         return weapon.hp
         + artMainData.hp
         + artSetData.hp
-        + partyData.hp
+        + memberData.hp
         + artSub.hp;
     }
     public float hpPerSum()
@@ -120,7 +120,7 @@ public class Data
         return weapon.hp_rate
         + artMainData.hp_rate
         + artSetData.hp_rate
-        + partyData.hp_rate
+        + memberData.hp_rate
         + artSub.hp_rate
         + ascend.hpPer;
 
@@ -130,7 +130,7 @@ public class Data
         return weapon.energy_recharge
         + artMainData.energy_recharge
         + artSetData.energy_recharge
-        + partyData.energy_recharge
+        + memberData.energy_recharge
         + artSub.energy_recharge
         + ascend.energyRecharge;
 
@@ -140,7 +140,7 @@ public class Data
         return weapon.elemental_mastery
         + artMainData.elemental_mastery
         + artSetData.elemental_mastery
-        + partyData.elemental_mastery
+        + memberData.elemental_mastery
         + artSub.elemental_mastery
         + ascend.elemental_mastery;
     }
@@ -149,7 +149,7 @@ public class Data
         return weapon.def_rate
         + artMainData.def_rate
         + artSetData.def_rate
-        + partyData.def_rate
+        + memberData.def_rate
         + artSub.def_rate
         + ascend.defPer;
     }
@@ -158,7 +158,7 @@ public class Data
         return weapon.def
         + artMainData.def
         + artSetData.def
-        + partyData.def
+        + memberData.def
         + artSub.def;
     }
     public float atk_rate()
@@ -166,7 +166,7 @@ public class Data
         return weapon.atk_rate
         + artMainData.atk_rate
         + artSetData.atk_rate
-        + partyData.atk_rate
+        + memberData.atk_rate
         + artSub.atk_rate
         + ascend.atkPer;
     }
@@ -175,7 +175,7 @@ public class Data
         return weapon.atk
         + artMainData.atk
         + artSetData.atk
-        + partyData.atk
+        + memberData.atk
         + artSub.atk;
     }
     public float dmg_bonus()
@@ -183,7 +183,7 @@ public class Data
         return weapon.dmg_bonus
         + artMainData.dmg_bonus
         + artSetData.dmg_bonus
-        + partyData.dmg_bonus
+        + memberData.dmg_bonus
         + artSub.dmg_bonus
         + ascend.dmgBonus;
         // + ElementalDmgBonus();
@@ -210,7 +210,7 @@ public class Data
         return weapon.pyro_bonus
         + artMainData.pyro_bonus
         + artSetData.pyro_bonus
-        + partyData.pyro_bonus
+        + memberData.pyro_bonus
         + artSub.pyro_bonus;
     }
     public float hydro_bonus()
@@ -218,7 +218,7 @@ public class Data
         return weapon.hydro_bonus
         + artMainData.hydro_bonus
         + artSetData.hydro_bonus
-        + partyData.hydro_bonus
+        + memberData.hydro_bonus
         + artSub.hydro_bonus;
     }
     public float electro_bonus()
@@ -226,7 +226,7 @@ public class Data
         return weapon.electro_bonus
         + artMainData.electro_bonus
         + artSetData.electro_bonus
-        + partyData.electro_bonus
+        + memberData.electro_bonus
         + artSub.electro_bonus;
     }
     public float cryo_bonus()
@@ -234,7 +234,7 @@ public class Data
         return weapon.cryo_bonus
         + artMainData.cryo_bonus
         + artSetData.cryo_bonus
-        + partyData.cryo_bonus
+        + memberData.cryo_bonus
         + artSub.cryo_bonus;
     }
     public float geo_bonus()
@@ -242,7 +242,7 @@ public class Data
         return weapon.geo_bonus
         + artMainData.geo_bonus
         + artSetData.geo_bonus
-        + partyData.geo_bonus
+        + memberData.geo_bonus
         + artSub.geo_bonus;
     }
     public float anemo_bonus()
@@ -250,7 +250,7 @@ public class Data
         return weapon.anemo_bonus
         + artMainData.anemo_bonus
         + artSetData.anemo_bonus
-        + partyData.anemo_bonus
+        + memberData.anemo_bonus
         + artSub.anemo_bonus;
     }
     public float dendro_bonus()
@@ -258,7 +258,7 @@ public class Data
         return weapon.dendro_bonus
         + artMainData.dendro_bonus
         + artSetData.dendro_bonus
-        + partyData.dendro_bonus
+        + memberData.dendro_bonus
         + artSub.dendro_bonus;
     }
     public float physics_bonus()
@@ -266,7 +266,7 @@ public class Data
         return weapon.physics_bonus
         + artMainData.physics_bonus
         + artSetData.physics_bonus
-        + partyData.physics_bonus
+        + memberData.physics_bonus
         + artSub.physics_bonus;
     }
 
@@ -276,7 +276,7 @@ public class Data
         return weapon.normal_atk_bonus
         + artMainData.normal_atk_bonus
         + artSetData.normal_atk_bonus
-        + partyData.normal_atk_bonus
+        + memberData.normal_atk_bonus
         + artSub.normal_atk_bonus;
     }
     public float charged_atk_bonus()
@@ -284,7 +284,7 @@ public class Data
         return weapon.charged_atk_bonus
         + artMainData.charged_atk_bonus
         + artSetData.charged_atk_bonus
-        + partyData.charged_atk_bonus
+        + memberData.charged_atk_bonus
         + artSub.charged_atk_bonus;
     }
     public float plugged_atk_bonus()
@@ -292,7 +292,7 @@ public class Data
         return weapon.plugged_atk_bonus
         + artMainData.plugged_atk_bonus
         + artSetData.plugged_atk_bonus
-        + partyData.plugged_atk_bonus
+        + memberData.plugged_atk_bonus
         + artSub.plugged_atk_bonus;
     }
 
@@ -301,7 +301,7 @@ public class Data
         return weapon.skill_bonus
         + artMainData.skill_bonus
         + artSetData.skill_bonus
-        + partyData.skill_bonus
+        + memberData.skill_bonus
         + artSub.skill_bonus;
     }
     public float burst_bonus()
@@ -309,7 +309,7 @@ public class Data
         return weapon.burst_bonus
         + artMainData.burst_bonus
         + artSetData.burst_bonus
-        + partyData.burst_bonus
+        + memberData.burst_bonus
         + artSub.burst_bonus;
     }
     public float atk_speed()
@@ -317,7 +317,7 @@ public class Data
         return weapon.atk_speed
         + artMainData.atk_speed
         + artSetData.atk_speed
-        + partyData.atk_speed
+        + memberData.atk_speed
         + artSub.atk_speed;
     }
     public float crit_rate()
@@ -325,7 +325,7 @@ public class Data
         return weapon.crit_rate
         + artMainData.crit_rate
         + artSetData.crit_rate
-        + partyData.crit_rate
+        + memberData.crit_rate
         + artSub.crit_rate
         + status.defaultCritRate
         + ascend.critRate;
@@ -335,7 +335,7 @@ public class Data
         return weapon.crit_rate_normal_atk
         + artMainData.crit_rate_normal_atk
         + artSetData.crit_rate_normal_atk
-        + partyData.crit_rate_normal_atk
+        + memberData.crit_rate_normal_atk
         + artSub.crit_rate_normal_atk;
     }
     public float crit_rate_charged_atk()
@@ -343,7 +343,7 @@ public class Data
         return weapon.crit_rate_charged_atk
         + artMainData.crit_rate_charged_atk
         + artSetData.crit_rate_charged_atk
-        + partyData.crit_rate_charged_atk
+        + memberData.crit_rate_charged_atk
         + artSub.crit_rate_charged_atk;
     }
     public float crit_rate_plugged_atk()
@@ -351,7 +351,7 @@ public class Data
         return weapon.crit_rate_plugged_atk
         + artMainData.crit_rate_plugged_atk
         + artSetData.crit_rate_plugged_atk
-        + partyData.crit_rate_plugged_atk
+        + memberData.crit_rate_plugged_atk
         + artSub.crit_rate_plugged_atk;
     }
     public float crit_rate_skill()
@@ -359,7 +359,7 @@ public class Data
         return weapon.crit_rate_skill
         + artMainData.crit_rate_skill
         + artSetData.crit_rate_skill
-        + partyData.crit_rate_skill
+        + memberData.crit_rate_skill
         + artSub.crit_rate_skill;
     }
     public float crit_rate_burst()
@@ -367,7 +367,7 @@ public class Data
         return weapon.crit_rate_burst
         + artMainData.crit_rate_burst
         + artSetData.crit_rate_burst
-        + partyData.crit_rate_burst
+        + memberData.crit_rate_burst
         + artSub.crit_rate_burst;
     }
 
@@ -376,7 +376,7 @@ public class Data
         return weapon.crit_dmg
         + artMainData.crit_dmg
         + artSetData.crit_dmg
-        + partyData.crit_dmg
+        + memberData.crit_dmg
         + artSub.crit_dmg
         + status.defaultCritDmg
         + ascend.critDmg;
@@ -386,7 +386,7 @@ public class Data
         return weapon.crit_dmg_burst
         + artMainData.crit_dmg_burst
         + artSetData.crit_dmg_burst
-        + partyData.crit_dmg_burst
+        + memberData.crit_dmg_burst
         + artSub.crit_dmg_burst;
     }
     public float crit_dmg_plugged()
@@ -394,7 +394,7 @@ public class Data
         return weapon.crit_dmg_plugged
         + artMainData.crit_dmg_plugged
         + artSetData.crit_dmg_plugged
-        + partyData.crit_dmg_plugged
+        + memberData.crit_dmg_plugged
         + artSub.crit_dmg_plugged;
     }
     public float add()
@@ -402,7 +402,7 @@ public class Data
         return weapon.add
         + artMainData.add
         + artSetData.add
-        + partyData.add
+        + memberData.add
         + artSub.add;
     }
     public float add_cryo()
@@ -410,7 +410,7 @@ public class Data
         return weapon.add_cryo
         + artMainData.add_cryo
         + artSetData.add_cryo
-        + partyData.add_cryo
+        + memberData.add_cryo
         + artSub.add_cryo;
     }
     public float add_normal_atk()
@@ -418,7 +418,7 @@ public class Data
         return weapon.add_normal_atk
         + artMainData.add_normal_atk
         + artSetData.add_normal_atk
-        + partyData.add_normal_atk
+        + memberData.add_normal_atk
         + artSub.add_normal_atk;
     }
 
@@ -427,7 +427,7 @@ public class Data
         return weapon.add_charged_atk
         + artMainData.add_charged_atk
         + artSetData.add_charged_atk
-        + partyData.add_charged_atk
+        + memberData.add_charged_atk
         + artSub.add_charged_atk;
     }
 
@@ -436,7 +436,7 @@ public class Data
         return weapon.add_plugged_atk
         + artMainData.add_plugged_atk
         + artSetData.add_plugged_atk
-        + partyData.add_plugged_atk
+        + memberData.add_plugged_atk
         + artSub.add_plugged_atk;
     }
     public float add_skill()
@@ -444,7 +444,7 @@ public class Data
         return weapon.add_skill
         + artMainData.add_skill
         + artSetData.add_skill
-        + partyData.add_skill
+        + memberData.add_skill
         + artSub.add_skill;
     }
 
@@ -453,7 +453,7 @@ public class Data
         return weapon.add_burst
         + artMainData.add_burst
         + artSetData.add_burst
-        + partyData.add_burst
+        + memberData.add_burst
         + artSub.add_burst;
     }
 
@@ -462,7 +462,7 @@ public class Data
         return weapon.er_rate
         + artMainData.er_rate
         + artSetData.er_rate
-        + partyData.er_rate
+        + memberData.er_rate
         + artSub.er_rate;
     }
 
@@ -471,7 +471,7 @@ public class Data
         return weapon.er_fixed
         + artMainData.er_fixed
         + artSetData.er_fixed
-        + partyData.er_fixed
+        + memberData.er_fixed
         + artSub.er_fixed;
     }
     public float er_aggravate()
@@ -479,7 +479,7 @@ public class Data
         return weapon.er_aggravate
         + artMainData.er_aggravate
         + artSetData.er_aggravate
-        + partyData.er_aggravate
+        + memberData.er_aggravate
         + artSub.er_aggravate;
     }
 

@@ -5,12 +5,12 @@ using System;
 using System.Linq;
 
 [Serializable]
-public class PartyData : BaseData, IComparable<PartyData>
+public class MemberData : BaseData, IComparable<MemberData>
 {
     public float add_count;
     public string option = "";
     public int pyro_count, hydro_count, electro_count, cryo_count, geo_count, anemo_count, dendro_count;
-    public List<PartyData> members = new();
+    public List<MemberData> members = new();
 
     public void SetElementalResonance(ElementType elementType)
     {
@@ -94,7 +94,7 @@ public class PartyData : BaseData, IComparable<PartyData>
 
 
     // https://learn.microsoft.com/ja-jp/dotnet/api/system.string.system-icomparable-compareto?view=netstandard-1.6
-    public int CompareTo(PartyData other)
+    public int CompareTo(MemberData other)
     {
         // https://learn.microsoft.com/ja-jp/dotnet/api/system.string.compare?view=net-8.0
         return string.Compare(name, other.name);
@@ -103,7 +103,7 @@ public class PartyData : BaseData, IComparable<PartyData>
     // https://www.mum-meblog.com/entry/tyr-utility/csharp-hashset
     public override bool Equals(object obj)
     {
-        PartyData other = obj as PartyData;
+        MemberData other = obj as MemberData;
         if (other == null) return false;
         return this.name == other.name;
     }

@@ -26,23 +26,23 @@ public class Varesa : BaseCharacter
     public override Dictionary<string, string> CalcDmg(Data data)
     {
 
-        //if (data.partyData.name.Contains("閑雲")) return null;
-        // if (data.partyData.name.Contains("ベネット")) return null;
-        //if (data.weapon.name.Contains("螭龍の剣(完凸)") && !data.partyData.name.Contains("鍾離")) return null;
+        //if (data.memberData.name.Contains("閑雲")) return null;
+        // if (data.memberData.name.Contains("ベネット")) return null;
+        //if (data.weapon.name.Contains("螭龍の剣(完凸)") && !data.memberData.name.Contains("鍾離")) return null;
         // if (data.energy_recharge() == 0) return null;
-        //if (data.partyData.name.Contains("ベネット") == false && data.energy_recharge() == 0) return null;
-        // if (data.partyData.name.Contains("鍾離") == false) return null;
-        //if (data.partyData.hydro_count == 0) return null;
+        //if (data.memberData.name.Contains("ベネット") == false && data.energy_recharge() == 0) return null;
+        // if (data.memberData.name.Contains("鍾離") == false) return null;
+        //if (data.memberData.hydro_count == 0) return null;
 
-        //if (data.partyData.name.Contains("フリーナ") == false) return null;
+        //if (data.memberData.name.Contains("フリーナ") == false) return null;
         // if (data.energy_recharge() < 0.5f) return null;
         // if (data.weapon.name != "草薙の稲光") return null;
         // if (data.weapon.name != "和璞鳶") return null;
 
-        int kaijinCount = data.partyData.members.Count((Member) => Member.option == "灰燼");
+        int kaijinCount = data.memberData.members.Count((Member) => Member.option == "灰燼");
         if (kaijinCount > 1)
         {
-            data.partyData.dmg_bonus -= 0.4f * (kaijinCount - 1);
+            data.memberData.dmg_bonus -= 0.4f * (kaijinCount - 1);
         }
         BaseData baseData = GetBaseData(data);
 
@@ -52,7 +52,7 @@ public class Varesa : BaseCharacter
         var addAggravate = ElementalReaction.Aggravate(baseData.elemental_mastery, data.er_aggravate());
 
         float elementalReaction = 1;
-        if (data.partyData.dendro_count > 0)
+        if (data.memberData.dendro_count > 0)
         {
             elementalReaction = addAggravate;
         }
@@ -71,7 +71,7 @@ public class Varesa : BaseCharacter
             ["武器"] = data.weapon.name,
             ["聖遺物セット"] = data.artSetData.name,
             ["聖遺物メイン"] = data.artMainData.name,
-            ["バフキャラ"] = data.partyData.name,
+            ["バフキャラ"] = data.memberData.name,
             ["合計期待値"] = sum.ToString(),
             ["攻撃力"] = baseData.atk.ToString(),
             // ["HP"] = baseData.hp.ToString(),
@@ -113,7 +113,7 @@ public class Varesa : BaseCharacter
             crit_rate = data.crit_rate(),
             crit_dmg = data.crit_dmg(),
             add = data.add(),
-            res = GetElementalRes(data.partyData.res) * 0.5f
+            res = GetElementalRes(data.memberData.res) * 0.5f
         };
 
         baseData.hp = status.baseHp * (1 + baseData.hp_rate) + data.hp();

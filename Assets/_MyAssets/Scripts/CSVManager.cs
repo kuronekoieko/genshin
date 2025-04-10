@@ -8,7 +8,7 @@ using System.Linq;
 public static class CSVManager
 {
 
-    public static PartyData[] PartyDatas { get; private set; }
+    public static MemberData[] MemberDatas { get; private set; }
     public static ArtSetData[] ArtSetDatas { get; private set; }
     public static ArtSetData[] ArtSetDatas_notSkipped { get; private set; }
     public static WeaponData[] WeaponDatas { get; private set; }
@@ -16,8 +16,8 @@ public static class CSVManager
 
     public static async UniTask InitializeAsync()
     {
-        PartyDatas = await DeserializeAsync<PartyData>("Chara");
-        PartyDatas = PartyDatas.Where(data => data.skip != 1).ToArray();
+        MemberDatas = await DeserializeAsync<MemberData>("Chara");
+        MemberDatas = MemberDatas.Where(data => data.skip != 1).ToArray();
 
         ArtSetDatas_notSkipped = await DeserializeAsync<ArtSetData>("ArtSet");
         ArtSetDatas = ArtSetDatas_notSkipped.Where(data => data.skip != 1).ToArray();

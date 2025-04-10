@@ -8,29 +8,29 @@ using UnityEngine;
 
 public static class Party
 {
-    public static PartyData[] GetPartyDatas(ElementType characterElementType)
+    public static MemberData[] GetMemberDatas(ElementType characterElementType)
     {
         Debug.Log("パーティ計算開始");
 
-        var partyMenbersList = new List<SortedSet<PartyData>>();
-        foreach (var member1 in CSVManager.PartyDatas)
+        var partyMenbersList = new List<SortedSet<MemberData>>();
+        foreach (var member1 in CSVManager.MemberDatas)
         {
-            foreach (var member2 in CSVManager.PartyDatas)
+            foreach (var member2 in CSVManager.MemberDatas)
             {
-                foreach (var member3 in CSVManager.PartyDatas)
+                foreach (var member3 in CSVManager.MemberDatas)
                 {
                     // SortedSetだとGetHashCode()がうごかないため、先にHashSetにする
-                    var partyMemberHashSet = new HashSet<PartyData>
+                    var partyMemberHashSet = new HashSet<MemberData>
                     {
                         member1,
                         member2,
                         member3
                     };
-                    var partyMemberSortedSet = new SortedSet<PartyData>(partyMemberHashSet);
+                    var partyMemberSortedSet = new SortedSet<MemberData>(partyMemberHashSet);
 
-                    //  Debug.Log(string.Join("+", partyMenbers.Select(partyData => partyData.CombinedName).ToArray()));
+                    //  Debug.Log(string.Join("+", partyMenbers.Select(memberData => memberData.CombinedName).ToArray()));
 
-                    string newName = string.Join("+", partyMemberSortedSet.Select(partyData => partyData.CombinedName).ToArray());
+                    string newName = string.Join("+", partyMemberSortedSet.Select(memberData => memberData.CombinedName).ToArray());
 
                     if (IsDuplicate(partyMenbersList, newName)) continue;
                     // Debug.Log(newName);
@@ -40,36 +40,36 @@ public static class Party
             }
         }
 
-        PartyData firstPartyData = new() { name = "なし" };
-        firstPartyData.SetElementalResonance(characterElementType);
+        MemberData firstMemberData = new() { name = "なし" };
+        firstMemberData.SetElementalResonance(characterElementType);
 
-        SortedSet<PartyData> partyDatas = new()
+        SortedSet<MemberData> memberDatas = new()
         {
-            firstPartyData
+            firstMemberData
         };
 
 
         foreach (var partyMenbers in partyMenbersList)
         {
-            PartyData partyData = Utils.AddInstances(partyMenbers.ToArray());
-            string[] combinedNames = partyMenbers.Select(partyData => partyData.CombinedName).ToArray();
-            partyData.name = string.Join("+", combinedNames);
-            partyData.SetElementalResonance(characterElementType);
-            partyData.members = partyMenbers.ToList();
-            partyDatas.Add(partyData);
-            // Debug.Log(JsonConvert.SerializeObject(partyData, Formatting.Indented));
+            MemberData memberData = Utils.AddInstances(partyMenbers.ToArray());
+            string[] combinedNames = partyMenbers.Select(memberData => memberData.CombinedName).ToArray();
+            memberData.name = string.Join("+", combinedNames);
+            memberData.SetElementalResonance(characterElementType);
+            memberData.members = partyMenbers.ToList();
+            memberDatas.Add(memberData);
+            // Debug.Log(JsonConvert.SerializeObject(memberData, Formatting.Indented));
         }
 
-        return partyDatas.ToArray();
+        return memberDatas.ToArray();
     }
 
 
 
-    public static bool IsDuplicate(List<SortedSet<PartyData>> partyMenbersList, string newName)
+    public static bool IsDuplicate(List<SortedSet<MemberData>> partyMenbersList, string newName)
     {
         foreach (var item in partyMenbersList)
         {
-            string oldName = string.Join("+", item.Select(partyData => partyData.CombinedName).ToArray());
+            string oldName = string.Join("+", item.Select(memberData => memberData.CombinedName).ToArray());
             if (newName == oldName)
             {
                 return true;

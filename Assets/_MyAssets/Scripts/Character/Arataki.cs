@@ -103,7 +103,7 @@ public class Arataki : BaseCharacter
         var addAggravate
           = ElementalReaction.Aggravate(elementalMastery, data.artSetData.er_aggravate);
 
-        var enemyRES = GetElementalRes(data.partyData.res) * 0.5f;
+        var enemyRES = GetElementalRes(data.memberData.res) * 0.5f;
 
         /*
                 var expectedDmg
@@ -143,7 +143,7 @@ enemyRES,
             ["武器"] = data.weapon.name,
             ["聖遺物セット"] = data.artSetData.name,
             ["聖遺物メイン"] = data.artMainData.name,
-            ["バフキャラ"] = data.partyData.name,
+            ["バフキャラ"] = data.memberData.name,
             ["合計期待値"] = sum.ToString(),
             ["攻撃力"] = atk.ToString(),
             ["HP"] = hpSum.ToString(),
