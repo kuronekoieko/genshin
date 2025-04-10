@@ -6,14 +6,23 @@ using System;
 
 public class MemberData : BaseData, IComparable<MemberData>
 {
+    public string weapon = "";
+    public string art_set = "";
     public string option = "";
+
 
     public string CombinedName
     {
         get
         {
-            if (string.IsNullOrEmpty(option)) return name;
-            return $"{name}({option})";
+            //  string combinedName = $"{name}({weapon},{art_set},{option})";
+            List<string> infos = new();
+            if (string.IsNullOrEmpty(weapon) == false) infos.Add(weapon);
+            if (string.IsNullOrEmpty(art_set) == false) infos.Add(art_set);
+            if (string.IsNullOrEmpty(option) == false) infos.Add(option);
+            string combinedInfo = string.Join("、", infos);
+            if (string.IsNullOrEmpty(combinedInfo)) return name;
+            return $"{name}({combinedInfo})";
         }
     }
 

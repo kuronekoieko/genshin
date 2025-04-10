@@ -90,14 +90,14 @@ public class PartyData : BaseData, IComparable<PartyData>
 
     public void CheckDuplicateOptions()
     {
-        int kaijinCount = members.Count((member) => member.option.Contains("灰燼"));
+        int kaijinCount = members.Count((member) => member.art_set.Contains("灰燼"));
         if (kaijinCount > 1)
         {
             dmg_bonus -= 0.4f * (kaijinCount - 1);
             // Debug.Log("灰燼 " + dmg_bonus);
         }
 
-        int suiryokuCount = members.Count((member) => member.option.Contains("翠緑"));
+        int suiryokuCount = members.Count((member) => member.art_set.Contains("翠緑"));
         if (suiryokuCount > 1)
         {
             res += 0.4f * (suiryokuCount - 1);
