@@ -107,7 +107,7 @@ public class ExpectedDamage
             _ => 0,
         };
 
-        baseDamage += er_add;
+        baseDamage += dmgAdd + er_add;
         float dmg = baseDamage * (1 + dmgBonus) * expectedCritDmg * res * er_multi;
         return dmg;
     }
