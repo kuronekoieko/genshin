@@ -16,7 +16,7 @@ public static class CSVManager
 
     public static async UniTask InitializeAsync()
     {
-        MemberDatas = await DeserializeAsync<MemberData>("Chara");
+        MemberDatas = await DeserializeAsync<MemberData>("Members");
         MemberDatas = MemberDatas.Where(data => data.skip != 1).ToArray();
 
         ArtSetDatas_notSkipped = await DeserializeAsync<ArtSetData>("ArtSet");
