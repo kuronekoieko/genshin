@@ -52,21 +52,23 @@ public abstract class BaseCharacter : MonoBehaviour
         readonly float dmgBonus;
         readonly float expectedCritDmg;
         readonly float res;
+        float addTalentRate;
 
-        public ExpectedDamage(float atk, float dmgAdd, float dmgBonus, float expectedCritDmg, float res)
+        public ExpectedDamage(float atk, float dmgAdd, float dmgBonus, float expectedCritDmg, float res, float addTalentRate = 0)
         {
             this.atk = atk;
             this.dmgAdd = dmgAdd;
             this.dmgBonus = dmgBonus;
             this.expectedCritDmg = expectedCritDmg;
             this.res = res;
+            this.addTalentRate = addTalentRate;
         }
 
 
 
         public float GetExpectedDamage(float talentRate, float elementalReaction = 1)
         {
-            float dmg = (atk * talentRate + dmgAdd) * (1 + dmgBonus) * expectedCritDmg * res * elementalReaction;
+            float dmg = (atk * (talentRate + addTalentRate) + dmgAdd) * (1 + dmgBonus) * expectedCritDmg * res * elementalReaction;
             return dmg;
         }
 
