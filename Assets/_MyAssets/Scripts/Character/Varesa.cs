@@ -42,9 +42,13 @@ public class Varesa : BaseCharacter
 
         // var melt = ElementalReaction.MeltForPyro(baseData.elemental_mastery, 0);
         //  var vaporize = ElementalReaction.VaporizeForPyro(baseData.elemental_mastery, data.er_rate());
-        // var addAggravate = ElementalReaction.Aggravate(baseData.elemental_mastery, data.er_aggravate());
+        var addAggravate = ElementalReaction.Aggravate(baseData.elemental_mastery, data.er_aggravate());
 
         float elementalReaction = 1;
+        if (data.partyData.dendro_count > 0)
+        {
+            elementalReaction = addAggravate;
+        }
         // var (expectedDamage, crit) = ExpectedDmg_normalAtk(property);
         // var (expectedDamage, crit) = ExpectedDmg_chargedAtk(property);
         var (expectedDamage, crit) = ExpectedDmg_pluggedAtk(baseData, data, elementalReaction);
@@ -53,7 +57,7 @@ public class Varesa : BaseCharacter
         // var (expectedDamage, crit) = ExpectedDmg_burst(property);
 
 
-        var sum = expectedDamage;
+        var sum = Mathf.FloorToInt(expectedDamage);
 
         Dictionary<string, string> result = new()
         {
