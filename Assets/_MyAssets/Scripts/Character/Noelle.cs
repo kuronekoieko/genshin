@@ -6,9 +6,7 @@ public class Noelle : BaseCharacter
 {
     // スキル Lv9
     float[] normalAtkPerArray = { 1.45f, 1.35f, 1.58f, 2.08f, };
-    // float[] normalAtkPerArray = { 1.45f, };
 
-    float[] chargedAtkPerArray = { };
     float[] pluggedAtkPerArray = { 2.74f };
 
     float burst_addAtkPerDef = 0.68f;
@@ -18,11 +16,11 @@ public class Noelle : BaseCharacter
     public override Dictionary<string, string> CalcDmg(Data data)
     {
         CharaData charaData = GetCharaData(data);
-        // var (expectedDamage_normal, crit_normal) = ExpectedDmg(AttackType.Normal, charaData, data, normalAtkPerArray);
-        var (expectedDamage_plugged, crit_plugged) = ExpectedDmg(AttackType.Plugged, charaData, data, defRate: chargedAtkPerArray[0]);
-        // var (expectedDamage_charged, crit_charged) = ExpectedDmg(AttackType.Charged, charaData, data, pluggedAtkPerArray);
-        // var (expectedDamage_skill, crit_skill) = ExpectedDmg(AttackType.Skill, charaData, data, null);
-        // var (expectedDamage_burst, crit_burst) = ExpectedDmg(AttackType.Skill, charaData, data, null);
+        charaData.atk += (burst_addAtkPerDef + constellation_addAtkPerDef) * charaData.def;
+
+        var (expectedDamage_normal, crit_normal) = ExpectedDmg(AttackType.Normal, charaData, data, atkRate: normalAtkPerArray[0]);
+        var (expectedDamage_plugged, crit_plugged) = ExpectedDmg(AttackType.Plugged, charaData, data, atkRate: pluggedAtkPerArray[0]);
+
 
         Dictionary<string, string> result = new()
         {

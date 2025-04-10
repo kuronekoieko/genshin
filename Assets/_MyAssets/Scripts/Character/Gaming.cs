@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Gaming : BaseCharacter
 {
-  readonly float[] normalAtkPerArray = { 0, };
-  readonly float[] chargedAtkPerArray = { 0, };
+  // readonly float[] normalAtkPerArray = { 0, };
+  // readonly float[] chargedAtkPerArray = { 0, };
   //readonly float[] pluggedAtkPerArray = { 3.91f, };
   // lv8
   readonly float[] pluggedAtkPerArray = { 3.686f, };
 
-  readonly float[] skillPerArray = { 0, };
-  readonly float[] burstPerArray = { 0, };
+  // readonly float[] skillPerArray = { 0, };
+  // readonly float[] burstPerArray = { 0, };
 
   float talent_addDmgBonusPluggedAtk = 0.2f;
 
@@ -40,6 +40,9 @@ public class Gaming : BaseCharacter
     // if (data.energy_recharge() < 0.5f) return null;
 
     CharaData charaData = GetCharaData(data);
+    charaData.atk += data.base_atk() * constellation_atkRate;
+
+
     charaData.crit_rate_plugged_atk += constellation_critRate;
     charaData.crit_dmg_plugged += constellation_critDmg;
     charaData.crit_dmg_plugged += talent_addDmgBonusPluggedAtk;

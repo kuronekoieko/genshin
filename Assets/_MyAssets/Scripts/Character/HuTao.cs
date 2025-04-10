@@ -23,6 +23,7 @@ public class HuTao : BaseCharacter
 
         CharaData charaData = GetCharaData(data);
         charaData.pyro_bonus += talent_dmgBonus;
+        charaData.atk += charaData.hp * skill_addAtkPerHp;
 
         // var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
         var vaporize = ElementalReaction.VaporizeForPyro(charaData.elemental_mastery, data.er_rate());

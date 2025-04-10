@@ -4,16 +4,16 @@ using System.Linq;
 
 public class Varesa : BaseCharacter
 {
-    readonly float[] normalAtkPerArray = { 0, };
-    readonly float[] chargedAtkPerArray = { 0, };
+    // readonly float[] normalAtkPerArray = { 0, };
+    // readonly float[] chargedAtkPerArray = { 0, };
     //readonly float[] pluggedAtkPerArray = { 3.91f, };
     // lv8
     readonly float[] pluggedAtkPerArray = { 5.52f, };
 
-    readonly float[] skillPerArray = { 0, };
-    readonly float[] burstPerArray = { 0, };
+    // readonly float[] skillPerArray = { 0, };
+    //readonly float[] burstPerArray = { 0, };
 
-    float talent_addPerPluggedAtk_1 = 0.5f;
+    // float talent_addPerPluggedAtk_1 = 0.5f;
     float talent_addPerPluggedAtk_2 = 1.8f;
 
 

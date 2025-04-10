@@ -20,21 +20,7 @@ public class Chasca : BaseCharacter
   public override Dictionary<string, string> CalcDmg(Data data)
   {
     CharaData charaData = GetCharaData(data);
-    // var (expectedDamage_normal, crit_normal) = ExpectedDmg(AttackType.Normal, charaData, data, normalAtkPerArray);
-    // var (expectedDamage_charged, crit_charged) = ExpectedDmg(AttackType.Charged, charaData, data, chargedAtkPerArray);
-    // var (expectedDamage_plugged, crit_plugged) = ExpectedDmg(AttackType.Plugged, charaData, data, pluggedAtkPerArray);
-    // var (expectedDamage_skill, crit_skill) = ExpectedDmg(AttackType.Skill, charaData, data, skillPerArray);
-    // var (expectedDamage_burst, crit_burst) = ExpectedDmg(AttackType.Skill, charaData, data, null);
-
-
-    // var melt = ElementalReaction.MeltForPyro(charaData.elemental_mastery, 0);
-    // var vaporizeForPyro = ElementalReaction.VaporizeForPyro(charaData.elemental_mastery, data.er_rate());
-    // var vaporizeForHydro = ElementalReaction.VaporizeForHydro(charaData.elemental_mastery, data.er_rate());
-
-    //    var addAggravate = ElementalReaction.Aggravate(charaData.elemental_mastery, data.er_aggravate());
-
-    // int elementalTypeCount = data.partyData.ElementalTypeCount();
-    //Debug.Log(elementalTypeCount + " " + data.partyData.name);
+    charaData.charged_atk_bonus += talent_chargedAtkDmgBonus;
 
 
     var (expectedDamage_charged_anemo, crit_charged) = ExpectedDmg(AttackType.Charged, ElementType.Anemo, charaData, data, chargedAtkRate_anemo);
@@ -42,8 +28,6 @@ public class Chasca : BaseCharacter
     var (expectedDamage_charged_Cryo, crit_charged_Cryo) = ExpectedDmg(AttackType.Charged, ElementType.Cryo, charaData, data, chargedAtkRate_otherElement);
     var (expectedDamage_charged_Electro, crit_charged_Electro) = ExpectedDmg(AttackType.Charged, ElementType.Electro, charaData, data, chargedAtkRate_otherElement);
     var (expectedDamage_charged_Hydro, crit_charged_Hydro) = ExpectedDmg(AttackType.Charged, ElementType.Hydro, charaData, data, chargedAtkRate_otherElement);
-
-
 
 
     var sum = expectedDamage_charged_anemo * 3 + expectedDamage_charged_Pyro + expectedDamage_charged_Hydro + expectedDamage_charged_Cryo;

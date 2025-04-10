@@ -34,12 +34,6 @@ public class Neuvillette : BaseCharacter
 
 
 
-
-
-
-
-
-
     var sum = expectedDamage_charged;
     var crit = crit_charged;
 

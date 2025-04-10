@@ -19,11 +19,12 @@ public class Arataki : BaseCharacter
         if (data.energy_recharge() < 0.5f) return null;
 
         CharaData charaData = GetCharaData(data);
+        charaData.atk += burst_addAtkPerDef * charaData.def;
+        charaData.add_charged_atk += talent_addDmg_chargedAtk_PerDef * charaData.def;
+
+
         var (expectedDamage_normal, crit_normal) = ExpectedDmg(AttackType.Normal, charaData, data, normalAtkPerArray);
         var (expectedDamage_charged, crit_charged) = ExpectedDmg(AttackType.Charged, charaData, data, chargedAtkPerArray);
-        //var (expectedDamage_plugged, crit_plugged) = ExpectedDmg(AttackType.Plugged, charaData, data, pluggedAtkPerArray);
-        var (expectedDamage_skill, crit_skill) = ExpectedDmg(AttackType.Skill, charaData, data, null);
-        var (expectedDamage_burst, crit_burst) = ExpectedDmg(AttackType.Skill, charaData, data, null);
 
         var sum = expectedDamage_normal + expectedDamage_charged;
 
@@ -37,12 +38,12 @@ public class Arataki : BaseCharacter
             ["攻撃力"] = charaData.atk.ToString(),
             ["HP"] = charaData.hp.ToString(),
             //  ["バフ"] = dmgBonus.ToString(),
-            ["会心ダメ期待値"] = crit_skill.ExpectedCritDmg.ToString(),
+            // ["会心ダメ期待値"] = crit_skill.ExpectedCritDmg.ToString(),
             // ["熟知"] = elementalMastery.ToString(),
-            ["率ダメ"] = crit_skill.RateDmg,
-            ["会心ダメ比率"] = crit_skill.CritProportion,
+            // ["率ダメ"] = crit_skill.RateDmg,
+            // ["会心ダメ比率"] = crit_skill.CritProportion,
             ["聖遺物組み合わせ"] = data.artSub.name,
-            ["サブステ"] = crit_skill.SubCrit.ToString(),
+            // ["サブステ"] = crit_skill.SubCrit.ToString(),
             ["サブHP%"] = data.artSub.hp_rate.ToString(),
             ["サブHP"] = data.artSub.hp.ToString(),
             ["スコア"] = data.artSub.Score.ToString()
