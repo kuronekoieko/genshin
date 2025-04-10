@@ -380,7 +380,22 @@ public class Data
         + artSub.crit_dmg
         + status.defaultCritDmg
         + ascend.critDmg;
-
+    }
+    public float crit_dmg_burst()
+    {
+        return weapon.crit_dmg_burst
+        + artMainData.crit_dmg_burst
+        + artSetData.crit_dmg_burst
+        + partyData.crit_dmg_burst
+        + artSub.crit_dmg_burst;
+    }
+    public float crit_dmg_plugged()
+    {
+        return weapon.crit_dmg_plugged
+        + artMainData.crit_dmg_plugged
+        + artSetData.crit_dmg_plugged
+        + partyData.crit_dmg_plugged
+        + artSub.crit_dmg_plugged;
     }
     public float add()
     {
