@@ -16,9 +16,9 @@ public abstract class BaseCharacterSO : ScriptableObject
     bool isSub = false;
 
     public abstract Dictionary<string, string> CalcDmg(Data data);
-    public SelectedWeapon[] selectedWeapon;
-    public SelectedMember[] selectedMember;
-    public SelectedArtSetData[] selectedArtSet;
+    public List<SelectedWeapon> selectedWeapon;
+    public List<SelectedMember> selectedMember;
+    public List<SelectedArtSetData> selectedArtSet;
 
 
     [ContextMenu("Load CSV")]
@@ -26,34 +26,58 @@ public abstract class BaseCharacterSO : ScriptableObject
     {
         var WeaponDatas = await CSVManager.DeserializeAsync<WeaponData>("Weapon");
 
-        selectedWeapon = WeaponDatas
+        var selectedWeapon = WeaponDatas
         .Where(weaponData => weaponData.type == WeaponType)
         .Select(weaponData => new SelectedWeapon()
         {
             WeaponData = weaponData,
             name = weaponData.name,
-        }).ToArray();
+        }).ToList();
+
+        AddDifference(this.selectedWeapon, selectedWeapon);
 
         var MemberDatas = await CSVManager.DeserializeAsync<MemberData>("Members");
-        selectedMember = MemberDatas.Select(member => new SelectedMember()
+        var selectedMember = MemberDatas.Select(member => new SelectedMember()
         {
             Member = member,
             name = member.name,
             weapon = member.weapon,
             art_set = member.art_set,
             option = member.option,
-        }).ToArray();
+        }).ToList();
+
+        AddDifference(this.selectedMember, selectedMember);
+
 
         var ArtSetDatas = await CSVManager.DeserializeAsync<ArtSetData>("ArtSet");
-        selectedArtSet = ArtSetDatas.Select(artSetData => new SelectedArtSetData()
+        var selectedArtSet = ArtSetDatas.Select(artSetData => new SelectedArtSetData()
         {
             ArtSetData = artSetData,
             name = artSetData.name,
             set = artSetData.set,
             option = artSetData.option,
-        }).ToArray();
+        }).ToList();
+        AddDifference(this.selectedArtSet, selectedArtSet);
 
         Debug.Log("完了");
+    }
+
+    void AddDifference<T>(List<T> existingList, List<T> newList) where T : Selected
+    {
+        List<T> tmpList = new();
+        foreach (var newItem in newList)
+        {
+            bool isContaints = false;
+            foreach (var existingItem in existingList)
+            {
+                if (existingItem.Id == newItem.Id) isContaints = true;
+            }
+            if (isContaints == false) tmpList.Add(newItem);
+        }
+        foreach (var tmp in tmpList)
+        {
+            existingList.Add(tmp);
+        }
     }
 
     [ContextMenu("Calc")]
@@ -76,9 +100,15 @@ public abstract class BaseCharacterSO : ScriptableObject
         {
             Debug.Log(artSetData.name);
         }
+
         var artSetDatas_notSkipped = selectedArtSet
             .Select(s => s.ArtSetData)
             .ToArray();
+
+        foreach (var artSetData in selectedArtSet)
+        {
+            Debug.Log(artSetData.name);
+        }
 
         foreach (var artSetData in artSetDatas_notSkipped)
         {
@@ -171,4 +201,42 @@ public abstract class BaseCharacterSO : ScriptableObject
         return datas;
     }
 
+}
+
+[Serializable]
+public class SelectedWeapon : Selected
+{
+    public bool isUse;
+    public string name;
+    public WeaponData WeaponData { get; set; }
+    public string Id => WeaponData != null ? WeaponData.name : "";
+}
+
+[Serializable]
+public class SelectedMember : Selected
+{
+    public bool isUse;
+    public string name;
+    public string weapon = "";
+    public string art_set = "";
+    public string option = "";
+    public MemberData Member { get; set; }
+    public string Id => Member.CombinedName;
+
+}
+
+[Serializable]
+public class SelectedArtSetData : Selected
+{
+    public bool isUse;
+    public string name;
+    public int set;
+    public string option;
+    public ArtSetData ArtSetData;
+    public string Id => name + set + option;
+}
+
+public interface Selected
+{
+    public string Id { get; }
 }

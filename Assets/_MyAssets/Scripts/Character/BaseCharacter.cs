@@ -14,9 +14,9 @@ public abstract class BaseCharacter : MonoBehaviour
     bool isSub = false;
 
     public abstract Dictionary<string, string> CalcDmg(Data data);
-    public SelectedWeapon[] selectedWeapon;
-    public SelectedMember[] selectedMember;
-    public SelectedArtSetData[] selectedArtSet;
+    public List<SelectedWeapon> selectedWeapon;
+    public List<SelectedMember> selectedMember;
+    public List<SelectedArtSetData> selectedArtSet;
 
 
     [ContextMenu("Load CSV")]
@@ -30,7 +30,7 @@ public abstract class BaseCharacter : MonoBehaviour
         {
             WeaponData = weaponData,
             name = weaponData.name,
-        }).ToArray();
+        }).ToList();
 
         var MemberDatas = await CSVManager.DeserializeAsync<MemberData>("Members");
         selectedMember = MemberDatas.Select(member => new SelectedMember()
@@ -40,7 +40,7 @@ public abstract class BaseCharacter : MonoBehaviour
             weapon = member.weapon,
             art_set = member.art_set,
             option = member.option,
-        }).ToArray();
+        }).ToList();
 
         var ArtSetDatas = await CSVManager.DeserializeAsync<ArtSetData>("ArtSet");
         selectedArtSet = ArtSetDatas.Select(artSetData => new SelectedArtSetData()
@@ -49,7 +49,7 @@ public abstract class BaseCharacter : MonoBehaviour
             name = artSetData.name,
             set = artSetData.set,
             option = artSetData.option,
-        }).ToArray();
+        }).ToList();
 
         Debug.Log("完了");
     }
@@ -107,34 +107,7 @@ public abstract class BaseCharacter : MonoBehaviour
 
 }
 
-[Serializable]
-public class SelectedWeapon
-{
-    public bool isUse;
-    public string name;
-    public WeaponData WeaponData { get; set; }
-}
 
-[Serializable]
-public class SelectedMember
-{
-    public bool isUse;
-    public string name;
-    public string weapon = "";
-    public string art_set = "";
-    public string option = "";
-    public MemberData Member { get; set; }
-}
-
-[Serializable]
-public class SelectedArtSetData
-{
-    public bool isUse;
-    public string name;
-    public int set;
-    public string option;
-    public ArtSetData ArtSetData { get; set; }
-}
 
 [System.Flags]
 public enum ReferenceStatus
