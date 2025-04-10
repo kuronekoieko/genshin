@@ -1,4 +1,4 @@
-skip,name,option,set,atk_rate,def_rate,dmg_bonus,pyro_bonus,hydro_bonus,electro_bonus,cryo_bonus,geo_bonus,anemo_bonus,dendro_bonus,physics_bonus,normal_atk_bonus,charged_atk_bonus,plugged_atk_bonus ,skill_bonus,burst_bonus,er_rate,er_fixed,er_aggravate,elemental_mastery,energy_recharge,zetsuen,crit_rate,atk_speed,hp_rate,heal_bonus,res,is_night_soul
+skip,name,option,set,atk_rate,def_rate,dmg_bonus,pyro_bonus,hydro_bonus,electro_bonus,cryo_bonus,geo_bonus,anemo_bonus,dendro_bonus,physics_bonus,normal_atk_bonus,charged_atk_bonus,plugged_atk_bonus,skill_bonus,burst_bonus,er_rate,er_fixed,er_aggravate,elemental_mastery,energy_recharge,zetsuen,crit_rate,atk_speed,hp_rate,heal_bonus,res,is_night_soul
 1,しめ縄,,2,0.18,,,,,,,,,,,,,,,,,,,,,,,,,,,
 1,しめ縄,,4,,,,,,,,,,,,0.5,0.5,0.5,,,,,,,,,,,,,,
 1,ファントム,,2,,,,,,,,,,,,0.15,0.15,,,,,,,,,,,,,,,

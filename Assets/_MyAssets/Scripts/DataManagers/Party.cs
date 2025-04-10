@@ -55,6 +55,7 @@ public static class Party
             string[] combinedNames = partyMenbers.Select(partyData => partyData.CombinedName).ToArray();
             partyData.name = string.Join("+", combinedNames);
             partyData.SetElementalResonance(characterElementType);
+            partyData.members = partyMenbers.ToList();
             partyDatas.Add(partyData);
             // Debug.Log(JsonConvert.SerializeObject(partyData, Formatting.Indented));
         }

@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 [Serializable]
 public class PartyData : BaseData, IComparable<PartyData>
 {
     public float add_count;
-    public string option;
+    public string option = "";
     public int pyro_count, hydro_count, electro_count, cryo_count, geo_count, anemo_count, dendro_count;
+    public List<PartyData> members = new();
 
     public void SetElementalResonance(ElementType elementType)
     {

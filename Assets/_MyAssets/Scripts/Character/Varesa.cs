@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Varesa : BaseCharacter
 {
@@ -38,7 +39,13 @@ public class Varesa : BaseCharacter
         // if (data.weapon.name != "草薙の稲光") return null;
         // if (data.weapon.name != "和璞鳶") return null;
 
+        int kaijinCount = data.partyData.members.Count((Member) => Member.option == "灰燼");
+        if (kaijinCount > 1)
+        {
+            data.partyData.dmg_bonus -= 0.4f * (kaijinCount - 1);
+        }
         BaseData baseData = GetBaseData(data);
+
 
         // var melt = ElementalReaction.MeltForPyro(baseData.elemental_mastery, 0);
         //  var vaporize = ElementalReaction.VaporizeForPyro(baseData.elemental_mastery, data.er_rate());
@@ -69,7 +76,10 @@ public class Varesa : BaseCharacter
             ["攻撃力"] = baseData.atk.ToString(),
             // ["HP"] = baseData.hp.ToString(),
             // ["加算"] = (baseData.add + data.add_plugged_atk()).ToString(),
-            //["バフ"] = (baseData.dmg_bonus + data.plugged_atk_bonus() + talent_addDmgBonusPluggedAtk).ToString(),
+            ["バフ合計"] = (baseData.dmg_bonus + data.plugged_atk_bonus()).ToString(),
+            ["バフ共通"] = baseData.dmg_bonus.ToString(),
+            ["バフ落下"] = data.plugged_atk_bonus().ToString(),
+
             //["会心ダメ期待値"] = crit.ExpectedCritDmg.ToString(),
             // ["耐性"] = baseData.res.ToString(),
             // ["蒸発"] = vaporize.ToString(),
