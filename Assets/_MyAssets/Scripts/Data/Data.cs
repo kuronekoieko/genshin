@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Data
 {
@@ -66,10 +67,6 @@ public class Data
         if (artSetData.is_night_soul)
         {
             return !status.isNightSoul;
-        }
-        if (partyData.name.Contains("万葉") && partyData.option.Contains("翠緑"))
-        {
-            return true;
         }
 
         if (artMainData.physics_bonus > 0 && status.elementType != ElementType.Physics)

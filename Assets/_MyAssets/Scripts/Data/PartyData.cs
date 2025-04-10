@@ -1,16 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System;
 using System.Linq;
+using UnityEngine;
 
 [Serializable]
 public class PartyData : BaseData, IComparable<PartyData>
 {
     public float add_count;
-    public string option = "";
     public int pyro_count, hydro_count, electro_count, cryo_count, geo_count, anemo_count, dendro_count;
-    public List<PartyData> members = new();
+    public List<MemberData> members = new();
 
     public void SetElementalResonance(ElementType elementType)
     {
@@ -70,14 +69,26 @@ public class PartyData : BaseData, IComparable<PartyData>
         }
     }
 
-    public string CombinedName
+
+    public void CheckDuplicateOptions()
     {
-        get
+        int kaijinCount = members.Count((member) => member.option.Contains("灰燼"));
+        if (kaijinCount > 1)
         {
-            if (string.IsNullOrEmpty(option)) return name;
-            return $"{name}({option})";
+            dmg_bonus -= 0.4f * (kaijinCount - 1);
+            Debug.Log("灰燼 " + dmg_bonus);
+        }
+
+        int suiryokuCount = members.Count((member) => member.option.Contains("翠緑"));
+        if (suiryokuCount > 1)
+        {
+            res += 0.4f * (suiryokuCount - 1);
+            Debug.Log("翠緑 " + res);
+
         }
     }
+
+
 
     public int ElementalTypeCount()
     {
@@ -94,6 +105,7 @@ public class PartyData : BaseData, IComparable<PartyData>
 
 
     // https://learn.microsoft.com/ja-jp/dotnet/api/system.string.system-icomparable-compareto?view=netstandard-1.6
+    // SortedSetに使う
     public int CompareTo(PartyData other)
     {
         // https://learn.microsoft.com/ja-jp/dotnet/api/system.string.compare?view=net-8.0
@@ -101,6 +113,7 @@ public class PartyData : BaseData, IComparable<PartyData>
     }
 
     // https://www.mum-meblog.com/entry/tyr-utility/csharp-hashset
+    // HashSetで使う
     public override bool Equals(object obj)
     {
         PartyData other = obj as PartyData;

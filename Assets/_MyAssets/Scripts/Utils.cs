@@ -61,4 +61,17 @@ public class Utils
         return newInstance;
     }
 
+
+    public static void CopyBaseFields<T>(T source, T destination)
+    {
+        var type = typeof(T);
+        var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public);
+
+        foreach (var field in fields)
+        {
+            var value = field.GetValue(source);
+            field.SetValue(destination, value);
+        }
+    }
+
 }

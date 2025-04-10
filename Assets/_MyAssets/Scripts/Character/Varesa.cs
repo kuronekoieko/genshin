@@ -39,11 +39,6 @@ public class Varesa : BaseCharacter
         // if (data.weapon.name != "草薙の稲光") return null;
         // if (data.weapon.name != "和璞鳶") return null;
 
-        int kaijinCount = data.partyData.members.Count((Member) => Member.option == "灰燼");
-        if (kaijinCount > 1)
-        {
-            data.partyData.dmg_bonus -= 0.4f * (kaijinCount - 1);
-        }
         BaseData baseData = GetBaseData(data);
 
 
@@ -79,6 +74,7 @@ public class Varesa : BaseCharacter
             ["バフ合計"] = (baseData.dmg_bonus + data.plugged_atk_bonus()).ToString(),
             ["バフ共通"] = baseData.dmg_bonus.ToString(),
             ["バフ落下"] = data.plugged_atk_bonus().ToString(),
+            ["耐性ダウン"] = data.partyData.res.ToString(),
 
             //["会心ダメ期待値"] = crit.ExpectedCritDmg.ToString(),
             // ["耐性"] = baseData.res.ToString(),
