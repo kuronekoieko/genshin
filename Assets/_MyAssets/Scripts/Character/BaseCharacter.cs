@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public abstract class BaseCharacter : MonoBehaviour
@@ -11,9 +13,64 @@ public abstract class BaseCharacter : MonoBehaviour
     public string WeaponType => status.WeaponTypeName;
 
     public abstract Dictionary<string, string> CalcDmg(Data data);
+    public A[] weaponDatas;
+    public B[] partyDatas;
+
+    public C[] artifactGroups;
 
 
+    [ContextMenu("Method")]
+    private async Task Method()
+    {
+        await CSVManager.InitializeAsync();
+        weaponDatas = CSVManager.WeaponDatas
+                 .Where(weaponData => weaponData.type == WeaponType)
+                 .Select(weaponData => new A()
+                 {
+                     weaponData = weaponData,
+                     name = weaponData.name,
+                 })
+                 .ToArray();
 
+
+        partyDatas = Party.GetPartyDatas(status.elementType).Select(partyData => new B()
+        {
+            partyData = partyData,
+            name = partyData.name,
+        })
+                 .ToArray();
+
+        artifactGroups = Artifact.GetArtifactGroups(false).Select(artifactGroup => new C()
+        {
+            artifactGroup = artifactGroup,
+            name = artifactGroup.artSetData.name,
+        }).ToArray();
+    }
+
+}
+
+[Serializable]
+public class A
+{
+    public bool isUse;
+    public string name;
+    public WeaponData weaponData { get; set; }
+}
+
+[Serializable]
+public class B
+{
+    public bool isUse;
+    public string name;
+    public PartyData partyData { get; set; }
+}
+
+[Serializable]
+public class C
+{
+    public bool isUse;
+    public string name;
+    public Artifact.ArtifactGroup artifactGroup { get; set; }
 }
 
 [System.Flags]
