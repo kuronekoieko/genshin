@@ -10,7 +10,7 @@ public static class Party
     {
         Debug.Log("パーティ計算開始");
 
-        var partyMenbersList = new List<SortedSet<MemberData>>();
+        var membersList = new List<SortedSet<MemberData>>();
         foreach (var member1 in CSVManager.MemberDatas)
         {
             foreach (var member2 in CSVManager.MemberDatas)
@@ -28,10 +28,10 @@ public static class Party
 
                     string newName = string.Join("+", partyMemberSortedSet.Select(memberData => memberData.CombinedName).ToArray());
 
-                    if (IsDuplicate(partyMenbersList, newName)) continue;
+                    if (IsDuplicate(membersList, newName)) continue;
                     // Debug.Log(newName);
 
-                    partyMenbersList.Add(partyMemberSortedSet);
+                    membersList.Add(partyMemberSortedSet);
                 }
             }
         }
@@ -45,16 +45,16 @@ public static class Party
         };
 
 
-        foreach (var partyMenbers in partyMenbersList)
+        foreach (SortedSet<MemberData> members in membersList)
         {
-            MemberData sumMemberData = Utils.AddInstances(partyMenbers.ToArray());
+            MemberData sumMemberData = Utils.AddInstances(members.ToArray());
             PartyData partyData = new();
             Utils.CopyBaseFields<BaseData>(sumMemberData, partyData);
-            string[] combinedNames = partyMenbers.Select(partyData => partyData.CombinedName).ToArray();
+            string[] combinedNames = members.Select(memberData => memberData.CombinedName).ToArray();
             partyData.name = string.Join("+", combinedNames);
             partyData.SetElementalResonance(characterElementType);
+            partyData.members = members.ToList();
             partyData.CheckDuplicateOptions();
-            partyData.members = partyMenbers.ToList();
             partyDatas.Add(partyData);
             // Debug.Log(JsonConvert.SerializeObject(partyData, Formatting.Indented));
         }
