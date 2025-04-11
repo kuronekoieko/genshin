@@ -51,15 +51,13 @@ public class Data
             return true;
         }
 
-        bool hasSelfHarm = status.hasSelfHarm || partyData.has_self_harm;
 
-        if ((artSetData.name == "ファントム4" ||
-             artSetData.name == "花海4" ||
-             artSetData.name == "辰砂4") &&
-            !hasSelfHarm)
+        if (artSetData.name == "ファントム4" || artSetData.name == "花海4" || artSetData.name == "辰砂4")
         {
-            return true;
+            bool hasSelfHarm = status.hasSelfHarm || partyData.has_self_harm;
+            return !hasSelfHarm;
         }
+
         if (artSetData.name == "劇団4(控え)" && status.isFront)
         {
             return true;

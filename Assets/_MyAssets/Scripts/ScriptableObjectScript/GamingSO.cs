@@ -18,7 +18,7 @@ public class GamingSO : BaseCharacterSO
     //float constellation_critDmg = 0;
 
     public override Dictionary<string, string> CalcDmg(Data data)
-    {
+    {/*
         if (!data.artSetData.name.Contains("ファントム") &&
           !data.artSetData.name.Contains("火魔女") &&
           !data.artSetData.name.Contains("金メッキ") &&
@@ -34,7 +34,7 @@ public class GamingSO : BaseCharacterSO
 
         //if (data.partyData.name.Contains("フリーナ") == false) return null;
         // if (data.energy_recharge() < 0.5f) return null;
-
+*/
         CharaData charaData = new(data);
         charaData.atk += data.base_atk() * constellation_atkRate;
 
@@ -74,6 +74,8 @@ public class GamingSO : BaseCharacterSO
         };
 
         //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));
+
+ 
 
         return result;
     }

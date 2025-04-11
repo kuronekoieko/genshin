@@ -149,15 +149,10 @@ public abstract class BaseCharacterSO : ScriptableObject
     WeaponData[] GetWeaponDatas()
     {
         var weaponDatas = selectedWeapon
-                  .Where(s => s.isUse)
-                  .Select(s => s.WeaponData)
-                  .ToArray();
-
-
-
-        weaponDatas = weaponDatas
-            .Where(weaponData => weaponData.type == WeaponType)
-            .ToArray();
+                .Where(s => s.isUse)
+                .Select(s => s.WeaponData)
+                .Where(weaponData => weaponData.type == WeaponType)
+                .ToArray();
 
         foreach (var item in weaponDatas)
         {
