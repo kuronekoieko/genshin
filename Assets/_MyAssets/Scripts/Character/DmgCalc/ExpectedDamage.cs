@@ -101,9 +101,9 @@ public class ExpectedDamage
         float baseDamage = referenceStatus switch
         {
             ReferenceStatus.Atk => atk * atkRate,
-            ReferenceStatus.Def => atk * atkRate,
-            ReferenceStatus.Hp => atk * atkRate,
-            ReferenceStatus.Em => atk * atkRate,
+            ReferenceStatus.Def => def * atkRate,
+            ReferenceStatus.Hp => hp * atkRate,
+            ReferenceStatus.Em => em * atkRate,
             _ => 0,
         };
 
