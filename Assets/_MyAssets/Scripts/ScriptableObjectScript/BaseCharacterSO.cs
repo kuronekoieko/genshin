@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public abstract class BaseCharacterSO : ScriptableObject
+public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
 {
     public Status status;
     public Ascend ascend;
@@ -16,9 +16,9 @@ public abstract class BaseCharacterSO : ScriptableObject
     public bool isSub = false;
 
     public abstract Dictionary<string, string> CalcDmg(Data data);
-    public List<SelectedWeapon> selectedWeapon;
-    public List<SelectedMember> selectedMember;
-    public List<SelectedArtSetData> selectedArtSet;
+    public List<SelectedWeapon> selectedWeapons;
+    public List<SelectedMember> selectedMembers;
+    public List<SelectedArtSetData> selectedArtSets;
 
 
     [ContextMenu("Load CSV")]
@@ -34,7 +34,7 @@ public abstract class BaseCharacterSO : ScriptableObject
             name = weaponData.name,
         }).ToList();
 
-        this.selectedWeapon = AddDifference(this.selectedWeapon, selectedWeapon);
+        this.selectedWeapons = AddDifference(this.selectedWeapons, selectedWeapon);
 
         var MemberDatas = await CSVManager.DeserializeAsync<MemberData>("Members");
         var selectedMember = MemberDatas.Select(member => new SelectedMember()
@@ -46,7 +46,7 @@ public abstract class BaseCharacterSO : ScriptableObject
             option = member.option,
         }).ToList();
 
-        this.selectedMember = AddDifference(this.selectedMember, selectedMember);
+        this.selectedMembers = AddDifference(this.selectedMembers, selectedMember);
 
 
         var ArtSetDatas = await CSVManager.DeserializeAsync<ArtSetData>("ArtSet");
@@ -57,7 +57,7 @@ public abstract class BaseCharacterSO : ScriptableObject
             set = artSetData.set,
             option = artSetData.option,
         }).ToList();
-        this.selectedArtSet = AddDifference(this.selectedArtSet, selectedArtSet);
+        this.selectedArtSets = AddDifference(this.selectedArtSets, selectedArtSet);
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
@@ -101,6 +101,8 @@ public abstract class BaseCharacterSO : ScriptableObject
     [ContextMenu("Calc")]
     public async void Calc()
     {
+
+        // Calculator.GetDatas();
         List<Data> datas = await GetDatas();
 
         var results = await Calculator.GetResultsAsync(datas, this);
@@ -148,7 +150,13 @@ public abstract class BaseCharacterSO : ScriptableObject
 
     WeaponData[] GetWeaponDatas()
     {
-        var weaponDatas = selectedWeapon
+        Debug.Log("selectedWeapon: " + selectedWeapons.Count);
+        foreach (var item in selectedWeapons)
+        {
+            Debug.Log(item.WeaponData);
+        }
+
+        var weaponDatas = selectedWeapons
                 .Where(s => s.isUse)
                 .Select(s => s.WeaponData)
                 .Where(weaponData => weaponData.type == WeaponType)
@@ -165,7 +173,7 @@ public abstract class BaseCharacterSO : ScriptableObject
 
     PartyData[] GetPartyDatas()
     {
-        var memberDatas = selectedMember
+        var memberDatas = selectedMembers
                    .Where(s => s.isUse)
                    .Select(s => s.Member)
                    .ToArray();
@@ -194,7 +202,7 @@ public abstract class BaseCharacterSO : ScriptableObject
         List<Artifact.ArtifactGroup> artifactGroups;
         if (isSub)
         {
-            var artSetDatas_notSkipped = selectedArtSet
+            var artSetDatas_notSkipped = selectedArtSets
             .Select(s => s.ArtSetData)
             .ToArray();
 
@@ -221,7 +229,7 @@ public abstract class BaseCharacterSO : ScriptableObject
         }
         else
         {
-            var artSetDatas = selectedArtSet
+            var artSetDatas = selectedArtSets
                 .Where(s => s.isUse)
                 .Select(s => s.ArtSetData)
                 .ToArray();
@@ -271,7 +279,7 @@ public class SelectedWeapon : ISelected
 {
     public bool isUse;
     public string name;
-    public WeaponData WeaponData { get; set; }
+    public WeaponData WeaponData;
     public string Id => WeaponData != null ? WeaponData.name : "";
     public bool IsUse { get => isUse; set => isUse = value; }
 }
@@ -284,7 +292,7 @@ public class SelectedMember : ISelected
     public string weapon = "";
     public string art_set = "";
     public string option = "";
-    public MemberData Member { get; set; }
+    public MemberData Member;
     public string Id => Member.CombinedName;
     public bool IsUse { get => isUse; set => isUse = value; }
 }
