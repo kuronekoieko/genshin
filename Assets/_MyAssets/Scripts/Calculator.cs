@@ -12,7 +12,13 @@ public static class Calculator
     public static async UniTask Calc(BaseCharacter character, bool isSub)
     {
         await CSVManager.InitializeAsync();
-        List<Data> datas = GetDatas(character, isSub, CSVManager.WeaponDatas, CSVManager.MemberDatas, CSVManager.ArtSetDatas, CSVManager.ArtSetDatas_notSkipped, CSVManager.ArtifactDatas);
+
+        var partyDatas = Party.GetPartyDatas(character.status.elementType, CSVManager.MemberDatas);
+        var weaponDatas = GetWeaponDatas(character);
+        var artifactGroups = GetArtifactGroups(isSub);
+
+        List<Data> datas = GetDatas(character, weaponDatas, partyDatas, artifactGroups);
+
         var results = await GetResultsAsync(datas, character);
         var texts = ResultsToList(results);
         FileWriter.Save(character.Name, texts);
@@ -54,26 +60,42 @@ public static class Calculator
     }
 
 
-    public static List<Data> GetDatas(
-        BaseCharacter character,
-        bool isSub,
-        WeaponData[] WeaponDatas,
-        MemberData[] MemberDatas,
-        ArtSetData[] ArtSetDatas,
-        ArtSetData[] ArtSetDatas_notSkipped,
-        ArtifactData[] artifactDatas)
+    static WeaponData[] GetWeaponDatas(BaseCharacter character)
+    {
+        var weaponDatas = CSVManager.WeaponDatas
+            .Where(weaponData => weaponData.type == character.WeaponType)
+            .ToArray();
+        return weaponDatas;
+    }
+
+    static List<Artifact.ArtifactGroup> GetArtifactGroups(bool isSub)
+    {
+        if (isSub)
+        {
+            return Artifact.GetSubArtifactGroups(CSVManager.ArtSetDatas_notSkipped, CSVManager.ArtifactDatas);
+        }
+        else
+        {
+            return Artifact.GetArtifactGroups(CSVManager.ArtSetDatas);
+        }
+    }
+
+
+    public static List<Data> GetDatas(BaseCharacter character, WeaponData[] weaponDatas, PartyData[] partyDatas, List<Artifact.ArtifactGroup> artifactGroups)
+    {
+        return GetDatas(character.status, character.ascend, weaponDatas, partyDatas, artifactGroups);
+    }
+
+    public static List<Data> GetDatas(BaseCharacterSO character, WeaponData[] weaponDatas, PartyData[] partyDatas, List<Artifact.ArtifactGroup> artifactGroups)
+    {
+        return GetDatas(character.status, character.ascend, weaponDatas, partyDatas, artifactGroups);
+    }
+
+    static List<Data> GetDatas(Status status, Ascend ascend, WeaponData[] weaponDatas, PartyData[] partyDatas, List<Artifact.ArtifactGroup> artifactGroups)
     {
         Debug.Log("組み合わせ作成開始");
 
         List<Data> datas = new();
-
-        var weaponDatas = WeaponDatas
-            .Where(weaponData => weaponData.type == character.WeaponType)
-            .ToArray();
-        var partyDatas = Party.GetPartyDatas(character.status.elementType, MemberDatas);
-
-        var artifactGroups = Artifact.GetArtifactGroups(ArtSetDatas);
-        if (isSub) artifactGroups = Artifact.GetSubArtifactGroups(ArtSetDatas_notSkipped, artifactDatas);
 
         foreach (var weapon in weaponDatas)
         {
@@ -88,8 +110,8 @@ public static class Calculator
                         artSetData = artifactGroup.artSetData,
                         partyData = partyData,
                         artSub = artifactGroup.artSubData,
-                        status = character.status,
-                        ascend = character.ascend,
+                        status = status,
+                        ascend = ascend,
                     };
 
                     if (data.IsSkip() == false) datas.Add(data);
@@ -101,42 +123,7 @@ public static class Calculator
     }
 
 
-    public static async Task<List<Dictionary<string, string>>> GetResultsAsync(List<Data> datas, BaseCharacter character)
-    {
-        Debug.Log("ダメージ計算開始");
-
-        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-        sw.Start();
-
-
-        List<Dictionary<string, string>> results = new();
-
-        int progress = 0;
-        int max = datas.Count;
-
-        foreach (var data in datas)
-        {
-            Dictionary<string, string> result = character.CalcDmg(data);
-            if (result != null) results.Add(result);
-
-            progress++;
-            if (progress % 200000 == 0)
-            {
-                await UniTask.DelayFrame(1);
-                int per = (int)((float)progress / (float)max * 100f);
-
-                Debug.Log("progress: " + progress + "/" + max + " " + per + "%");
-            }
-        }
-
-
-        sw.Stop();
-        Debug.Log("処理時間 " + sw.ElapsedMilliseconds / 1000f + "s");
-
-        return results;
-    }
-
-    public static async Task<List<Dictionary<string, string>>> GetResultsAsync(List<Data> datas, BaseCharacterSO character)
+    public static async Task<List<Dictionary<string, string>>> GetResultsAsync<T>(List<Data> datas, T character) where T : ICalcDmg
     {
         Debug.Log("ダメージ計算開始");
 

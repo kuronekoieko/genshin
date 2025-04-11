@@ -5,7 +5,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public abstract class BaseCharacter : MonoBehaviour
+public abstract class BaseCharacter : MonoBehaviour, ICalcDmg
 {
     public Status status;
     public Ascend ascend;
@@ -57,6 +57,7 @@ public abstract class BaseCharacter : MonoBehaviour
     [ContextMenu("Calc")]
     public async void Calc()
     {
+        /*
         var weaponDatas = selectedWeapon
             .Where(s => s.isUse)
             .Select(s => s.WeaponData)
@@ -97,13 +98,21 @@ public abstract class BaseCharacter : MonoBehaviour
         ArtifactDatas = ArtifactDatas.Where(data => data.skip != 1).ToArray();
         //  var ArtSetDatas_notSkipped = await CSVManager.DeserializeAsync<ArtSetData>("ArtSet");
 
+        var partyDatas = Party.GetPartyDatas(this.status.elementType, CSVManager.MemberDatas);
 
-        List<Data> datas = Calculator.GetDatas(this, isSub, weaponDatas, memberDatas, artSetDatas, artSetDatas_notSkipped, ArtifactDatas);
+        List<Data> datas = Calculator.GetDatas(this, weaponDatas, memberDatas, artSetDatas, partyDatas);
 
         var results = await Calculator.GetResultsAsync(datas, this);
-        var texts = Calculator.ResultsToList(results);
+        var texts = Calculator.ResultsToList(results);*/
     }
 
+
+}
+
+
+public interface ICalcDmg
+{
+    public abstract Dictionary<string, string> CalcDmg(Data data);
 
 }
 
