@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,7 +13,7 @@ public abstract class BaseCharacterSO : ScriptableObject
     public Ascend ascend;
     public string Name => name;
     public string WeaponType => status.WeaponTypeName;
-    bool isSub = false;
+    public bool isSub = false;
 
     public abstract Dictionary<string, string> CalcDmg(Data data);
     public List<SelectedWeapon> selectedWeapon;
@@ -34,7 +34,7 @@ public abstract class BaseCharacterSO : ScriptableObject
             name = weaponData.name,
         }).ToList();
 
-        AddDifference(this.selectedWeapon, selectedWeapon);
+        this.selectedWeapon = AddDifference(this.selectedWeapon, selectedWeapon);
 
         var MemberDatas = await CSVManager.DeserializeAsync<MemberData>("Members");
         var selectedMember = MemberDatas.Select(member => new SelectedMember()
@@ -46,7 +46,7 @@ public abstract class BaseCharacterSO : ScriptableObject
             option = member.option,
         }).ToList();
 
-        AddDifference(this.selectedMember, selectedMember);
+        this.selectedMember = AddDifference(this.selectedMember, selectedMember);
 
 
         var ArtSetDatas = await CSVManager.DeserializeAsync<ArtSetData>("ArtSet");
@@ -57,79 +57,50 @@ public abstract class BaseCharacterSO : ScriptableObject
             set = artSetData.set,
             option = artSetData.option,
         }).ToList();
-        AddDifference(this.selectedArtSet, selectedArtSet);
+        this.selectedArtSet = AddDifference(this.selectedArtSet, selectedArtSet);
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
 
         Debug.Log("完了");
     }
 
-    void AddDifference<T>(List<T> existingList, List<T> newList) where T : Selected
+    List<T> AddDifference<T>(List<T> existingList, List<T> newList) where T : ISelected
     {
         List<T> tmpList = new();
+
+        // 重複と空id削除
+        var existingArray = existingList.DistinctBy(item => item.Id).ToArray();
+
+        foreach (var existingItem in existingArray)
+        {
+            // Debug.Log("a: " + existingItem.Id);
+            if (string.IsNullOrEmpty(existingItem.Id) == false)
+            {
+                tmpList.Add(existingItem);
+            }
+        }
+
+        // 上書きor追加
         foreach (var newItem in newList)
         {
-            bool isContaints = false;
-            foreach (var existingItem in existingList)
+            if (tmpList.ContainsBy(item => item.Id == newItem.Id, out var index))
             {
-                if (existingItem.Id == newItem.Id) isContaints = true;
+                newItem.IsUse = tmpList[index].IsUse;
+                tmpList[index] = newItem;
             }
-            if (isContaints == false) tmpList.Add(newItem);
+            else
+            {
+                tmpList.Add(newItem);
+            }
         }
-        foreach (var tmp in tmpList)
-        {
-            existingList.Add(tmp);
-        }
+
+        return tmpList;
     }
 
     [ContextMenu("Calc")]
     public async void Calc()
     {
-        var weaponDatas = selectedWeapon
-            .Where(s => s.isUse)
-            .Select(s => s.WeaponData)
-            .ToArray();
-        foreach (var artSetData in weaponDatas)
-        {
-            Debug.Log(artSetData.name);
-        }
-        var memberDatas = selectedMember
-            .Where(s => s.isUse)
-            .Select(s => s.Member)
-            .ToArray();
-
-        foreach (var artSetData in memberDatas)
-        {
-            Debug.Log(artSetData.name);
-        }
-
-        var artSetDatas_notSkipped = selectedArtSet
-            .Select(s => s.ArtSetData)
-            .ToArray();
-
-        foreach (var artSetData in selectedArtSet)
-        {
-            Debug.Log(artSetData.name);
-        }
-
-        foreach (var artSetData in artSetDatas_notSkipped)
-        {
-            Debug.Log(artSetData.name);
-        }
-
-        var artSetDatas = selectedArtSet
-            .Where(s => s.isUse)
-            .Select(s => s.ArtSetData)
-            .ToArray();
-
-        foreach (var artSetData in artSetDatas)
-        {
-            Debug.Log(artSetData.name);
-        }
-
-        var ArtifactDatas = await CSVManager.DeserializeAsync<ArtifactData>("Artifacts");
-        ArtifactDatas = ArtifactDatas.Where(data => data.skip != 1).ToArray();
-        //  var ArtSetDatas_notSkipped = await CSVManager.DeserializeAsync<ArtSetData>("ArtSet");
-
-
         List<Data> datas = await GetDatas();
 
         var results = await Calculator.GetResultsAsync(datas, this);
@@ -142,39 +113,12 @@ public abstract class BaseCharacterSO : ScriptableObject
     async public UniTask<List<Data>> GetDatas()
     {
         Debug.Log("組み合わせ作成開始");
-        var weaponDatas = selectedWeapon
-           .Where(s => s.isUse)
-           .Select(s => s.WeaponData)
-           .ToArray();
 
-        var memberDatas = selectedMember
-            .Where(s => s.isUse)
-            .Select(s => s.Member)
-            .ToArray();
-
-        var artSetDatas_notSkipped = selectedArtSet
-            .Select(s => s.ArtSetData)
-            .ToArray();
-
-        var artSetDatas = selectedArtSet
-            .Where(s => s.isUse)
-            .Select(s => s.ArtSetData)
-            .ToArray();
-
-        var artifactDatas = await CSVManager.DeserializeAsync<ArtifactData>("Artifacts");
-
-        artifactDatas = artifactDatas.Where(data => data.skip != 1).ToArray();
+        var weaponDatas = GetWeaponDatas();
+        var partyDatas = GetPartyDatas();
+        var artifactGroups = await GetArtifactGroups();
 
         List<Data> datas = new();
-
-
-        weaponDatas = weaponDatas
-            .Where(weaponData => weaponData.type == WeaponType)
-            .ToArray();
-        var partyDatas = Party.GetPartyDatas(status.elementType, memberDatas);
-
-        var artifactGroups = Artifact.GetArtifactGroups(isSub, artSetDatas, artSetDatas_notSkipped, artifactDatas);
-
 
         foreach (var weapon in weaponDatas)
         {
@@ -182,6 +126,7 @@ public abstract class BaseCharacterSO : ScriptableObject
             {
                 foreach (var artifactGroup in artifactGroups)
                 {
+
                     Data data = new()
                     {
                         weapon = weapon,
@@ -201,19 +146,143 @@ public abstract class BaseCharacterSO : ScriptableObject
         return datas;
     }
 
+    WeaponData[] GetWeaponDatas()
+    {
+        var weaponDatas = selectedWeapon
+                  .Where(s => s.isUse)
+                  .Select(s => s.WeaponData)
+                  .ToArray();
+
+
+
+        weaponDatas = weaponDatas
+            .Where(weaponData => weaponData.type == WeaponType)
+            .ToArray();
+
+        foreach (var item in weaponDatas)
+        {
+            Debug.Log(item.skip);
+        }
+        Debug.Log("weaponDatas: " + weaponDatas.Length);
+
+        return weaponDatas;
+    }
+
+    PartyData[] GetPartyDatas()
+    {
+        var memberDatas = selectedMember
+                   .Where(s => s.isUse)
+                   .Select(s => s.Member)
+                   .ToArray();
+
+        foreach (var item in memberDatas)
+        {
+            if (string.IsNullOrEmpty(item.name))
+            {
+                Debug.LogError(item.name);
+            }
+            Debug.Log(item.skip);
+
+        }
+
+
+        var partyDatas = Party.GetPartyDatas(status.elementType, memberDatas);
+
+        Debug.Log("partyDatas: " + partyDatas.Length);
+
+        return partyDatas;
+    }
+
+
+    async UniTask<List<Artifact.ArtifactGroup>> GetArtifactGroups()
+    {
+        List<Artifact.ArtifactGroup> artifactGroups;
+        if (isSub)
+        {
+            var artSetDatas_notSkipped = selectedArtSet
+            .Select(s => s.ArtSetData)
+            .ToArray();
+
+            foreach (var item in artSetDatas_notSkipped)
+            {
+                if (string.IsNullOrEmpty(item.name))
+                {
+                    Debug.LogError(item.name);
+                }
+            }
+
+            var artifactDatas = await CSVManager.DeserializeAsync<ArtifactData>("Artifacts");
+            foreach (var item in artifactDatas)
+            {
+                if (string.IsNullOrEmpty(item.name))
+                {
+                    Debug.LogError(item.name);
+                }
+                Debug.Log(item.skip);
+            }
+            artifactDatas = artifactDatas.Where(data => data.skip != 1).ToArray();
+
+            artifactGroups = Artifact.GetSubArtifactGroups(artSetDatas_notSkipped, artifactDatas);
+        }
+        else
+        {
+            var artSetDatas = selectedArtSet
+                .Where(s => s.isUse)
+                .Select(s => s.ArtSetData)
+                .ToArray();
+
+            foreach (var item in artSetDatas)
+            {
+                if (string.IsNullOrEmpty(item.name))
+                {
+                    Debug.LogError(item.name);
+                }
+            }
+
+            artifactGroups = Artifact.GetArtifactGroups(artSetDatas);
+        }
+
+        Debug.Log("artifactGroups: " + artifactGroups.Count);
+
+        return artifactGroups;
+    }
+
 }
 
+
+public static class Extension
+{
+
+    public static bool ContainsBy<T>(this List<T> self, Func<T, bool> contains, out int index) where T : ISelected
+    {
+        index = -1;
+
+        for (int i = 0; i < self.Count; i++)
+        {
+            if (contains(self[i]))
+            {
+                index = i;
+                return true;
+            }
+        }
+        return false;
+    }
+
+}
+
+
 [Serializable]
-public class SelectedWeapon : Selected
+public class SelectedWeapon : ISelected
 {
     public bool isUse;
     public string name;
     public WeaponData WeaponData { get; set; }
     public string Id => WeaponData != null ? WeaponData.name : "";
+    public bool IsUse { get => isUse; set => isUse = value; }
 }
 
 [Serializable]
-public class SelectedMember : Selected
+public class SelectedMember : ISelected
 {
     public bool isUse;
     public string name;
@@ -222,11 +291,11 @@ public class SelectedMember : Selected
     public string option = "";
     public MemberData Member { get; set; }
     public string Id => Member.CombinedName;
-
+    public bool IsUse { get => isUse; set => isUse = value; }
 }
 
 [Serializable]
-public class SelectedArtSetData : Selected
+public class SelectedArtSetData : ISelected
 {
     public bool isUse;
     public string name;
@@ -234,9 +303,12 @@ public class SelectedArtSetData : Selected
     public string option;
     public ArtSetData ArtSetData;
     public string Id => name + set + option;
+    public bool IsUse { get => isUse; set => isUse = value; }
 }
 
-public interface Selected
+public interface ISelected
 {
     public string Id { get; }
+    public bool IsUse { get; set; }
+
 }

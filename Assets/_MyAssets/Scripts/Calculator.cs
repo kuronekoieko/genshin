@@ -72,8 +72,8 @@ public static class Calculator
             .ToArray();
         var partyDatas = Party.GetPartyDatas(character.status.elementType, MemberDatas);
 
-        var artifactGroups = Artifact.GetArtifactGroups(isSub, ArtSetDatas, ArtSetDatas_notSkipped, artifactDatas);
-
+        var artifactGroups = Artifact.GetArtifactGroups(ArtSetDatas);
+        if (isSub) artifactGroups = Artifact.GetSubArtifactGroups(ArtSetDatas_notSkipped, artifactDatas);
 
         foreach (var weapon in weaponDatas)
         {

@@ -2,44 +2,45 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using Newtonsoft.Json;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 public class Artifact
 {
 
 
-    public static List<ArtifactGroup> GetArtifactGroups(bool isSub, ArtSetData[] csvArtSetDatas, ArtSetData[] ArtSetDatas_notSkipped, ArtifactData[] artifactDatas)
+    public static List<ArtifactGroup> GetArtifactGroups(ArtSetData[] csvArtSetDatas)
     {
 
         List<ArtifactGroup> artifactGroups = new();
 
-        if (isSub == false)
+        Debug.Log("not sub");
+        var artMainDatas = Artifacts_Main.GetArtMainDatas();
+        var artSetDatas = Artifacts_Set.GetArtSetDatas(csvArtSetDatas).ToArray();
+
+        //var artSetDatas = CSVManager.artSetDatas.Where(artSetData => artSetData.skip != 1).ToArray();
+
+        foreach (var artSets in artSetDatas)
         {
-            var artMainDatas = Artifacts_Main.GetArtMainDatas();
-            var artSetDatas = Artifacts_Set.GetArtSetDatas(csvArtSetDatas).ToArray();
-
-            //var artSetDatas = CSVManager.artSetDatas.Where(artSetData => artSetData.skip != 1).ToArray();
-
-            foreach (var artSets in artSetDatas)
+            foreach (var artMain in artMainDatas)
             {
-                foreach (var artMain in artMainDatas)
+                ArtifactGroup artifactGroup = new()
                 {
-                    ArtifactGroup artifactGroup = new()
-                    {
-                        artSetData = artSets,
-                        artMainData = artMain,
-                        artSubData = new ArtSubData(null),
-                    };
-                    artifactGroups.Add(artifactGroup);
-                }
+                    artSetData = artSets,
+                    artMainData = artMain,
+                    artSubData = new ArtSubData(null),
+                };
+                artifactGroups.Add(artifactGroup);
             }
-            return artifactGroups;
         }
+        return artifactGroups;
 
+
+    }
+
+
+    public static List<ArtifactGroup> GetSubArtifactGroups(ArtSetData[] ArtSetDatas_notSkipped, ArtifactData[] artifactDatas)
+    {
+        List<ArtifactGroup> artifactGroups = new();
         var flowerList = artifactDatas.Where(artifactData => artifactData.part == "花").ToList();
         var plumeList = artifactDatas.Where(artifactData => artifactData.part == "羽").ToList();
         var sandsList = artifactDatas.Where(artifactData => artifactData.part == "時計").ToList();
@@ -68,6 +69,7 @@ public class Artifact
 
         return artifactGroups;
     }
+
 
     static ArtifactGroup GetArtifactGroup(ArtifactData flower, ArtifactData plume, ArtifactData sands, ArtifactData goblet, ArtifactData circlet, ArtSetData[] ArtSetDatas_notSkipped)
     {
