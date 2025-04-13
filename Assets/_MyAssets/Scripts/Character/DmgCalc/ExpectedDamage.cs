@@ -18,7 +18,7 @@ public class ExpectedDamage
         float dmgBonus = charaData.dmg_bonus + charaData.ElementalDmgBonus(elementType);
         float critRate = charaData.crit_rate;
         float critDmg = charaData.crit_dmg;
-
+        float elementalRes = charaData.res + charaData.GetElementalRes(elementType);
 
         switch (attackType)
         {
@@ -64,33 +64,9 @@ public class ExpectedDamage
         this.dmgAdd = dmgAdd;
         this.dmgBonus = dmgBonus;
         this.expectedCritDmg = Crit.ExpectedCritDmg;
-        this.res = GetElementalRes(charaData.res) * 0.5f;
+        this.res = GetElementalRes(elementalRes) * 0.5f;
     }
 
-    /*
-        public float GetExpectedDamage(float talentRate, float er_multi = 1, float er_add = 0)
-        {
-            float dmg = (atk * talentRate + dmgAdd + er_add) * (1 + dmgBonus) * expectedCritDmg * res * er_multi;
-            return dmg;
-        }
-   
-    public float GetExpectedDamage(
-        float atkRate,
-        float defRate,
-        float hpRate,
-        float emRate,
-        float er_multi,
-        float er_add)
-    {
-        float adkDmg = atk * atkRate;
-        float defDmg = def * defRate;
-        float hpDmg = hp * hpRate;
-        float emDmg = em * emRate;
-        float baseDamage = adkDmg + defDmg + hpDmg + emDmg + dmgAdd + er_add;
-        float dmg = baseDamage * (1 + dmgBonus) * expectedCritDmg * res * er_multi;
-        return dmg;
-    }
- */
     public float GetExpectedDamage(
         ReferenceStatus referenceStatus,
         float atkRate,
@@ -126,8 +102,6 @@ public class ExpectedDamage
         }
         return dmg;
     }
-
-
 
 
     float GetElementalRes(float decreasingRes)

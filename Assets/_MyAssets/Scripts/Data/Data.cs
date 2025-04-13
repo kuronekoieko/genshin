@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.Windows;
 
-public class Data
+public class Data : BaseData
 {
     public WeaponData weapon;
     public ArtMainData artMainData;
@@ -15,8 +15,37 @@ public class Data
     public Ascend ascend;
 
 
-    public Data()
+    public Data(
+        WeaponData weapon,
+        ArtMainData artMainData,
+        ArtSetData artSetData,
+        PartyData partyData,
+        ArtSubData artSub,
+        Status status,
+        Ascend ascend)
     {
+        this.weapon = weapon;
+        this.artMainData = artMainData;
+        this.artSetData = artSetData;
+        this.partyData = partyData;
+        this.artSub = artSub;
+        this.status = status;
+        this.ascend = ascend;
+
+
+        var baseDatas = new BaseData[]
+        {
+            weapon,
+            artMainData,
+            artSetData,
+            partyData,
+            artSub
+        };
+
+
+        Data data = Utils.AddInstances(baseDatas) as Data;
+
+
     }
 
 
@@ -492,5 +521,15 @@ public class Data
         + partyData.er_aggravate
         + artSub.er_aggravate;
     }
+
+    public float res()
+    {
+        return weapon.res
+        + artMainData.res
+        + artSetData.res
+        + partyData.res
+        + artSub.res;
+    }
+
 
 }

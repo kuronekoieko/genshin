@@ -44,7 +44,17 @@ public class BaseData
     public float crit_dmg_plugged;
     public float atk_speed;
     public float heal_bonus;
+
     public float res;
+    public float pyro_res;
+    public float hydro_res;
+    public float electro_res;
+    public float cryo_res;
+    public float geo_res;
+    public float anemo_res;
+    public float dendro_res;
+    public float physics_res;
+
     public float add;
     public float add_cryo;
     public float add_normal_atk;

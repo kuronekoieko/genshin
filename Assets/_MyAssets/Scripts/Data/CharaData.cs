@@ -41,7 +41,7 @@ public class CharaData : BaseData
         add_plugged_atk = data.add_plugged_atk();
         add_skill = data.add_skill();
         add_burst = data.add_burst();
-        res = data.partyData.res;
+        res = data.res();
 
 
         GetCharaData(data);
@@ -59,6 +59,22 @@ public class CharaData : BaseData
             ElementType.Anemo => anemo_bonus,
             ElementType.Dendro => dendro_bonus,
             ElementType.Physics => physics_bonus,
+            _ => 0,
+        };
+    }
+
+    public float GetElementalRes(ElementType elementType)
+    {
+        return elementType switch
+        {
+            ElementType.Pyro => pyro_res,
+            ElementType.Hydro => hydro_res,
+            ElementType.Electro => electro_res,
+            ElementType.Cryo => cryo_res,
+            ElementType.Geo => geo_res,
+            ElementType.Anemo => anemo_res,
+            ElementType.Dendro => dendro_res,
+            ElementType.Physics => physics_res,
             _ => 0,
         };
     }

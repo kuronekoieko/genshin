@@ -120,31 +120,7 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
         var partyDatas = GetPartyDatas();
         var artifactGroups = await GetArtifactGroups();
 
-        List<Data> datas = new();
-
-        foreach (var weapon in weaponDatas)
-        {
-            foreach (var partyData in partyDatas)
-            {
-                foreach (var artifactGroup in artifactGroups)
-                {
-
-                    Data data = new()
-                    {
-                        weapon = weapon,
-                        artMainData = artifactGroup.artMainData,
-                        artSetData = artifactGroup.artSetData,
-                        partyData = partyData,
-                        artSub = artifactGroup.artSubData,
-                        status = status,
-                        ascend = ascend,
-                    };
-
-                    if (data.IsSkip() == false) datas.Add(data);
-                }
-            }
-
-        }
+        List<Data> datas = Calculator.GetDatas(this, weaponDatas, partyDatas, artifactGroups);
         return datas;
     }
 
