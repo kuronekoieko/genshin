@@ -20,7 +20,7 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
     public List<SelectedWeapon> selectedWeapons;
     public List<SelectedMember> selectedMembers;
     public List<SelectedArtSetData> selectedArtSets;
-
+    public List<SelectedArtMainSand> selectedArtMainSands;
 
     public string Name => name;
     public WeaponType WeaponType => status.weaponType;
@@ -157,6 +157,15 @@ public class SelectedArtSetData : ISelected
 
     public ArtSetData ArtSetData;
     public string Id => name + set + option;
+    public bool IsUse { get => isUse; set => isUse = value; }
+}
+
+[Serializable]
+public class SelectedArtMainSand : ISelected
+{
+    public bool isUse = true;
+    public string name;
+    public string Id => name;
     public bool IsUse { get => isUse; set => isUse = value; }
 }
 

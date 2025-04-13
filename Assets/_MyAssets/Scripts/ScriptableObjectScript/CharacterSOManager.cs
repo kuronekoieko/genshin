@@ -52,6 +52,14 @@ public class CharacterSOManager
         }).ToList();
         baseCharacterSO.selectedArtSets = AddDifference(baseCharacterSO.selectedArtSets, selectedArtSet);
 
+
+        var artMainHeader = new ArtMainHeader();
+
+        baseCharacterSO.selectedArtMainSands = artMainHeader.sands.Select(sand => new SelectedArtMainSand()
+        {
+            name = sand,
+        }).ToList();
+
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
 
@@ -206,7 +214,12 @@ public class CharacterSOManager
             }
         }
 
-        return Artifact.GetFixedScoreArtifactGroups(artSetDatas, new());
+        ArtMainHeader artMainHeader = new()
+        {
+            sands = baseCharacterSO.selectedArtMainSands.Where(s => s.isUse).Select(s => s.name).ToArray(),
+        };
+
+        return Artifact.GetFixedScoreArtifactGroups(artSetDatas, artMainHeader);
     }
 
     async UniTask<List<ArtifactGroup>> GetSubArtifactGroups()
