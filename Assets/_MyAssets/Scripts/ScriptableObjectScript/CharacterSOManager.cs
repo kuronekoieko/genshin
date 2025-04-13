@@ -144,7 +144,7 @@ public class CharacterSOManager
                    .Where(s => s.isUse)
                    .Select(s =>
                     {
-                        s.Member.isRequired = s.IsRequired;
+                        s.Member.isRequired = s.isRequired;
                         return s.Member;
                     })
                    .ToArray();
@@ -204,7 +204,7 @@ public class CharacterSOManager
                 .Where(s => s.isUse)
                 .Select(s =>
                 {
-                    s.ArtSetData.isRequired = s.IsRequired;
+                    s.ArtSetData.isRequired = s.isRequired;
                     return s.ArtSetData;
                 })
                 .ToArray();
