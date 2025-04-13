@@ -12,6 +12,7 @@ public class Artifacts_Set
 
         var artSetDatas_2set = csvArtSetDatas.Where(artSetData => artSetData.set == 2).ToArray();
         var artSetDatas_4set = csvArtSetDatas.Where(artSetData => artSetData.set == 4).ToArray();
+        var requiredArtSetDatas = csvArtSetDatas.Where(artSetData => artSetData.isRequired).ToArray();
 
         foreach (var artSetData_1 in artSetDatas_2set)
         {
@@ -22,6 +23,9 @@ public class Artifacts_Set
                 var sorted = new[] { artSetData_1, artSetData_2 }.OrderBy(artSetData => artSetData.name).ToArray();
 
                 var artSetData = Utils.AddInstances(sorted);
+
+                if (IsContainsRequired(requiredArtSetDatas, sorted) == false) continue;
+
                 artSetDatas.Add(artSetData);
             }
         }
@@ -46,10 +50,27 @@ public class Artifacts_Set
                 artSetData.name += $"({artSetData_4set.option})";
             }
 
+            if (IsContainsRequired(requiredArtSetDatas, sorted) == false) continue;
+
             artSetDatas.Add(artSetData);
         }
 
         return artSetDatas.ToList();
+    }
+
+
+    static bool IsContainsRequired(ArtSetData[] requiredArtSetDatas, ArtSetData[] sorted)
+    {
+        if (requiredArtSetDatas.Length == 0) return true;
+
+        foreach (var requiredArtSetData in requiredArtSetDatas)
+        {
+            if (sorted.Contains(requiredArtSetData))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

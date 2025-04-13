@@ -17,6 +17,7 @@ public class Artifact
         var artMainDatas = Artifacts_Main.GetArtMainDatas();
         var artSetDatas = Artifacts_Set.GetArtSetDatas(csvArtSetDatas).ToArray();
 
+
         //var artSetDatas = CSVManager.artSetDatas.Where(artSetData => artSetData.skip != 1).ToArray();
 
         foreach (var artSets in artSetDatas)
@@ -33,9 +34,9 @@ public class Artifact
             }
         }
         return artifactGroups;
-
-
     }
+
+
 
 
     public static List<ArtifactGroup> GetSubArtifactGroups(ArtSetData[] ArtSetDatas_notSkipped, ArtifactData[] artifactDatas)

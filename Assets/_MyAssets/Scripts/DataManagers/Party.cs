@@ -31,10 +31,10 @@ public static class Party
                     string newName = string.Join("+", partyMemberSortedSet.Select(memberData => memberData.CombinedName).ToArray());
 
                     if (IsDuplicate(membersList, newName)) continue;
-                    if (IsContainsRequired(requiredMembers, partyMemberSortedSet))
-                        // Debug.Log(newName);
+                    if (IsContainsRequired(requiredMembers, partyMemberSortedSet) == false) continue;
+                    // Debug.Log(newName);
 
-                        membersList.Add(partyMemberSortedSet);
+                    membersList.Add(partyMemberSortedSet);
                 }
             }
         }
