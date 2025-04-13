@@ -55,9 +55,19 @@ public class CharacterSOManager
 
         var artMainHeader = new ArtMainHeader();
 
-        baseCharacterSO.selectedArtMainSands = artMainHeader.sands.Select(sand => new SelectedArtMainSand()
+        baseCharacterSO.selectedArtMainSands = artMainHeader.sands.Select(name => new SelectedArtMainSand()
         {
-            name = sand,
+            name = name,
+        }).ToList();
+
+        baseCharacterSO.selectedArtMainGoblets = artMainHeader.goblets.Select(name => new SelectedArtMainGoblet()
+        {
+            name = name,
+        }).ToList();
+
+        baseCharacterSO.selectedArtMainCirclets = artMainHeader.circlets.Select(name => new SelectedArtMainCirclet()
+        {
+            name = name,
         }).ToList();
 
         AssetDatabase.SaveAssets();
@@ -217,6 +227,8 @@ public class CharacterSOManager
         ArtMainHeader artMainHeader = new()
         {
             sands = baseCharacterSO.selectedArtMainSands.Where(s => s.isUse).Select(s => s.name).ToArray(),
+            goblets = baseCharacterSO.selectedArtMainGoblets.Where(s => s.isUse).Select(s => s.name).ToArray(),
+            circlets = baseCharacterSO.selectedArtMainCirclets.Where(s => s.isUse).Select(s => s.name).ToArray(),
         };
 
         return Artifact.GetFixedScoreArtifactGroups(artSetDatas, artMainHeader);

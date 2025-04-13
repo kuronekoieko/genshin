@@ -21,6 +21,8 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
     public List<SelectedMember> selectedMembers;
     public List<SelectedArtSetData> selectedArtSets;
     public List<SelectedArtMainSand> selectedArtMainSands;
+    public List<SelectedArtMainGoblet> selectedArtMainGoblets;
+    public List<SelectedArtMainCirclet> selectedArtMainCirclets;
 
     public string Name => name;
     public WeaponType WeaponType => status.weaponType;
@@ -118,59 +120,4 @@ public enum ElementType
     Anemo = 5,
     Dendro = 6,
     Physics = 7,
-}
-
-[Serializable]
-public class SelectedWeapon : ISelected
-{
-    public bool isUse;
-    public string name;
-    public bool isRequired;
-
-    public WeaponData WeaponData;
-    public string Id => WeaponData != null ? WeaponData.name : "";
-    public bool IsUse { get => isUse; set => isUse = value; }
-}
-
-[Serializable]
-public class SelectedMember : ISelected
-{
-    public bool isUse;
-    public string name;
-    public string weapon = "";
-    public string art_set = "";
-    public string option = "";
-    public bool isRequired;
-    public MemberData Member;
-    public string Id => Member.CombinedName;
-    public bool IsUse { get => isUse; set => isUse = value; }
-}
-
-[Serializable]
-public class SelectedArtSetData : ISelected
-{
-    public bool isUse;
-    public string name;
-    public int set;
-    public string option;
-    public bool isRequired;
-
-    public ArtSetData ArtSetData;
-    public string Id => name + set + option;
-    public bool IsUse { get => isUse; set => isUse = value; }
-}
-
-[Serializable]
-public class SelectedArtMainSand : ISelected
-{
-    public bool isUse = true;
-    public string name;
-    public string Id => name;
-    public bool IsUse { get => isUse; set => isUse = value; }
-}
-
-public interface ISelected
-{
-    public string Id { get; }
-    public bool IsUse { get; set; }
 }
