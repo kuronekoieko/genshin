@@ -279,9 +279,12 @@ public class SelectedWeapon : ISelected
 {
     public bool isUse;
     public string name;
+    public bool isRequired;
+
     public WeaponData WeaponData;
     public string Id => WeaponData != null ? WeaponData.name : "";
     public bool IsUse { get => isUse; set => isUse = value; }
+    public bool IsRequired { get => isRequired; set => isRequired = value; }
 }
 
 [Serializable]
@@ -292,9 +295,11 @@ public class SelectedMember : ISelected
     public string weapon = "";
     public string art_set = "";
     public string option = "";
+    public bool isRequired;
     public MemberData Member;
     public string Id => Member.CombinedName;
     public bool IsUse { get => isUse; set => isUse = value; }
+    public bool IsRequired { get => isRequired; set => isRequired = value; }
 }
 
 [Serializable]
@@ -304,14 +309,17 @@ public class SelectedArtSetData : ISelected
     public string name;
     public int set;
     public string option;
+    public bool isRequired;
+
     public ArtSetData ArtSetData;
     public string Id => name + set + option;
     public bool IsUse { get => isUse; set => isUse = value; }
+    public bool IsRequired { get => isRequired; set => isRequired = value; }
 }
 
 public interface ISelected
 {
     public string Id { get; }
     public bool IsUse { get; set; }
-
+    public bool IsRequired { get; set; }
 }

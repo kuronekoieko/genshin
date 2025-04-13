@@ -20,6 +20,7 @@ public class SelectedMemberDrawer : PropertyDrawer
         var weaponProp = property.FindPropertyRelative("weapon");
         var art_setProp = property.FindPropertyRelative("art_set");
         var optionProp = property.FindPropertyRelative("option");
+        var isRequiredProp = property.FindPropertyRelative("isRequired");
 
 
         if (isUseProp == null || nameProp == null || weaponProp == null)
@@ -33,16 +34,17 @@ public class SelectedMemberDrawer : PropertyDrawer
         float totalWidth = position.width;
 
         // isUse（true/false）は bool だから幅を少なめに
-        float isUseWidth = 20f;
-        float fieldWidth = (totalWidth - isUseWidth - padding * 4) / 4f;
+        float checkBoxWidth = 20f;
+        float fieldWidth = (totalWidth - checkBoxWidth * 2 - padding * 4) / 4f;
 
 
 
-        Rect isUseRect = new Rect(position.x, position.y, isUseWidth, EditorGUIUtility.singleLineHeight);
+        Rect isUseRect = new Rect(position.x, position.y, checkBoxWidth, EditorGUIUtility.singleLineHeight);
         Rect nameRect = new Rect(isUseRect.xMax + padding, position.y, fieldWidth, EditorGUIUtility.singleLineHeight);
         Rect weaponRect = new Rect(nameRect.xMax + padding, position.y, fieldWidth, EditorGUIUtility.singleLineHeight);
         Rect art_setRect = new Rect(weaponRect.xMax + padding, position.y, fieldWidth, EditorGUIUtility.singleLineHeight);
         Rect optionRect = new Rect(art_setRect.xMax + padding, position.y, fieldWidth, EditorGUIUtility.singleLineHeight);
+        Rect isRequiredRect = new Rect(optionRect.xMax + padding, position.y, checkBoxWidth, EditorGUIUtility.singleLineHeight);
 
         // フィールドを描画
         EditorGUI.PropertyField(isUseRect, isUseProp, GUIContent.none, false);
@@ -50,6 +52,7 @@ public class SelectedMemberDrawer : PropertyDrawer
         EditorGUI.PropertyField(art_setRect, weaponProp, GUIContent.none, false);
         EditorGUI.PropertyField(weaponRect, art_setProp, GUIContent.none, false);
         EditorGUI.PropertyField(optionRect, optionProp, GUIContent.none, false);
+        EditorGUI.PropertyField(isRequiredRect, isRequiredProp, GUIContent.none, false);
 
         EditorGUI.EndProperty();
     }
