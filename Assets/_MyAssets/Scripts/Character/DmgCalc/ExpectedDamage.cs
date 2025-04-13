@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public class ExpectedDamage
 {
@@ -83,7 +84,7 @@ public class ExpectedDamage
         ExpectedDamage expectedDamage = new(attackType, elementType, data, data.artSub);
 
         expectedDamage.Result = expectedDamage.GetExpectedDamageSum(referenceStatus, atkRates, er_multi, er_add);
-
+        expectedDamage.Result = Mathf.FloorToInt(expectedDamage.Result);
         return expectedDamage;
     }
 
@@ -100,7 +101,7 @@ public class ExpectedDamage
         ExpectedDamage expectedDamage = new(attackType, elementType, data, data.artSub);
 
         expectedDamage.Result = expectedDamage.GetExpectedDamage(referenceStatus, atkRate, er_multi, er_add);
-
+        expectedDamage.Result = Mathf.FloorToInt(expectedDamage.Result);
         return expectedDamage;
     }
 

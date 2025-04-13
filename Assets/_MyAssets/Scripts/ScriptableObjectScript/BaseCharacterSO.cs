@@ -29,6 +29,8 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
     private void OnEnable()
     {
         // Debug.Log("OnEnable: " + Name);
+        // CharacterSOManager characterSOManager = new(this);
+        // await characterSOManager.LoadCSV();
     }
 
     [ContextMenu("Load CSV")]
@@ -43,6 +45,19 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
     {
         CharacterSOManager characterSOManager = new(this);
         await characterSOManager.Calc();
+    }
+
+    [ContextMenu("Test")]
+    public void Test()
+    {/*
+        var MemberDatas = await CSVManager.DeserializeAsync<MemberData>("Members");
+
+        foreach (var item in MemberDatas)
+        {
+            Debug.Log(item.element_type_name);
+            Debug.Log(item.ElementType);
+
+        }*/
     }
 }
 

@@ -10,6 +10,27 @@ public class MemberData : BaseData, IComparable<MemberData>
     public string weapon = "";
     public string art_set = "";
     public string option = "";
+    public string element_type_name = "";
+    public float add_count;// しんかくとか閑雲の加算回数上限
+
+    public ElementType ElementType
+    {
+        get
+        {
+            return element_type_name switch
+            {
+                "炎" => ElementType.Pyro,
+                "水" => ElementType.Hydro,
+                "氷" => ElementType.Cryo,
+                "雷" => ElementType.Electro,
+                "岩" => ElementType.Geo,
+                "風" => ElementType.Anemo,
+                "草" => ElementType.Dendro,
+                "物理" => ElementType.Physics,
+                _ => ElementType.None,
+            };
+        }
+    }
 
 
     public string CombinedName

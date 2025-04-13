@@ -110,17 +110,17 @@ public class Data : BaseData
             return true;
         }
 
-        bool isFrozen = partyData.cryo_count > 0 && partyData.hydro_count > 0;
+        bool isFrozen = partyData.ElementCounts[ElementType.Cryo] > 0 && partyData.ElementCounts[ElementType.Hydro] > 0;
 
         if (artSetData.name == "氷風4(凍結)" && isFrozen == false)
         {
             return true;
         }
-        if (artSetData.name == "氷風4(凍結無し)" && partyData.cryo_count == 0)
+        if (artSetData.name == "氷風4(凍結無し)" && partyData.ElementCounts[ElementType.Cryo] == 0)
         {
             return true;
         }
-        if (artSetData.name == "雷4" && partyData.electro_count == 0)
+        if (artSetData.name == "雷4" && partyData.ElementCounts[ElementType.Electro] == 0)
         {
             return true;
         }
@@ -141,7 +141,7 @@ public class Data : BaseData
         bool isSironenn = partyData.members.Count((member) => member.name.Contains("シロネン")) > 0;
         if (isSironenn)
         {
-            int eCount = partyData.pyro_count + partyData.cryo_count + partyData.hydro_count + partyData.electro_count;
+            int eCount = partyData.ElementCounts[ElementType.Pyro] + partyData.ElementCounts[ElementType.Cryo] + partyData.ElementCounts[ElementType.Electro] + partyData.ElementCounts[ElementType.Hydro];
             if (eCount < 2) return true;
         }
 

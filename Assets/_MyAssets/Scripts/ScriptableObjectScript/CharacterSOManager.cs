@@ -117,7 +117,7 @@ public class CharacterSOManager
 
     WeaponData[] GetWeaponDatas()
     {
-        Debug.Log("selectedWeapon: " + baseCharacterSO.selectedWeapons.Count);
+        // Debug.Log("selectedWeapon: " + baseCharacterSO.selectedWeapons.Count);
         foreach (var item in baseCharacterSO.selectedWeapons)
         {
             // Debug.Log(item.WeaponData);
@@ -131,9 +131,9 @@ public class CharacterSOManager
 
         foreach (var item in weaponDatas)
         {
-            Debug.Log(item.skip);
+            // Debug.Log(item.skip);
         }
-        Debug.Log("weaponDatas: " + weaponDatas.Length);
+        // Debug.Log("weaponDatas: " + weaponDatas.Length);
 
         return weaponDatas;
     }
@@ -155,14 +155,14 @@ public class CharacterSOManager
             {
                 Debug.LogError(item.name);
             }
-            // Debug.Log(item.skip);
+            // Debug.Log(item.ElementType);
             // Debug.Log(item.name + " " + item.isRequired);
         }
 
 
         var partyDatas = Party.GetPartyDatas(baseCharacterSO.status.elementType, memberDatas);
 
-        Debug.Log("partyDatas: " + partyDatas.Length);
+        // Debug.Log("partyDatas: " + partyDatas.Length);
 
         return partyDatas;
     }
@@ -220,7 +220,7 @@ public class CharacterSOManager
             artifactGroups = Artifact.GetArtifactGroups(artSetDatas, isTest: true);
         }
 
-        Debug.Log("artifactGroups: " + artifactGroups.Count);
+        // Debug.Log("artifactGroups: " + artifactGroups.Count);
 
         return artifactGroups;
     }

@@ -13,7 +13,7 @@ public class Artifact
 
         List<ArtifactGroup> artifactGroups = new();
 
-        Debug.Log("not sub");
+        // Debug.Log("not sub");
         var artMainDatas = Artifacts_Main.GetArtMainDatas(isTest);
         var artSetDatas = Artifacts_Set.GetArtSetDatas(csvArtSetDatas).ToArray();
 

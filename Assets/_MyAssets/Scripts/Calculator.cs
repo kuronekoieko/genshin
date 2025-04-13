@@ -105,8 +105,6 @@ public static class Calculator
                 {
                     Data data = new(weapon, artifactGroup, partyData, status, ascend);
 
-                    Debug.Log("data " + data);
-
                     if (data.IsSkip() == false) datas.Add(data);
                 }
             }

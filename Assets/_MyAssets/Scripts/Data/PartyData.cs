@@ -7,9 +7,23 @@ using UnityEngine;
 [Serializable]
 public class PartyData : BaseData, IComparable<PartyData>
 {
-    public float add_count;
-    public int pyro_count, hydro_count, electro_count, cryo_count, geo_count, anemo_count, dendro_count;
     public MemberData[] members;
+
+    public Dictionary<ElementType, int> ElementCounts { get; private set; } = new();
+
+    public string Log
+    {
+        get
+        {
+            string log = "";
+            foreach (var kvp in ElementCounts)
+            {
+                if (kvp.Value > 0) log += kvp.Key + ":" + kvp.Value + "、";
+            }
+
+            return log;
+        }
+    }
 
 
     public PartyData(MemberData[] members, ElementType characterElementType)
@@ -30,58 +44,41 @@ public class PartyData : BaseData, IComparable<PartyData>
         CheckDuplicateOptions();
     }
 
-    public void SetElementalResonance(ElementType elementType)
+    public void SetElementalResonance(ElementType characterElementType)
     {
-        switch (elementType)
+        // 初期化
+        foreach (ElementType et in Enum.GetValues(typeof(ElementType)))
         {
-            case ElementType.Pyro:
-                pyro_count++;
-                break;
-            case ElementType.Hydro:
-                hydro_count++;
-                break;
-            case ElementType.Electro:
-                electro_count++;
-                break;
-            case ElementType.Cryo:
-                cryo_count++;
-                break;
-            case ElementType.Geo:
-                geo_count++;
-                break;
-            case ElementType.Anemo:
-                anemo_count++;
-                break;
-            case ElementType.Dendro:
-                dendro_count++;
-                break;
-            default:
-                break;
+            ElementCounts.Add(et, 0);
+        }
+
+        ElementCounts[characterElementType] += 1;
+
+
+        foreach (var memberData in members)
+        {
+            ElementCounts[memberData.ElementType] += 1;
         }
 
 
-        if (pyro_count >= 2)
+        if (ElementCounts[ElementType.Pyro] >= 2)
         {
             atk_rate += 0.25f;
         }
-        if (hydro_count >= 2)
+        if (ElementCounts[ElementType.Hydro] >= 2)
         {
             hp_rate += 0.25f;
         }
-        if (cryo_count >= 2)
+        if (ElementCounts[ElementType.Cryo] >= 2)
         {
             crit_rate += 0.15f;
         }
-        if (geo_count >= 2)
+        if (ElementCounts[ElementType.Geo] >= 2)
         {
             dmg_bonus += 0.15f;
-            // TODO岩耐性ダウン
-            if (elementType == ElementType.Geo)
-            {
-                res += -0.2f;
-            }
+            geo_res += -0.2f;
         }
-        if (dendro_count >= 2)
+        if (ElementCounts[ElementType.Dendro] >= 2)
         {
             elemental_mastery += 100;
         }
@@ -108,13 +105,10 @@ public class PartyData : BaseData, IComparable<PartyData>
     public int ElementalTypeCount()
     {
         int count = 0;
-        count += pyro_count > 0 ? 1 : 0;
-        count += hydro_count > 0 ? 1 : 0;
-        count += electro_count > 0 ? 1 : 0;
-        count += cryo_count > 0 ? 1 : 0;
-        count += geo_count > 0 ? 1 : 0;
-        count += anemo_count > 0 ? 1 : 0;
-        count += dendro_count > 0 ? 1 : 0;
+        foreach (var kvp in ElementCounts)
+        {
+            if (kvp.Value > 0) count++;
+        }
         return count;
     }
 
