@@ -127,12 +127,8 @@ public class Data : BaseData
             return !status.isNightSoul;
         }
 
-        bool isSironenn = partyData.members.Count((member) => member.name.Contains("シロネン")) > 0;
-        if (isSironenn)
-        {
-            int eCount = partyData.ElementCounts[ElementType.Pyro] + partyData.ElementCounts[ElementType.Cryo] + partyData.ElementCounts[ElementType.Electro] + partyData.ElementCounts[ElementType.Hydro];
-            if (eCount < 2) return true;
-        }
+        if (IsCitlali()) return true;
+        if (IsXilonen()) return true;
 
         if (IsNotUseArtSet("深林4")) return true;
         if (IsNotUseArtSet("翠緑4")) return true;
@@ -143,6 +139,28 @@ public class Data : BaseData
         int skip = base.skip;
 
         return skip > 0;
+    }
+
+    bool IsCitlali()
+    {
+        bool esxist = partyData.members.Count((member) => member.name.Contains("シトラリ")) > 0;
+        if (esxist)
+        {
+            int eCount = partyData.ElementCounts[ElementType.Pyro] + partyData.ElementCounts[ElementType.Hydro];
+            if (eCount == 0) return true;
+        }
+        return false;
+    }
+
+    bool IsXilonen()
+    {
+        bool isXilonen = partyData.members.Count((member) => member.name.Contains("シロネン")) > 0;
+        if (isXilonen)
+        {
+            int eCount = partyData.ElementCounts[ElementType.Pyro] + partyData.ElementCounts[ElementType.Cryo] + partyData.ElementCounts[ElementType.Electro] + partyData.ElementCounts[ElementType.Hydro];
+            if (eCount < 2) return true;
+        }
+        return false;
     }
 
     bool IsNotUseArtSet(string setName)
