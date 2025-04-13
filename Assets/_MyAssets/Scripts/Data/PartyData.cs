@@ -41,11 +41,13 @@ public class PartyData : BaseData, IComparable<PartyData>
         string[] combinedNames = members.Select(memberData => memberData.CombinedName).ToArray();
         name = string.Join("+", combinedNames);
         SetElementalResonance(characterElementType);
-        CheckDuplicateOptions();
+        // CheckDuplicateOptions();
     }
 
-    public void SetElementalResonance(ElementType characterElementType)
+    void SetElementalResonance(ElementType characterElementType)
     {
+        //  Debug.Log("characterElementType: " + characterElementType);
+
         // 初期化
         foreach (ElementType et in Enum.GetValues(typeof(ElementType)))
         {
@@ -85,22 +87,65 @@ public class PartyData : BaseData, IComparable<PartyData>
     }
 
 
-    public void CheckDuplicateOptions()
+    void CheckDuplicateOptions()
     {
-        int kaijinCount = members.Count((member) => member.art_set.Contains("灰燼"));
-        if (kaijinCount > 1)
+        // 計算がややこしいので
+        // csvの方で、灰燼持ってるのと持ってないの両方用意する
+        // Data.IsSkip()で灰燼2人以上ならスキップにする
+        CheckDuplicate_kaijin();
+        CheckDuplicate_suiryoku();
+    }
+    void CheckDuplicate_kaijin()
+    {
+        var kaijinMembers = members.Where((member) => member.art_set.Contains("灰燼")).ToArray();
+
+        if (kaijinMembers.Length == 0) return;
+
+        var kaijinMembers_CanER = kaijinMembers.Where((member) => CanElementalReaction(member.ElementType)).ToArray();
+
+
+        foreach (var kaijinMember in kaijinMembers)
         {
-            dmg_bonus -= 0.4f * (kaijinCount - 1);
-            // Debug.Log("灰燼 " + dmg_bonus);
+            if (CanElementalReaction(kaijinMember.ElementType) == false)
+            {
+                dmg_bonus -= 0.4f;
+            }
         }
 
-        int suiryokuCount = members.Count((member) => member.art_set.Contains("翠緑"));
-        if (suiryokuCount > 1)
-        {
-            res += 0.4f * (suiryokuCount - 1);
-            //  Debug.Log("翠緑 " + res);
-        }
+        dmg_bonus -= 0.4f * (kaijinMembers.Length - 1);
+        // Debug.Log("灰燼 " + dmg_bonus);
+
     }
+
+
+    void CheckDuplicate_suiryoku()
+    {
+        int suiryokuCount = members.Count((member) => member.art_set.Contains("翠緑"));
+        if (suiryokuCount == 0) return;
+
+        pyro_res += 0.4f * (suiryokuCount - 1);
+        cryo_res += 0.4f * (suiryokuCount - 1);
+        hydro_res += 0.4f * (suiryokuCount - 1);
+        electro_res += 0.4f * (suiryokuCount - 1);
+        //  Debug.Log("翠緑 " + res);
+
+    }
+
+
+    public bool CanElementalReaction(ElementType from)
+    {
+        foreach (var kvp in ElementCounts)
+        {
+            if (kvp.Value == 0) continue;
+            var elementalReactionType = ElementalReaction.GetElementalReactionType(from, kvp.Key);
+            // Debug.Log(from + " " + kvp.Key);
+            // Debug.Log(elementalReactionType);
+            if (elementalReactionType == ElementalReactionType.None) continue;
+            return true;
+        }
+        return false;
+    }
+
 
     public int ElementalTypeCount()
     {

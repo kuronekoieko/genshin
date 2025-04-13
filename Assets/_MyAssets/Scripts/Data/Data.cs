@@ -105,10 +105,6 @@ public class Data : BaseData
         {
             return true;
         }
-        if (artSetData.name == "深林4" && status.elementType != ElementType.Dendro)
-        {
-            return true;
-        }
 
         bool isFrozen = partyData.ElementCounts[ElementType.Cryo] > 0 && partyData.ElementCounts[ElementType.Hydro] > 0;
 
@@ -145,10 +141,26 @@ public class Data : BaseData
             if (eCount < 2) return true;
         }
 
+        if (IsNotUseArtSet("深林4")) return true;
+        if (IsNotUseArtSet("翠緑4")) return true;
+        if (IsNotUseArtSet("灰燼4")) return true;
+
         // TODO:残響
 
         int skip = base.skip;
 
         return skip > 0;
+    }
+
+    bool IsNotUseArtSet(string setName)
+    {
+        var setMembers = partyData.members.Where((member) => member.art_set == setName).ToArray();
+        if (setMembers.Length == 0) return false;
+        if (setMembers.Length > 1) return true;
+        // Debug.Log("============");
+        // Debug.Log(setName);
+        // Debug.Log(partyData.CanElementalReaction(setMembers[0].ElementType));
+
+        return partyData.CanElementalReaction(setMembers[0].ElementType) == false;
     }
 }
