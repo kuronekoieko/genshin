@@ -175,57 +175,69 @@ public class CharacterSOManager
         List<ArtifactGroup> artifactGroups;
         if (baseCharacterSO.isSub)
         {
-            var artSetDatas_notSkipped = baseCharacterSO.selectedArtSets
-            .Select(s => s.ArtSetData)
-            .ToArray();
-
-            foreach (var item in artSetDatas_notSkipped)
-            {
-                if (string.IsNullOrEmpty(item.name))
-                {
-                    Debug.LogError(item.name);
-                }
-            }
-
-            var artifactDatas = await CSVManager.DeserializeAsync<ArtifactData>("Artifacts");
-            foreach (var item in artifactDatas)
-            {
-                if (string.IsNullOrEmpty(item.name))
-                {
-                    Debug.LogError(item.name);
-                }
-                Debug.Log(item.skip);
-            }
-            artifactDatas = artifactDatas.Where(data => data.skip != 1).ToArray();
-
-            artifactGroups = Artifact.GetSubArtifactGroups(artSetDatas_notSkipped, artifactDatas);
+            artifactGroups = await GetSubArtifactGroups();
         }
         else
         {
-            var artSetDatas = baseCharacterSO.selectedArtSets
-                .Where(s => s.isUse)
-                .Select(s =>
-                {
-                    s.ArtSetData.isRequired = s.isRequired;
-                    return s.ArtSetData;
-                })
-                .ToArray();
-
-            foreach (var item in artSetDatas)
-            {
-                if (string.IsNullOrEmpty(item.name))
-                {
-                    Debug.LogError(item.name);
-                }
-            }
-
-            artifactGroups = Artifact.GetArtifactGroups(artSetDatas, isTest: false);
+            artifactGroups = GetFixedScoreArtifactGroups();
         }
 
         // Debug.Log("artifactGroups: " + artifactGroups.Count);
 
         return artifactGroups;
     }
+
+    List<ArtifactGroup> GetFixedScoreArtifactGroups()
+    {
+        var artSetDatas = baseCharacterSO.selectedArtSets
+                 .Where(s => s.isUse)
+                 .Select(s =>
+                 {
+                     s.ArtSetData.isRequired = s.isRequired;
+                     return s.ArtSetData;
+                 })
+                 .ToArray();
+
+        foreach (var item in artSetDatas)
+        {
+            if (string.IsNullOrEmpty(item.name))
+            {
+                Debug.LogError(item.name);
+            }
+        }
+
+        return Artifact.GetFixedScoreArtifactGroups(artSetDatas, new Test());
+    }
+
+    async UniTask<List<ArtifactGroup>> GetSubArtifactGroups()
+    {
+
+        var artSetDatas_notSkipped = baseCharacterSO.selectedArtSets
+        .Select(s => s.ArtSetData)
+        .ToArray();
+
+        foreach (var item in artSetDatas_notSkipped)
+        {
+            if (string.IsNullOrEmpty(item.name))
+            {
+                Debug.LogError(item.name);
+            }
+        }
+
+        var artifactDatas = await CSVManager.DeserializeAsync<ArtifactData>("Artifacts");
+        foreach (var item in artifactDatas)
+        {
+            if (string.IsNullOrEmpty(item.name))
+            {
+                Debug.LogError(item.name);
+            }
+            Debug.Log(item.skip);
+        }
+        artifactDatas = artifactDatas.Where(data => data.skip != 1).ToArray();
+
+        return Artifact.GetSubArtifactGroups(artSetDatas_notSkipped, artifactDatas);
+    }
+
 
 }
 

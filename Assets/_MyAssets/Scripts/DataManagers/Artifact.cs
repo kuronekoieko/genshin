@@ -6,13 +6,16 @@ using UnityEngine;
 
 public class Artifact
 {
-    public static List<ArtifactGroup> GetArtifactGroups(ArtSetData[] csvArtSetDatas, bool isTest = false)
+
+
+    public static List<ArtifactGroup> GetFixedScoreArtifactGroups(ArtSetData[] csvArtSetDatas, Test test)
     {
 
         List<ArtifactGroup> artifactGroups = new();
 
         // Debug.Log("not sub");
-        var artMainDatas = Artifacts_Main.GetArtMainDatas(isTest);
+        Artifacts_Main artifacts_Main = new(test);
+        var artMainDatas = artifacts_Main.GetArtMainDatas();
         var artSetDatas = Artifacts_Set.GetArtSetDatas(csvArtSetDatas).ToArray();
 
 

@@ -4,20 +4,32 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public static class Artifacts_Main
+
+public class Test
 {
-    static readonly string[] artMainTokeiArray = { "攻撃%", "防御%", "HP%", "元素熟知", "元チャ" };
-    static readonly string[] artMainSakadukiArray = { "攻撃%", "防御%", "HP%", "元素熟知", "炎バフ", "水バフ", "雷バフ", "氷バフ", "岩バフ", "風バフ", "草バフ", "物理バフ" };
-    static readonly string[] artMainKanmuriArray = { "攻撃%", "防御%", "HP%", "元素熟知", "会心率", "会心ダメージ", "治癒効果" };
+    public string[] artMainTokeiArray = { "攻撃%", "防御%", "HP%", "元素熟知", "元チャ" };
+    public string[] artMainSakadukiArray = { "攻撃%", "防御%", "HP%", "元素熟知", "炎バフ", "水バフ", "雷バフ", "氷バフ", "岩バフ", "風バフ", "草バフ", "物理バフ" };
+    public string[] artMainKanmuriArray = { "攻撃%", "防御%", "HP%", "元素熟知", "会心率", "会心ダメージ", "治癒効果" };
+}
+
+public class Artifacts_Main
+{
+
+    Test test;
+
+    public Artifacts_Main(Test test)
+    {
+        this.test = test;
+    }
 
 
-    static ArtMainData[] GetArtMainDatas_Test()
+    ArtMainData[] GetArtMainDatas_Test()
     {
         Debug.Log("聖遺物メイン計算開始 テスト");
 
-        string artMainTokei = artMainTokeiArray[0];
-        string artMainSakaduki = artMainSakadukiArray[0];
-        string artMainKanmuri = artMainKanmuriArray[0];
+        string artMainTokei = test.artMainTokeiArray[0];
+        string artMainSakaduki = test.artMainSakadukiArray[0];
+        string artMainKanmuri = test.artMainKanmuriArray[0];
 
         string[] nameCombinations = { artMainTokei, artMainSakaduki, artMainKanmuri };
 
@@ -26,9 +38,9 @@ public static class Artifacts_Main
         return new[] { artMainData };
     }
 
-    public static ArtMainData[] GetArtMainDatas(bool isTest)
+    public ArtMainData[] GetArtMainDatas()
     {
-        if (isTest) return GetArtMainDatas_Test();
+        //  if (isTest) return GetArtMainDatas_Test();
 
         Debug.Log("聖遺物メイン計算開始");
 
@@ -43,24 +55,22 @@ public static class Artifacts_Main
         return artMainDatas.ToArray();
     }
 
-    static List<ArtMainHash> GetArtMainHashes()
+    List<ArtMainHash> GetArtMainHashes()
     {
         Debug.Log("聖遺物メイン計算開始");
 
         // 同じ組み合わせの重複削除
         HashSet<ArtMainHash> artMainCombines = new();
 
-        for (int k = 0; k < artMainTokeiArray.Length; k++)
-        {
-            for (int l = 0; l < artMainSakadukiArray.Length; l++)
-            {
-                for (int m = 0; m < artMainKanmuriArray.Length; m++)
-                {
-                    string artMainTokei = artMainTokeiArray[k];
-                    string artMainSakaduki = artMainSakadukiArray[l];
-                    string artMainKanmuri = artMainKanmuriArray[m];
 
-                    string[] nameCombinations = { artMainTokei, artMainSakaduki, artMainKanmuri };
+        foreach (var tokei in test.artMainTokeiArray)
+        {
+            foreach (var sakaduki in test.artMainSakadukiArray)
+            {
+                foreach (var kanmuri in test.artMainKanmuriArray)
+                {
+
+                    string[] nameCombinations = { tokei, sakaduki, kanmuri };
 
                     ArtMainHash artMainHash = new(nameCombinations);
 
@@ -83,7 +93,8 @@ public class ArtMainHash
     public ArtMainHash(string[] partNames)
     {
         CompareName = string.Join("+", partNames.OrderBy(n => n).ToArray());
-        DisplayName = CompareName;
+        // 並べ替えすると、会心ダメージが先に来て見づらくなる
+        DisplayName = string.Join("+", partNames);
 
         foreach (var partName in partNames)
         {

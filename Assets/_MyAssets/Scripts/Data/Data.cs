@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.Windows;
+using System;
 
+[Serializable]
 public class Data : BaseData
 {
     public WeaponData weapon;

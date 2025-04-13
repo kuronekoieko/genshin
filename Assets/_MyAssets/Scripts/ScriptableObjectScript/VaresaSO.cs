@@ -46,6 +46,7 @@ public class VaresaSO : BaseCharacterSO
             ["バフ落下"] = data.plugged_atk_bonus.ToString(),
             ["耐性ダウン"] = data.res.ToString(),
             ["パーティ元素"] = data.partyData.Log,
+            // ["聖遺物メインデータ"] = JsonUtility.ToJson(data.artMainData),
             // ["耐性ダウン計算後"] = (GetElementalRes(data.res) * 0.5f).ToString(),
             //["会心ダメ期待値"] = crit.ExpectedCritDmg.ToString(),
             // ["耐性"] = data.res.ToString(),
