@@ -1,6 +1,6 @@
 skip,is_required,name,weapon,art_set,option,element_type_name,atk_rate,atk,def_rate,def,pyro_bonus,hydro_bonus,electro_bonus,cryo_bonus,geo_bonus,anemo_bonus,dendro_bonus,physics_bonus,normal_atk_bonus,dmg_bonus,charged_atk_bonus,plugged_atk_bonus,add,add_cryo,add_count,add_plugged_atk,add_normal_atk,skill_bonus,burst_bonus,crit_rate,crit_rate_plugged_atk,crit_dmg,hp_rate,elemental_mastery,res,pyro_res,hydro_res,electro_res,cryo_res,geo_res,anemo_res,dendro_res,physics_res,heal_bonus,has_self_harm,er_rate,er_fixed,er_aggravate
 0,,アルベド,,,,岩,,,,,,,,,,,,,,,,,,,,,,,,,,,,125,,,,,,,,,,,,,,
-0,,イアンサ,,灰燼,爆発lv10,雷,,690,,,,,,,,,,,,0.4,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+0,,イアンサ,,灰燼,爆発lv10,雷,,690,,,0.4,0.4,0.4,0.4,,,0.4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 1,,エミリエ,,,,草,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 1,,ゴロー,,,完凸,岩,,,0.25,438,,,,,,,,,,0.15,,,,,,,,,,,,0.4,,,,,,,,,,,,,,,,
 0,,シトラリ,,灰燼,,氷,,,,,,,,,,,,,,0.4,,,,,,,,,,,,,,,,-0.2,-0.2,,,,,,,,,,,
