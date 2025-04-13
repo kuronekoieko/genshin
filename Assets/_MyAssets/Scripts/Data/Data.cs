@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Windows;
 
 public class Data
 {
@@ -97,6 +98,13 @@ public class Data
         if (artMainData.dmg_bonus > 0 && status.elementType == ElementType.Physics)
         {
             return true;
+        }
+
+        bool isSironenn = partyData.members.Count((member) => member.name.Contains("シロネン")) > 0;
+        if (isSironenn)
+        {
+            int eCount = partyData.pyro_count + partyData.cryo_count + partyData.hydro_count + partyData.electro_count;
+            if (eCount < 2) return true;
         }
 
         // TODO:残響

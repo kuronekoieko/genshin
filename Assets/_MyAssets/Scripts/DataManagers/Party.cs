@@ -36,8 +36,7 @@ public static class Party
             }
         }
 
-        PartyData firstPartyData = new(null, characterElementType);
-        firstPartyData.SetElementalResonance(characterElementType);
+        PartyData firstPartyData = new(new MemberData[0], characterElementType);
 
         SortedSet<PartyData> partyDatas = new()
         {
