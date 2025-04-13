@@ -63,7 +63,7 @@ public static class Calculator
     static WeaponData[] GetWeaponDatas(BaseCharacter character)
     {
         var weaponDatas = CSVManager.WeaponDatas
-            .Where(weaponData => weaponData.type == character.WeaponType)
+            .Where(weaponData => weaponData.WeaponType == character.WeaponType)
             .ToArray();
         return weaponDatas;
     }

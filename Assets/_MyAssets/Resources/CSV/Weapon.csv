@@ -1,4 +1,4 @@
-skip,type,name,base_atk,atk_rate,dmg_bonus,normal_atk_bonus,charged_atk_bonus,plugged_atk_bonus,skill_bonus,burst_bonus,crit_rate,crit_rate_skill,crit_rate_burst,crit_rate_plugged_atk,crit_dmg,crit_dmg_burst,crit_dmg_plugged,hp_rate,energy_recharge,elemental_mastery,atk_speed,kariudo,heal_bonus,def_rate,def,homa,sekisha,sekikaku,suikou,seiken_hp,seiken_em,kusanagi,cinnabar
+skip,type_name,name,base_atk,atk_rate,dmg_bonus,normal_atk_bonus,charged_atk_bonus,plugged_atk_bonus,skill_bonus,burst_bonus,crit_rate,crit_rate_skill,crit_rate_burst,crit_rate_plugged_atk,crit_dmg,crit_dmg_burst,crit_dmg_plugged,hp_rate,energy_recharge,elemental_mastery,atk_speed,kariudo,heal_bonus,def_rate,def,homa,sekisha,sekikaku,suikou,seiken_hp,seiken_em,kusanagi,cinnabar
 ,弓,天空弓(1),674,,,,,,,,0.221,,,,0.2,,,,,,,,,,,,,,,,,,
 1,弓,弓蔵(5),510,0.413,,0.8,-0.1,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,弓,弾弓(5),354,,,0.6,0.6,,,,0.31,,,,,,,,,,,,,,,,,,,,,,

@@ -20,7 +20,7 @@ public class CharacterSOManager
         var WeaponDatas = await CSVManager.DeserializeAsync<WeaponData>("Weapon");
 
         var selectedWeapon = WeaponDatas
-        .Where(weaponData => weaponData.type == baseCharacterSO.WeaponType)
+        .Where(weaponData => weaponData.WeaponType == baseCharacterSO.WeaponType)
         .Select(weaponData => new SelectedWeapon()
         {
             WeaponData = weaponData,
@@ -126,7 +126,7 @@ public class CharacterSOManager
         var weaponDatas = baseCharacterSO.selectedWeapons
                 .Where(s => s.isUse)
                 .Select(s => s.WeaponData)
-                .Where(weaponData => weaponData.type == baseCharacterSO.WeaponType)
+                .Where(weaponData => weaponData.WeaponType == baseCharacterSO.WeaponType)
                 .ToArray();
 
         foreach (var item in weaponDatas)

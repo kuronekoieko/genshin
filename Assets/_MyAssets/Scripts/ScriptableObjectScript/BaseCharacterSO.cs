@@ -23,7 +23,7 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
 
 
     public string Name => name;
-    public string WeaponType => status.WeaponTypeName;
+    public WeaponType WeaponType => status.weaponType;
     public abstract Dictionary<string, string> CalcDmg(Data data);
 
     private void OnEnable()
@@ -79,21 +79,6 @@ public class Status
 
     public readonly float defaultCritRate = 0.05f;
     public readonly float defaultCritDmg = 0.5f;
-    public string WeaponTypeName
-    {
-        get
-        {
-            return weaponType switch
-            {
-                WeaponType.Sword => "片手剣",
-                WeaponType.Claymore => "両手剣",
-                WeaponType.Bow => "弓",
-                WeaponType.Catalyst => "法器",
-                WeaponType.Polearm => "槍",
-                _ => "",
-            };
-        }
-    }
 }
 
 
@@ -114,11 +99,12 @@ public class Ascend
 
 public enum WeaponType
 {
-    Sword,
-    Claymore,
-    Bow,
-    Catalyst,
-    Polearm,
+    None = -1,
+    Sword = 0,
+    Claymore = 1,
+    Bow = 2,
+    Catalyst = 3,
+    Polearm = 4,
 }
 
 public enum ElementType

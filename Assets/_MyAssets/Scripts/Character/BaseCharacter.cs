@@ -10,7 +10,7 @@ public abstract class BaseCharacter : MonoBehaviour, ICalcDmg
     public Status status;
     public Ascend ascend;
     public string Name => gameObject.name;
-    public string WeaponType => status.WeaponTypeName;
+    public WeaponType WeaponType => status.weaponType;
     bool isSub = false;
     public abstract Dictionary<string, string> CalcDmg(Data data);
 }
