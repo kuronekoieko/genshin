@@ -200,7 +200,12 @@ public class CharacterSOManager
             artifactGroups = GetFixedScoreArtifactGroups();
         }
 
-        // Debug.Log("artifactGroups: " + artifactGroups.Count);
+        foreach (var artifactGroup in artifactGroups)
+        {
+            // Debug.Log("artifactGroups: " + artifactGroup.artMainData.name);
+        }
+
+        //Debug.Log("artifactGroups: " + artifactGroups.Count);
 
         return artifactGroups;
     }
