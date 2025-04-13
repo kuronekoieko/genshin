@@ -163,3 +163,12 @@ public enum AttackType
     Skill,
     Burst,
 }
+
+[System.Flags]
+public enum ReferenceStatus
+{
+    Atk,
+    Def,
+    Hp,
+    Em,
+}
