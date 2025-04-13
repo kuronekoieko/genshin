@@ -5,21 +5,21 @@ using System.Linq;
 using UnityEngine;
 
 
-public class Test
+public class ArtMainHeader
 {
-    public string[] artMainTokeiArray = { "攻撃%", "防御%", "HP%", "元素熟知", "元チャ" };
-    public string[] artMainSakadukiArray = { "攻撃%", "防御%", "HP%", "元素熟知", "炎バフ", "水バフ", "雷バフ", "氷バフ", "岩バフ", "風バフ", "草バフ", "物理バフ" };
-    public string[] artMainKanmuriArray = { "攻撃%", "防御%", "HP%", "元素熟知", "会心率", "会心ダメージ", "治癒効果" };
+    public string[] sands = { "攻撃%", "防御%", "HP%", "元素熟知", "元チャ" };
+    public string[] goblets = { "攻撃%", "防御%", "HP%", "元素熟知", "炎バフ", "水バフ", "雷バフ", "氷バフ", "岩バフ", "風バフ", "草バフ", "物理バフ" };
+    public string[] circlets = { "攻撃%", "防御%", "HP%", "元素熟知", "会心率", "会心ダメージ", "治癒効果" };
 }
 
 public class Artifacts_Main
 {
 
-    Test test;
+    readonly ArtMainHeader header;
 
-    public Artifacts_Main(Test test)
+    public Artifacts_Main(ArtMainHeader header)
     {
-        this.test = test;
+        this.header = header;
     }
 
 
@@ -27,9 +27,9 @@ public class Artifacts_Main
     {
         Debug.Log("聖遺物メイン計算開始 テスト");
 
-        string artMainTokei = test.artMainTokeiArray[0];
-        string artMainSakaduki = test.artMainSakadukiArray[0];
-        string artMainKanmuri = test.artMainKanmuriArray[0];
+        string artMainTokei = header.sands[0];
+        string artMainSakaduki = header.goblets[0];
+        string artMainKanmuri = header.circlets[0];
 
         string[] nameCombinations = { artMainTokei, artMainSakaduki, artMainKanmuri };
 
@@ -63,14 +63,14 @@ public class Artifacts_Main
         HashSet<ArtMainHash> artMainCombines = new();
 
 
-        foreach (var tokei in test.artMainTokeiArray)
+        foreach (var sand in header.sands)
         {
-            foreach (var sakaduki in test.artMainSakadukiArray)
+            foreach (var goblet in header.goblets)
             {
-                foreach (var kanmuri in test.artMainKanmuriArray)
+                foreach (var circlet in header.circlets)
                 {
 
-                    string[] nameCombinations = { tokei, sakaduki, kanmuri };
+                    string[] nameCombinations = { sand, goblet, circlet };
 
                     ArtMainHash artMainHash = new(nameCombinations);
 

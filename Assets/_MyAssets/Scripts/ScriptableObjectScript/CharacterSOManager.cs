@@ -206,7 +206,7 @@ public class CharacterSOManager
             }
         }
 
-        return Artifact.GetFixedScoreArtifactGroups(artSetDatas, new Test());
+        return Artifact.GetFixedScoreArtifactGroups(artSetDatas, new());
     }
 
     async UniTask<List<ArtifactGroup>> GetSubArtifactGroups()

@@ -76,7 +76,7 @@ public static class Calculator
         }
         else
         {
-            return Artifact.GetFixedScoreArtifactGroups(CSVManager.ArtSetDatas, new Test());
+            return Artifact.GetFixedScoreArtifactGroups(CSVManager.ArtSetDatas, new());
         }
     }
 
