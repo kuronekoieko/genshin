@@ -81,7 +81,7 @@ public class ExpectedDamage
         float er_add = 0)
     {
         if (elementType == ElementType.None) elementType = data.status.elementType;
-        ExpectedDamage expectedDamage = new(attackType, elementType, data, data.artSub);
+        ExpectedDamage expectedDamage = new(attackType, elementType, data, data.artSubData);
 
         expectedDamage.Result = expectedDamage.GetExpectedDamageSum(referenceStatus, atkRates, er_multi, er_add);
         expectedDamage.Result = Mathf.FloorToInt(expectedDamage.Result);
@@ -98,7 +98,7 @@ public class ExpectedDamage
         float er_add = 0)
     {
         if (elementType == ElementType.None) elementType = data.status.elementType;
-        ExpectedDamage expectedDamage = new(attackType, elementType, data, data.artSub);
+        ExpectedDamage expectedDamage = new(attackType, elementType, data, data.artSubData);
 
         expectedDamage.Result = expectedDamage.GetExpectedDamage(referenceStatus, atkRate, er_multi, er_add);
         expectedDamage.Result = Mathf.FloorToInt(expectedDamage.Result);

@@ -9,15 +9,15 @@ public class Data : BaseData
     public WeaponData weapon;
     public ArtMainData artMainData;
     public ArtSetData artSetData;
+    public ArtSubData artSubData;
     public PartyData partyData;
-    public ArtSubData artSub;
     public Status status;
     public Ascend ascend;
     public float BaseAtk => status.baseAtk + weapon.base_atk;
 
     public Data(
         WeaponData weapon,
-        Artifact.ArtifactGroup artifactGroup,
+        ArtifactGroup artifactGroup,
         PartyData partyData,
         Status status,
         Ascend ascend)
@@ -25,12 +25,12 @@ public class Data : BaseData
         this.weapon = weapon;
         this.artMainData = artifactGroup.artMainData;
         this.artSetData = artifactGroup.artSetData;
+        this.artSubData = artifactGroup.artSubData;
         this.partyData = partyData;
-        this.artSub = artifactGroup.artSubData;
         this.status = status;
         this.ascend = ascend;
 
-        var baseDatas = new BaseData[] { weapon, artMainData, artSetData, partyData, artSub, };
+        var baseDatas = new BaseData[] { weapon, artMainData, artSetData, partyData, artSubData, };
         var baseData = Utils.AddInstances(baseDatas);
         Utils.CopyBaseFields(baseData, this);
         SetFields();

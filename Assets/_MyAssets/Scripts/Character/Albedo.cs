@@ -27,11 +27,11 @@ public class Albedo : BaseCharacter
             ["熟知"] = data.elemental_mastery.ToString(),
             ["率ダメ"] = expectedDamage_skill.Crit.RateDmg,
             ["会心ダメ比率"] = expectedDamage_skill.Crit.CritProportion,
-            ["聖遺物組み合わせ"] = data.artSub.name,
+            ["聖遺物組み合わせ"] = data.artSubData.name,
             ["サブステ"] = expectedDamage_skill.Crit.SubCrit.ToString(),
-            ["サブHP%"] = data.artSub.hp_rate.ToString(),
-            ["サブHP"] = data.artSub.hp.ToString(),
-            ["スコア"] = data.artSub.Score.ToString()
+            ["サブHP%"] = data.artSubData.hp_rate.ToString(),
+            ["サブHP"] = data.artSubData.hp.ToString(),
+            ["スコア"] = data.artSubData.Score.ToString()
         };
 
         //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));

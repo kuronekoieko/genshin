@@ -68,7 +68,7 @@ public static class Calculator
         return weaponDatas;
     }
 
-    static List<Artifact.ArtifactGroup> GetArtifactGroups(bool isSub)
+    static List<ArtifactGroup> GetArtifactGroups(bool isSub)
     {
         if (isSub)
         {
@@ -81,17 +81,17 @@ public static class Calculator
     }
 
 
-    public static List<Data> GetDatas(BaseCharacter character, WeaponData[] weaponDatas, PartyData[] partyDatas, List<Artifact.ArtifactGroup> artifactGroups)
+    public static List<Data> GetDatas(BaseCharacter character, WeaponData[] weaponDatas, PartyData[] partyDatas, List<ArtifactGroup> artifactGroups)
     {
         return GetDatas(character.status, character.ascend, weaponDatas, partyDatas, artifactGroups);
     }
 
-    public static List<Data> GetDatas(BaseCharacterSO character, WeaponData[] weaponDatas, PartyData[] partyDatas, List<Artifact.ArtifactGroup> artifactGroups)
+    public static List<Data> GetDatas(BaseCharacterSO character, WeaponData[] weaponDatas, PartyData[] partyDatas, List<ArtifactGroup> artifactGroups)
     {
         return GetDatas(character.status, character.ascend, weaponDatas, partyDatas, artifactGroups);
     }
 
-    static List<Data> GetDatas(Status status, Ascend ascend, WeaponData[] weaponDatas, PartyData[] partyDatas, List<Artifact.ArtifactGroup> artifactGroups)
+    static List<Data> GetDatas(Status status, Ascend ascend, WeaponData[] weaponDatas, PartyData[] partyDatas, List<ArtifactGroup> artifactGroups)
     {
         Debug.Log("組み合わせ作成開始");
 

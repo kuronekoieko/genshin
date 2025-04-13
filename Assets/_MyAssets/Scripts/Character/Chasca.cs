@@ -50,11 +50,11 @@ public class Chasca : BaseCharacter
       ["熟知"] = data.elemental_mastery.ToString(),
       ["率ダメ"] = crit.RateDmg,
       // ["会心ダメ比率"] = crit_ChargedAttack.CritProportion,
-      ["聖遺物組み合わせ"] = data.artSub.name,
+      ["聖遺物組み合わせ"] = data.artSubData.name,
       ["サブステ"] = crit.SubCrit.ToString(),
-      // ["サブHP%"] = data.artSub.hp_rate.ToString(),
-      // ["サブHP"] = data.artSub.hp.ToString(),
-      ["スコア"] = data.artSub.Score.ToString(),
+      // ["サブHP%"] = data.artSubData.hp_rate.ToString(),
+      // ["サブHP"] = data.artSubData.hp.ToString(),
+      ["スコア"] = data.artSubData.Score.ToString(),
     };
 
     //  Debug.Log(result);

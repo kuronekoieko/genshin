@@ -170,9 +170,9 @@ public class CharacterSOManager
     }
 
 
-    async UniTask<List<Artifact.ArtifactGroup>> GetArtifactGroups()
+    async UniTask<List<ArtifactGroup>> GetArtifactGroups()
     {
-        List<Artifact.ArtifactGroup> artifactGroups;
+        List<ArtifactGroup> artifactGroups;
         if (baseCharacterSO.isSub)
         {
             var artSetDatas_notSkipped = baseCharacterSO.selectedArtSets

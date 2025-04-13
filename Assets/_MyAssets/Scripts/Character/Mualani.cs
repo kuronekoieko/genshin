@@ -56,11 +56,11 @@ public class Mualani : BaseCharacter
             //  ["熟知"] = elementalMastery.ToString(),
             // ["率ダメ"] = crit_normalAttack.RateDmg,
             // ["会心ダメ比率"] = crit_ChargedAttack.CritProportion,
-            ["聖遺物組み合わせ"] = data.artSub.name,
+            ["聖遺物組み合わせ"] = data.artSubData.name,
             // ["サブステ"] = crit_normalAttack.SubCrit.ToString(),
-            // ["サブHP%"] = data.artSub.hp_rate.ToString(),
-            // ["サブHP"] = data.artSub.hp.ToString(),
-            ["スコア"] = data.artSub.Score.ToString(),
+            // ["サブHP%"] = data.artSubData.hp_rate.ToString(),
+            // ["サブHP"] = data.artSubData.hp.ToString(),
+            ["スコア"] = data.artSubData.Score.ToString(),
         };
 
         //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));

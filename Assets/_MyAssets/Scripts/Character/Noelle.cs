@@ -36,11 +36,11 @@ public class Noelle : BaseCharacter
             ["熟知"] = data.elemental_mastery.ToString(),
             ["率ダメ"] = ed_plugged.Crit.RateDmg,
             ["会心ダメ比率"] = ed_plugged.Crit.CritProportion,
-            ["聖遺物組み合わせ"] = data.artSub.name,
+            ["聖遺物組み合わせ"] = data.artSubData.name,
             ["サブステ"] = ed_plugged.Crit.SubCrit.ToString(),
-            ["サブHP%"] = data.artSub.hp_rate.ToString(),
-            ["サブHP"] = data.artSub.hp.ToString(),
-            ["スコア"] = data.artSub.Score.ToString()
+            ["サブHP%"] = data.artSubData.hp_rate.ToString(),
+            ["サブHP"] = data.artSubData.hp.ToString(),
+            ["スコア"] = data.artSubData.Score.ToString()
         };
 
         //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));
