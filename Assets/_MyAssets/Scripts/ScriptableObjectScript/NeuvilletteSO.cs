@@ -18,8 +18,7 @@ public class NeuvilletteSO : BaseCharacterSO
   public override Dictionary<string, string> CalcDmg(Data data)
   {
 
-    Data charaData = data;
-    charaData.hydro_bonus += talent_HydroDmgBonus;
+    data.hydro_bonus += talent_HydroDmgBonus;
 
     int elementalTypeCount = data.partyData.ElementalTypeCount();
     //Debug.Log(elementalTypeCount + " " + data.partyData.name);
@@ -27,11 +26,11 @@ public class NeuvilletteSO : BaseCharacterSO
 
 
 
-    // var (expectedDamage_normal, crit_normal) = charaData.ExpectedDmg(AttackType.Normal,  normalAtkPerArray);
-    var (expectedDamage_charged, crit_charged) = charaData.ExpectedDmg(AttackType.Charged, chargedAtkPer * talent_chargedAtkRate, referenceStatus: ReferenceStatus.Hp);
-    // var (expectedDamage_plugged, crit_plugged) = charaData.ExpectedDmg(AttackType.Plugged,pluggedAtkPerArray);
-    // var (expectedDamage_skill, crit_skill) = charaData.ExpectedDmg(AttackType.Skill, skillPerArray);
-    // var (expectedDamage_burst, crit_burst) = charaData.ExpectedDmg(AttackType.Skill, null);
+    // var (expectedDamage_normal, crit_normal) = data.ExpectedDmg(AttackType.Normal,  normalAtkPerArray);
+    var (expectedDamage_charged, crit_charged) = data.ExpectedDmg(AttackType.Charged, chargedAtkPer * talent_chargedAtkRate, referenceStatus: ReferenceStatus.Hp);
+    // var (expectedDamage_plugged, crit_plugged) = data.ExpectedDmg(AttackType.Plugged,pluggedAtkPerArray);
+    // var (expectedDamage_skill, crit_skill) = data.ExpectedDmg(AttackType.Skill, skillPerArray);
+    // var (expectedDamage_burst, crit_burst) = data.ExpectedDmg(AttackType.Skill, null);
 
 
 

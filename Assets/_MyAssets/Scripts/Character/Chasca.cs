@@ -19,15 +19,15 @@ public class Chasca : BaseCharacter
 
   public override Dictionary<string, string> CalcDmg(Data data)
   {
-    Data charaData = data;
-    charaData.charged_atk_bonus += talent_chargedAtkDmgBonus;
+
+    data.charged_atk_bonus += talent_chargedAtkDmgBonus;
 
 
-    var (expectedDamage_charged_anemo, crit_charged) = charaData.ExpectedDmg(AttackType.Charged, chargedAtkRate_anemo, ElementType.Anemo);
-    var (expectedDamage_charged_Pyro, crit_charged_Pyro) = charaData.ExpectedDmg(AttackType.Charged, chargedAtkRate_otherElement, ElementType.Pyro);
-    var (expectedDamage_charged_Cryo, crit_charged_Cryo) = charaData.ExpectedDmg(AttackType.Charged, chargedAtkRate_otherElement, ElementType.Cryo);
-    var (expectedDamage_charged_Electro, crit_charged_Electro) = charaData.ExpectedDmg(AttackType.Charged, chargedAtkRate_otherElement, ElementType.Electro);
-    var (expectedDamage_charged_Hydro, crit_charged_Hydro) = charaData.ExpectedDmg(AttackType.Charged, chargedAtkRate_otherElement, ElementType.Hydro);
+    var (expectedDamage_charged_anemo, crit_charged) = data.ExpectedDmg(AttackType.Charged, chargedAtkRate_anemo, ElementType.Anemo);
+    var (expectedDamage_charged_Pyro, crit_charged_Pyro) = data.ExpectedDmg(AttackType.Charged, chargedAtkRate_otherElement, ElementType.Pyro);
+    var (expectedDamage_charged_Cryo, crit_charged_Cryo) = data.ExpectedDmg(AttackType.Charged, chargedAtkRate_otherElement, ElementType.Cryo);
+    var (expectedDamage_charged_Electro, crit_charged_Electro) = data.ExpectedDmg(AttackType.Charged, chargedAtkRate_otherElement, ElementType.Electro);
+    var (expectedDamage_charged_Hydro, crit_charged_Hydro) = data.ExpectedDmg(AttackType.Charged, chargedAtkRate_otherElement, ElementType.Hydro);
 
 
     var sum = expectedDamage_charged_anemo * 3 + expectedDamage_charged_Pyro + expectedDamage_charged_Hydro + expectedDamage_charged_Cryo;
@@ -47,7 +47,7 @@ public class Chasca : BaseCharacter
       //["共通バフ"] = dmgBonus.ToString(),
       //["通常バフ"] = normalAtkDmgBonus.ToString(),
       // ["会心ダメ期待値"] = crit_ChargedAttack.ExpectedCritDmg.ToString(),
-      ["熟知"] = charaData.elemental_mastery.ToString(),
+      ["熟知"] = data.elemental_mastery.ToString(),
       ["率ダメ"] = crit.RateDmg,
       // ["会心ダメ比率"] = crit_ChargedAttack.CritProportion,
       ["聖遺物組み合わせ"] = data.artSub.name,

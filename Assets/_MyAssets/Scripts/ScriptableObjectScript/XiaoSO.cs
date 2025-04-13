@@ -21,13 +21,13 @@ public class XiaoSO : BaseCharacterSO
         // if (data.weapon.name != "草薙の稲光") return null;
         // if (data.weapon.name != "和璞鳶") return null;
 
-        Data charaData = data;
-        charaData.normal_atk_bonus += burst_bonus;
-        charaData.charged_atk_bonus += burst_bonus;
-        charaData.plugged_atk_bonus += burst_bonus;
+
+        data.normal_atk_bonus += burst_bonus;
+        data.charged_atk_bonus += burst_bonus;
+        data.plugged_atk_bonus += burst_bonus;
 
 
-        var (expectedDamage_plugged, crit_plugged) = charaData.ExpectedDmg(AttackType.Plugged, pluggedAtkPerArray[0]);
+        var (expectedDamage_plugged, crit_plugged) = data.ExpectedDmg(AttackType.Plugged, pluggedAtkPerArray[0]);
 
 
 

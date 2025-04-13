@@ -12,55 +12,55 @@ public class ExpectedDamage
     readonly float res;
     public Crit Crit { get; private set; }
 
-    public ExpectedDamage(AttackType attackType, ElementType elementType, Data charaData, ArtSubData artSub)
+    public ExpectedDamage(AttackType attackType, ElementType elementType, Data data, ArtSubData artSub)
     {
-        float dmgAdd = charaData.add;
-        float dmgBonus = charaData.dmg_bonus + charaData.ElementalDmgBonus(elementType);
-        float critRate = charaData.crit_rate;
-        float critDmg = charaData.crit_dmg;
-        float elementalRes = charaData.res + charaData.GetElementalRes(elementType);
+        float dmgAdd = data.add;
+        float dmgBonus = data.dmg_bonus + data.ElementalDmgBonus(elementType);
+        float critRate = data.crit_rate;
+        float critDmg = data.crit_dmg;
+        float elementalRes = data.res + data.GetElementalRes(elementType);
 
         switch (attackType)
         {
             case AttackType.Normal:
-                dmgAdd += charaData.add_normal_atk;
-                dmgBonus += charaData.normal_atk_bonus;
-                critRate += charaData.crit_rate_normal_atk;
+                dmgAdd += data.add_normal_atk;
+                dmgBonus += data.normal_atk_bonus;
+                critRate += data.crit_rate_normal_atk;
                 //  critDmg += data.crit_dmg_normal_atk();
                 break;
             case AttackType.Charged:
-                dmgAdd += charaData.add_charged_atk;
-                dmgBonus += charaData.charged_atk_bonus;
-                critRate += charaData.crit_rate_charged_atk;
+                dmgAdd += data.add_charged_atk;
+                dmgBonus += data.charged_atk_bonus;
+                critRate += data.crit_rate_charged_atk;
                 //critDmg += data.crit_dmg_charged_atk();
                 break;
             case AttackType.Plugged:
-                dmgAdd += charaData.add_plugged_atk;
-                dmgBonus += charaData.plugged_atk_bonus;
-                critRate += charaData.crit_rate_plugged_atk;
-                critDmg += charaData.crit_dmg_plugged;
+                dmgAdd += data.add_plugged_atk;
+                dmgBonus += data.plugged_atk_bonus;
+                critRate += data.crit_rate_plugged_atk;
+                critDmg += data.crit_dmg_plugged;
                 break;
             case AttackType.Skill:
-                dmgAdd += charaData.add_skill;
-                dmgBonus += charaData.skill_bonus;
-                critRate += charaData.crit_rate_skill;
+                dmgAdd += data.add_skill;
+                dmgBonus += data.skill_bonus;
+                critRate += data.crit_rate_skill;
                 //  critDmg += data.crit_dmg_skill();
                 break;
             case AttackType.Burst:
-                dmgAdd += charaData.add_burst;
-                dmgBonus += charaData.burst_bonus;
-                critRate += charaData.crit_rate_burst;
-                critDmg += charaData.crit_dmg_burst;
+                dmgAdd += data.add_burst;
+                dmgBonus += data.burst_bonus;
+                critRate += data.crit_rate_burst;
+                critDmg += data.crit_dmg_burst;
                 break;
             default:
                 break;
         }
         Crit = new Crit(critRate, critDmg, artSub);
 
-        this.atk = charaData.atk;
-        this.def = charaData.def;
-        this.hp = charaData.hp;
-        this.em = charaData.elemental_mastery;
+        this.atk = data.atk;
+        this.def = data.def;
+        this.hp = data.hp;
+        this.em = data.elemental_mastery;
         this.dmgAdd = dmgAdd;
         this.dmgBonus = dmgBonus;
         this.expectedCritDmg = Crit.ExpectedCritDmg;

@@ -21,17 +21,17 @@ public class Mualani : BaseCharacter
         // if (data.weapon.name != "草薙の稲光") return null;
         // if (data.weapon.name != "和璞鳶") return null;
 
-        Data charaData = data;
 
-        var vaporizeForHydro = ElementalReaction.VaporizeForHydro(charaData.elemental_mastery, data.er_rate);
 
-        var (expectedDamage_normal_1, crit_normal_1) = charaData.ExpectedDmg(AttackType.Normal, normalAtkPerArray[0], referenceStatus: ReferenceStatus.Hp, er_multi: vaporizeForHydro);
+        var vaporizeForHydro = ElementalReaction.VaporizeForHydro(data.elemental_mastery, data.er_rate);
+
+        var (expectedDamage_normal_1, crit_normal_1) = data.ExpectedDmg(AttackType.Normal, normalAtkPerArray[0], referenceStatus: ReferenceStatus.Hp, er_multi: vaporizeForHydro);
 
         // var (expectedDamage_normal, crit_normal) = ExpectedDmg_multi(AttackType.Normal,  hpRate: normalAtkPerArray, elementalReaction: vaporizeForHydro);
-        //  var (expectedDamage_charged, crit_charged) = charaData.ExpectedDmg(AttackType.Charged,  chargedAtkPerArray);
-        //var (expectedDamage_plugged, crit_plugged) = charaData.ExpectedDmg(AttackType.Plugged,pluggedAtkPerArray);
-        //var (expectedDamage_skill, crit_skill) = charaData.ExpectedDmg(AttackType.Skill, skillPerArray);
-        //var (expectedDamage_burst, crit_burst) = charaData.ExpectedDmg(AttackType.Skill, null);
+        //  var (expectedDamage_charged, crit_charged) = data.ExpectedDmg(AttackType.Charged,  chargedAtkPerArray);
+        //var (expectedDamage_plugged, crit_plugged) = data.ExpectedDmg(AttackType.Plugged,pluggedAtkPerArray);
+        //var (expectedDamage_skill, crit_skill) = data.ExpectedDmg(AttackType.Skill, skillPerArray);
+        //var (expectedDamage_burst, crit_burst) = data.ExpectedDmg(AttackType.Skill, null);
 
 
 

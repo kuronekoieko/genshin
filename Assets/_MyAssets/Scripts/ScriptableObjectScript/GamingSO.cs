@@ -35,17 +35,17 @@ public class GamingSO : BaseCharacterSO
         //if (data.partyData.name.Contains("フリーナ") == false) return null;
         // if (data.energy_recharge() < 0.5f) return null;
 */
-        Data charaData = data;
-        charaData.atk += data.BaseAtk * constellation_atkRate;
+
+        data.atk += data.BaseAtk * constellation_atkRate;
 
 
-        charaData.crit_rate_plugged_atk += constellation_critRate;
-        charaData.crit_dmg_plugged += constellation_critDmg;
-        charaData.crit_dmg_plugged += talent_addDmgBonusPluggedAtk;
+        data.crit_rate_plugged_atk += constellation_critRate;
+        data.crit_dmg_plugged += constellation_critDmg;
+        data.crit_dmg_plugged += talent_addDmgBonusPluggedAtk;
 
-        var vaporize = ElementalReaction.VaporizeForPyro(charaData.elemental_mastery, data.er_rate);
+        var vaporize = ElementalReaction.VaporizeForPyro(data.elemental_mastery, data.er_rate);
 
-        var (expectedDamage, crit) = charaData.ExpectedDmg(AttackType.Plugged, pluggedAtkPerArray[0], er_multi: vaporize);
+        var (expectedDamage, crit) = data.ExpectedDmg(AttackType.Plugged, pluggedAtkPerArray[0], er_multi: vaporize);
 
         var sum = expectedDamage;
 
@@ -56,14 +56,14 @@ public class GamingSO : BaseCharacterSO
             ["聖遺物メイン"] = data.artMainData.name,
             ["バフキャラ"] = data.partyData.name,
             ["合計期待値"] = sum.ToString(),
-            ["攻撃力"] = charaData.atk.ToString(),
+            ["攻撃力"] = data.atk.ToString(),
             // ["HP"] = baseData.hp.ToString(),
             // ["加算"] = (baseData.add + data.add_plugged_atk()).ToString(),
             //["バフ"] = (baseData.dmg_bonus + data.plugged_atk_bonus() + talent_addDmgBonusPluggedAtk).ToString(),
             //["会心ダメ期待値"] = crit.ExpectedCritDmg.ToString(),
             // ["耐性"] = baseData.res.ToString(),
             // ["蒸発"] = vaporize.ToString(),
-            ["熟知"] = charaData.elemental_mastery.ToString(),
+            ["熟知"] = data.elemental_mastery.ToString(),
             ["率ダメ"] = crit.RateDmg,
             // ["会心ダメ比率"] = crit_skill.CritProportion,
             //["聖遺物組み合わせ"] = data.artSub.name,

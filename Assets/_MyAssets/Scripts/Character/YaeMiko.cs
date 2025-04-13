@@ -14,19 +14,19 @@ public class YaeMiko : BaseCharacter
 
     public override Dictionary<string, string> CalcDmg(Data data)
     {
-        Data charaData = data;
-        charaData.skill_bonus += passive_dmgBonusPerEM * charaData.elemental_mastery;
 
-        var addAggravate = ElementalReaction.Aggravate(charaData.elemental_mastery, data.artSetData.er_aggravate);
+        data.skill_bonus += passive_dmgBonusPerEM * data.elemental_mastery;
 
-        // var (expectedDamage_normal, crit_normal) = charaData.ExpectedDmg(AttackType.Normal,  status.elementType,normalAtkPerArray);
-        //var (expectedDamage_charged, crit_charged) = charaData.ExpectedDmg(AttackType.Charged,  status.elementType,chargedAtkPerArray);
-        //var (expectedDamage_plugged, crit_plugged) = charaData.ExpectedDmg(AttackType.Plugged,status.elementType,pluggedAtkPerArray);
-        var (expectedDamage_skill_0, crit_skill_0) = charaData.ExpectedDmg(AttackType.Skill, skillPerArray[0], er_add: addAggravate);
-        var (expectedDamage_skill_1, crit_skill_1) = charaData.ExpectedDmg(AttackType.Skill, skillPerArray[1]);
-        var (expectedDamage_skill_2, crit_skill_2) = charaData.ExpectedDmg(AttackType.Skill, skillPerArray[2]);
+        var addAggravate = ElementalReaction.Aggravate(data.elemental_mastery, data.artSetData.er_aggravate);
 
-        //var (expectedDamage_burst, crit_burst) = charaData.ExpectedDmg(AttackType.Skill, status.elementType,null);
+        // var (expectedDamage_normal, crit_normal) = data.ExpectedDmg(AttackType.Normal,  status.elementType,normalAtkPerArray);
+        //var (expectedDamage_charged, crit_charged) = data.ExpectedDmg(AttackType.Charged,  status.elementType,chargedAtkPerArray);
+        //var (expectedDamage_plugged, crit_plugged) = data.ExpectedDmg(AttackType.Plugged,status.elementType,pluggedAtkPerArray);
+        var (expectedDamage_skill_0, crit_skill_0) = data.ExpectedDmg(AttackType.Skill, skillPerArray[0], er_add: addAggravate);
+        var (expectedDamage_skill_1, crit_skill_1) = data.ExpectedDmg(AttackType.Skill, skillPerArray[1]);
+        var (expectedDamage_skill_2, crit_skill_2) = data.ExpectedDmg(AttackType.Skill, skillPerArray[2]);
+
+        //var (expectedDamage_burst, crit_burst) = data.ExpectedDmg(AttackType.Skill, status.elementType,null);
 
 
 

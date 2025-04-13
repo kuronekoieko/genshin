@@ -10,9 +10,9 @@ public class Albedo : BaseCharacter
 
     public override Dictionary<string, string> CalcDmg(Data data)
     {
-        Data charaData = data;
 
-        var (expectedDamage_skill, crit_skill) = charaData.ExpectedDmg(AttackType.Skill, skillPerArray[0], referenceStatus: ReferenceStatus.Def);
+
+        var (expectedDamage_skill, crit_skill) = data.ExpectedDmg(AttackType.Skill, skillPerArray[0], referenceStatus: ReferenceStatus.Def);
 
 
         Dictionary<string, string> result = new()
@@ -22,11 +22,11 @@ public class Albedo : BaseCharacter
             ["聖遺物メイン"] = data.artMainData.name,
             ["バフキャラ"] = data.partyData.name,
             ["スキル期待値"] = expectedDamage_skill.ToString(),
-            ["攻撃力"] = charaData.atk.ToString(),
-            ["HP"] = charaData.hp.ToString(),
-            ["バフ"] = charaData.dmg_bonus.ToString(),
+            ["攻撃力"] = data.atk.ToString(),
+            ["HP"] = data.hp.ToString(),
+            ["バフ"] = data.dmg_bonus.ToString(),
             ["会心ダメ期待値"] = crit_skill.ExpectedCritDmg.ToString(),
-            ["熟知"] = charaData.elemental_mastery.ToString(),
+            ["熟知"] = data.elemental_mastery.ToString(),
             ["率ダメ"] = crit_skill.RateDmg,
             ["会心ダメ比率"] = crit_skill.CritProportion,
             ["聖遺物組み合わせ"] = data.artSub.name,

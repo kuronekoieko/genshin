@@ -18,13 +18,13 @@ public class Arataki : BaseCharacter
         // 時計原チャじゃないと、かなりdps落ちる
         if (data.energy_recharge < 0.5f) return null;
 
-        Data charaData = data;
-        charaData.atk += burst_addAtkPerDef * charaData.def;
-        charaData.add_charged_atk += talent_addDmg_chargedAtk_PerDef * charaData.def;
+
+        data.atk += burst_addAtkPerDef * data.def;
+        data.add_charged_atk += talent_addDmg_chargedAtk_PerDef * data.def;
 
 
-        var (expectedDamage_normal, crit_normal) = charaData.ExpectedDmgSum(AttackType.Normal, normalAtkPerArray);
-        var (expectedDamage_charged, crit_charged) = charaData.ExpectedDmgSum(AttackType.Charged, chargedAtkPerArray);
+        var (expectedDamage_normal, crit_normal) = data.ExpectedDmgSum(AttackType.Normal, normalAtkPerArray);
+        var (expectedDamage_charged, crit_charged) = data.ExpectedDmgSum(AttackType.Charged, chargedAtkPerArray);
 
         var sum = expectedDamage_normal + expectedDamage_charged;
 
@@ -35,8 +35,8 @@ public class Arataki : BaseCharacter
             ["聖遺物メイン"] = data.artMainData.name,
             ["バフキャラ"] = data.partyData.name,
             ["合計期待値"] = sum.ToString(),
-            ["攻撃力"] = charaData.atk.ToString(),
-            ["HP"] = charaData.hp.ToString(),
+            ["攻撃力"] = data.atk.ToString(),
+            ["HP"] = data.hp.ToString(),
             //  ["バフ"] = dmgBonus.ToString(),
             // ["会心ダメ期待値"] = crit_skill.ExpectedCritDmg.ToString(),
             // ["熟知"] = elementalMastery.ToString(),

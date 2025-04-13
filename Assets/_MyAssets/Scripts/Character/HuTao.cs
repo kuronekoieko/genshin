@@ -21,18 +21,18 @@ public class HuTao : BaseCharacter
         // if (data.weapon.name != "草薙の稲光") return null;
         // if (data.weapon.name != "和璞鳶") return null;
 
-        Data charaData = data;
-        charaData.pyro_bonus += talent_dmgBonus;
-        charaData.atk += charaData.hp * skill_addAtkPerHp;
+
+        data.pyro_bonus += talent_dmgBonus;
+        data.atk += data.hp * skill_addAtkPerHp;
 
         // var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
-        var vaporize = ElementalReaction.VaporizeForPyro(charaData.elemental_mastery, data.er_rate);
+        var vaporize = ElementalReaction.VaporizeForPyro(data.elemental_mastery, data.er_rate);
 
-        // var (expectedDamage_normal, crit_normal) = charaData.ExpectedDmg(AttackType.Normal,  status.elementType,normalAtkPerArray);
-        var (expectedDamage_charged, crit_charged) = charaData.ExpectedDmg(AttackType.Charged, chargedAtkPerArray[0], er_multi: vaporize);
-        // var (expectedDamage_plugged, crit_plugged) = charaData.ExpectedDmg(AttackType.Plugged,status.elementType,pluggedAtkPerArray);
-        // var (expectedDamage_skill, crit_skill) = charaData.ExpectedDmg(AttackType.Skill, status.elementType,skillPerArray);
-        // var (expectedDamage_burst, crit_burst) = charaData.ExpectedDmg(AttackType.Skill, status.elementType,null);
+        // var (expectedDamage_normal, crit_normal) = data.ExpectedDmg(AttackType.Normal,  status.elementType,normalAtkPerArray);
+        var (expectedDamage_charged, crit_charged) = data.ExpectedDmg(AttackType.Charged, chargedAtkPerArray[0], er_multi: vaporize);
+        // var (expectedDamage_plugged, crit_plugged) = data.ExpectedDmg(AttackType.Plugged,status.elementType,pluggedAtkPerArray);
+        // var (expectedDamage_skill, crit_skill) = data.ExpectedDmg(AttackType.Skill, status.elementType,skillPerArray);
+        // var (expectedDamage_burst, crit_burst) = data.ExpectedDmg(AttackType.Skill, status.elementType,null);
 
 
 
