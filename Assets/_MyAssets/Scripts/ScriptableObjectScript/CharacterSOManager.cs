@@ -55,9 +55,15 @@ public class CharacterSOManager
 
         var artMainHeader = new ArtMainHeader();
 
-        baseCharacterSO.selectedArtMainSands = artMainHeader.sands.Select(name => new SelectedArtMainSand()
+        baseCharacterSO.selectedArtMainSands = artMainHeader.sands.Select(name =>
         {
-            name = name,
+            var instance = new SelectedArtMainSand()
+            {
+                name = name,
+                isUse = IsUseReferenceStatus(name)
+            };
+            if (name == "元チャ") instance.isUse = false;
+            return instance;
         }).ToList();
 
         baseCharacterSO.selectedArtMainGoblets = artMainHeader.goblets.Select(name =>
@@ -65,30 +71,49 @@ public class CharacterSOManager
             var instance = new SelectedArtMainGoblet()
             {
                 name = name,
+                isUse = IsUseReferenceStatus(name)
             };
 
-            bool isElement = Utils.elementTypeNameDic.ContainsValue(name.Replace("バフ", ""));
-            if (isElement)
+            if (IsElementBonus(name, out ElementType elementType))
             {
-                ElementType elementType = Utils.GetElementType(name.Replace("バフ", ""));
-                if (elementType != baseCharacterSO.status.elementType)
-                {
-                    instance.isUse = false;
-                }
+                instance.isUse = elementType == baseCharacterSO.status.elementType;
             }
 
             return instance;
         }).ToList();
 
-        baseCharacterSO.selectedArtMainCirclets = artMainHeader.circlets.Select(name => new SelectedArtMainCirclet()
+        baseCharacterSO.selectedArtMainCirclets = artMainHeader.circlets.Select(name =>
         {
-            name = name,
+            var instance = new SelectedArtMainCirclet()
+            {
+                name = name,
+                isUse = IsUseReferenceStatus(name)
+            };
+
+            if (name == "治癒効果") instance.isUse = false;
+            return instance;
         }).ToList();
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
 
         Debug.Log("完了");
+    }
+
+    bool IsElementBonus(string name, out ElementType elementType)
+    {
+        string elementTypeNameShort = name.Replace("バフ", "");
+        elementType = Utils.GetElementType(elementTypeNameShort);
+        return elementType != ElementType.None;
+    }
+
+    bool IsUseReferenceStatus(string name)
+    {
+        ReferenceStatus referenceStatus = Utils.GetReferenceStatus(name);
+        if (referenceStatus == ReferenceStatus.None) return true;
+        if (referenceStatus == ReferenceStatus.Em) return true;
+        if (referenceStatus == baseCharacterSO.status.referenceStatus) return true;
+        return false;
     }
 
     List<T> AddDifference<T>(List<T> existingList, List<T> newList) where T : ISelected

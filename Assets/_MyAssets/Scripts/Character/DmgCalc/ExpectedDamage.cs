@@ -168,8 +168,9 @@ public enum AttackType
 [System.Flags]
 public enum ReferenceStatus
 {
-    Atk,
-    Def,
-    Hp,
-    Em,
+    None = -1,
+    Atk = 0,
+    Def = 1,
+    Hp = 2,
+    Em = 3,
 }

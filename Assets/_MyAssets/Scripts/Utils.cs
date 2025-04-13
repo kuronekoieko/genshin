@@ -8,23 +8,32 @@ using UnityEngine;
 
 public class Utils
 {
-
-    public static Dictionary<ElementType, string> elementTypeNameDic = new()
-    {
-        { ElementType.Pyro, "炎" },
-        { ElementType.Hydro, "水" },
-        { ElementType.Cryo, "氷" },
-        { ElementType.Electro, "雷" },
-        { ElementType.Geo, "岩" },
-        { ElementType.Anemo, "風" },
-        { ElementType.Dendro, "草" },
-        { ElementType.Physics, "物理" },
-        { ElementType.None, "" },
-    };
-
     public static ElementType GetElementType(string element_type_name)
     {
-        return elementTypeNameDic.FirstOrDefault(pair => pair.Value == element_type_name).Key;
+        return element_type_name switch
+        {
+            "炎" => ElementType.Pyro,
+            "水" => ElementType.Hydro,
+            "氷" => ElementType.Cryo,
+            "雷" => ElementType.Electro,
+            "岩" => ElementType.Geo,
+            "風" => ElementType.Anemo,
+            "草" => ElementType.Dendro,
+            "物理" => ElementType.Physics,
+            _ => ElementType.None,
+        };
+    }
+
+    public static ReferenceStatus GetReferenceStatus(string referenceStatusName)
+    {
+        return referenceStatusName switch
+        {
+            "攻撃%" => ReferenceStatus.Atk,
+            "防御%" => ReferenceStatus.Def,
+            "HP%" => ReferenceStatus.Hp,
+            "元素熟知" => ReferenceStatus.Em,
+            _ => ReferenceStatus.None,
+        };
     }
 
     public static WeaponType GetWeaponType(string weapon_type_name)
