@@ -175,7 +175,11 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
     {
         var memberDatas = selectedMembers
                    .Where(s => s.isUse)
-                   .Select(s => s.Member)
+                   .Select(s =>
+                    {
+                        s.Member.isRequired = s.IsRequired;
+                        return s.Member;
+                    })
                    .ToArray();
 
         foreach (var item in memberDatas)
@@ -184,8 +188,8 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
             {
                 Debug.LogError(item.name);
             }
-            Debug.Log(item.skip);
-
+            // Debug.Log(item.skip);
+            // Debug.Log(item.name + " " + item.isRequired);
         }
 
 
@@ -231,7 +235,11 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
         {
             var artSetDatas = selectedArtSets
                 .Where(s => s.isUse)
-                .Select(s => s.ArtSetData)
+                .Select(s =>
+                {
+                    s.ArtSetData.isRequired = s.IsRequired;
+                    return s.ArtSetData;
+                })
                 .ToArray();
 
             foreach (var item in artSetDatas)

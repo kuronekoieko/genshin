@@ -6,6 +6,7 @@ using System;
 [Serializable]
 public class MemberData : BaseData, IComparable<MemberData>
 {
+    public bool isRequired = false;
     public string weapon = "";
     public string art_set = "";
     public string option = "";

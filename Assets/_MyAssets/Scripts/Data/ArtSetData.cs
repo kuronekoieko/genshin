@@ -21,6 +21,7 @@ public class ArtSetData : BaseData
             }
         }
     }
+    public bool isRequired = false;
     public string option;
     public int set;
 
