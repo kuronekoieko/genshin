@@ -226,7 +226,7 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
                 }
             }
 
-            artifactGroups = Artifact.GetArtifactGroups(artSetDatas);
+            artifactGroups = Artifact.GetArtifactGroups(artSetDatas, isTest: true);
         }
 
         Debug.Log("artifactGroups: " + artifactGroups.Count);

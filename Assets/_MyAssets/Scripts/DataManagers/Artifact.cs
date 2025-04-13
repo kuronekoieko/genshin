@@ -8,13 +8,13 @@ public class Artifact
 {
 
 
-    public static List<ArtifactGroup> GetArtifactGroups(ArtSetData[] csvArtSetDatas)
+    public static List<ArtifactGroup> GetArtifactGroups(ArtSetData[] csvArtSetDatas, bool isTest = false)
     {
 
         List<ArtifactGroup> artifactGroups = new();
 
         Debug.Log("not sub");
-        var artMainDatas = Artifacts_Main.GetArtMainDatas();
+        var artMainDatas = Artifacts_Main.GetArtMainDatas(isTest);
         var artSetDatas = Artifacts_Set.GetArtSetDatas(csvArtSetDatas).ToArray();
 
 

@@ -15,8 +15,29 @@ public static class Artifacts_Main
             new string[] { "攻撃%","防御%","HP%", "元素熟知", "元チャ","炎バフ", "水バフ",  "雷バフ", "氷バフ", "岩バフ", "風バフ", "草バフ", "物理バフ", "会心率", "会心ダメージ","治癒効果"  }
     };
 
-    static public ArtMainData[] GetArtMainDatas()
+    static ArtMainData[] GetArtMainDatas_Test()
     {
+        Debug.Log("聖遺物メイン計算開始 テスト");
+
+        string artMainTokei = artMainTokeiArray[0];
+        string artMainSakaduki = artMainSakadukiArray[0];
+        string artMainKanmuri = artMainKanmuriArray[0];
+
+        string[] nameCombinations = { artMainTokei, artMainSakaduki, artMainKanmuri };
+
+        ArtMainCount artMainCount = GetArtMainCount(nameCombinations);
+        ArtMainData artMainData = new(artMainCount);
+
+
+
+        return new[] { artMainData };
+    }
+
+    static public ArtMainData[] GetArtMainDatas(bool isTest)
+    {
+        if (isTest) return GetArtMainDatas_Test();
+
+
         Debug.Log("聖遺物メイン計算開始");
 
         List<ArtMainData> artMainDatas = new();
