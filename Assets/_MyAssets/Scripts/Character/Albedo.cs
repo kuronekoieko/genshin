@@ -10,7 +10,7 @@ public class Albedo : BaseCharacter
 
     public override Dictionary<string, string> CalcDmg(Data data)
     {
-        CharaData charaData = new(data);
+        Data charaData = data;
 
         var (expectedDamage_skill, crit_skill) = charaData.ExpectedDmg(AttackType.Skill, skillPerArray[0], referenceStatus: ReferenceStatus.Def);
 

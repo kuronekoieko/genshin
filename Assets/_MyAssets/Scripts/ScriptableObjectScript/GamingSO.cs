@@ -35,7 +35,7 @@ public class GamingSO : BaseCharacterSO
         //if (data.partyData.name.Contains("フリーナ") == false) return null;
         // if (data.energy_recharge() < 0.5f) return null;
 */
-        CharaData charaData = new(data);
+        Data charaData = data;
         charaData.atk += data.BaseAtk * constellation_atkRate;
 
 

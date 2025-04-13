@@ -18,7 +18,7 @@ public class Arataki : BaseCharacter
         // 時計原チャじゃないと、かなりdps落ちる
         if (data.energy_recharge < 0.5f) return null;
 
-        CharaData charaData = new(data);
+        Data charaData = data;
         charaData.atk += burst_addAtkPerDef * charaData.def;
         charaData.add_charged_atk += talent_addDmg_chargedAtk_PerDef * charaData.def;
 

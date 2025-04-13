@@ -14,7 +14,7 @@ public class YaeMiko : BaseCharacter
 
     public override Dictionary<string, string> CalcDmg(Data data)
     {
-        CharaData charaData = new(data);
+        Data charaData = data;
         charaData.skill_bonus += passive_dmgBonusPerEM * charaData.elemental_mastery;
 
         var addAggravate = ElementalReaction.Aggravate(charaData.elemental_mastery, data.artSetData.er_aggravate);

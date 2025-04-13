@@ -67,7 +67,37 @@ public class BaseData
     public float er_fixed;
     public float er_aggravate;
 
+    public float ElementalDmgBonus(ElementType elementType)
+    {
+        return elementType switch
+        {
+            ElementType.Pyro => pyro_bonus,
+            ElementType.Hydro => hydro_bonus,
+            ElementType.Electro => electro_bonus,
+            ElementType.Cryo => cryo_bonus,
+            ElementType.Geo => geo_bonus,
+            ElementType.Anemo => anemo_bonus,
+            ElementType.Dendro => dendro_bonus,
+            ElementType.Physics => physics_bonus,
+            _ => 0,
+        };
+    }
 
+    public float GetElementalRes(ElementType elementType)
+    {
+        return elementType switch
+        {
+            ElementType.Pyro => pyro_res,
+            ElementType.Hydro => hydro_res,
+            ElementType.Electro => electro_res,
+            ElementType.Cryo => cryo_res,
+            ElementType.Geo => geo_res,
+            ElementType.Anemo => anemo_res,
+            ElementType.Dendro => dendro_res,
+            ElementType.Physics => physics_res,
+            _ => 0,
+        };
+    }
     public BaseData DeepCopy()
     {
         string json = JsonConvert.SerializeObject(this);

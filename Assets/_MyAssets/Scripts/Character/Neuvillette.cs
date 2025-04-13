@@ -17,7 +17,7 @@ public class Neuvillette : BaseCharacter
   public override Dictionary<string, string> CalcDmg(Data data)
   {
 
-    CharaData charaData = new(data);
+    Data charaData = data;
     charaData.hydro_bonus += talent_HydroDmgBonus;
 
     int elementalTypeCount = data.partyData.ElementalTypeCount();

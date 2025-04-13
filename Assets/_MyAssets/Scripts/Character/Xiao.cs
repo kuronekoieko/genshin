@@ -20,7 +20,7 @@ public class Xiao : BaseCharacter
     // if (data.weapon.name != "草薙の稲光") return null;
     // if (data.weapon.name != "和璞鳶") return null;
 
-    CharaData charaData = new(data);
+    Data charaData = data;
     charaData.normal_atk_bonus += burst_bonus;
     charaData.charged_atk_bonus += burst_bonus;
     charaData.plugged_atk_bonus += burst_bonus;

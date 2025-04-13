@@ -24,7 +24,7 @@ public class Gaming : BaseCharacter
   public override Dictionary<string, string> CalcDmg(Data data)
   {
 
-    CharaData charaData = new(data);
+    Data charaData = data;
     charaData.atk += data.BaseAtk * constellation_atkRate;
 
 

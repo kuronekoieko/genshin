@@ -12,7 +12,7 @@ public class ExpectedDamage
     readonly float res;
     public Crit Crit { get; private set; }
 
-    public ExpectedDamage(AttackType attackType, ElementType elementType, CharaData charaData, ArtSubData artSub)
+    public ExpectedDamage(AttackType attackType, ElementType elementType, Data charaData, ArtSubData artSub)
     {
         float dmgAdd = charaData.add;
         float dmgBonus = charaData.dmg_bonus + charaData.ElementalDmgBonus(elementType);

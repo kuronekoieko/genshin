@@ -21,7 +21,7 @@ public class Mualani : BaseCharacter
         // if (data.weapon.name != "草薙の稲光") return null;
         // if (data.weapon.name != "和璞鳶") return null;
 
-        CharaData charaData = new(data);
+        Data charaData = data;
 
         var vaporizeForHydro = ElementalReaction.VaporizeForHydro(charaData.elemental_mastery, data.er_rate);
 

@@ -21,7 +21,7 @@ public class HuTao : BaseCharacter
         // if (data.weapon.name != "草薙の稲光") return null;
         // if (data.weapon.name != "和璞鳶") return null;
 
-        CharaData charaData = new(data);
+        Data charaData = data;
         charaData.pyro_bonus += talent_dmgBonus;
         charaData.atk += charaData.hp * skill_addAtkPerHp;
 

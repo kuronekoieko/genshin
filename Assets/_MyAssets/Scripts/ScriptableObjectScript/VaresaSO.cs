@@ -20,7 +20,7 @@ public class VaresaSO : BaseCharacterSO
 
 
 
-        CharaData charaData = new(data);
+        Data charaData = data;
 
 
         var addAggravate = ElementalReaction.Aggravate(charaData.elemental_mastery, data.er_aggravate);
