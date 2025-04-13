@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using UnityEngine;
+using IekoLibrary;
 
 [Serializable]
 public class PartyData : BaseData, IComparable<PartyData>
@@ -13,7 +14,10 @@ public class PartyData : BaseData, IComparable<PartyData>
 
     public string GetMemberName(int index)
     {
-        // if(members.Length)
+        if (members.TryGetValue(index, out var member))
+        {
+            return member.name;
+        }
         return "";
     }
 
