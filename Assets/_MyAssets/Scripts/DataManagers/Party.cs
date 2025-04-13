@@ -10,6 +10,8 @@ public static class Party
     {
         Debug.Log("パーティ計算開始");
 
+        MemberData[] requiredMembers = memberDatas.Where(memberData => memberData.isRequired).ToArray();
+
         var membersList = new List<SortedSet<MemberData>>();
         foreach (var member1 in memberDatas)
         {
@@ -29,9 +31,10 @@ public static class Party
                     string newName = string.Join("+", partyMemberSortedSet.Select(memberData => memberData.CombinedName).ToArray());
 
                     if (IsDuplicate(membersList, newName)) continue;
-                    // Debug.Log(newName);
+                    if (IsContainsRequired(requiredMembers, partyMemberSortedSet))
+                        // Debug.Log(newName);
 
-                    membersList.Add(partyMemberSortedSet);
+                        membersList.Add(partyMemberSortedSet);
                 }
             }
         }
@@ -52,6 +55,20 @@ public static class Party
         }
 
         return partyDatas.ToArray();
+    }
+
+    static bool IsContainsRequired(MemberData[] requiredMembers, SortedSet<MemberData> partyMemberSortedSet)
+    {
+        if (requiredMembers.Length == 0) return true;
+
+        foreach (var requiredMember in requiredMembers)
+        {
+            if (partyMemberSortedSet.Contains(requiredMember))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 
