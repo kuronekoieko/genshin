@@ -18,8 +18,8 @@ public class Noelle : BaseCharacter
 
         data.atk += (burst_addAtkPerDef + constellation_addAtkPerDef) * data.def;
 
-        var (expectedDamage_normal, crit_normal) = data.ExpectedDmg(AttackType.Normal, atkRate: normalAtkPerArray[0]);
-        var (expectedDamage_plugged, crit_plugged) = data.ExpectedDmg(AttackType.Plugged, atkRate: pluggedAtkPerArray[0]);
+        var ed_normal = ExpectedDamage.Single(data, AttackType.Normal, atkRate: normalAtkPerArray[0]);
+        var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged, atkRate: pluggedAtkPerArray[0]);
 
 
         Dictionary<string, string> result = new()
@@ -28,16 +28,16 @@ public class Noelle : BaseCharacter
             ["聖遺物セット"] = data.artSetData.name,
             ["聖遺物メイン"] = data.artMainData.name,
             ["バフキャラ"] = data.partyData.name,
-            ["合計期待値"] = expectedDamage_plugged.ToString(),
+            ["合計期待値"] = ed_plugged.Result.ToString(),
             ["攻撃力"] = data.atk.ToString(),
             ["HP"] = data.hp.ToString(),
             ["バフ"] = data.dmg_bonus.ToString(),
-            ["会心ダメ期待値"] = crit_plugged.ExpectedCritDmg.ToString(),
+            ["会心ダメ期待値"] = ed_plugged.Crit.ExpectedCritDmg.ToString(),
             ["熟知"] = data.elemental_mastery.ToString(),
-            ["率ダメ"] = crit_plugged.RateDmg,
-            ["会心ダメ比率"] = crit_plugged.CritProportion,
+            ["率ダメ"] = ed_plugged.Crit.RateDmg,
+            ["会心ダメ比率"] = ed_plugged.Crit.CritProportion,
             ["聖遺物組み合わせ"] = data.artSub.name,
-            ["サブステ"] = crit_plugged.SubCrit.ToString(),
+            ["サブステ"] = ed_plugged.Crit.SubCrit.ToString(),
             ["サブHP%"] = data.artSub.hp_rate.ToString(),
             ["サブHP"] = data.artSub.hp.ToString(),
             ["スコア"] = data.artSub.Score.ToString()

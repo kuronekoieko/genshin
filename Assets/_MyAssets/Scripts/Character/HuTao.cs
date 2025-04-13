@@ -28,17 +28,18 @@ public class HuTao : BaseCharacter
         // var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
         var vaporize = ElementalReaction.VaporizeForPyro(data.elemental_mastery, data.er_rate);
 
-        // var (expectedDamage_normal, crit_normal) = data.ExpectedDmg(AttackType.Normal,  status.elementType,normalAtkPerArray);
-        var (expectedDamage_charged, crit_charged) = data.ExpectedDmg(AttackType.Charged, chargedAtkPerArray[0], er_multi: vaporize);
-        // var (expectedDamage_plugged, crit_plugged) = data.ExpectedDmg(AttackType.Plugged,status.elementType,pluggedAtkPerArray);
-        // var (expectedDamage_skill, crit_skill) = data.ExpectedDmg(AttackType.Skill, status.elementType,skillPerArray);
-        // var (expectedDamage_burst, crit_burst) = data.ExpectedDmg(AttackType.Skill, status.elementType,null);
+        // var ed_normal = ExpectedDamage.Single(data, AttackType.Normal,  status.elementType,normalAtkPerArray);
+        var ed_charged = ExpectedDamage.Single(data, AttackType.Charged, chargedAtkPerArray[0], er_multi: vaporize);
+
+        // var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged,status.elementType,pluggedAtkPerArray);
+        // var expectedDamage_skill = ExpectedDamage.Single(data, AttackType.Skill, status.elementType,skillPerArray);
+        // var (expectedDamage_burst, crit_burst) = ExpectedDamage.Single(data, AttackType.Skill, status.elementType,null);
 
 
 
 
 
-        var sum = expectedDamage_charged;
+        var sum = ed_charged;
 
         Dictionary<string, string> result = new()
         {

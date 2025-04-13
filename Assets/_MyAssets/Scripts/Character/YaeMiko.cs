@@ -19,21 +19,17 @@ public class YaeMiko : BaseCharacter
 
         var addAggravate = ElementalReaction.Aggravate(data.elemental_mastery, data.artSetData.er_aggravate);
 
-        // var (expectedDamage_normal, crit_normal) = data.ExpectedDmg(AttackType.Normal,  status.elementType,normalAtkPerArray);
-        //var (expectedDamage_charged, crit_charged) = data.ExpectedDmg(AttackType.Charged,  status.elementType,chargedAtkPerArray);
-        //var (expectedDamage_plugged, crit_plugged) = data.ExpectedDmg(AttackType.Plugged,status.elementType,pluggedAtkPerArray);
-        var (expectedDamage_skill_0, crit_skill_0) = data.ExpectedDmg(AttackType.Skill, skillPerArray[0], er_add: addAggravate);
-        var (expectedDamage_skill_1, crit_skill_1) = data.ExpectedDmg(AttackType.Skill, skillPerArray[1]);
-        var (expectedDamage_skill_2, crit_skill_2) = data.ExpectedDmg(AttackType.Skill, skillPerArray[2]);
+        // var ed_normal = ExpectedDamage.Single(data, AttackType.Normal,  status.elementType,normalAtkPerArray);
+        //var ed_charged = ExpectedDamage.Single(data, AttackType.Charged,  status.elementType,chargedAtkPerArray);
+        //var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged,status.elementType,pluggedAtkPerArray);
+        var ed_skill_0 = ExpectedDamage.Single(data, AttackType.Skill, skillPerArray[0], er_add: addAggravate);
+        var ed_skill_1 = ExpectedDamage.Single(data, AttackType.Skill, skillPerArray[1]);
+        var ed_skill_2 = ExpectedDamage.Single(data, AttackType.Skill, skillPerArray[2]);
 
-        //var (expectedDamage_burst, crit_burst) = data.ExpectedDmg(AttackType.Skill, status.elementType,null);
-
-
+        //var (expectedDamage_burst, crit_burst) = ExpectedDamage.Single(data, AttackType.Skill, status.elementType,null);
 
 
-
-
-        var expectedDmg_gekika = expectedDamage_skill_0 + expectedDamage_skill_1 + expectedDamage_skill_2;
+        var expectedDmg_gekika = ed_skill_0.Result + ed_skill_1.Result + ed_skill_2.Result;
 
 
 
@@ -47,12 +43,12 @@ public class YaeMiko : BaseCharacter
             //  ["攻撃力"] = atk.ToString(),
             //["HP"] = hpSum.ToString(),
             // ["バフ"] = dmgBonus.ToString(),
-            // ["会心ダメ期待値"] = crit_skill.ExpectedCritDmg.ToString(),
+            // ["会心ダメ期待値"] = expectedDamage_skill.Crit.ExpectedCritDmg.ToString(),
             // ["熟知"] = elementalMastery.ToString(),
-            // ["率ダメ"] = crit_skill.RateDmg,
-            // ["会心ダメ比率"] = crit_skill.CritProportion,
+            // ["率ダメ"] = expectedDamage_skill.Crit.RateDmg,
+            // ["会心ダメ比率"] = expectedDamage_skill.Crit.CritProportion,
             ["聖遺物組み合わせ"] = data.artSub.name,
-            // ["サブステ"] = crit_skill.SubCrit.ToString(),
+            // ["サブステ"] = expectedDamage_skill.Crit.SubCrit.ToString(),
             ["サブHP%"] = data.artSub.hp_rate.ToString(),
             ["サブHP"] = data.artSub.hp.ToString(),
             ["スコア"] = data.artSub.Score.ToString()

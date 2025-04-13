@@ -6,48 +6,28 @@ public class GamingSO : BaseCharacterSO
 {
     readonly float[] pluggedAtkPerArray = { 3.686f, };
 
-    // readonly float[] skillPerArray = { 0, };
-    // readonly float[] burstPerArray = { 0, };
-
     float talent_addDmgBonusPluggedAtk = 0.2f;
 
     float constellation_atkRate = 0.2f;
     float constellation_critRate = 0.2f;
     float constellation_critDmg = 0.4f;
-    // float constellation_critRate = 0;
-    //float constellation_critDmg = 0;
+
 
     public override Dictionary<string, string> CalcDmg(Data data)
-    {/*
-        if (!data.artSetData.name.Contains("ファントム") &&
-          !data.artSetData.name.Contains("火魔女") &&
-          !data.artSetData.name.Contains("金メッキ") &&
-          !data.artSetData.name.Contains("辰砂")
-          ) return null;
-        //if (data.partyData.name.Contains("閑雲")) return null;
-        // if (data.partyData.name.Contains("ベネット")) return null;
-        if (data.weapon.name.Contains("螭龍の剣(完凸)") && !data.partyData.name.Contains("鍾離")) return null;
-        // if (data.energy_recharge() == 0) return null;
-        //if (data.partyData.name.Contains("ベネット") == false && data.energy_recharge() == 0) return null;
-        // if (data.partyData.name.Contains("鍾離") == false) return null;
-        if (data.partyData.hydro_count == 0) return null;
-
-        //if (data.partyData.name.Contains("フリーナ") == false) return null;
-        // if (data.energy_recharge() < 0.5f) return null;
-*/
+    {
 
         data.atk += data.BaseAtk * constellation_atkRate;
 
 
         data.crit_rate_plugged_atk += constellation_critRate;
         data.crit_dmg_plugged += constellation_critDmg;
-        data.crit_dmg_plugged += talent_addDmgBonusPluggedAtk;
+        data.plugged_atk_bonus += talent_addDmgBonusPluggedAtk;
 
         var vaporize = ElementalReaction.VaporizeForPyro(data.elemental_mastery, data.er_rate);
 
-        var (expectedDamage, crit) = data.ExpectedDmg(AttackType.Plugged, pluggedAtkPerArray[0], er_multi: vaporize);
+        var ed = ExpectedDamage.Single(data, AttackType.Plugged, pluggedAtkPerArray[0], er_multi: vaporize);
 
-        var sum = expectedDamage;
+        var sum = ed.Result;
 
         Dictionary<string, string> result = new()
         {
@@ -64,10 +44,10 @@ public class GamingSO : BaseCharacterSO
             // ["耐性"] = baseData.res.ToString(),
             // ["蒸発"] = vaporize.ToString(),
             ["熟知"] = data.elemental_mastery.ToString(),
-            ["率ダメ"] = crit.RateDmg,
-            // ["会心ダメ比率"] = crit_skill.CritProportion,
+            ["率ダメ"] = ed.Crit.RateDmg,
+            // ["会心ダメ比率"] = expectedDamage_skill.Crit.CritProportion,
             //["聖遺物組み合わせ"] = data.artSub.name,
-            ["サブステ"] = crit.SubCrit.ToString(),
+            ["サブステ"] = ed.Crit.SubCrit.ToString(),
             //["サブHP%"] = data.artSub.hp_rate.ToString(),
             //["サブHP"] = data.artSub.hp.ToString(),
             ["スコア"] = data.artSub.Score.ToString()

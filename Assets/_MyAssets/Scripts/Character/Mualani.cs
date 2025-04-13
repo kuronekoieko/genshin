@@ -25,19 +25,19 @@ public class Mualani : BaseCharacter
 
         var vaporizeForHydro = ElementalReaction.VaporizeForHydro(data.elemental_mastery, data.er_rate);
 
-        var (expectedDamage_normal_1, crit_normal_1) = data.ExpectedDmg(AttackType.Normal, normalAtkPerArray[0], referenceStatus: ReferenceStatus.Hp, er_multi: vaporizeForHydro);
+        var ed_normal_1 = ExpectedDamage.Single(data, AttackType.Normal, normalAtkPerArray[0], referenceStatus: ReferenceStatus.Hp, er_multi: vaporizeForHydro);
 
-        // var (expectedDamage_normal, crit_normal) = ExpectedDmg_multi(AttackType.Normal,  hpRate: normalAtkPerArray, elementalReaction: vaporizeForHydro);
-        //  var (expectedDamage_charged, crit_charged) = data.ExpectedDmg(AttackType.Charged,  chargedAtkPerArray);
-        //var (expectedDamage_plugged, crit_plugged) = data.ExpectedDmg(AttackType.Plugged,pluggedAtkPerArray);
-        //var (expectedDamage_skill, crit_skill) = data.ExpectedDmg(AttackType.Skill, skillPerArray);
-        //var (expectedDamage_burst, crit_burst) = data.ExpectedDmg(AttackType.Skill, null);
-
-
+        // var ed_normal = ExpectedDmg_multi(AttackType.Normal,  hpRate: normalAtkPerArray, elementalReaction: vaporizeForHydro);
+        //  var ed_charged = ExpectedDamage.Single(data, AttackType.Charged,  chargedAtkPerArray);
+        //var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged,pluggedAtkPerArray);
+        //var expectedDamage_skill = ExpectedDamage.Single(data, AttackType.Skill, skillPerArray);
+        //var (expectedDamage_burst, crit_burst) = ExpectedDamage.Single(data, AttackType.Skill, null);
 
 
 
-        var sum = expectedDamage_normal_1;
+
+
+        var sum = ed_normal_1;
 
         Dictionary<string, string> result = new()
         {
@@ -46,7 +46,7 @@ public class Mualani : BaseCharacter
             ["聖遺物メイン"] = data.artMainData.name,
             ["バフキャラ"] = data.partyData.name,
             ["合計期待値"] = sum.ToString(),
-            ["一発目期待値"] = expectedDamage_normal_1.ToString(),
+            ["一発目期待値"] = ed_normal_1.ToString(),
             //["攻撃力"] = atk.ToString(),
             // ["防御力"] = def.ToString(),
             //["HP"] = hpSum.ToString(),

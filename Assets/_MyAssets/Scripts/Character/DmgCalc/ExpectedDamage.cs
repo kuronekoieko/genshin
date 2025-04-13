@@ -11,8 +11,10 @@ public class ExpectedDamage
     readonly float expectedCritDmg;
     readonly float res;
     public Crit Crit { get; private set; }
+    public float Result { get; private set; }
 
-    public ExpectedDamage(AttackType attackType, ElementType elementType, Data data, ArtSubData artSub)
+
+    ExpectedDamage(AttackType attackType, ElementType elementType, Data data, ArtSubData artSub)
     {
         float dmgAdd = data.add;
         float dmgBonus = data.dmg_bonus + data.ElementalDmgBonus(elementType);
@@ -67,7 +69,44 @@ public class ExpectedDamage
         this.res = GetElementalRes(elementalRes) * 0.5f;
     }
 
-    public float GetExpectedDamage(
+
+    public static ExpectedDamage Sum(
+        Data data,
+        AttackType attackType,
+        float[] atkRates,
+        ElementType elementType = ElementType.None,
+        ReferenceStatus referenceStatus = ReferenceStatus.Atk,
+        float er_multi = 1,
+        float er_add = 0)
+    {
+        if (elementType == ElementType.None) elementType = data.status.elementType;
+        ExpectedDamage expectedDamage = new(attackType, elementType, data, data.artSub);
+
+        expectedDamage.Result = expectedDamage.GetExpectedDamageSum(referenceStatus, atkRates, er_multi, er_add);
+
+        return expectedDamage;
+    }
+
+    public static ExpectedDamage Single(
+        Data data,
+        AttackType attackType,
+        float atkRate,
+        ElementType elementType = ElementType.None,
+        ReferenceStatus referenceStatus = ReferenceStatus.Atk,
+        float er_multi = 1,
+        float er_add = 0)
+    {
+        if (elementType == ElementType.None) elementType = data.status.elementType;
+        ExpectedDamage expectedDamage = new(attackType, elementType, data, data.artSub);
+
+        expectedDamage.Result = expectedDamage.GetExpectedDamage(referenceStatus, atkRate, er_multi, er_add);
+
+        return expectedDamage;
+    }
+
+
+
+    float GetExpectedDamage(
         ReferenceStatus referenceStatus,
         float atkRate,
         float er_multi,
@@ -88,7 +127,7 @@ public class ExpectedDamage
         return dmg;
     }
 
-    public float GetExpectedDamageSum(
+    float GetExpectedDamageSum(
         ReferenceStatus referenceStatus,
         float[] atkRates,
         float er_multi = 1,

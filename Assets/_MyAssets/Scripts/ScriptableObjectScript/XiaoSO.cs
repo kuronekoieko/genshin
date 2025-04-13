@@ -1,9 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Xiao", menuName = "Scriptable Objects/Xiao")]
@@ -27,11 +24,11 @@ public class XiaoSO : BaseCharacterSO
         data.plugged_atk_bonus += burst_bonus;
 
 
-        var (expectedDamage_plugged, crit_plugged) = data.ExpectedDmg(AttackType.Plugged, pluggedAtkPerArray[0]);
+        var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged, pluggedAtkPerArray[0]);
 
 
 
-        var sum = expectedDamage_plugged;
+        var sum = ed_plugged.Result;
 
         Dictionary<string, string> result = new()
         {
@@ -43,12 +40,12 @@ public class XiaoSO : BaseCharacterSO
             //  ["攻撃力"] = atk.ToString(),
             // ["HP"] = hpSum.ToString(),
             //["バフ"] = dmgBonus.ToString(),
-            //["会心ダメ期待値"] = crit_skill.ExpectedCritDmg.ToString(),
+            //["会心ダメ期待値"] = expectedDamage_skill.Crit.ExpectedCritDmg.ToString(),
             //["熟知"] = elementalMastery.ToString(),
-            // ["率ダメ"] = crit_skill.RateDmg,
-            //   ["会心ダメ比率"] = crit_skill.CritProportion,
+            // ["率ダメ"] = expectedDamage_skill.Crit.RateDmg,
+            //   ["会心ダメ比率"] = expectedDamage_skill.Crit.CritProportion,
             ["聖遺物組み合わせ"] = data.artSub.name,
-            // ["サブステ"] = crit_skill.SubCrit.ToString(),
+            // ["サブステ"] = expectedDamage_skill.Crit.SubCrit.ToString(),
             ["サブHP%"] = data.artSub.hp_rate.ToString(),
             ["サブHP"] = data.artSub.hp.ToString(),
             ["スコア"] = data.artSub.Score.ToString()

@@ -26,16 +26,16 @@ public class NeuvilletteSO : BaseCharacterSO
 
 
 
-    // var (expectedDamage_normal, crit_normal) = data.ExpectedDmg(AttackType.Normal,  normalAtkPerArray);
-    var (expectedDamage_charged, crit_charged) = data.ExpectedDmg(AttackType.Charged, chargedAtkPer * talent_chargedAtkRate, referenceStatus: ReferenceStatus.Hp);
-    // var (expectedDamage_plugged, crit_plugged) = data.ExpectedDmg(AttackType.Plugged,pluggedAtkPerArray);
-    // var (expectedDamage_skill, crit_skill) = data.ExpectedDmg(AttackType.Skill, skillPerArray);
-    // var (expectedDamage_burst, crit_burst) = data.ExpectedDmg(AttackType.Skill, null);
+    // var ed_normal = ExpectedDamage.Single(data, AttackType.Normal,  normalAtkPerArray);
+    var ed_charged = ExpectedDamage.Single(data, AttackType.Charged, chargedAtkPer * talent_chargedAtkRate, referenceStatus: ReferenceStatus.Hp);
+    // var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged,pluggedAtkPerArray);
+    // var expectedDamage_skill = ExpectedDamage.Single(data, AttackType.Skill, skillPerArray);
+    // var (expectedDamage_burst, crit_burst) = ExpectedDamage.Single(data, AttackType.Skill, null);
 
 
 
-    var sum = expectedDamage_charged;
-    var crit = crit_charged;
+    var sum = ed_charged;
+    var crit = ed_charged.Crit;
 
     Dictionary<string, string> result = new()
     {
@@ -44,7 +44,7 @@ public class NeuvilletteSO : BaseCharacterSO
       ["聖遺物メイン"] = data.artMainData.name,
       ["バフキャラ"] = data.partyData.name,
       ["合計期待値"] = sum.ToString(),
-      ["一発目期待値"] = expectedDamage_charged.ToString(),
+      ["一発目期待値"] = ed_charged.ToString(),
       // ["攻撃力"] = atk.ToString(),
       // ["防御力"] = def.ToString(),
       //["HP"] = hpSum.ToString(),

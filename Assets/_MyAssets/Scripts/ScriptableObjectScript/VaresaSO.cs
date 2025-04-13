@@ -1,9 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Varesa", menuName = "Scriptable Objects/Varesa")]
@@ -17,11 +14,6 @@ public class VaresaSO : BaseCharacterSO
 
     public override Dictionary<string, string> CalcDmg(Data data)
     {
-
-
-
-
-
         var addAggravate = ElementalReaction.Aggravate(data.elemental_mastery, data.er_aggravate);
 
         float elementalReaction = 0;
@@ -30,11 +22,12 @@ public class VaresaSO : BaseCharacterSO
             elementalReaction = addAggravate;
         }
 
-        var (expectedDamage, crit) = data.ExpectedDmg(AttackType.Plugged, pluggedAtkPerArray[0] + talent_addPerPluggedAtk_2, er_add: elementalReaction);
+        float[] ary = new[] { pluggedAtkPerArray[0] + talent_addPerPluggedAtk_2 };
+        var expectedDamage = ExpectedDamage.Sum(data, AttackType.Plugged, ary, er_add: elementalReaction);
 
 
 
-        var sum = Mathf.FloorToInt(expectedDamage);
+        var sum = Mathf.FloorToInt(expectedDamage.Result);
 
         Dictionary<string, string> result = new()
         {
@@ -56,10 +49,10 @@ public class VaresaSO : BaseCharacterSO
             // ["耐性"] = data.res.ToString(),
             // ["蒸発"] = vaporize.ToString(),
             ["熟知"] = data.elemental_mastery.ToString(),
-            ["率ダメ"] = crit.RateDmg,
-            // ["会心ダメ比率"] = crit_skill.CritProportion,
+            ["率ダメ"] = expectedDamage.Crit.RateDmg,
+            // ["会心ダメ比率"] = expectedDamage_skill.Crit.CritProportion,
             //["聖遺物組み合わせ"] = data.artSub.name,
-            ["サブステ"] = crit.SubCrit.ToString(),
+            ["サブステ"] = expectedDamage.Crit.SubCrit.ToString(),
             //["サブHP%"] = data.artSub.hp_rate.ToString(),
             //["サブHP"] = data.artSub.hp.ToString(),
             ["スコア"] = data.artSub.Score.ToString()

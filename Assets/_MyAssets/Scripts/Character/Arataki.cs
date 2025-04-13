@@ -23,10 +23,10 @@ public class Arataki : BaseCharacter
         data.add_charged_atk += talent_addDmg_chargedAtk_PerDef * data.def;
 
 
-        var (expectedDamage_normal, crit_normal) = data.ExpectedDmgSum(AttackType.Normal, normalAtkPerArray);
-        var (expectedDamage_charged, crit_charged) = data.ExpectedDmgSum(AttackType.Charged, chargedAtkPerArray);
+        var ed_normal = ExpectedDamage.Sum(data, AttackType.Normal, normalAtkPerArray);
+        var ed_charged = ExpectedDamage.Sum(data, AttackType.Charged, chargedAtkPerArray);
 
-        var sum = expectedDamage_normal + expectedDamage_charged;
+        var sum = ed_normal.Result + ed_charged.Result;
 
         Dictionary<string, string> result = new()
         {
@@ -38,12 +38,12 @@ public class Arataki : BaseCharacter
             ["攻撃力"] = data.atk.ToString(),
             ["HP"] = data.hp.ToString(),
             //  ["バフ"] = dmgBonus.ToString(),
-            // ["会心ダメ期待値"] = crit_skill.ExpectedCritDmg.ToString(),
+            // ["会心ダメ期待値"] = expectedDamage_skill.Crit.ExpectedCritDmg.ToString(),
             // ["熟知"] = elementalMastery.ToString(),
-            // ["率ダメ"] = crit_skill.RateDmg,
-            // ["会心ダメ比率"] = crit_skill.CritProportion,
+            // ["率ダメ"] = expectedDamage_skill.Crit.RateDmg,
+            // ["会心ダメ比率"] = expectedDamage_skill.Crit.CritProportion,
             ["聖遺物組み合わせ"] = data.artSub.name,
-            // ["サブステ"] = crit_skill.SubCrit.ToString(),
+            // ["サブステ"] = expectedDamage_skill.Crit.SubCrit.ToString(),
             ["サブHP%"] = data.artSub.hp_rate.ToString(),
             ["サブHP"] = data.artSub.hp.ToString(),
             ["スコア"] = data.artSub.Score.ToString()

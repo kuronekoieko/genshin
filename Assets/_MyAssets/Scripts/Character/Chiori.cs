@@ -19,8 +19,8 @@ public class Chiori : BaseCharacter
 
 
 
-        var (expectedDamage_normal, crit_normal) = data.ExpectedDmg(AttackType.Normal, constellation_addNormalAtkPerDef, referenceStatus: ReferenceStatus.Def);
-        var (expectedDamage_skill, crit_skill) = data.ExpectedDmg(AttackType.Skill, skillPerDef, referenceStatus: ReferenceStatus.Def);
+        var ed_normal = ExpectedDamage.Single(data, AttackType.Normal, constellation_addNormalAtkPerDef, referenceStatus: ReferenceStatus.Def);
+        var expectedDamage_skill = ExpectedDamage.Single(data, AttackType.Skill, skillPerDef, referenceStatus: ReferenceStatus.Def);
 
         Dictionary<string, string> result = new()
         {
@@ -28,18 +28,18 @@ public class Chiori : BaseCharacter
             ["聖遺物セット"] = data.artSetData.name,
             ["聖遺物メイン"] = data.artMainData.name,
             ["バフキャラ"] = data.partyData.name,
-            ["通常期待値"] = expectedDamage_normal.ToString(),
+            ["通常期待値"] = ed_normal.Result.ToString(),
             ["スキル期待値"] = expectedDamage_skill.ToString(),
             // ["攻撃力"] = atk.ToString(),
             // ["防御力"] = def.ToString(),
             //  ["HP"] = hpSum.ToString(),
             // ["バフ"] = dmgBonus.ToString(),
-            ["会心ダメ期待値"] = crit_normal.ExpectedCritDmg.ToString(),
+            ["会心ダメ期待値"] = ed_normal.Crit.ExpectedCritDmg.ToString(),
             // ["熟知"] = elementalMastery.ToString(),
-            ["率ダメ"] = crit_normal.RateDmg,
-            ["会心ダメ比率"] = crit_normal.CritProportion,
+            ["率ダメ"] = ed_normal.Crit.RateDmg,
+            ["会心ダメ比率"] = ed_normal.Crit.CritProportion,
             ["聖遺物組み合わせ"] = data.artSub.name,
-            ["サブステ"] = crit_normal.SubCrit.ToString(),
+            ["サブステ"] = ed_normal.Crit.SubCrit.ToString(),
             ["サブHP%"] = data.artSub.hp_rate.ToString(),
             ["サブHP"] = data.artSub.hp.ToString(),
             ["スコア"] = data.artSub.Score.ToString(),

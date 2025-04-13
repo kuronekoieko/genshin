@@ -13,6 +13,7 @@ public class Data : BaseData
     public ArtSubData artSub;
     public Status status;
     public Ascend ascend;
+    public float BaseAtk => status.baseAtk + weapon.base_atk;
 
     public Data(
         WeaponData weapon,
@@ -29,11 +30,49 @@ public class Data : BaseData
         this.status = status;
         this.ascend = ascend;
 
-        var baseDatas = new BaseData[] { weapon, artifactGroup.artMainData, artifactGroup.artSetData, partyData, artifactGroup.artSubData, };
+        var baseDatas = new BaseData[] { weapon, artMainData, artSetData, partyData, artSub, };
         var baseData = Utils.AddInstances(baseDatas);
         Utils.CopyBaseFields(baseData, this);
         SetFields();
         SetCharaData();
+    }
+
+
+    void SetFields()
+    {
+        heal_bonus += ascend.heal_bonus;
+        hp_rate += ascend.hpPer;
+        energy_recharge += 1 + ascend.energyRecharge;
+        elemental_mastery += ascend.elemental_mastery;
+        def_rate += ascend.defPer;
+        atk_rate += ascend.atkPer;
+        dmg_bonus += ascend.dmgBonus;
+        crit_rate += status.defaultCritRate + ascend.critRate;
+        crit_dmg += status.defaultCritDmg + ascend.critDmg;
+    }
+
+    void SetCharaData()
+    {
+        hp = status.baseHp * (1 + hp_rate) + hp;
+        def = status.baseDef * (1 + def_rate) + def;
+
+        var dmgAdd_sekikaku = def * weapon.sekikaku;
+        add_normal_atk += dmgAdd_sekikaku;
+        add_charged_atk += dmgAdd_sekikaku;
+
+        var dmgAdd_cinnabar = def * weapon.cinnabar;
+        add_skill += dmgAdd_cinnabar;
+
+        var homa_atkAdd = hp * weapon.homa;
+        var sekisa_atkAdd = elemental_mastery * weapon.sekisha;
+        var kusanagi_atkAdd = (energy_recharge - 1) * weapon.kusanagi;
+
+        atk
+            = BaseAtk * (1 + atk_rate)
+            + atk
+            + homa_atkAdd
+            + sekisa_atkAdd
+            + kusanagi_atkAdd;
     }
 
     public bool IsSkip()
@@ -111,78 +150,5 @@ public class Data : BaseData
         int skip = base.skip;
 
         return skip > 0;
-    }
-
-    public float BaseAtk => status.baseAtk + weapon.base_atk;
-
-    void SetFields()
-    {
-        heal_bonus += ascend.heal_bonus;
-        hp_rate += ascend.hpPer;
-        energy_recharge += 1 + ascend.energyRecharge;
-        elemental_mastery += ascend.elemental_mastery;
-        def_rate += ascend.defPer;
-        atk_rate += ascend.atkPer;
-        dmg_bonus += ascend.dmgBonus;
-        crit_rate += status.defaultCritRate + ascend.critRate;
-        crit_dmg += status.defaultCritDmg + ascend.critDmg;
-    }
-
-    void SetCharaData()
-    {
-
-        hp = status.baseHp * (1 + hp_rate) + hp;
-        def = status.baseDef * (1 + def_rate) + def;
-
-        var dmgAdd_sekikaku = def * weapon.sekikaku;
-        add_normal_atk += dmgAdd_sekikaku;
-        add_charged_atk += dmgAdd_sekikaku;
-
-        var dmgAdd_cinnabar = def * weapon.cinnabar;
-        add_skill += dmgAdd_cinnabar;
-
-        var homa_atkAdd = hp * weapon.homa;
-        var sekisa_atkAdd = elemental_mastery * weapon.sekisha;
-        var kusanagi_atkAdd = (energy_recharge - 1) * weapon.kusanagi;
-
-        atk
-            = BaseAtk * (1 + atk_rate)
-            + atk
-            + homa_atkAdd
-            + sekisa_atkAdd
-            + kusanagi_atkAdd;
-
-    }
-
-    public (float, Crit) ExpectedDmgSum(
-  AttackType attackType,
-  float[] atkRates,
-  ElementType elementType = ElementType.None,
-  ReferenceStatus referenceStatus = ReferenceStatus.Atk,
-  float er_multi = 1,
-  float er_add = 0)
-    {
-        if (elementType == ElementType.None) elementType = status.elementType;
-        ExpectedDamage expectedDamage = new(attackType, elementType, this, artSub);
-
-        float result = expectedDamage.GetExpectedDamageSum(referenceStatus, atkRates, er_multi, er_add);
-
-        return (result, expectedDamage.Crit);
-    }
-
-    public (float, Crit) ExpectedDmg(
-        AttackType attackType,
-        float atkRate,
-        ElementType elementType = ElementType.None,
-        ReferenceStatus referenceStatus = ReferenceStatus.Atk,
-        float er_multi = 1,
-        float er_add = 0)
-    {
-        if (elementType == ElementType.None) elementType = status.elementType;
-        ExpectedDamage expectedDamage = new(attackType, elementType, this, artSub);
-
-        float result = expectedDamage.GetExpectedDamage(referenceStatus, atkRate, er_multi, er_add);
-
-        return (result, expectedDamage.Crit);
     }
 }
