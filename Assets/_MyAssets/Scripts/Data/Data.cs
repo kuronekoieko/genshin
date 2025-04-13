@@ -127,15 +127,6 @@ public class Data : BaseData
             return !status.isNightSoul;
         }
 
-        if (artMainData.physics_bonus > 0 && status.elementType != ElementType.Physics)
-        {
-            return true;
-        }
-        if (artMainData.dmg_bonus > 0 && status.elementType == ElementType.Physics)
-        {
-            return true;
-        }
-
         bool isSironenn = partyData.members.Count((member) => member.name.Contains("シロネン")) > 0;
         if (isSironenn)
         {
