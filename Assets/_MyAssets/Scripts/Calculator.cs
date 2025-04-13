@@ -116,6 +116,8 @@ public static class Calculator
 
     public static async Task<List<Dictionary<string, string>>> GetResultsAsync<T>(List<Data> datas, T character) where T : ICalcDmg
     {
+        await UniTask.DelayFrame(1);
+
         Debug.Log("ダメージ計算開始");
 
         System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();

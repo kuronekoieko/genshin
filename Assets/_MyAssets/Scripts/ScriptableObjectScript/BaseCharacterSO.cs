@@ -34,17 +34,17 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
     }
 
     [ContextMenu("Load CSV")]
-    private async void LoadCSV()
+    private void LoadCSV()
     {
         CharacterSOManager characterSOManager = new(this);
-        await characterSOManager.LoadCSV();
+        characterSOManager.LoadCSV().Forget();
     }
 
     [ContextMenu("Calc")]
-    public async void Calc()
+    public void Calc()
     {
         CharacterSOManager characterSOManager = new(this);
-        await characterSOManager.Calc();
+        characterSOManager.Calc().Forget();
     }
 
     [ContextMenu("Test")]

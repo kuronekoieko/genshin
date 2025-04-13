@@ -88,6 +88,8 @@ public class CharacterSOManager
             }
         }
 
+        tmpList = tmpList.OrderBy(item => item.Id).ToList();
+
         return tmpList;
     }
 
@@ -217,7 +219,7 @@ public class CharacterSOManager
                 }
             }
 
-            artifactGroups = Artifact.GetArtifactGroups(artSetDatas, isTest: true);
+            artifactGroups = Artifact.GetArtifactGroups(artSetDatas, isTest: false);
         }
 
         // Debug.Log("artifactGroups: " + artifactGroups.Count);
