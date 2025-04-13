@@ -111,7 +111,7 @@ public static class Calculator
                     }
                     else
                     {
-                        Utils.LogJson(data.partyData.name);
+                        //Utils.LogJson(data.partyData.name);
                         // Debug.Log("===========================");
                     }
                 }
