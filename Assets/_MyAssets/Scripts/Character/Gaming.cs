@@ -25,7 +25,7 @@ public class Gaming : BaseCharacter
   {
 
     CharaData charaData = new(data);
-    charaData.atk += data.base_atk() * constellation_atkRate;
+    charaData.atk += data.BaseAtk * constellation_atkRate;
 
 
     charaData.crit_rate_plugged_atk += constellation_critRate;

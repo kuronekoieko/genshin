@@ -32,6 +32,7 @@ public class Data : BaseData
         var baseDatas = new BaseData[] { weapon, artifactGroup.artMainData, artifactGroup.artSetData, partyData, artifactGroup.artSubData, };
         var baseData = Utils.AddInstances(baseDatas);
         Utils.CopyBaseFields(baseData, this);
+        SetFields();
     }
 
     public bool IsSkip()
@@ -111,62 +112,18 @@ public class Data : BaseData
         return skip > 0;
     }
 
-    public float base_atk()
-    {
-        return status.baseAtk + weapon.base_atk;
-    }
+    public float BaseAtk => status.baseAtk + weapon.base_atk;
 
-    public float heal_bonus()
+    void SetFields()
     {
-        return base.heal_bonus + ascend.heal_bonus;
-    }
-
-    public float hpPerSum()
-    {
-        return base.hp_rate + ascend.hpPer;
-
-    }
-    public float energy_recharge()
-    {
-        return base.energy_recharge + ascend.energyRecharge;
-
-    }
-    public float elemental_mastery()
-    {
-        return base.elemental_mastery
-        + ascend.elemental_mastery;
-    }
-    public float def_rate()
-    {
-        return base.def_rate
-        + ascend.defPer;
-    }
-
-
-    public float atk_rate()
-    {
-        return base.atk_rate
-        + ascend.atkPer;
-    }
-
-
-    public float dmg_bonus()
-    {
-        return base.dmg_bonus
-        + ascend.dmgBonus;
-    }
-
-    public float crit_rate()
-    {
-        return base.crit_rate
-        + status.defaultCritRate
-        + ascend.critRate;
-    }
-
-    public float crit_dmg()
-    {
-        return base.crit_dmg
-        + status.defaultCritDmg
-        + ascend.critDmg;
+        heal_bonus += ascend.heal_bonus;
+        hp_rate += ascend.hpPer;
+        energy_recharge += 1 + ascend.energyRecharge;
+        elemental_mastery += ascend.elemental_mastery;
+        def_rate += ascend.defPer;
+        atk_rate += ascend.atkPer;
+        dmg_bonus += ascend.dmgBonus;
+        crit_rate += status.defaultCritRate + ascend.critRate;
+        crit_dmg += status.defaultCritDmg + ascend.critDmg;
     }
 }

@@ -16,7 +16,7 @@ public class Arataki : BaseCharacter
     public override Dictionary<string, string> CalcDmg(Data data)
     {
         // 時計原チャじゃないと、かなりdps落ちる
-        if (data.energy_recharge() < 0.5f) return null;
+        if (data.energy_recharge < 0.5f) return null;
 
         CharaData charaData = new(data);
         charaData.atk += burst_addAtkPerDef * charaData.def;
