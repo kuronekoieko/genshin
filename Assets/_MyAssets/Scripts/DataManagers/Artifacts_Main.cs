@@ -10,9 +10,6 @@ public static class Artifacts_Main
     static readonly string[] artMainSakadukiArray = { "攻撃%", "防御%", "HP%", "元素熟知", "炎バフ", "水バフ", "雷バフ", "氷バフ", "岩バフ", "風バフ", "草バフ", "物理バフ" };
     static readonly string[] artMainKanmuriArray = { "攻撃%", "防御%", "HP%", "元素熟知", "会心率", "会心ダメージ", "治癒効果" };
 
-    static readonly string[] artMainCombinations = new string[] { "攻撃%", "防御%", "HP%", "元素熟知", "元チャ", "炎バフ", "水バフ", "雷バフ", "氷バフ", "岩バフ", "風バフ", "草バフ", "物理バフ", "会心率", "会心ダメージ", "治癒効果" };
-
-
 
     static ArtMainData[] GetArtMainDatas_Test()
     {
@@ -24,39 +21,34 @@ public static class Artifacts_Main
 
         string[] nameCombinations = { artMainTokei, artMainSakaduki, artMainKanmuri };
 
-        ArtMainCombined artMainCombined = GetArtMainCombined(nameCombinations);
-        ArtMainData artMainData = new(artMainCombined);
-
-
-
-
-
+        ArtMainHash artMainHash = new(nameCombinations);
+        ArtMainData artMainData = new(artMainHash);
         return new[] { artMainData };
     }
 
-    static public ArtMainData[] GetArtMainDatas(bool isTest)
+    public static ArtMainData[] GetArtMainDatas(bool isTest)
     {
         if (isTest) return GetArtMainDatas_Test();
-
 
         Debug.Log("聖遺物メイン計算開始");
 
         List<ArtMainData> artMainDatas = new();
-        var artMainCombines = GetArtMainDictionaries();
-        foreach (var artMainCombined in artMainCombines)
+        var artMainHashes = GetArtMainHashes();
+        foreach (var artMainHash in artMainHashes)
         {
-            ArtMainData artMainData = new(artMainCombined);
+            ArtMainData artMainData = new(artMainHash);
             artMainDatas.Add(artMainData);
         }
 
         return artMainDatas.ToArray();
     }
 
-    static List<ArtMainCombined> GetArtMainDictionaries()
+    static List<ArtMainHash> GetArtMainHashes()
     {
         Debug.Log("聖遺物メイン計算開始");
 
-        HashSet<ArtMainCombined> artMainCombines = new();
+        // 同じ組み合わせの重複削除
+        HashSet<ArtMainHash> artMainCombines = new();
 
         for (int k = 0; k < artMainTokeiArray.Length; k++)
         {
@@ -70,80 +62,67 @@ public static class Artifacts_Main
 
                     string[] nameCombinations = { artMainTokei, artMainSakaduki, artMainKanmuri };
 
-                    ArtMainCombined artMainCombined = GetArtMainCombined(nameCombinations);
+                    ArtMainHash artMainHash = new(nameCombinations);
 
-                    artMainCombines.Add(artMainCombined);
+                    artMainCombines.Add(artMainHash);
                 }
             }
         }
 
         return artMainCombines.ToList();
     }
-
-    public static ArtMainCombined GetArtMainCombined(string[] nameCombinations)
-    {
-
-        string name = string.Join("+", nameCombinations);
-
-
-        int[] artMainCombination = new int[artMainCombinations.Length];
-
-        for (int i = 0; i < artMainCombinations.Length; i++)
-        {
-            int count = 0;
-
-            foreach (string nameCombination in nameCombinations)
-            {
-                count += artMainCombinations[i] == nameCombination ? 1 : 0;
-            }
-
-            artMainCombination[i] = count;
-        }
-
-        ArtMainCombined artMainCombined = new()
-        {
-            displayName = name,
-            compareName = string.Join("+", nameCombinations.OrderBy(n => n).ToArray()),
-            artMainDictionaries = ArrayToDictionary(artMainCombinations, artMainCombination)
-        };
-        return artMainCombined;
-    }
-
-    static private Dictionary<string, int> ArrayToDictionary(string[] keys, int[] values)
-    {
-        Dictionary<string, int> dictionary = new();
-
-        for (int i = 0; i < keys.Length; i++)
-        {
-            dictionary[keys[i]] = values[i];
-        }
-
-        return dictionary;
-    }
 }
 
-public class ArtMainCombined
+public class ArtMainHash
 {
-    public string displayName;
-    public string compareName;
-    public Dictionary<string, int> artMainDictionaries = new();
+    readonly Dictionary<string, int> artMainPartCounts = new();
+    public string CompareName { get; private set; }
+    public string DisplayName { get; private set; }
 
-    public ArtMainCombined()
+
+    public ArtMainHash(string[] partNames)
     {
+        CompareName = string.Join("+", partNames.OrderBy(n => n).ToArray());
+        DisplayName = CompareName;
 
+        foreach (var partName in partNames)
+        {
+            if (artMainPartCounts.TryGetValue(partName, out int count))
+            {
+                artMainPartCounts[partName]++;
+            }
+            else
+            {
+                artMainPartCounts.Add(partName, 1);
+            }
+        }
+
+    }
+
+    public int GetPartCount(string partName)
+    {
+        if (artMainPartCounts.TryGetValue(partName, out int count))
+        {
+            return count;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     // https://www.mum-meblog.com/entry/tyr-utility/csharp-hashset
+    // hashsetに必須
     public override bool Equals(object obj)
     {
-        ArtMainCombined other = obj as ArtMainCombined;
+        ArtMainHash other = obj as ArtMainHash;
         if (other == null) return false;
-        return this.compareName == other.compareName;
+        return this.CompareName == other.CompareName;
     }
-
+    // hashsetに必須
     public override int GetHashCode()
     {
         // hashsetは通るが、sortedsetは通らない
-        return compareName.GetHashCode();
+        return CompareName.GetHashCode();
     }
 }

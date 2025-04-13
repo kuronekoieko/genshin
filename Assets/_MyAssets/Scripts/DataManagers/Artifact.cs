@@ -38,7 +38,6 @@ public class Artifact
     {
         List<ArtifactGroup> artifactGroups = Artifacts_Sub.GetSubArtifactGroups(ArtSetDatas_notSkipped, artifactDatas);
 
-
         return artifactGroups;
     }
 

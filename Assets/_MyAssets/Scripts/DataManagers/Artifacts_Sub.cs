@@ -53,8 +53,9 @@ public class Artifacts_Sub
         //Debug.Log(JsonConvert.SerializeObject(artifactGroup.artSubData, Formatting.Indented));
 
         //メインステ================
-        var artMainCombined = Artifacts_Main.GetArtMainCombined(new string[] { sands.art_main, goblet.art_main, circlet.art_main });
-        artifactGroup.artMainData = new(artMainCombined);
+        ArtMainHash artMainHash = new(new string[] { sands.art_main, goblet.art_main, circlet.art_main });
+
+        artifactGroup.artMainData = new(artMainHash);
 
         //セット================
 
