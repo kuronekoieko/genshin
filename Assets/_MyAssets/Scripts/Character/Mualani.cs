@@ -23,7 +23,7 @@ public class Mualani : BaseCharacter
 
         CharaData charaData = new(data);
 
-        var vaporizeForHydro = ElementalReaction.VaporizeForHydro(charaData.elemental_mastery, data.er_rate());
+        var vaporizeForHydro = ElementalReaction.VaporizeForHydro(charaData.elemental_mastery, data.er_rate);
 
         var (expectedDamage_normal_1, crit_normal_1) = charaData.ExpectedDmg(AttackType.Normal, normalAtkPerArray[0], referenceStatus: ReferenceStatus.Hp, er_multi: vaporizeForHydro);
 

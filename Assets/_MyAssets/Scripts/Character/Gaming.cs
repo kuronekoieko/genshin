@@ -32,7 +32,7 @@ public class Gaming : BaseCharacter
     charaData.crit_dmg_plugged += constellation_critDmg;
     charaData.crit_dmg_plugged += talent_addDmgBonusPluggedAtk;
 
-    var vaporize = ElementalReaction.VaporizeForPyro(charaData.elemental_mastery, data.er_rate());
+    var vaporize = ElementalReaction.VaporizeForPyro(charaData.elemental_mastery, data.er_rate);
 
     var (expectedDamage, crit) = charaData.ExpectedDmg(AttackType.Plugged, pluggedAtkPerArray[0], er_multi: vaporize);
 

@@ -26,7 +26,7 @@ public class HuTao : BaseCharacter
         charaData.atk += charaData.hp * skill_addAtkPerHp;
 
         // var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
-        var vaporize = ElementalReaction.VaporizeForPyro(charaData.elemental_mastery, data.er_rate());
+        var vaporize = ElementalReaction.VaporizeForPyro(charaData.elemental_mastery, data.er_rate);
 
         // var (expectedDamage_normal, crit_normal) = charaData.ExpectedDmg(AttackType.Normal,  status.elementType,normalAtkPerArray);
         var (expectedDamage_charged, crit_charged) = charaData.ExpectedDmg(AttackType.Charged, chargedAtkPerArray[0], er_multi: vaporize);

@@ -18,7 +18,7 @@ public class Varesa : BaseCharacter
         CharaData charaData = new(data);
 
 
-        var addAggravate = ElementalReaction.Aggravate(charaData.elemental_mastery, data.er_aggravate());
+        var addAggravate = ElementalReaction.Aggravate(charaData.elemental_mastery, data.er_aggravate);
 
         float elementalReaction = 0;
         if (data.partyData.dendro_count > 0)

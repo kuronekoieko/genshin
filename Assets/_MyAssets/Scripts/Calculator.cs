@@ -103,7 +103,9 @@ public static class Calculator
             {
                 foreach (var artifactGroup in artifactGroups)
                 {
-                    Data data = new(weapon, artifactGroup.artMainData, artifactGroup.artSetData, partyData, artifactGroup.artSubData, status, ascend);
+                    Data data = new(weapon, artifactGroup, partyData, status, ascend);
+
+                    Debug.Log("data " + data);
 
                     if (data.IsSkip() == false) datas.Add(data);
                 }

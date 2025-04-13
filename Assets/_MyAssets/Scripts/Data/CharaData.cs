@@ -12,36 +12,36 @@ public class CharaData : BaseData
         def_rate = data.def_rate();
         atk_rate = data.atk_rate();
         dmg_bonus = data.dmg_bonus();
-        pyro_bonus = data.pyro_bonus();
-        hydro_bonus = data.hydro_bonus();
-        electro_bonus = data.electro_bonus();
-        cryo_bonus = data.cryo_bonus();
-        geo_bonus = data.geo_bonus();
-        anemo_bonus = data.anemo_bonus();
-        dendro_bonus = data.dendro_bonus();
-        physics_bonus = data.physics_bonus();
-        normal_atk_bonus = data.normal_atk_bonus();
-        charged_atk_bonus = data.charged_atk_bonus();
-        plugged_atk_bonus = data.plugged_atk_bonus();
-        skill_bonus = data.skill_bonus();
-        burst_bonus = data.burst_bonus();
-        atk_speed = data.atk_speed();
+        pyro_bonus = data.pyro_bonus;
+        hydro_bonus = data.hydro_bonus;
+        electro_bonus = data.electro_bonus;
+        cryo_bonus = data.cryo_bonus;
+        geo_bonus = data.geo_bonus;
+        anemo_bonus = data.anemo_bonus;
+        dendro_bonus = data.dendro_bonus;
+        physics_bonus = data.physics_bonus;
+        normal_atk_bonus = data.normal_atk_bonus;
+        charged_atk_bonus = data.charged_atk_bonus;
+        plugged_atk_bonus = data.plugged_atk_bonus;
+        skill_bonus = data.skill_bonus;
+        burst_bonus = data.burst_bonus;
+        atk_speed = data.atk_speed;
         crit_rate = data.crit_rate();
-        crit_rate_normal_atk = data.crit_rate_normal_atk();
-        crit_rate_charged_atk = data.crit_rate_charged_atk();
-        crit_rate_plugged_atk = data.crit_rate_plugged_atk();
-        crit_rate_skill = data.crit_rate_skill();
-        crit_rate_burst = data.crit_rate_burst();
+        crit_rate_normal_atk = data.crit_rate_normal_atk;
+        crit_rate_charged_atk = data.crit_rate_charged_atk;
+        crit_rate_plugged_atk = data.crit_rate_plugged_atk;
+        crit_rate_skill = data.crit_rate_skill;
+        crit_rate_burst = data.crit_rate_burst;
         crit_dmg = data.crit_dmg();
-        crit_dmg_plugged = data.crit_dmg_plugged();
-        crit_dmg_burst = data.crit_dmg_burst();
-        add = data.add();
-        add_normal_atk = data.add_normal_atk();
-        add_charged_atk = data.add_charged_atk();
-        add_plugged_atk = data.add_plugged_atk();
-        add_skill = data.add_skill();
-        add_burst = data.add_burst();
-        res = data.res();
+        crit_dmg_plugged = data.crit_dmg_plugged;
+        crit_dmg_burst = data.crit_dmg_burst;
+        add = data.add;
+        add_normal_atk = data.add_normal_atk;
+        add_charged_atk = data.add_charged_atk;
+        add_plugged_atk = data.add_plugged_atk;
+        add_skill = data.add_skill;
+        add_burst = data.add_burst;
+        res = data.res;
 
 
         GetCharaData(data);
@@ -83,8 +83,8 @@ public class CharaData : BaseData
     {
         // CharaData charaData = new(data);
 
-        hp = data.status.baseHp * (1 + hp_rate) + data.hp();
-        def = data.status.baseDef * (1 + def_rate) + data.def();
+        hp = data.status.baseHp * (1 + hp_rate) + data.hp;
+        def = data.status.baseDef * (1 + def_rate) + data.def;
 
         var dmgAdd_sekikaku = def * data.weapon.sekikaku;
         add_normal_atk += dmgAdd_sekikaku;
@@ -99,7 +99,7 @@ public class CharaData : BaseData
 
         atk
             = data.base_atk() * (1 + atk_rate)
-            + data.atk()
+            + data.atk
             + homa_atkAdd
             + sekisa_atkAdd
             + kusanagi_atkAdd;
