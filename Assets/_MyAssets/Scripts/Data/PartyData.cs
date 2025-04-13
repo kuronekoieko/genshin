@@ -11,6 +11,12 @@ public class PartyData : BaseData, IComparable<PartyData>
 
     public Dictionary<ElementType, int> ElementCounts { get; private set; } = new();
 
+    public string GetMemberName(int index)
+    {
+        // if(members.Length)
+        return "";
+    }
+
     public string Log
     {
         get

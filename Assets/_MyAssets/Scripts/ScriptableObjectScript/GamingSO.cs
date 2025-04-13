@@ -24,6 +24,10 @@ public class GamingSO : BaseCharacterSO
         data.plugged_atk_bonus += talent_addDmgBonusPluggedAtk;
 
         var vaporize = ElementalReaction.VaporizeForPyro(data.elemental_mastery, data.er_rate);
+        if (data.partyData.ElementCounts[ElementType.Hydro] == 0)
+        {
+            vaporize = 1;
+        }
 
         var ed = ExpectedDamage.Single(data, AttackType.Plugged, pluggedAtkPerArray[0], er_multi: vaporize);
 
@@ -34,7 +38,9 @@ public class GamingSO : BaseCharacterSO
             ["武器"] = data.weapon.name,
             ["聖遺物セット"] = data.artSetData.name,
             ["聖遺物メイン"] = data.artMainData.name,
-            ["バフキャラ"] = data.partyData.name,
+            ["バフキャラ1"] = data.partyData.members[0].name,
+            ["バフキャラ2"] = data.partyData.members[1].name,
+            ["バフキャラ3"] = data.partyData.members[2].name,
             ["合計期待値"] = sum.ToString(),
             ["攻撃力"] = data.atk.ToString(),
             // ["HP"] = baseData.hp.ToString(),
