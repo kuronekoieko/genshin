@@ -49,8 +49,8 @@ public class SelectedMemberDrawer : PropertyDrawer
         // フィールドを描画
         EditorGUI.PropertyField(isUseRect, isUseProp, GUIContent.none, false);
         EditorGUI.PropertyField(nameRect, nameProp, GUIContent.none, false);
-        EditorGUI.PropertyField(art_setRect, weaponProp, GUIContent.none, false);
-        EditorGUI.PropertyField(weaponRect, art_setProp, GUIContent.none, false);
+        EditorGUI.PropertyField(weaponRect, weaponProp, GUIContent.none, false);
+        EditorGUI.PropertyField(art_setRect, art_setProp, GUIContent.none, false);
         EditorGUI.PropertyField(optionRect, optionProp, GUIContent.none, false);
         EditorGUI.PropertyField(isRequiredRect, isRequiredProp, GUIContent.none, false);
 
