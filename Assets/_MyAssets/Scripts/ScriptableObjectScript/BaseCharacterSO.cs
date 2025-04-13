@@ -153,7 +153,7 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
         Debug.Log("selectedWeapon: " + selectedWeapons.Count);
         foreach (var item in selectedWeapons)
         {
-            Debug.Log(item.WeaponData);
+            // Debug.Log(item.WeaponData);
         }
 
         var weaponDatas = selectedWeapons
