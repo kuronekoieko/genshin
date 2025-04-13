@@ -79,32 +79,46 @@ public class Data : BaseData
 
     public bool IsSkip()
     {
-        if (artSetData.name == "しめ縄4" && status.notUseShimenawa) return true;
+
+        if (artSetData.name == "しめ縄4" && status.notUseShimenawa)
+        {
+            //   Debug.Log("しめ縄4");
+            return true;
+        }
 
         bool isGakudan = status.weaponType == WeaponType.Catalyst || status.weaponType == WeaponType.Bow;
 
         if (artSetData.name == "楽団4" && isGakudan == false)
         {
+            //   Debug.Log("楽団4");
             return true;
         }
         if (artSetData.name == "剣闘士4" && isGakudan == true)
         {
+            //   Debug.Log("剣闘士4");
             return true;
         }
-
 
         if (artSetData.name == "ファントム4" || artSetData.name == "花海4" || artSetData.name == "辰砂4")
         {
             bool hasSelfHarm = status.hasSelfHarm || partyData.has_self_harm;
-            return !hasSelfHarm;
+            if (!hasSelfHarm)
+            {
+                //   Debug.Log("ファントム");
+                return true;
+            }
         }
 
         if (artSetData.name == "劇団4(控え)" && status.isFront)
         {
+            //   Debug.Log("劇団4(控え)");
+
             return true;
         }
         if (artSetData.name == "劇団4(表)" && !status.isFront)
         {
+            //   Debug.Log("劇団4(表)");
+
             return true;
         }
 
@@ -112,31 +126,65 @@ public class Data : BaseData
 
         if (artSetData.name == "氷風4(凍結)" && isFrozen == false)
         {
+            //   Debug.Log("氷風4(凍結)");
+
             return true;
         }
         if (artSetData.name == "氷風4(凍結無し)" && partyData.ElementCounts[ElementType.Cryo] == 0)
         {
+            //   Debug.Log("氷風4(凍結無し)");
+
             return true;
         }
         if (artSetData.name == "雷4" && partyData.ElementCounts[ElementType.Electro] == 0)
         {
+            //   Debug.Log("雷4");
+
             return true;
         }
         if (artSetData.is_night_soul)
         {
-            return !status.isNightSoul;
+            if (!status.isNightSoul)
+            {
+                //   Debug.Log("isNightSoul");
+
+                return true;
+            }
         }
 
-        if (IsCitlali()) return true;
-        if (IsXilonen()) return true;
+        if (IsCitlali())
+        {
+            //   Debug.Log("シトラリ");
+            return true;
+        }
+
+        if (IsXilonen())
+        {
+            //   Debug.Log("シロネン");
+            return true;
+        }
 
         if (IsNotUseArtSet("深林4")) return true;
         if (IsNotUseArtSet("翠緑4")) return true;
-        if (IsNotUseArtSet("灰燼4")) return true;
+        if (IsNotUseArtSet("灰燼4"))
+        {
+            //   Debug.Log("灰燼");
+            return true;
+        }
 
         // TODO:残響
 
         int skip = base.skip;
+
+        if (skip > 0)
+        {
+            //   Debug.Log("weapon " + weapon.skip);
+            //   Debug.Log("artMainData " + artMainData.skip);
+            //   Debug.Log("artSetData " + artSetData.skip);
+            //   Debug.Log("artSubData " + artSubData.skip);
+            //   Debug.Log("partyData " + partyData.skip);
+
+        }
 
         return skip > 0;
     }
@@ -165,7 +213,11 @@ public class Data : BaseData
 
     bool IsNotUseArtSet(string setName)
     {
+        // Debug.Log("============");
+
         var setMembers = partyData.members.Where((member) => member.art_set == setName).ToArray();
+        // Debug.Log(setMembers.Length);
+
         if (setMembers.Length == 0) return false;
         if (setMembers.Length > 1) return true;
         // Debug.Log("============");

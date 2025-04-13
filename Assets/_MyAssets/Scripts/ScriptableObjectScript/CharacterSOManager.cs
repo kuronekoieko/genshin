@@ -21,34 +21,46 @@ public class CharacterSOManager
 
         var selectedWeapon = WeaponDatas
         .Where(weaponData => weaponData.WeaponType == baseCharacterSO.WeaponType)
-        .Select(weaponData => new SelectedWeapon()
+        .Select(weaponData =>
         {
-            WeaponData = weaponData,
-            name = weaponData.name,
+            weaponData.skip = 0;
+            return new SelectedWeapon()
+            {
+                WeaponData = weaponData,
+                name = weaponData.name,
+            };
         }).ToList();
 
         baseCharacterSO.selectedWeapons = AddDifference(baseCharacterSO.selectedWeapons, selectedWeapon);
 
         var MemberDatas = await CSVManager.DeserializeAsync<MemberData>("Members");
-        var selectedMember = MemberDatas.Select(member => new SelectedMember()
+        var selectedMember = MemberDatas.Select(member =>
         {
-            Member = member,
-            name = member.name,
-            weapon = member.weapon,
-            art_set = member.art_set,
-            option = member.option,
+            member.skip = 0;
+            return new SelectedMember()
+            {
+                Member = member,
+                name = member.name,
+                weapon = member.weapon,
+                art_set = member.art_set,
+                option = member.option,
+            };
         }).ToList();
 
         baseCharacterSO.selectedMembers = AddDifference(baseCharacterSO.selectedMembers, selectedMember);
 
 
         var ArtSetDatas = await CSVManager.DeserializeAsync<ArtSetData>("ArtSet");
-        var selectedArtSet = ArtSetDatas.Select(artSetData => new SelectedArtSetData()
+        var selectedArtSet = ArtSetDatas.Select(artSetData =>
         {
-            ArtSetData = artSetData,
-            name = artSetData.name,
-            set = artSetData.set,
-            option = artSetData.option,
+            artSetData.skip = 0;
+            return new SelectedArtSetData()
+            {
+                ArtSetData = artSetData,
+                name = artSetData.name,
+                set = artSetData.set,
+                option = artSetData.option,
+            };
         }).ToList();
         baseCharacterSO.selectedArtSets = AddDifference(baseCharacterSO.selectedArtSets, selectedArtSet);
 
@@ -191,6 +203,7 @@ public class CharacterSOManager
 
         foreach (var item in weaponDatas)
         {
+            item.skip = 0;
             // Debug.Log(item.skip);
         }
         // Debug.Log("weaponDatas: " + weaponDatas.Length);
@@ -211,6 +224,7 @@ public class CharacterSOManager
 
         foreach (var item in memberDatas)
         {
+            item.skip = 0;
             if (string.IsNullOrEmpty(item.name))
             {
                 Debug.LogError(item.name);
@@ -263,6 +277,8 @@ public class CharacterSOManager
 
         foreach (var item in artSetDatas)
         {
+            item.skip = 0;
+
             if (string.IsNullOrEmpty(item.name))
             {
                 Debug.LogError(item.name);
@@ -297,6 +313,7 @@ public class CharacterSOManager
         var artifactDatas = await CSVManager.DeserializeAsync<ArtifactData>("Artifacts");
         foreach (var item in artifactDatas)
         {
+            item.skip = 0;
             if (string.IsNullOrEmpty(item.name))
             {
                 Debug.LogError(item.name);

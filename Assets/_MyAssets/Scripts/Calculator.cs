@@ -105,7 +105,15 @@ public static class Calculator
                 {
                     Data data = new(weapon, artifactGroup, partyData, status, ascend);
 
-                    if (data.IsSkip() == false) datas.Add(data);
+                    if (data.IsSkip() == false)
+                    {
+                        datas.Add(data);
+                    }
+                    else
+                    {
+                        Utils.LogJson(data.partyData.name);
+                        // Debug.Log("===========================");
+                    }
                 }
             }
 
