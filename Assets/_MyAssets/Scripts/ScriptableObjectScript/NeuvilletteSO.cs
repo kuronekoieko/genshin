@@ -34,7 +34,7 @@ public class NeuvilletteSO : BaseCharacterSO
 
 
 
-    var sum = ed_charged;
+    int sum = ed_charged.Result;
     var crit = ed_charged.Crit;
 
     Dictionary<string, string> result = new()
@@ -44,7 +44,7 @@ public class NeuvilletteSO : BaseCharacterSO
       ["聖遺物メイン"] = data.artMainData.name,
       ["バフキャラ"] = data.partyData.name,
       ["合計期待値"] = sum.ToString(),
-      ["一発目期待値"] = ed_charged.ToString(),
+      ["一発目期待値"] = ed_charged.Result.ToString(),
       // ["攻撃力"] = atk.ToString(),
       // ["防御力"] = def.ToString(),
       //["HP"] = hpSum.ToString(),
