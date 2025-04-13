@@ -18,19 +18,5 @@ public class WeaponData : BaseData
     public float kariudo;
     public float cinnabar;
 
-    public WeaponType WeaponType
-    {
-        get
-        {
-            return type_name switch
-            {
-                "片手剣" => WeaponType.Sword,
-                "両手剣" => WeaponType.Claymore,
-                "弓" => WeaponType.Bow,
-                "法器" => WeaponType.Catalyst,
-                "槍" => WeaponType.Polearm,
-                _ => WeaponType.None,
-            };
-        }
-    }
+    public WeaponType WeaponType => Utils.GetWeaponType(type_name);
 }

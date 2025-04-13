@@ -60,9 +60,24 @@ public class CharacterSOManager
             name = name,
         }).ToList();
 
-        baseCharacterSO.selectedArtMainGoblets = artMainHeader.goblets.Select(name => new SelectedArtMainGoblet()
+        baseCharacterSO.selectedArtMainGoblets = artMainHeader.goblets.Select(name =>
         {
-            name = name,
+            var instance = new SelectedArtMainGoblet()
+            {
+                name = name,
+            };
+
+            bool isElement = Utils.elementTypeNameDic.ContainsValue(name.Replace("バフ", ""));
+            if (isElement)
+            {
+                ElementType elementType = Utils.GetElementType(name.Replace("バフ", ""));
+                if (elementType != baseCharacterSO.status.elementType)
+                {
+                    instance.isUse = false;
+                }
+            }
+
+            return instance;
         }).ToList();
 
         baseCharacterSO.selectedArtMainCirclets = artMainHeader.circlets.Select(name => new SelectedArtMainCirclet()
