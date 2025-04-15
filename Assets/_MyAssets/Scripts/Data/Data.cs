@@ -164,6 +164,12 @@ public class Data : BaseData
             return true;
         }
 
+        if (IsSkipGorou())
+        {
+            //   Debug.Log("ゴロー");
+            return true;
+        }
+
         if (IsNotUseArtSet("深林4")) return true;
         if (IsNotUseArtSet("翠緑4")) return true;
         if (IsNotUseArtSet("灰燼4"))
@@ -222,6 +228,14 @@ public class Data : BaseData
         }
 
         return isNotActiveSampleMusic;
+    }
+
+    bool IsSkipGorou()
+    {
+        MemberData gorou = partyData.members.FirstOrDefault((member) => member.name.Contains("ゴロー"));
+        if (gorou == null) return false;
+        int geoCount = partyData.ElementCounts[ElementType.Geo];
+        return geoCount < 3;
     }
 
     bool IsNotUseArtSet(string setName)
