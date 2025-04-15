@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Noelle : BaseCharacter
+
+[CreateAssetMenu(fileName = "Noelle", menuName = "Scriptable Objects/" + "Noelle")]
+public class Noelle : BaseCharacterSO
 {
     // スキル Lv9
     float[] normalAtkPerArray = { 1.45f, 1.35f, 1.58f, 2.08f, };
@@ -30,10 +32,14 @@ public class Noelle : BaseCharacter
             ["バフキャラ"] = data.partyData.name,
             ["合計期待値"] = ed_plugged.Result.ToString(),
             ["攻撃力"] = data.atk.ToString(),
-            ["HP"] = data.hp.ToString(),
-            ["バフ"] = data.dmg_bonus.ToString(),
-            ["会心ダメ期待値"] = ed_plugged.Crit.ExpectedCritDmg.ToString(),
-            ["熟知"] = data.elemental_mastery.ToString(),
+            ["防御力"] = data.def.ToString(),
+            // ["HP"] = data.hp.ToString(),
+            ["バフ合計"] = (data.dmg_bonus + data.plugged_atk_bonus + data.GetElementalRes(ElementType.Geo)).ToString(),
+            ["バフ共通"] = data.dmg_bonus.ToString(),
+            ["元素バフ"] = data.GetElementalRes(ElementType.Geo).ToString(),
+            ["バフ落下"] = data.plugged_atk_bonus.ToString(),
+            // ["会心ダメ期待値"] = ed_plugged.Crit.ExpectedCritDmg.ToString(),
+            // ["熟知"] = data.elemental_mastery.ToString(),
             ["率ダメ"] = ed_plugged.Crit.RateDmg,
             ["会心ダメ比率"] = ed_plugged.Crit.CritProportion,
             ["聖遺物組み合わせ"] = data.artSubData.name,
