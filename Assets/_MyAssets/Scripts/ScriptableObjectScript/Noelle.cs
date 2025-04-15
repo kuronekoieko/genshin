@@ -20,9 +20,9 @@ public class Noelle : BaseCharacterSO
 
         data.atk += (burst_addAtkPerDef + constellation_addAtkPerDef) * data.def;
 
-        var ed_normal = ExpectedDamage.Sum(data, AttackType.Normal, normalAtkPerArray);
-        // var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged, atkRate: pluggedAtkPerArray[0]);
-        ExpectedDamage ed = ed_normal;
+        //var ed_normal = ExpectedDamage.Sum(data, AttackType.Normal, normalAtkPerArray);
+        var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged, atkRate: pluggedAtkPerArray[0]);
+        ExpectedDamage ed = ed_plugged;
 
         Dictionary<string, string> result = new()
         {
