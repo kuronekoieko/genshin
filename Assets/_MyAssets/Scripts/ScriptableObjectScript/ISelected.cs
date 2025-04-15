@@ -26,6 +26,7 @@ public class SelectedMember : ISelected
     public string name;
     public string weapon = "";
     public string art_set = "";
+    public string constellationName = "";
     public string option = "";
     public bool isRequired;
     public MemberData Member;

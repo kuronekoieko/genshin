@@ -9,10 +9,13 @@ public class MemberData : BaseData, IComparable<MemberData>
     public bool isRequired = false;
     public string weapon = "";
     public string art_set = "";
+    public int constellation = 0;
     public string option = "";
     public string element_type_name = "";
     public float add_count;// しんかくとか閑雲の加算回数上限
     public ElementType ElementType => Utils.GetElementType(element_type_name);
+
+    public string ConstellationName => constellation > 0 ? constellation + "凸" : "";
 
     public string CombinedName
     {
@@ -22,6 +25,7 @@ public class MemberData : BaseData, IComparable<MemberData>
             List<string> infos = new();
             if (string.IsNullOrEmpty(weapon) == false) infos.Add(weapon);
             if (string.IsNullOrEmpty(art_set) == false) infos.Add(art_set);
+            if (string.IsNullOrEmpty(ConstellationName) == false) infos.Add(ConstellationName);
             if (string.IsNullOrEmpty(option) == false) infos.Add(option);
             string combinedInfo = string.Join("、", infos);
             if (string.IsNullOrEmpty(combinedInfo)) return name;

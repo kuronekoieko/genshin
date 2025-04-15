@@ -19,6 +19,7 @@ public class SelectedMemberDrawer : PropertyDrawer
         var nameProp = property.FindPropertyRelative("name");
         var weaponProp = property.FindPropertyRelative("weapon");
         var art_setProp = property.FindPropertyRelative("art_set");
+        var constellationNameProp = property.FindPropertyRelative("constellationName");
         var optionProp = property.FindPropertyRelative("option");
         var isRequiredProp = property.FindPropertyRelative("isRequired");
 
@@ -35,7 +36,7 @@ public class SelectedMemberDrawer : PropertyDrawer
 
         // isUse（true/false）は bool だから幅を少なめに
         float checkBoxWidth = 20f;
-        float fieldWidth = (totalWidth - checkBoxWidth * 2 - padding * 4) / 4f;
+        float fieldWidth = (totalWidth - checkBoxWidth * 2 - padding * 5) / 5f;
 
 
 
@@ -43,7 +44,8 @@ public class SelectedMemberDrawer : PropertyDrawer
         Rect nameRect = new Rect(isUseRect.xMax + padding, position.y, fieldWidth, EditorGUIUtility.singleLineHeight);
         Rect weaponRect = new Rect(nameRect.xMax + padding, position.y, fieldWidth, EditorGUIUtility.singleLineHeight);
         Rect art_setRect = new Rect(weaponRect.xMax + padding, position.y, fieldWidth, EditorGUIUtility.singleLineHeight);
-        Rect optionRect = new Rect(art_setRect.xMax + padding, position.y, fieldWidth, EditorGUIUtility.singleLineHeight);
+        Rect constellationNameRect = new Rect(art_setRect.xMax + padding, position.y, fieldWidth, EditorGUIUtility.singleLineHeight);
+        Rect optionRect = new Rect(constellationNameRect.xMax + padding, position.y, fieldWidth, EditorGUIUtility.singleLineHeight);
         Rect isRequiredRect = new Rect(optionRect.xMax + padding, position.y, checkBoxWidth, EditorGUIUtility.singleLineHeight);
 
         // フィールドを描画
@@ -51,6 +53,7 @@ public class SelectedMemberDrawer : PropertyDrawer
         EditorGUI.PropertyField(nameRect, nameProp, GUIContent.none, false);
         EditorGUI.PropertyField(weaponRect, weaponProp, GUIContent.none, false);
         EditorGUI.PropertyField(art_setRect, art_setProp, GUIContent.none, false);
+        EditorGUI.PropertyField(constellationNameRect, constellationNameProp, GUIContent.none, false);
         EditorGUI.PropertyField(optionRect, optionProp, GUIContent.none, false);
         EditorGUI.PropertyField(isRequiredRect, isRequiredProp, GUIContent.none, false);
 

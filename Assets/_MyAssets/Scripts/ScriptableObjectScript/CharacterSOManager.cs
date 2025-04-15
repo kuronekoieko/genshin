@@ -43,6 +43,7 @@ public class CharacterSOManager
                 name = member.name,
                 weapon = member.weapon,
                 art_set = member.art_set,
+                constellationName = member.ConstellationName,
                 option = member.option,
             };
         }).ToList();

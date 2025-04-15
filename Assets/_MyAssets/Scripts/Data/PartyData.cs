@@ -94,52 +94,32 @@ public class PartyData : BaseData, IComparable<PartyData>
         {
             elemental_mastery += 100;
         }
+
+        CheckXilonenConstellation(characterElementType);
     }
 
-
-    void CheckDuplicateOptions()
+    void CheckXilonenConstellation(ElementType characterElementType)
     {
-        // 計算がややこしいので
-        // csvの方で、灰燼持ってるのと持ってないの両方用意する
-        // Data.IsSkip()で灰燼2人以上ならスキップにする
-        CheckDuplicate_kaijin();
-        CheckDuplicate_suiryoku();
-    }
-    void CheckDuplicate_kaijin()
-    {
-        var kaijinMembers = members.Where((member) => member.art_set.Contains("灰燼")).ToArray();
+        var xilonen = members.FirstOrDefault((member) => member.name.Contains("シロネン"));
+        if (xilonen == null) return;
+        if (xilonen.constellation < 2) return;
 
-        if (kaijinMembers.Length == 0) return;
-
-        var kaijinMembers_CanER = kaijinMembers.Where((member) => CanElementalReaction(member.ElementType)).ToArray();
-
-
-        foreach (var kaijinMember in kaijinMembers)
+        switch (characterElementType)
         {
-            if (CanElementalReaction(kaijinMember.ElementType) == false)
-            {
-                dmg_bonus -= 0.4f;
-            }
+            case ElementType.Pyro:
+                atk_rate += 0.45f;
+                break;
+            case ElementType.Cryo:
+                crit_dmg += 0.6f;
+                break;
+            case ElementType.Hydro:
+                hp_rate += 0.45f;
+                break;
+            default:
+                break;
         }
-
-        dmg_bonus -= 0.4f * (kaijinMembers.Length - 1);
-        // Debug.Log("灰燼 " + dmg_bonus);
-
     }
 
-
-    void CheckDuplicate_suiryoku()
-    {
-        int suiryokuCount = members.Count((member) => member.art_set.Contains("翠緑"));
-        if (suiryokuCount == 0) return;
-
-        pyro_res += 0.4f * (suiryokuCount - 1);
-        cryo_res += 0.4f * (suiryokuCount - 1);
-        hydro_res += 0.4f * (suiryokuCount - 1);
-        electro_res += 0.4f * (suiryokuCount - 1);
-        //  Debug.Log("翠緑 " + res);
-
-    }
 
 
     public bool CanElementalReaction(ElementType from)

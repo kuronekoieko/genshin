@@ -158,7 +158,7 @@ public class Data : BaseData
             return true;
         }
 
-        if (IsXilonen())
+        if (IsSkipXilonen())
         {
             //   Debug.Log("シロネン");
             return true;
@@ -200,15 +200,28 @@ public class Data : BaseData
         return false;
     }
 
-    bool IsXilonen()
+    bool IsSkipXilonen()
     {
-        bool isXilonen = partyData.members.Count((member) => member.name.Contains("シロネン")) > 0;
-        if (isXilonen)
+        MemberData xilonen = partyData.members.FirstOrDefault((member) => member.name.Contains("シロネン"));
+        if (xilonen == null) return false;
+
+        int eCount = partyData.ElementCounts[ElementType.Pyro] + partyData.ElementCounts[ElementType.Cryo] + partyData.ElementCounts[ElementType.Electro] + partyData.ElementCounts[ElementType.Hydro];
+        bool isNotActiveSampleMusic = eCount < 2;
+
+        // 2凸未満の場合
+        if (xilonen.constellation < 2)
         {
-            int eCount = partyData.ElementCounts[ElementType.Pyro] + partyData.ElementCounts[ElementType.Cryo] + partyData.ElementCounts[ElementType.Electro] + partyData.ElementCounts[ElementType.Hydro];
-            if (eCount < 2) return true;
+            return isNotActiveSampleMusic;
         }
-        return false;
+
+        // 2凸以上の場合
+        if (status.elementType == ElementType.Geo)
+        {
+            // メインキャラが岩ならスキップしない
+            return false;
+        }
+
+        return isNotActiveSampleMusic;
     }
 
     bool IsNotUseArtSet(string setName)
