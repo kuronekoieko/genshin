@@ -22,10 +22,10 @@ public class Mualani : BaseCharacter
         // if (data.weapon.name != "和璞鳶") return null;
 
 
+        ElementalReaction elementalReaction = new(ElementType.Hydro, ElementType.Pyro, data);
 
-        var vaporizeForHydro = ElementalReaction.VaporizeForHydro(data.elemental_mastery, data.er_rate);
 
-        var ed_normal_1 = ExpectedDamage.Single(data, AttackType.Normal, normalAtkPerArray[0], referenceStatus: ReferenceStatus.Hp, er_multi: vaporizeForHydro);
+        var ed_normal_1 = ExpectedDamage.Single(data, AttackType.Normal, normalAtkPerArray[0], referenceStatus: ReferenceStatus.Hp, elementalReaction: elementalReaction);
 
         // var ed_normal = ExpectedDmg_multi(AttackType.Normal,  hpRate: normalAtkPerArray, elementalReaction: vaporizeForHydro);
         //  var ed_charged = ExpectedDamage.Single(data, AttackType.Charged,  chargedAtkPerArray);

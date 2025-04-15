@@ -75,13 +75,11 @@ public class ExpectedDamage
         float[] atkRates,
         ElementType elementType = ElementType.None,
         ReferenceStatus referenceStatus = ReferenceStatus.Atk,
-        float er_multi = 1,
-        float er_add = 0)
+        ElementalReaction elementalReaction = null)
     {
         if (elementType == ElementType.None) elementType = data.status.elementType;
         ExpectedDamage expectedDamage = new(attackType, elementType, data, data.artSubData);
-
-        var result = expectedDamage.GetExpectedDamageSum(referenceStatus, atkRates, er_multi, er_add);
+        var result = expectedDamage.GetExpectedDamageSum(referenceStatus, atkRates, elementalReaction);
         expectedDamage.Result = Mathf.FloorToInt(result);
         return expectedDamage;
     }
@@ -92,13 +90,13 @@ public class ExpectedDamage
         float atkRate,
         ElementType elementType = ElementType.None,
         ReferenceStatus referenceStatus = ReferenceStatus.Atk,
-        float er_multi = 1,
-        float er_add = 0)
+        ElementalReaction elementalReaction = null)
     {
         if (elementType == ElementType.None) elementType = data.status.elementType;
+
         ExpectedDamage expectedDamage = new(attackType, elementType, data, data.artSubData);
 
-        var result = expectedDamage.GetExpectedDamage(referenceStatus, atkRate, er_multi, er_add);
+        var result = expectedDamage.GetExpectedDamage(referenceStatus, atkRate, elementalReaction);
         expectedDamage.Result = Mathf.FloorToInt(result);
         return expectedDamage;
     }
@@ -108,8 +106,7 @@ public class ExpectedDamage
     float GetExpectedDamage(
         ReferenceStatus referenceStatus,
         float atkRate,
-        float er_multi,
-        float er_add)
+        ElementalReaction elementalReaction)
     {
 
         float baseDamage = referenceStatus switch
@@ -121,22 +118,23 @@ public class ExpectedDamage
             _ => 0,
         };
 
-        baseDamage += DmgAdd + er_add;
-        float result = baseDamage * (1 + DmgBonus) * Crit.ExpectedCritDmg * res * er_multi;
+        elementalReaction ??= new();
+
+        baseDamage += DmgAdd + elementalReaction.result_er_add;
+        float result = baseDamage * (1 + DmgBonus) * Crit.ExpectedCritDmg * res * elementalReaction.result_er_multi;
         return result;
     }
 
     float GetExpectedDamageSum(
         ReferenceStatus referenceStatus,
         float[] atkRates,
-        float er_multi = 1,
-        float er_add = 0)
+        ElementalReaction elementalReaction)
     {
         float sum = 0;
 
         for (int i = 0; i < atkRates.Length; i++)
         {
-            sum += GetExpectedDamage(referenceStatus, atkRates[i], er_multi, er_add);
+            sum += GetExpectedDamage(referenceStatus, atkRates[i], elementalReaction);
         }
         return sum;
     }

@@ -14,16 +14,15 @@ public class VaresaSO : BaseCharacterSO
 
     public override Dictionary<string, string> CalcDmg(Data data)
     {
-        var addAggravate = ElementalReaction.Aggravate(data.elemental_mastery, data.er_aggravate);
+        ElementalReaction elementalReaction = new(ElementType.Electro, ElementType.Dendro, data);
 
-        float elementalReaction = 0;
         if (data.partyData.ElementCounts[ElementType.Dendro] > 0)
         {
-            elementalReaction = addAggravate;
+            elementalReaction = null;
         }
 
         float[] ary = new[] { pluggedAtkPerArray[0] + talent_addPerPluggedAtk_2 };
-        var expectedDamage = ExpectedDamage.Sum(data, AttackType.Plugged, ary, er_add: elementalReaction);
+        var expectedDamage = ExpectedDamage.Sum(data, AttackType.Plugged, ary, elementalReaction: elementalReaction);
 
 
 

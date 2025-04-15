@@ -17,12 +17,14 @@ public class YaeMiko : BaseCharacter
 
         data.skill_bonus += passive_dmgBonusPerEM * data.elemental_mastery;
 
-        var addAggravate = ElementalReaction.Aggravate(data.elemental_mastery, data.artSetData.er_aggravate);
+        ElementalReaction elementalReaction = new(ElementType.Electro, ElementType.Dendro, data);
+
+        // var addAggravate = ElementalReaction.Aggravate(data.elemental_mastery, data.artSetData.er_aggravate);
 
         // var ed_normal = ExpectedDamage.Single(data, AttackType.Normal,  status.elementType,normalAtkPerArray);
         //var ed_charged = ExpectedDamage.Single(data, AttackType.Charged,  status.elementType,chargedAtkPerArray);
         //var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged,status.elementType,pluggedAtkPerArray);
-        var ed_skill_0 = ExpectedDamage.Single(data, AttackType.Skill, skillPerArray[0], er_add: addAggravate);
+        var ed_skill_0 = ExpectedDamage.Single(data, AttackType.Skill, skillPerArray[0], elementalReaction: elementalReaction);
         var ed_skill_1 = ExpectedDamage.Single(data, AttackType.Skill, skillPerArray[1]);
         var ed_skill_2 = ExpectedDamage.Single(data, AttackType.Skill, skillPerArray[2]);
 

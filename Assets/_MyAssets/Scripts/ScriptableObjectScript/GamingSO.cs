@@ -23,13 +23,14 @@ public class GamingSO : BaseCharacterSO
         data.crit_dmg_plugged += constellation_critDmg;
         data.plugged_atk_bonus += talent_addDmgBonusPluggedAtk;
 
-        var vaporize = ElementalReaction.VaporizeForPyro(data.elemental_mastery, data.er_rate);
+        ElementalReaction elementalReaction = new(ElementType.Pyro, ElementType.Hydro, data);
+
         if (data.partyData.ElementCounts[ElementType.Hydro] == 0)
         {
-            vaporize = 1;
+            elementalReaction = null;
         }
 
-        var ed = ExpectedDamage.Single(data, AttackType.Plugged, pluggedAtkPerArray[0], er_multi: vaporize);
+        var ed = ExpectedDamage.Single(data, AttackType.Plugged, pluggedAtkPerArray[0], elementalReaction: elementalReaction);
 
         var sum = ed.Result;
 

@@ -25,11 +25,12 @@ public class HuTao : BaseCharacter
         data.pyro_bonus += talent_dmgBonus;
         data.atk += data.hp * skill_addAtkPerHp;
 
+        ElementalReaction elementalReaction = new(ElementType.Pyro, ElementType.Hydro, data);
+
         // var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
-        var vaporize = ElementalReaction.VaporizeForPyro(data.elemental_mastery, data.er_rate);
 
         // var ed_normal = ExpectedDamage.Single(data, AttackType.Normal,  status.elementType,normalAtkPerArray);
-        var ed_charged = ExpectedDamage.Single(data, AttackType.Charged, chargedAtkPerArray[0], er_multi: vaporize);
+        var ed_charged = ExpectedDamage.Single(data, AttackType.Charged, chargedAtkPerArray[0], elementalReaction: elementalReaction);
 
         // var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged,status.elementType,pluggedAtkPerArray);
         // var expectedDamage_skill = ExpectedDamage.Single(data, AttackType.Skill, status.elementType,skillPerArray);
