@@ -68,7 +68,7 @@ public class CharacterSOManager
 
         var artMainHeader = new ArtMainHeader();
 
-        baseCharacterSO.selectedArtMainSands = artMainHeader.sands.Select(name =>
+        var selectedArtMainSands = artMainHeader.sands.Select(name =>
         {
             var instance = new SelectedArtMainSand()
             {
@@ -78,8 +78,9 @@ public class CharacterSOManager
             if (name == "元チャ") instance.isUse = false;
             return instance;
         }).ToList();
+        baseCharacterSO.selectedArtMainSands = AddDifference(baseCharacterSO.selectedArtMainSands, selectedArtMainSands);
 
-        baseCharacterSO.selectedArtMainGoblets = artMainHeader.goblets.Select(name =>
+        var selectedArtMainGoblets = artMainHeader.goblets.Select(name =>
         {
             var instance = new SelectedArtMainGoblet()
             {
@@ -95,7 +96,10 @@ public class CharacterSOManager
             return instance;
         }).ToList();
 
-        baseCharacterSO.selectedArtMainCirclets = artMainHeader.circlets.Select(name =>
+        baseCharacterSO.selectedArtMainGoblets = AddDifference(baseCharacterSO.selectedArtMainGoblets, selectedArtMainGoblets);
+
+
+        var selectedArtMainCirclets = artMainHeader.circlets.Select(name =>
         {
             var instance = new SelectedArtMainCirclet()
             {
@@ -106,6 +110,9 @@ public class CharacterSOManager
             if (name == "治癒効果") instance.isUse = false;
             return instance;
         }).ToList();
+
+        baseCharacterSO.selectedArtMainCirclets = AddDifference(baseCharacterSO.selectedArtMainCirclets, selectedArtMainCirclets);
+
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
