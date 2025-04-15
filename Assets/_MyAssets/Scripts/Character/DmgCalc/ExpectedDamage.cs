@@ -7,9 +7,8 @@ public class ExpectedDamage
     readonly float def;
     readonly float hp;
     readonly float em;
-    readonly float dmgAdd;
-    readonly float dmgBonus;
-    readonly float expectedCritDmg;
+    public float DmgAdd { get; private set; }
+    public float DmgBonus { get; private set; }
     readonly float res;
     public Crit Crit { get; private set; }
     public int Result { get; private set; }
@@ -64,9 +63,8 @@ public class ExpectedDamage
         this.def = data.def;
         this.hp = data.hp;
         this.em = data.elemental_mastery;
-        this.dmgAdd = dmgAdd;
-        this.dmgBonus = dmgBonus;
-        this.expectedCritDmg = Crit.ExpectedCritDmg;
+        this.DmgAdd = dmgAdd;
+        this.DmgBonus = dmgBonus;
         this.res = GetElementalRes(elementalRes) * 0.5f;
     }
 
@@ -123,9 +121,9 @@ public class ExpectedDamage
             _ => 0,
         };
 
-        baseDamage += dmgAdd + er_add;
-        float dmg = baseDamage * (1 + dmgBonus) * expectedCritDmg * res * er_multi;
-        return dmg;
+        baseDamage += DmgAdd + er_add;
+        float result = baseDamage * (1 + DmgBonus) * Crit.ExpectedCritDmg * res * er_multi;
+        return result;
     }
 
     float GetExpectedDamageSum(
@@ -134,13 +132,13 @@ public class ExpectedDamage
         float er_multi = 1,
         float er_add = 0)
     {
-        float dmg = 0;
+        float sum = 0;
 
         for (int i = 0; i < atkRates.Length; i++)
         {
-            dmg += GetExpectedDamage(referenceStatus, atkRates[i], er_multi, er_add);
+            sum += GetExpectedDamage(referenceStatus, atkRates[i], er_multi, er_add);
         }
-        return dmg;
+        return sum;
     }
 
 

@@ -34,7 +34,7 @@ public class Noelle : BaseCharacterSO
             ["攻撃力"] = data.atk.ToString(),
             ["防御力"] = data.def.ToString(),
             // ["HP"] = data.hp.ToString(),
-            ["バフ合計"] = (data.dmg_bonus + data.plugged_atk_bonus + data.ElementalDmgBonus(ElementType.Geo)).ToString(),
+            ["バフ合計"] = ed_plugged.DmgBonus.ToString(),
             ["バフ共通"] = data.dmg_bonus.ToString(),
             ["元素バフ"] = data.ElementalDmgBonus(ElementType.Geo).ToString(),
             ["バフ落下"] = data.plugged_atk_bonus.ToString(),
