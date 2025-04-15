@@ -77,26 +77,35 @@ public class Data : BaseData
             + kusanagi_atkAdd;
     }
 
-    public bool IsSkip()
+    bool isSkip = false;
+    string skipReason = "";
+
+    void SetSkip(string reason)
     {
+        //   Debug.Log("しめ縄4");
+        skipReason += reason + "、";
+        isSkip = isSkip || true;
+    }
+
+
+    public bool IsSkip(out string reason)
+    {
+        isSkip = false;
 
         if (artSetData.name == "しめ縄4" && status.notUseShimenawa)
         {
-            //   Debug.Log("しめ縄4");
-            return true;
+            SetSkip("しめ縄4");
         }
 
         bool isGakudan = status.weaponType == WeaponType.Catalyst || status.weaponType == WeaponType.Bow;
 
         if (artSetData.name == "楽団4" && isGakudan == false)
         {
-            //   Debug.Log("楽団4");
-            return true;
+            SetSkip("楽団4");
         }
         if (artSetData.name == "剣闘士4" && isGakudan == true)
         {
-            //   Debug.Log("剣闘士4");
-            return true;
+            SetSkip("剣闘士4");
         }
 
         if (artSetData.name == "ファントム4" || artSetData.name == "花海4" || artSetData.name == "辰砂4")
@@ -104,83 +113,63 @@ public class Data : BaseData
             bool hasSelfHarm = status.hasSelfHarm || partyData.has_self_harm;
             if (!hasSelfHarm)
             {
-                //   Debug.Log("ファントム");
-                return true;
+                SetSkip("ファントム4");
             }
         }
 
         if (artSetData.name == "劇団4(控え)" && status.isFront)
         {
-            //   Debug.Log("劇団4(控え)");
-
-            return true;
+            SetSkip("劇団4");
         }
         if (artSetData.name == "劇団4(表)" && !status.isFront)
         {
-            //   Debug.Log("劇団4(表)");
-
-            return true;
+            SetSkip("劇団4");
         }
 
         bool isFrozen = partyData.ElementCounts[ElementType.Cryo] > 0 && partyData.ElementCounts[ElementType.Hydro] > 0;
 
         if (artSetData.name == "氷風4(凍結)" && isFrozen == false)
         {
-            //   Debug.Log("氷風4(凍結)");
-
-            return true;
+            SetSkip("氷風4");
         }
         if (artSetData.name == "氷風4(凍結無し)" && partyData.ElementCounts[ElementType.Cryo] == 0)
         {
-            //   Debug.Log("氷風4(凍結無し)");
-
-            return true;
+            SetSkip("氷風4");
         }
         if (artSetData.name == "雷4" && partyData.ElementCounts[ElementType.Electro] == 0)
         {
-            //   Debug.Log("雷4");
-
-            return true;
+            SetSkip("雷4");
         }
         if (artSetData.is_night_soul)
         {
             if (!status.isNightSoul)
             {
-                //   Debug.Log("isNightSoul");
-
-                return true;
+                SetSkip("夜魂");
             }
         }
 
         if (IsCitlali())
         {
-            //   Debug.Log("シトラリ");
-            return true;
+            SetSkip("シトラリ");
         }
 
         if (IsSkipXilonen())
         {
-            //   Debug.Log("シロネン");
-            return true;
+            SetSkip("シロネン");
         }
 
-        if (IsSkipGorou())
+        if (IsSkipGorou(out string gorouReason))
         {
-            //   Debug.Log("ゴロー");
-            return true;
+            SetSkip($"ゴロー{gorouReason}");
         }
 
-        if (IsNotUseArtSet("深林4")) return true;
-        if (IsNotUseArtSet("翠緑4")) return true;
-        if (IsNotUseArtSet("灰燼4"))
-        {
-            //   Debug.Log("灰燼");
-            return true;
-        }
+        if (IsNotUseArtSet("深林4")) SetSkip("深林4");
+
+        if (IsNotUseArtSet("翠緑4")) SetSkip("翠緑4");
+
+        if (IsNotUseArtSet("灰燼4")) SetSkip("灰燼4");
 
         // TODO:残響
-
-        int skip = base.skip;
 
         if (skip > 0)
         {
@@ -189,10 +178,12 @@ public class Data : BaseData
             //   Debug.Log("artSetData " + artSetData.skip);
             //   Debug.Log("artSubData " + artSubData.skip);
             //   Debug.Log("partyData " + partyData.skip);
-
+            SetSkip("csv");
         }
 
-        return skip > 0;
+        reason = skipReason;
+
+        return isSkip;
     }
 
     bool IsCitlali()
@@ -230,8 +221,9 @@ public class Data : BaseData
         return isNotActiveSampleMusic;
     }
 
-    bool IsSkipGorou()
+    bool IsSkipGorou(out string reason)
     {
+        reason = "";
         MemberData gorou = partyData.members.FirstOrDefault((member) => member.name.Contains("ゴロー"));
         if (gorou == null) return false;
         int geoCount = partyData.ElementCounts[ElementType.Geo];
@@ -239,8 +231,12 @@ public class Data : BaseData
         // 岩0,1,2人の場合
         if (geoCount < 3)
         {
+            reason = "岩2";
             return gorou.option != "岩2";
         }
+
+        reason = "岩3";
+
         // 岩3,4人人の場合
         return gorou.option != "岩3";
     }

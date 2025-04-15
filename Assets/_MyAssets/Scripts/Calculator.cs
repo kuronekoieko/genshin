@@ -105,14 +105,13 @@ public static class Calculator
                 {
                     Data data = new(weapon, artifactGroup, partyData, status, ascend);
 
-                    if (data.IsSkip() == false)
+                    if (data.IsSkip(out string reason))
                     {
-                        datas.Add(data);
+                        // Debug.Log("skip: " + reason);
                     }
                     else
                     {
-                        //Utils.LogJson(data.partyData.name);
-                        // Debug.Log("===========================");
+                        datas.Add(data);
                     }
                 }
             }
