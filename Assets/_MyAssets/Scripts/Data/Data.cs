@@ -235,7 +235,14 @@ public class Data : BaseData
         MemberData gorou = partyData.members.FirstOrDefault((member) => member.name.Contains("ゴロー"));
         if (gorou == null) return false;
         int geoCount = partyData.ElementCounts[ElementType.Geo];
-        return geoCount < 3;
+
+        // 岩0,1,2人の場合
+        if (geoCount < 3)
+        {
+            return gorou.option != "岩2";
+        }
+        // 岩3,4人人の場合
+        return gorou.option != "岩3";
     }
 
     bool IsNotUseArtSet(string setName)
