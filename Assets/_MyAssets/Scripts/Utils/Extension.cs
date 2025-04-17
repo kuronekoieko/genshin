@@ -20,7 +20,8 @@ public static class Extension
         return false;
     }
 
-    public static string ToIntString(this float self)
+
+    public static string ToString(this float self, bool isInt = false)
     {
         return Mathf.FloorToInt(self).ToString();
     }

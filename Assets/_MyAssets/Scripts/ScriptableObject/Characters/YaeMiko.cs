@@ -42,19 +42,19 @@ namespace so
                 ["聖遺物セット"] = data.artSetData.name,
                 ["聖遺物メイン"] = data.artMainData.name,
                 ["バフキャラ"] = data.partyData.name,
-                ["スキル期待値"] = expectedDmg_gekika.ToIntString(),
-                //  ["攻撃力"] = atk.ToIntString(),
-                //["HP"] = hpSum.ToIntString(),
-                // ["バフ"] = dmgBonus.ToIntString(),
-                // ["会心ダメ期待値"] = expectedDamage_skill.Crit.ExpectedCritDmg.ToIntString(),
-                // ["熟知"] = elementalMastery.ToIntString(),
+                ["スキル期待値"] = expectedDmg_gekika.ToString(),
+                //  ["攻撃力"] = atk.ToString(),
+                //["HP"] = hpSum.ToString(),
+                // ["バフ"] = dmgBonus.ToString(),
+                // ["会心ダメ期待値"] = expectedDamage_skill.Crit.ExpectedCritDmg.ToString(),
+                // ["熟知"] = elementalMastery.ToString(),
                 // ["率ダメ"] = expectedDamage_skill.Crit.RateDmg,
                 // ["会心ダメ比率"] = expectedDamage_skill.Crit.CritProportion,
                 ["聖遺物組み合わせ"] = data.artSubData.name,
                 // ["サブステ"] = expectedDamage_skill.Crit.SubCrit,
-                ["サブHP%"] = data.artSubData.hp_rate.ToIntString(),
-                ["サブHP"] = data.artSubData.hp.ToIntString(),
-                ["スコア"] = data.artSubData.Score.ToIntString()
+                ["サブHP%"] = data.artSubData.hp_rate.ToString(),
+                ["サブHP"] = data.artSubData.hp.ToString(),
+                ["スコア"] = data.artSubData.Score.ToString()
             };
 
             //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));
