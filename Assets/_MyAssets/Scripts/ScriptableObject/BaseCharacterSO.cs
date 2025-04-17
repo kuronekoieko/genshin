@@ -60,6 +60,7 @@ public class Status
     public bool notUseShimenawa = false;
     public bool isFront = true;
     public bool isNightSoul = false;
+    public bool isRequiredShields = false;
 
 
     public readonly float defaultCritRate = 0.05f;

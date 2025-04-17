@@ -23,7 +23,15 @@ public static class Extension
 
     public static string ToString(this float self, bool isInt = false)
     {
-        return Mathf.FloorToInt(self).ToString();
+        if (isInt)
+        {
+            return self.ToString("F0");
+        }
+        else
+        {
+            return self.ToString();
+        }
+
     }
 
 }

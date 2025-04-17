@@ -13,6 +13,9 @@ public class MemberData : BaseData, IComparable<MemberData>
     public string option = "";
     public string element_type_name = "";
     public float add_count;// しんかくとか閑雲の加算回数上限
+    public bool has_shields = false;
+
+
     public ElementType ElementType => Utils.GetElementType(element_type_name);
 
     public string ConstellationName => constellation > 0 ? constellation + "凸" : "";

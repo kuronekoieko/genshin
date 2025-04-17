@@ -171,6 +171,15 @@ public class DataManager
 
         if (IsNotUseArtSet(partyData, "灰燼4")) SetSkip("灰燼4");
 
+        if (status.isRequiredShields)
+        {
+            int count = partyData.members.Count(memberData => memberData.has_shields);
+            if (count == 0)
+            {
+                SetSkip("シールド無し");
+            }
+        }
+
         // TODO:残響
 
         reason = skipReason;
