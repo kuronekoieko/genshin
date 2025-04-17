@@ -11,6 +11,8 @@ public class ArtifactData : BaseData
     public string art_set_name;
     public string art_main;
 
+    public string DisplayName => $"{art_set_name}({SubName})";
+
     public string MainName
     {
         get

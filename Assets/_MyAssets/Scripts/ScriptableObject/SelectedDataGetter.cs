@@ -22,6 +22,7 @@ public class SelectedDataGetter
         var weaponDatas = GetWeaponDatas();
         var partyDatas = GetPartyDatas();
         var artifactGroups = GetArtifactGroups();
+        return null;
 
         List<Data> datas = await DataManager.GetDatas(baseCharacterSO, weaponDatas, partyDatas, artifactGroups);
         return datas;
@@ -82,7 +83,7 @@ public class SelectedDataGetter
     List<ArtifactGroup> GetArtifactGroups()
     {
         List<ArtifactGroup> artifactGroups;
-        if (baseCharacterSO.isSub)
+        if (baseCharacterSO.artifactConfig.isUseRegisteredArtifacts)
         {
             artifactGroups = GetSubArtifactGroups();
         }
@@ -90,13 +91,8 @@ public class SelectedDataGetter
         {
             artifactGroups = GetFixedScoreArtifactGroups();
         }
+        Debug.Log(artifactGroups.Count);
 
-        foreach (var artifactGroup in artifactGroups)
-        {
-            // Debug.Log("artifactGroups: " + artifactGroup.artMainData.name);
-        }
-
-        //Debug.Log("artifactGroups: " + artifactGroups.Count);
 
         return artifactGroups;
     }
@@ -127,7 +123,7 @@ public class SelectedDataGetter
             circlets = baseCharacterSO.selectedArtMainCirclets.Where(s => s.isUse).Select(s => s.name).ToArray(),
         };
 
-        return Artifact.GetFixedScoreArtifactGroups(artSetDatas, artMainHeader, baseCharacterSO.subScore);
+        return Artifact.GetFixedScoreArtifactGroups(artSetDatas, artMainHeader, baseCharacterSO.artifactConfig.fixedSubScore);
     }
 
     List<ArtifactGroup> GetSubArtifactGroups()
@@ -153,7 +149,7 @@ public class SelectedDataGetter
                 // Debug.LogError(item.name);
             }
         }
-        return Artifact.GetSubArtifactGroups(artSetDatas_notSkipped, artifactDatas);
+        return Artifact.GetSubArtifactGroups(artSetDatas_notSkipped, artifactDatas, baseCharacterSO.artifactConfig);
     }
 
 

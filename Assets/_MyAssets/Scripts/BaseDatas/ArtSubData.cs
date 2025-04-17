@@ -8,16 +8,23 @@ public class ArtSubData : BaseData
 {
     public float Score { get; private set; }
     public bool Exist { get; private set; }
+    readonly public ArtifactData flower, plume, sands, goblet, circlet;
+    public ArtifactData[] ArtifactCombination { get; private set; }
 
-    public ArtSubData(ArtifactData artifactData, float score = 1.6f)
+
+    public ArtSubData(ArtifactData flower, ArtifactData plume, ArtifactData sands, ArtifactData goblet, ArtifactData circlet)
     {
-        if (artifactData == null)
-        {
-            Exist = false;
-            Score = score;
-            return;
-        }
+        this.flower = flower;
+        this.plume = plume;
+        this.sands = sands;
+        this.goblet = goblet;
+        this.circlet = circlet;
+
         Exist = true;
+
+        ArtifactCombination = new[] { flower, plume, sands, goblet, circlet };
+
+        ArtifactData artifactData = FastInstanceAdder.AddInstances(ArtifactCombination);
 
         name = artifactData.id;
         crit_rate = artifactData.crit_rate * 0.01f;
@@ -31,7 +38,26 @@ public class ArtSubData : BaseData
         energy_recharge = artifactData.energy_recharge * 0.01f;
         elemental_mastery = artifactData.elemental_mastery;
 
-        Score = crit_rate * 2 + crit_dmg + atk_rate;
+        Score = crit_rate * 2f + crit_dmg + atk_rate;
+    }
+
+    public ArtSubData(float score = 1.6f)
+    {
+        this.flower = new();
+        this.plume = new();
+        this.sands = new();
+        this.goblet = new();
+        this.circlet = new();
+
+        Exist = false;
+        Score = score;
+    }
+
+
+    public ArtMainData GetArtMainData()
+    {
+        ArtMainHash artMainHash = new(new string[] { sands.art_main, goblet.art_main, circlet.art_main });
+        return new(artMainHash);
     }
 
 

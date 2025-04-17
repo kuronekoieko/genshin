@@ -16,9 +16,7 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
 {
     public Status status;
     public Ascend ascend;
-    public bool isSub = false;
-    [Range(1.0f, 1.6f)]
-    public float subScore = 1.0f;
+    public ArtifactConfig artifactConfig;
     public List<SelectedWeapon> selectedWeapons;
     public List<SelectedMember> selectedMembers;
     public List<SelectedArtSetData> selectedArtSets;
@@ -45,6 +43,16 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
         Calculator.Calc(datas, this);
     }
 
+}
+
+
+[Serializable]
+public class ArtifactConfig
+{
+    [Range(1.0f, 1.6f)]
+    public float fixedSubScore = 1.0f;
+    public bool isUseRegisteredArtifacts = false;
+    public bool isOnly4Set = true;
 }
 
 

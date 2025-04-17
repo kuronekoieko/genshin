@@ -26,7 +26,7 @@ public class Artifact
                 {
                     artSetData = artSets,
                     artMainData = artMain,
-                    artSubData = new ArtSubData(null, score),
+                    artSubData = new ArtSubData(score),
                 };
                 artifactGroups.Add(artifactGroup);
             }
@@ -34,9 +34,9 @@ public class Artifact
         return artifactGroups;
     }
 
-    public static List<ArtifactGroup> GetSubArtifactGroups(ArtSetData[] ArtSetDatas_notSkipped, ArtifactData[] artifactDatas)
+    public static List<ArtifactGroup> GetSubArtifactGroups(ArtSetData[] ArtSetDatas_notSkipped, ArtifactData[] artifactDatas, ArtifactConfig artifactConfig)
     {
-        List<ArtifactGroup> artifactGroups = Artifacts_Sub.GetSubArtifactGroups(ArtSetDatas_notSkipped, artifactDatas);
+        List<ArtifactGroup> artifactGroups = Artifacts_Sub.GetSubArtifactGroups(ArtSetDatas_notSkipped, artifactDatas, artifactConfig);
 
         return artifactGroups;
     }

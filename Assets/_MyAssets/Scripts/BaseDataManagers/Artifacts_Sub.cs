@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Artifacts_Sub
 {
-    public static List<ArtifactGroup> GetSubArtifactGroups(ArtSetData[] ArtSetDatas_notSkipped, ArtifactData[] artifactDatas)
+    public static List<ArtifactGroup> GetSubArtifactGroups(ArtSetData[] ArtSetDatas_notSkipped, ArtifactData[] artifactDatas, ArtifactConfig artifactConfig)
     {
         List<ArtifactGroup> artifactGroups = new();
         var flowerList = artifactDatas.Where(artifactData => artifactData.part == "花").ToList();
@@ -26,7 +26,9 @@ public class Artifacts_Sub
                     {
                         foreach (var circlet in circletList)
                         {
-                            ArtifactGroup artifactGroup = GetArtifactGroup(flower, plume, sands, goblet, circlet, ArtSetDatas_notSkipped);
+                            ArtSubData artSubData = new(flower, plume, sands, goblet, circlet);
+                            
+                            ArtifactGroup artifactGroup = GetArtifactGroup(artSubData, ArtSetDatas_notSkipped, artifactConfig);
                             if (artifactGroup != null) artifactGroups.Add(artifactGroup);
                         }
                     }
@@ -39,32 +41,17 @@ public class Artifacts_Sub
     }
 
 
-    static ArtifactGroup GetArtifactGroup(ArtifactData flower, ArtifactData plume, ArtifactData sands, ArtifactData goblet, ArtifactData circlet, ArtSetData[] ArtSetDatas_notSkipped)
+    static ArtifactGroup GetArtifactGroup(ArtSubData artSubData, ArtSetData[] ArtSetDatas_notSkipped, ArtifactConfig artifactConfig)
     {
-        ArtifactGroup artifactGroup = new();
-
-        //サブステ================
-        ArtifactData[] artifactCombination = new[] { flower, plume, sands, goblet, circlet };
-
-        ArtifactData combinedArtifactData = FastInstanceAdder.AddInstances(artifactCombination);
-
-        artifactGroup.artSubData = new(combinedArtifactData);
-
-        //Debug.Log(JsonConvert.SerializeObject(artifactGroup.artSubData, Formatting.Indented));
-
-        //メインステ================
-        ArtMainHash artMainHash = new(new string[] { sands.art_main, goblet.art_main, circlet.art_main });
-
-        artifactGroup.artMainData = new(artMainHash);
-
-        //セット================
-
-        artifactGroup.artSetData = GetArtSetData(artifactCombination, ArtSetDatas_notSkipped);
+        ArtifactGroup artifactGroup = new()
+        {
+            artSubData = artSubData,
+            artMainData = artSubData.GetArtMainData(),
+            artSetData = GetArtSetData(artSubData.ArtifactCombination, ArtSetDatas_notSkipped)
+        };
 
         if (artifactGroup.artSetData == null) return null;
 
-        // string a = string.Join("/", artifactCombination.Select(artifactData => artifactData.art_set_name).ToArray());
-        //  Debug.Log(a + "\n" + setName);
 
 
         return artifactGroup;
@@ -112,6 +99,7 @@ public class Artifacts_Sub
             if (artSetData_2 == null)
             {
                 Debug.LogError($"{twoSetList[1]} 2セットが見つかりません");
+                return null;
             }
 
             var artSetData = FastInstanceAdder.AddInstances(new[] { artSetData_1, artSetData_2 });
