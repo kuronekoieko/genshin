@@ -23,7 +23,6 @@ public class CharacterSOManager
         .Where(weaponData => weaponData.WeaponType == baseCharacterSO.WeaponType)
         .Select(weaponData =>
         {
-            weaponData.skip = 0;
             return new SelectedWeapon()
             {
                 WeaponData = weaponData,
@@ -38,7 +37,6 @@ public class CharacterSOManager
         var MemberDatas = await CSVManager.DeserializeAsync<MemberData>("Members");
         var selectedMember = MemberDatas.Select(member =>
         {
-            member.skip = 0;
             return new SelectedMember()
             {
                 Member = member,
@@ -56,7 +54,6 @@ public class CharacterSOManager
         var ArtSetDatas = await CSVManager.DeserializeAsync<ArtSetData>("ArtSet");
         var selectedArtSet = ArtSetDatas.Select(artSetData =>
         {
-            artSetData.skip = 0;
             return new SelectedArtSetData()
             {
                 ArtSetData = artSetData,
@@ -213,8 +210,6 @@ public class CharacterSOManager
 
         foreach (var item in weaponDatas)
         {
-            item.skip = 0;
-            // Debug.Log(item.skip);
         }
         // Debug.Log("weaponDatas: " + weaponDatas.Length);
 
@@ -234,7 +229,6 @@ public class CharacterSOManager
 
         foreach (var item in memberDatas)
         {
-            item.skip = 0;
             if (string.IsNullOrEmpty(item.name))
             {
                 Debug.LogError(item.name);
@@ -287,8 +281,6 @@ public class CharacterSOManager
 
         foreach (var item in artSetDatas)
         {
-            item.skip = 0;
-
             if (string.IsNullOrEmpty(item.name))
             {
                 Debug.LogError(item.name);
@@ -323,15 +315,11 @@ public class CharacterSOManager
         var artifactDatas = await CSVManager.DeserializeAsync<ArtifactData>("Artifacts");
         foreach (var item in artifactDatas)
         {
-            item.skip = 0;
             if (string.IsNullOrEmpty(item.name))
             {
                 Debug.LogError(item.name);
             }
-            Debug.Log(item.skip);
         }
-        artifactDatas = artifactDatas.Where(data => data.skip != 1).ToArray();
-
         return Artifact.GetSubArtifactGroups(artSetDatas_notSkipped, artifactDatas);
     }
 

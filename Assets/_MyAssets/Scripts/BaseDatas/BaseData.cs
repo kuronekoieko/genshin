@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 [Serializable]
 public class BaseData
 {
-    public int skip;
     public string name;
     public float atk;
     public float atk_rate;

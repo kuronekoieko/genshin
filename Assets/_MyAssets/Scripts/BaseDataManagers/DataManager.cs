@@ -173,17 +173,6 @@ public class DataManager
 
         // TODO:残響
 
-        /*
-                if (skip > 0)
-                {
-                    //   Debug.Log("weapon " + weapon.skip);
-                    //   Debug.Log("artMainData " + artMainData.skip);
-                    //   Debug.Log("artSetData " + artSetData.skip);
-                    //   Debug.Log("artSubData " + artSubData.skip);
-                    //   Debug.Log("partyData " + partyData.skip);
-                    SetSkip("csv");
-                }*/
-
         reason = skipReason;
 
         return isSkip;

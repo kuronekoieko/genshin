@@ -72,7 +72,7 @@ public static class Calculator
     {
         if (isSub)
         {
-            return Artifact.GetSubArtifactGroups(CSVManager.ArtSetDatas_notSkipped, CSVManager.ArtifactDatas);
+            return Artifact.GetSubArtifactGroups(CSVManager.ArtSetDatas, CSVManager.ArtifactDatas);
         }
         else
         {

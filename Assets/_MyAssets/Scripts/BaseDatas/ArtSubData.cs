@@ -20,7 +20,6 @@ public class ArtSubData : BaseData
         Exist = true;
 
         name = artifactData.id;
-        skip = artifactData.skip;
         crit_rate = artifactData.crit_rate * 0.01f;
         crit_dmg = artifactData.crit_dmg * 0.01f;
         hp = artifactData.hp;

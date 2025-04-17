@@ -18,9 +18,6 @@ public class Artifact
         var artMainDatas = artifacts_Main.GetArtMainDatas();
         var artSetDatas = Artifacts_Set.GetArtSetDatas(csvArtSetDatas).ToArray();
 
-
-        //var artSetDatas = CSVManager.artSetDatas.Where(artSetData => artSetData.skip != 1).ToArray();
-
         foreach (var artSets in artSetDatas)
         {
             foreach (var artMain in artMainDatas)
