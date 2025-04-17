@@ -9,11 +9,6 @@ using System.Threading.Tasks;
 
 public class DataManager
 {
-    public static async Task<List<Data>> GetDatas(BaseCharacter character, WeaponData[] weaponDatas, PartyData[] partyDatas, List<ArtifactGroup> artifactGroups)
-    {
-        return await GetDatas(character.status, character.ascend, weaponDatas, partyDatas, artifactGroups);
-    }
-
     public static async Task<List<Data>> GetDatas(BaseCharacterSO character, WeaponData[] weaponDatas, PartyData[] partyDatas, List<ArtifactGroup> artifactGroups)
     {
         return await GetDatas(character.status, character.ascend, weaponDatas, partyDatas, artifactGroups);

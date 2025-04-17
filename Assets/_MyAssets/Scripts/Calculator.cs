@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 public static class Calculator
 {
 
-    public static async UniTask Calc(BaseCharacter character, bool isSub)
+    public static async UniTask Calc(BaseCharacterSO character, bool isSub)
     {
         await CSVManager.InitializeAsync();
 
@@ -60,7 +60,7 @@ public static class Calculator
     }
 
 
-    static WeaponData[] GetWeaponDatas(BaseCharacter character)
+    static WeaponData[] GetWeaponDatas(BaseCharacterSO character)
     {
         var weaponDatas = CSVManager.WeaponDatas
             .Where(weaponData => weaponData.WeaponType == character.WeaponType)
