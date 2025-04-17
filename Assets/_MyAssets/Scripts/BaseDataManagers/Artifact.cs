@@ -8,7 +8,7 @@ public class Artifact
 {
 
 
-    public static List<ArtifactGroup> GetFixedScoreArtifactGroups(ArtSetData[] csvArtSetDatas, ArtMainHeader header)
+    public static List<ArtifactGroup> GetFixedScoreArtifactGroups(ArtSetData[] csvArtSetDatas, ArtMainHeader header, float score)
     {
 
         List<ArtifactGroup> artifactGroups = new();
@@ -26,7 +26,7 @@ public class Artifact
                 {
                     artSetData = artSets,
                     artMainData = artMain,
-                    artSubData = new ArtSubData(null),
+                    artSubData = new ArtSubData(null, score),
                 };
                 artifactGroups.Add(artifactGroup);
             }

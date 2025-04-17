@@ -127,7 +127,7 @@ public class SelectedDataGetter
             circlets = baseCharacterSO.selectedArtMainCirclets.Where(s => s.isUse).Select(s => s.name).ToArray(),
         };
 
-        return Artifact.GetFixedScoreArtifactGroups(artSetDatas, artMainHeader);
+        return Artifact.GetFixedScoreArtifactGroups(artSetDatas, artMainHeader, baseCharacterSO.subScore);
     }
 
     List<ArtifactGroup> GetSubArtifactGroups()

@@ -17,6 +17,8 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
     public Status status;
     public Ascend ascend;
     public bool isSub = false;
+    [Range(1.0f, 1.6f)]
+    public float subScore = 1.0f;
     public List<SelectedWeapon> selectedWeapons;
     public List<SelectedMember> selectedMembers;
     public List<SelectedArtSetData> selectedArtSets;

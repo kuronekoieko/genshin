@@ -9,12 +9,12 @@ public class ArtSubData : BaseData
     public float Score { get; private set; }
     public bool Exist { get; private set; }
 
-    public ArtSubData(ArtifactData artifactData)
+    public ArtSubData(ArtifactData artifactData, float score = 1.6f)
     {
         if (artifactData == null)
         {
             Exist = false;
-            Score = 1.6f;
+            Score = score;
             return;
         }
         Exist = true;
