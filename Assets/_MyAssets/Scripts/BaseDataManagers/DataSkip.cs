@@ -111,43 +111,26 @@ public static class DataSkip
             SetSkip("フリーナ");
         }
 
-        if (IsSkipGorou(out string gorouReason))
+        if (IsSkipGorou(out string reason))
         {
-            SetSkip($"ゴロー{gorouReason}");
+            SetSkip(reason);
         }
 
-        if (IsDuplication("深林4", out MemberData shinrinMember))
+        if (IsDuplication("深林4"))
         {
             SetSkip("深林4");
         }
 
-        var artSetMembers = GetArtSetMembers("翠緑4");
 
-        if (artSetMembers.Length == 1)
+        if (IsSkipDuplicationSetER("翠緑4", out reason))
         {
-            if (!CanElementalReaction(artSetMembers[0]))
-            {
-                SetSkip("翠緑4 元素反応不可 " + partyData.name);
-            }
-        }
-        if (artSetMembers.Length > 1)
-        {
-            SetSkip("翠緑4 重複 " + partyData.name);
+            SetSkip(reason);
         }
 
 
-        artSetMembers = GetArtSetMembers("灰燼4");
-
-        if (artSetMembers.Length == 1)
+        if (IsSkipDuplicationSetER("灰燼4", out reason))
         {
-            if (!CanElementalReaction(artSetMembers[0]))
-            {
-                SetSkip("灰燼4 元素反応不可 " + partyData.name);
-            }
-        }
-        if (artSetMembers.Length > 1)
-        {
-            SetSkip("灰燼4 重複 " + partyData.name);
+            SetSkip(reason);
         }
 
         if (status.isRequiredShields)
@@ -227,11 +210,11 @@ public static class DataSkip
         // 岩0,1,2人の場合
         if (geoCount < 3)
         {
-            reason = "岩2";
+            reason = "ゴロー岩2";
             return gorou.option != "岩2";
         }
 
-        reason = "岩3";
+        reason = "ゴロー岩3";
 
         // 岩3,4人人の場合
         return gorou.option != "岩3";
@@ -243,23 +226,41 @@ public static class DataSkip
         return setMembers;
     }
 
-    static bool IsDuplication(string setName, out MemberData member)
+    static bool IsDuplication(string setName)
     {
         // Debug.Log("============");
 
         var setMembers = partyData.members.Where((member) => member.art_set == setName).ToArray();
         // Debug.Log(setMembers.Length);
-        member = null;
         if (setMembers.Length == 0) return false;
 
         if (setMembers.Length == 1)
         {
-            member = setMembers[0];
-
             return false;
         }
 
         return true;
+    }
+
+    static bool IsSkipDuplicationSetER(string setName, out string reason)
+    {
+        var artSetMembers = GetArtSetMembers(setName);
+        reason = "";
+        if (artSetMembers.Length == 1)
+        {
+            if (!CanElementalReaction(artSetMembers[0]))
+            {
+                reason = $"{setName} 元素反応不可 {partyData.name}";
+                return true;
+            }
+        }
+        if (artSetMembers.Length > 1)
+        {
+            reason = $"{setName} 重複 {partyData.name}";
+
+            return true;
+        }
+        return false;
     }
 
     static bool CanElementalReaction(MemberData from)
