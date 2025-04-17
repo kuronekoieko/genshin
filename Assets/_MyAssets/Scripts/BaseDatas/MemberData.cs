@@ -15,6 +15,9 @@ public class MemberData : BaseData, IComparable<MemberData>
     public float add_count;// しんかくとか閑雲の加算回数上限
     public bool has_shields = false;
 
+    public string healer_type = "";
+
+    public HealerType HealerType => Utils.GetHealerType(healer_type);
 
     public ElementType ElementType => Utils.GetElementType(element_type_name);
 

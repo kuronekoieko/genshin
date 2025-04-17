@@ -15,6 +15,11 @@ public class ElementalReaction
 
     public ElementalReaction(ElementType from, ElementType to, Data data)
     {
+        if (data.partyData.ElementCounts[to] == 0)
+        {
+            return;
+        }
+
         this.data = data;
         ElementalReactionType elementalReactionType = GetElementalReactionType(from, to);
         HandleElementalReaction(elementalReactionType, from, to);

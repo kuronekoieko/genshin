@@ -1,33 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+
 namespace so
 {
     public class HuTao : BaseCharacterSO
     {
         // lv10
-        float[] chargedAtkPerArray = { 2.42f, };
+        float[] chargedAtkPerArray = { 2.426f, };
 
         float skill_addAtkPerHp = 6.26f * 0.01f;
 
-        float talent_dmgBonus = 0.33f;
+        float talent_dmgBonus_when_hp_lower = 0.33f;
 
 
 
 
         public override Dictionary<string, string> CalcDmg(Data data)
         {
-            if (data.partyData.name.Contains("夜蘭") == false) return null;
+            // if (data.partyData.name.Contains("夜蘭") == false) return null;
             // if (data.energy_recharge() < 0.5f) return null;
             // if (data.weapon.name != "草薙の稲光") return null;
             // if (data.weapon.name != "和璞鳶") return null;
 
 
-            data.pyro_bonus += talent_dmgBonus;
+            bool isHealer = data.partyData.members.Any(m => m.HealerType == HealerType.Healer);
+
+            if (isHealer)
+            {
+                data.pyro_bonus += talent_dmgBonus_when_hp_lower;
+            }
             data.atk += data.hp * skill_addAtkPerHp;
 
-            ElementalReaction elementalReaction = new(ElementType.Pyro, ElementType.Hydro, data);
 
+            ElementalReaction elementalReaction = new(ElementType.Pyro, ElementType.Hydro, data);
+   
             // var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
 
             // var ed_normal = ExpectedDamage.Single(data, AttackType.Normal,  status.elementType,normalAtkPerArray);

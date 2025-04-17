@@ -16,7 +16,7 @@ public class VaresaSO : BaseCharacterSO
     {
         ElementalReaction elementalReaction = new(ElementType.Electro, ElementType.Dendro, data);
 
-        if (data.partyData.ElementCounts[ElementType.Dendro] > 0)
+        if (data.partyData.ElementCounts[ElementType.Dendro] == 0)
         {
             elementalReaction = null;
         }

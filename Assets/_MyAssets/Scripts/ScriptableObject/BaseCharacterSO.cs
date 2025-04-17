@@ -61,10 +61,17 @@ public class Status
     public bool isFront = true;
     public bool isNightSoul = false;
     public bool isRequiredShields = false;
-
+    public HealerType healerType = HealerType.None;
 
     public readonly float defaultCritRate = 0.05f;
     public readonly float defaultCritDmg = 0.5f;
+}
+
+public enum HealerType
+{
+    None,
+    Selectable,
+    Healer,
 }
 
 
