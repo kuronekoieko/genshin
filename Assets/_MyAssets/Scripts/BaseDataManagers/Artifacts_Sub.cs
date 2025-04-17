@@ -46,7 +46,7 @@ public class Artifacts_Sub
         //サブステ================
         ArtifactData[] artifactCombination = new[] { flower, plume, sands, goblet, circlet };
 
-        ArtifactData combinedArtifactData = Utils.AddInstances(artifactCombination);
+        ArtifactData combinedArtifactData = FastInstanceAdder.AddInstances(artifactCombination);
 
         artifactGroup.artSubData = new(combinedArtifactData);
 
@@ -114,7 +114,7 @@ public class Artifacts_Sub
                 Debug.LogError($"{twoSetList[1]} 2セットが見つかりません");
             }
 
-            var artSetData = Utils.AddInstances(new[] { artSetData_1, artSetData_2 });
+            var artSetData = FastInstanceAdder.AddInstances(new[] { artSetData_1, artSetData_2 });
 
             return artSetData;
         }
@@ -132,7 +132,7 @@ public class Artifacts_Sub
                 Debug.LogError($"{fourSetList[0]} 4セットが見つかりません");
             }
 
-            var artSetData = Utils.AddInstances(new[] { artSetData_1, artSetData_2 });
+            var artSetData = FastInstanceAdder.AddInstances(new[] { artSetData_1, artSetData_2 });
             artSetData.name = $"{artSetData_2.name}4";
 
             return artSetData;

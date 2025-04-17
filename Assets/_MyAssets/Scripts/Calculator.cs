@@ -17,7 +17,7 @@ public static class Calculator
         var weaponDatas = GetWeaponDatas(character);
         var artifactGroups = GetArtifactGroups(isSub);
 
-        List<Data> datas = DataManager.GetDatas(character, weaponDatas, partyDatas, artifactGroups);
+        List<Data> datas = await DataManager.GetDatas(character, weaponDatas, partyDatas, artifactGroups);
 
         var results = await GetResultsAsync(datas, character);
         var texts = ResultsToList(results);
@@ -99,10 +99,12 @@ public static class Calculator
             Dictionary<string, string> result = character.CalcDmg(data);
             if (result != null) results.Add(result);
 
-            progress++;
-            if (progress % 200000 == 0)
+            if (sw.ElapsedMilliseconds % 1000 == 0)
             {
                 await UniTask.DelayFrame(1);
+
+                progress++;
+                //await UniTask.DelayFrame(1);
                 int per = (int)((float)progress / (float)max * 100f);
 
                 Debug.Log("progress: " + progress + "/" + max + " " + per + "%");

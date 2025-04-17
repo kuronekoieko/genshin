@@ -193,7 +193,7 @@ public class CharacterSOManager
         var partyDatas = GetPartyDatas();
         var artifactGroups = await GetArtifactGroups();
 
-        List<Data> datas = DataManager.GetDatas(baseCharacterSO, weaponDatas, partyDatas, artifactGroups);
+        List<Data> datas = await DataManager.GetDatas(baseCharacterSO, weaponDatas, partyDatas, artifactGroups);
         return datas;
     }
 

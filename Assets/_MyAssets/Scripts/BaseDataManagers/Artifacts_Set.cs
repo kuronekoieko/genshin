@@ -22,7 +22,7 @@ public class Artifacts_Set
 
                 var sorted = new[] { artSetData_1, artSetData_2 }.OrderBy(artSetData => artSetData.name).ToArray();
 
-                var artSetData = Utils.AddInstances(sorted);
+                var artSetData = FastInstanceAdder.AddInstances(sorted);
 
                 if (IsContainsRequired(requiredArtSetDatas, sorted) == false) continue;
 
@@ -42,7 +42,7 @@ public class Artifacts_Set
 
             var sorted = new[] { artSetData_2set, artSetData_4set }.OrderBy(artSetData => artSetData.name).ToArray();
 
-            var artSetData = Utils.AddInstances(sorted);
+            var artSetData = FastInstanceAdder.AddInstances(sorted);
 
             artSetData.name = $"{artSetData_4set.name}4";
             if (string.IsNullOrEmpty(artSetData_4set.option) == false)

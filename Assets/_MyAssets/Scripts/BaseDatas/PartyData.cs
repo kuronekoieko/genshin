@@ -46,7 +46,7 @@ public class PartyData : BaseData, IComparable<PartyData>
             return;
         }
 
-        MemberData sumMemberData = Utils.AddInstances(members);
+        MemberData sumMemberData = FastInstanceAdder.AddInstances(members);
         Utils.CopyBaseFields<BaseData>(sumMemberData, this);
         string[] combinedNames = members.Select(memberData => memberData.CombinedName).ToArray();
         name = string.Join("+", combinedNames);

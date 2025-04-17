@@ -32,7 +32,7 @@ public class Data : BaseData
         this.ascend = ascend;
 
         var baseDatas = new BaseData[] { weapon, artMainData, artSetData, partyData, artSubData, };
-        var baseData = Utils.AddInstances(baseDatas);
+        var baseData = FastInstanceAdder.AddInstances(baseDatas);
         Utils.CopyBaseFields(baseData, this);
         SetFields();
         SetCharaData();
