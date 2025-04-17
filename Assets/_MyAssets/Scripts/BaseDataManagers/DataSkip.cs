@@ -275,7 +275,7 @@ public static class DataSkip
             {
                 if (to.ElementType != status.elementType) continue;
                 var elementalReactionType = ElementalReaction.GetElementalReactionType(from.ElementType, to.ElementType);
-                Debug.Log(elementalReactionType);
+                // Debug.Log(elementalReactionType);
                 if (elementalReactionType != ElementalReactionType.None) return true;
             }
         }

@@ -9,7 +9,7 @@ public class ExpectedDamage
     readonly float em;
     public float DmgAdd { get; private set; }
     public float DmgBonus { get; private set; }
-    readonly float res;
+    public float Res { get; private set; }
     public Crit Crit { get; private set; }
     public float Result { get; private set; }
 
@@ -65,7 +65,7 @@ public class ExpectedDamage
         this.em = data.elemental_mastery;
         this.DmgAdd = dmgAdd;
         this.DmgBonus = dmgBonus;
-        this.res = GetElementalRes(elementalRes) * 0.5f;
+        this.Res = GetElementalRes(elementalRes) * 0.5f;
     }
 
 
@@ -119,7 +119,7 @@ public class ExpectedDamage
         elementalReaction ??= new();
 
         baseDamage += DmgAdd + elementalReaction.result_er_add;
-        float result = baseDamage * (1 + DmgBonus) * Crit.ExpectedCritDmg * res * elementalReaction.result_er_multi;
+        float result = baseDamage * (1 + DmgBonus) * Crit.ExpectedCritDmg * Res * elementalReaction.result_er_multi;
         return result;
     }
 
@@ -138,7 +138,7 @@ public class ExpectedDamage
     }
 
 
-    float GetElementalRes(float decreasingRes)
+    static float GetElementalRes(float decreasingRes)
     {
         float enemyElementalRes = 0.1f + decreasingRes;
         float elementalRes = 1 / (4 * enemyElementalRes + 1);

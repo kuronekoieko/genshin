@@ -62,6 +62,7 @@ public class Status
     public WeaponType weaponType = WeaponType.Catalyst;
     public ElementType elementType = ElementType.Electro;
     public ReferenceStatus referenceStatus = ReferenceStatus.Atk;
+    public AttackType attackType = AttackType.Normal;
     // 基礎ステータス Lv90
     public float baseAtk;
     public float baseDef;

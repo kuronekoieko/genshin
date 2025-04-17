@@ -44,11 +44,12 @@ namespace so
 
             // var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
 
+
             // var ed_normal = ExpectedDamage.Single(data, AttackType.Normal,  status.elementType,normalAtkPerArray);
-            var ed_charged = ExpectedDamage.Single(data, AttackType.Charged, chargedAtkPerArray[0], elementalReaction: elementalReaction);
+            // var ed_charged = ExpectedDamage.Single(data, AttackType.Charged, chargedAtkPerArray[0], elementalReaction: elementalReaction);
             //var ed_charged_no_er = ExpectedDamage.Single(data, AttackType.Charged, chargedAtkPerArray[0]);
 
-            // var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged, pluggedAtkPerArray[0], elementalReaction: elementalReaction);
+            var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged, pluggedAtkPerArray[0], elementalReaction: elementalReaction);
 
             // var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged,status.elementType,pluggedAtkPerArray);
             // var expectedDamage_skill = ExpectedDamage.Single(data, AttackType.Skill, status.elementType,skillPerArray);
@@ -59,10 +60,10 @@ namespace so
 
 
             //  var ed = ed_charged;
-            var ed = ed_charged;
+            var ed = ed_plugged;
 
             //float sum = ed_charged.Result + ed_plugged.Result;
-            float sum = ed_charged.Result;
+            float sum = ed.Result;
 
 
             Dictionary<string, string> result = new()
@@ -73,12 +74,17 @@ namespace so
                 ["バフキャラ"] = data.PartyData.name,
                 ["合計期待値"] = sum.ToString(isInt: true),
                 ["攻撃力"] = data.atk.ToString(isInt: true),
+                ["加算"] = ed.DmgAdd.ToString(),
                 // ["防御力"] = def.ToString(),
                 ["HP"] = data.hp.ToString(isInt: true),
                 ["バフ"] = ed.DmgBonus.ToString(),
+                ["バフ共通"] = data.dmg_bonus.ToString(),
+                ["元素バフ"] = data.pyro_bonus.ToString(),
+                ["バフ落下"] = data.plugged_atk_bonus.ToString(),
                 ["会心ダメ期待値"] = ed.Crit.ExpectedCritDmg.ToString(),
                 ["熟知"] = data.elemental_mastery.ToString(),
                 ["元素反応"] = elementalReaction.result_er_multi.ToString(),
+                ["耐性ダウン計算後"] = ed.Res.ToString(),
                 ["率ダメ"] = ed.Crit.RateDmg,
                 // ["会心ダメ比率"] = crit_ChargedAttack.CritProportion,
                 ["聖遺物組み合わせ"] = data.ArtSubData.name,
