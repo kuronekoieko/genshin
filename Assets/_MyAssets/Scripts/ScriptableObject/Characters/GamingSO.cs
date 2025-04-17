@@ -25,11 +25,6 @@ public class GamingSO : BaseCharacterSO
 
         ElementalReaction elementalReaction = new(ElementType.Pyro, ElementType.Hydro, data);
 
-        if (data.partyData.ElementCounts[ElementType.Hydro] == 0)
-        {
-            elementalReaction = null;
-        }
-
         var ed = ExpectedDamage.Single(data, AttackType.Plugged, pluggedAtkPerArray[0], elementalReaction: elementalReaction);
 
         var sum = ed.Result;

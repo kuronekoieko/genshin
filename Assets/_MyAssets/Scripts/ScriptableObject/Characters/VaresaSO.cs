@@ -16,11 +16,6 @@ public class VaresaSO : BaseCharacterSO
     {
         ElementalReaction elementalReaction = new(ElementType.Electro, ElementType.Dendro, data);
 
-        if (data.partyData.ElementCounts[ElementType.Dendro] == 0)
-        {
-            elementalReaction = null;
-        }
-
         float[] ary = new[] { pluggedAtkPerArray[0] + talent_addPerPluggedAtk_2 };
         var expectedDamage = ExpectedDamage.Sum(data, AttackType.Plugged, ary, elementalReaction: elementalReaction);
 
