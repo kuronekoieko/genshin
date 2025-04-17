@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 public class DataManager
 {
+
     public static async Task<List<Data>> GetDatas(BaseCharacterSO character, WeaponData[] weaponDatas, PartyData[] partyDatas, List<ArtifactGroup> artifactGroups)
     {
         return await GetDatas(character.status, character.ascend, weaponDatas, partyDatas, artifactGroups);
@@ -32,14 +33,11 @@ public class DataManager
             {
                 foreach (var artifactGroup in artifactGroups)
                 {
+                    BaseDataSet baseDataSet = new(weapon, artifactGroup, partyData, status, ascend);
 
-                    if (IsSkip(weapon, artifactGroup, partyData, status, ascend, out string reason))
+                    if (DataSkip.IsSkip(baseDataSet) == false)
                     {
-                        // Debug.Log("skip: " + reason);
-                    }
-                    else
-                    {
-                        Data data = new(weapon, artifactGroup, partyData, status, ascend);
+                        Data data = new(baseDataSet);
                         datas.Add(data);
                     }
 
@@ -64,214 +62,4 @@ public class DataManager
     }
 
 
-
-    static bool isSkip = false;
-    static string skipReason = "";
-
-    static void SetSkip(string reason)
-    {
-        //   Debug.Log("しめ縄4");
-        skipReason += reason + "、";
-        isSkip = isSkip || true;
-    }
-
-
-    static bool IsSkip(
-        WeaponData weapon,
-        ArtifactGroup artifactGroup,
-        PartyData partyData,
-        Status status,
-        Ascend ascend,
-        out string reason)
-    {
-
-        ArtMainData artMainData = artifactGroup.artMainData;
-        ArtSetData artSetData = artifactGroup.artSetData;
-        ArtSubData artSubData = artifactGroup.artSubData;
-
-        isSkip = false;
-        skipReason = "";
-
-        if (artSetData.name == "しめ縄4" && status.notUseShimenawa)
-        {
-            SetSkip("しめ縄4");
-        }
-
-        bool isGakudan = status.weaponType == WeaponType.Catalyst || status.weaponType == WeaponType.Bow;
-
-        if (artSetData.name == "楽団4" && isGakudan == false)
-        {
-            SetSkip("楽団4");
-        }
-        if (artSetData.name == "剣闘士4" && isGakudan == true)
-        {
-            SetSkip("剣闘士4");
-        }
-
-        if (artSetData.name == "ファントム4" || artSetData.name == "花海4" || artSetData.name == "辰砂4")
-        {
-            bool hasSelfHarm = status.hasSelfHarm || partyData.has_self_harm;
-            if (!hasSelfHarm)
-            {
-                SetSkip("ファントム4");
-            }
-        }
-
-        if (artSetData.name == "劇団4(控え)" && status.isFront)
-        {
-            SetSkip("劇団4");
-        }
-        if (artSetData.name == "劇団4(表)" && !status.isFront)
-        {
-            SetSkip("劇団4");
-        }
-
-        bool isFrozen = partyData.ElementCounts[ElementType.Cryo] > 0 && partyData.ElementCounts[ElementType.Hydro] > 0;
-
-        if (artSetData.name == "氷風4(凍結)" && isFrozen == false)
-        {
-            SetSkip("氷風4");
-        }
-        if (artSetData.name == "氷風4(凍結無し)" && partyData.ElementCounts[ElementType.Cryo] == 0)
-        {
-            SetSkip("氷風4");
-        }
-        if (artSetData.name == "雷4" && partyData.ElementCounts[ElementType.Electro] == 0)
-        {
-            SetSkip("雷4");
-        }
-        if (artSetData.is_night_soul)
-        {
-            if (!status.isNightSoul)
-            {
-                SetSkip("夜魂");
-            }
-        }
-
-        if (IsCitlali(partyData))
-        {
-            SetSkip("シトラリ");
-        }
-
-        if (IsSkipXilonen(partyData, status))
-        {
-            SetSkip("シロネン");
-        }
-
-        if (IsSkipFrina(partyData))
-        {
-            SetSkip("フリーナ");
-        }
-
-        if (IsSkipGorou(partyData, out string gorouReason))
-        {
-            SetSkip($"ゴロー{gorouReason}");
-        }
-
-        if (IsNotUseArtSet(partyData, "深林4")) SetSkip("深林4");
-
-        if (IsNotUseArtSet(partyData, "翠緑4")) SetSkip("翠緑4");
-
-        if (IsNotUseArtSet(partyData, "灰燼4")) SetSkip("灰燼4");
-
-        if (status.isRequiredShields)
-        {
-            int count = partyData.members.Count(memberData => memberData.has_shields);
-            if (count == 0)
-            {
-                SetSkip("シールド無し");
-            }
-        }
-
-        // TODO:残響
-
-        reason = skipReason;
-
-        return isSkip;
-    }
-
-    static bool IsSkipFrina(PartyData partyData)
-    {
-        bool esxistFrina = partyData.members.Any((member) => member.name.Contains("フリーナ"));
-        if (esxistFrina)
-        {
-            bool esxistHealer = partyData.members
-                .Where((member) => member.name.Contains("フリーナ") == false)
-                .Any((member) => member.HealerType != HealerType.None);
-
-            if (esxistHealer == false) return true;
-        }
-        return false;
-    }
-
-    static bool IsCitlali(PartyData partyData)
-    {
-        bool esxist = partyData.members.Count((member) => member.name.Contains("シトラリ")) > 0;
-        if (esxist)
-        {
-            int eCount = partyData.ElementCounts[ElementType.Pyro] + partyData.ElementCounts[ElementType.Hydro];
-            if (eCount == 0) return true;
-        }
-        return false;
-    }
-
-    static bool IsSkipXilonen(PartyData partyData, Status status)
-    {
-        MemberData xilonen = partyData.members.FirstOrDefault((member) => member.name.Contains("シロネン"));
-        if (xilonen == null) return false;
-
-        int eCount = partyData.ElementCounts[ElementType.Pyro] + partyData.ElementCounts[ElementType.Cryo] + partyData.ElementCounts[ElementType.Electro] + partyData.ElementCounts[ElementType.Hydro];
-        bool isNotActiveSampleMusic = eCount < 2;
-
-        // 2凸未満の場合
-        if (xilonen.constellation < 2)
-        {
-            return isNotActiveSampleMusic;
-        }
-
-        // 2凸以上の場合
-        if (status.elementType == ElementType.Geo)
-        {
-            // メインキャラが岩ならスキップしない
-            return false;
-        }
-
-        return isNotActiveSampleMusic;
-    }
-
-    static bool IsSkipGorou(PartyData partyData, out string reason)
-    {
-        reason = "";
-        MemberData gorou = partyData.members.FirstOrDefault((member) => member.name.Contains("ゴロー"));
-        if (gorou == null) return false;
-        int geoCount = partyData.ElementCounts[ElementType.Geo];
-
-        // 岩0,1,2人の場合
-        if (geoCount < 3)
-        {
-            reason = "岩2";
-            return gorou.option != "岩2";
-        }
-
-        reason = "岩3";
-
-        // 岩3,4人人の場合
-        return gorou.option != "岩3";
-    }
-
-    static bool IsNotUseArtSet(PartyData partyData, string setName)
-    {
-        // Debug.Log("============");
-
-        var setMembers = partyData.members.Where((member) => member.art_set == setName).ToArray();
-        // Debug.Log(setMembers.Length);
-
-        if (setMembers.Length == 0) return false;
-        if (setMembers.Length > 1) return true;
-        // Debug.Log("============");
-        // Debug.Log(setName);
-        // Debug.Log(partyData.CanElementalReaction(setMembers[0].ElementType));
-
-        return partyData.CanElementalReaction(setMembers[0].ElementType) == false;
-    }
 }

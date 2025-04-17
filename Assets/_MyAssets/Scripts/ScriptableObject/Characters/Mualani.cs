@@ -16,7 +16,7 @@ namespace so
 
         public override Dictionary<string, string> CalcDmg(Data data)
         {
-            if (data.partyData.name.Contains("トーマ") == false) return null;
+            if (data.PartyData.name.Contains("トーマ") == false) return null;
             // if (data.partyData.name.Contains("夜蘭") == false) return null;
             // if (data.energy_recharge() < 0.5f) return null;
             // if (data.weapon.name != "草薙の稲光") return null;
@@ -42,10 +42,10 @@ namespace so
 
             Dictionary<string, string> result = new()
             {
-                ["武器"] = data.weapon.DisplayName,
-                ["聖遺物セット"] = data.artSetData.name,
-                ["聖遺物メイン"] = data.artMainData.name,
-                ["バフキャラ"] = data.partyData.name,
+                ["武器"] = data.Weapon.DisplayName,
+                ["聖遺物セット"] = data.ArtSetData.name,
+                ["聖遺物メイン"] = data.ArtMainData.name,
+                ["バフキャラ"] = data.PartyData.name,
                 ["合計期待値"] = ed.Result.ToString(),
                 ["一発目期待値"] = ed.Result.ToString(),
                 //["攻撃力"] = atk.ToString(),
@@ -57,11 +57,11 @@ namespace so
                 //  ["熟知"] = elementalMastery.ToString(),
                 // ["率ダメ"] = crit_normalAttack.RateDmg,
                 // ["会心ダメ比率"] = crit_ChargedAttack.CritProportion,
-                ["聖遺物組み合わせ"] = data.artSubData.name,
+                ["聖遺物組み合わせ"] = data.ArtSubData.name,
                 // ["サブステ"] = crit_normalAttack.SubCrit,
                 // ["サブHP%"] = data.artSubData.hp_rate.ToString(),
                 // ["サブHP"] = data.artSubData.hp.ToString(),
-                ["スコア"] = data.artSubData.Score.ToString(),
+                ["スコア"] = data.ArtSubData.Score.ToString(),
             };
 
             //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));

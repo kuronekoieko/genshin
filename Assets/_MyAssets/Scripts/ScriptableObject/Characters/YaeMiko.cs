@@ -38,10 +38,10 @@ namespace so
 
             Dictionary<string, string> result = new()
             {
-                ["武器"] = data.weapon.DisplayName,
-                ["聖遺物セット"] = data.artSetData.name,
-                ["聖遺物メイン"] = data.artMainData.name,
-                ["バフキャラ"] = data.partyData.name,
+                ["武器"] = data.Weapon.DisplayName,
+                ["聖遺物セット"] = data.ArtSetData.name,
+                ["聖遺物メイン"] = data.ArtMainData.name,
+                ["バフキャラ"] = data.PartyData.name,
                 ["スキル期待値"] = expectedDmg_gekika.ToString(),
                 //  ["攻撃力"] = atk.ToString(),
                 //["HP"] = hpSum.ToString(),
@@ -50,11 +50,11 @@ namespace so
                 // ["熟知"] = elementalMastery.ToString(),
                 // ["率ダメ"] = expectedDamage_skill.Crit.RateDmg,
                 // ["会心ダメ比率"] = expectedDamage_skill.Crit.CritProportion,
-                ["聖遺物組み合わせ"] = data.artSubData.name,
+                ["聖遺物組み合わせ"] = data.ArtSubData.name,
                 // ["サブステ"] = expectedDamage_skill.Crit.SubCrit,
-                ["サブHP%"] = data.artSubData.hp_rate.ToString(),
-                ["サブHP"] = data.artSubData.hp.ToString(),
-                ["スコア"] = data.artSubData.Score.ToString()
+                ["サブHP%"] = data.ArtSubData.hp_rate.ToString(),
+                ["サブHP"] = data.ArtSubData.hp.ToString(),
+                ["スコア"] = data.ArtSubData.Score.ToString()
             };
 
             //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));

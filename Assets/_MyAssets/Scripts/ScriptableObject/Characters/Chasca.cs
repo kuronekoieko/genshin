@@ -36,10 +36,10 @@ namespace so
 
       Dictionary<string, string> result = new()
       {
-        ["武器"] = data.weapon.DisplayName,
-        ["聖遺物セット"] = data.artSetData.name,
-        ["聖遺物メイン"] = data.artMainData.name,
-        ["バフキャラ"] = data.partyData.name,
+        ["武器"] = data.Weapon.DisplayName,
+        ["聖遺物セット"] = data.ArtSetData.name,
+        ["聖遺物メイン"] = data.ArtMainData.name,
+        ["バフキャラ"] = data.PartyData.name,
         ["合計期待値"] = sum.ToString(),
         ["一発目期待値"] = sum.ToString(),
         //  ["攻撃力"] = atk.ToString(),
@@ -51,11 +51,11 @@ namespace so
         ["熟知"] = data.elemental_mastery.ToString(),
         ["率ダメ"] = crit.RateDmg,
         // ["会心ダメ比率"] = crit_ChargedAttack.CritProportion,
-        ["聖遺物組み合わせ"] = data.artSubData.name,
+        ["聖遺物組み合わせ"] = data.ArtSubData.name,
         ["サブステ"] = crit.SubCrit,
         // ["サブHP%"] = data.artSubData.hp_rate.ToString(),
         // ["サブHP"] = data.artSubData.hp.ToString(),
-        ["スコア"] = data.artSubData.Score.ToString(),
+        ["スコア"] = data.ArtSubData.Score.ToString(),
       };
 
       //  Debug.Log(result);

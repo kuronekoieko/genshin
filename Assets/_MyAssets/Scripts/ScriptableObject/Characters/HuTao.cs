@@ -26,13 +26,13 @@ namespace so
             // if (data.weapon.name != "和璞鳶") return null;
 
 
-            bool existsHealer = data.partyData.members.Any(m => m.HealerType != HealerType.None);
+            bool existsHealer = data.PartyData.members.Any(m => m.HealerType != HealerType.None);
 
             if (existsHealer == false)
             {
                 data.pyro_bonus += talent_dmgBonus_when_hp_lower;
 
-                bool existsShield = data.partyData.members.Any(m => m.has_shields);
+                bool existsShield = data.PartyData.members.Any(m => m.has_shields);
                 if (existsShield == false) return null;
             }
 
@@ -67,10 +67,10 @@ namespace so
 
             Dictionary<string, string> result = new()
             {
-                ["武器"] = data.weapon.DisplayName,
-                ["聖遺物セット"] = data.artSetData.name,
-                ["聖遺物メイン"] = data.artMainData.name,
-                ["バフキャラ"] = data.partyData.name,
+                ["武器"] = data.Weapon.DisplayName,
+                ["聖遺物セット"] = data.ArtSetData.name,
+                ["聖遺物メイン"] = data.ArtMainData.name,
+                ["バフキャラ"] = data.PartyData.name,
                 ["合計期待値"] = sum.ToString(isInt: true),
                 ["攻撃力"] = data.atk.ToString(isInt: true),
                 // ["防御力"] = def.ToString(),
@@ -81,16 +81,16 @@ namespace so
                 ["元素反応"] = elementalReaction.result_er_multi.ToString(),
                 ["率ダメ"] = ed.Crit.RateDmg,
                 // ["会心ダメ比率"] = crit_ChargedAttack.CritProportion,
-                ["聖遺物組み合わせ"] = data.artSubData.name,
-                ["花"] = data.artSubData.flower.DisplayName,
-                ["羽"] = data.artSubData.plume.DisplayName,
-                ["時計"] = data.artSubData.sands.DisplayName,
-                ["杯"] = data.artSubData.goblet.DisplayName,
-                ["冠"] = data.artSubData.circlet.DisplayName,
+                ["聖遺物組み合わせ"] = data.ArtSubData.name,
+                ["花"] = data.ArtSubData.flower.DisplayName,
+                ["羽"] = data.ArtSubData.plume.DisplayName,
+                ["時計"] = data.ArtSubData.sands.DisplayName,
+                ["杯"] = data.ArtSubData.goblet.DisplayName,
+                ["冠"] = data.ArtSubData.circlet.DisplayName,
                 ["サブステ"] = ed.Crit.SubCrit,
-                ["サブHP%"] = data.artSubData.hp_rate.ToString(),
-                ["サブHP"] = data.artSubData.hp.ToString(),
-                ["スコア"] = data.artSubData.Score.ToString(),
+                ["サブHP%"] = data.ArtSubData.hp_rate.ToString(),
+                ["サブHP"] = data.ArtSubData.hp.ToString(),
+                ["スコア"] = data.ArtSubData.Score.ToString(),
             };
 
             //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));

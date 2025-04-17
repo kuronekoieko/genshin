@@ -20,7 +20,7 @@ public class NeuvilletteSO : BaseCharacterSO
 
     data.hydro_bonus += talent_HydroDmgBonus;
 
-    int elementalTypeCount = data.partyData.ElementalTypeCount();
+    int elementalTypeCount = data.PartyData.ElementalTypeCount();
     //Debug.Log(elementalTypeCount + " " + data.partyData.name);
     float talent_chargedAtkRate = talent_chargedAtkRateAry[elementalTypeCount - 1];
 
@@ -39,28 +39,28 @@ public class NeuvilletteSO : BaseCharacterSO
 
     Dictionary<string, string> result = new()
     {
-      ["武器"] = data.weapon.DisplayName,
-      ["聖遺物セット"] = data.artSetData.name,
-      ["聖遺物メイン"] = data.artMainData.name,
-      ["バフキャラ"] = data.partyData.name,
+      ["武器"] = data.Weapon.DisplayName,
+      ["聖遺物セット"] = data.ArtSetData.name,
+      ["聖遺物メイン"] = data.ArtMainData.name,
+      ["バフキャラ"] = data.PartyData.name,
       ["合計期待値"] = sum.ToString(),
       ["一発目期待値"] = ed_charged.Result.ToString(),
       // ["攻撃力"] = atk.ToString(),
       // ["防御力"] = def.ToString(),
       ["HP合計"] = data.hp.ToString(),
       ["HP%合計"] = data.hp_rate.ToString(),
-      ["HP%パーティ"] = data.partyData.hp_rate.ToString(),
+      ["HP%パーティ"] = data.PartyData.hp_rate.ToString(),
       // ["共通バフ"] = dmgBonus.ToString(),
       //["通常バフ"] = normalAtkDmgBonus.ToString(),
       // ["会心ダメ期待値"] = crit_ChargedAttack.ExpectedCritDmg.ToString(),
       // ["熟知"] = elementalMastery.ToString(),
       ["率ダメ"] = crit.RateDmg,
       // ["会心ダメ比率"] = crit_ChargedAttack.CritProportion,
-      ["聖遺物組み合わせ"] = data.artSubData.name,
+      ["聖遺物組み合わせ"] = data.ArtSubData.name,
       ["サブステ"] = crit.SubCrit,
       // ["サブHP%"] = data.artSubData.hp_rate.ToString(),
       // ["サブHP"] = data.artSubData.hp.ToString(),
-      ["スコア"] = data.artSubData.Score.ToString(),
+      ["スコア"] = data.ArtSubData.Score.ToString(),
     };
 
     //  Debug.Log(result);

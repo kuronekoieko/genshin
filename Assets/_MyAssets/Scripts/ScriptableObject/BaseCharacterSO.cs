@@ -71,6 +71,7 @@ public class Status
     public bool isFront = true;
     public bool isNightSoul = false;
     public bool isRequiredShields = false;
+    public bool canElementalApplication = true;
     public HealerType healerType = HealerType.None;
 
     public readonly float defaultCritRate = 0.05f;

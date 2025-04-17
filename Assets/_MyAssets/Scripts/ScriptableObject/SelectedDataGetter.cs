@@ -17,7 +17,6 @@ public class SelectedDataGetter
         this.baseCharacterSO = baseCharacterSO;
 
         Debug.Log("組み合わせ作成開始");
-        await CSVManager.InitializeAsync();
 
         var weaponDatas = GetWeaponDatas();
         var partyDatas = GetPartyDatas();
@@ -91,7 +90,7 @@ public class SelectedDataGetter
         {
             artifactGroups = GetFixedScoreArtifactGroups();
         }
-        Debug.Log(artifactGroups.Count);
+        // Debug.Log(artifactGroups.Count);
 
 
         return artifactGroups;

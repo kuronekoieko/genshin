@@ -77,8 +77,8 @@ public class ExpectedDamage
         ReferenceStatus referenceStatus = ReferenceStatus.Atk,
         ElementalReaction elementalReaction = null)
     {
-        if (elementType == ElementType.None) elementType = data.status.elementType;
-        ExpectedDamage expectedDamage = new(attackType, elementType, data, data.artSubData);
+        if (elementType == ElementType.None) elementType = data.Status.elementType;
+        ExpectedDamage expectedDamage = new(attackType, elementType, data, data.ArtSubData);
         expectedDamage.Result = expectedDamage.GetExpectedDamageSum(referenceStatus, atkRates, elementalReaction);
         return expectedDamage;
     }
@@ -91,9 +91,9 @@ public class ExpectedDamage
         ReferenceStatus referenceStatus = ReferenceStatus.Atk,
         ElementalReaction elementalReaction = null)
     {
-        if (elementType == ElementType.None) elementType = data.status.elementType;
+        if (elementType == ElementType.None) elementType = data.Status.elementType;
 
-        ExpectedDamage expectedDamage = new(attackType, elementType, data, data.artSubData);
+        ExpectedDamage expectedDamage = new(attackType, elementType, data, data.ArtSubData);
 
         expectedDamage.Result = expectedDamage.GetExpectedDamage(referenceStatus, atkRate, elementalReaction);
         return expectedDamage;
