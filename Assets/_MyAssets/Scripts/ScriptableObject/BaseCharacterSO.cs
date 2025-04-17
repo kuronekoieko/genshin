@@ -16,6 +16,7 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
 {
     public Status status;
     public Ascend ascend;
+    public DamageMultiplier damageMultiplier;
     public ArtifactConfig artifactConfig;
     public List<SelectedWeapon> selectedWeapons;
     public List<SelectedMember> selectedMembers;
@@ -28,6 +29,16 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
     public string Name => name;
     public WeaponType WeaponType => status.weaponType;
     public abstract Dictionary<string, string> CalcDmg(Data data);
+    protected Dictionary<AttackType, float[]> damageMultiplierDic = new();
+
+
+    protected ExpectedDamage GetExpectedDamageFromStatus(Data data, ElementalReaction elementalReaction = null)
+    {
+        var multipliers = damageMultiplierDic[status.attackType];
+
+        var ed = ExpectedDamage.Sum(data, status.attackType, multipliers, referenceStatus: status.referenceStatus, elementalReaction: elementalReaction);
+        return ed;
+    }
 
 
     [ContextMenu("Load CSV")]
@@ -39,12 +50,29 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
     [ContextMenu("Calc")]
     public async void Calc()
     {
+        damageMultiplierDic.Add(AttackType.Normal, damageMultiplier.normalAttacks);
+        damageMultiplierDic.Add(AttackType.Charged, damageMultiplier.chargedAttacks);
+        damageMultiplierDic.Add(AttackType.Plugged, damageMultiplier.pluggedAttacks);
+        damageMultiplierDic.Add(AttackType.Skill, damageMultiplier.skills);
+        damageMultiplierDic.Add(AttackType.Burst, damageMultiplier.bursts);
+
+
         List<Data> datas = await SelectedDataGetter.instance.GetDatas(this);
         Calculator.Calc(datas, this);
     }
 
 }
 
+[Serializable]
+public class DamageMultiplier
+{
+    public float[] normalAttacks = { };
+    public float[] chargedAttacks = { };
+    public float[] pluggedAttacks = { };
+    public float[] skills = { };
+    public float[] bursts = { };
+
+}
 
 [Serializable]
 public class ArtifactConfig

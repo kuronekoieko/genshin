@@ -8,8 +8,8 @@ namespace so
     public class HuTao : BaseCharacterSO
     {
         // lv10
-        float[] chargedAtkPerArray = { 2.426f, };
-        readonly float[] pluggedAtkPerArray = { 2.92f, };
+        // float[] chargedAtkPerArray = { 2.426f, };
+        // readonly float[] pluggedAtkPerArray = { 2.92f, };
 
         float skill_addAtkPerHp = 6.26f * 0.01f;
 
@@ -20,11 +20,6 @@ namespace so
 
         public override Dictionary<string, string> CalcDmg(Data data)
         {
-            // if (data.partyData.name.Contains("夜蘭") == false) return null;
-            // if (data.energy_recharge() < 0.5f) return null;
-            // if (data.weapon.name != "草薙の稲光") return null;
-            // if (data.weapon.name != "和璞鳶") return null;
-
 
             bool existsHealer = data.PartyData.members.Any(m => m.HealerType != HealerType.None);
 
@@ -42,25 +37,12 @@ namespace so
 
             ElementalReaction elementalReaction = new(ElementType.Pyro, ElementType.Hydro, data);
 
-            // var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
 
-
-            // var ed_normal = ExpectedDamage.Single(data, AttackType.Normal,  status.elementType,normalAtkPerArray);
-            var ed_charged = ExpectedDamage.Single(data, AttackType.Charged, chargedAtkPerArray[0], elementalReaction: elementalReaction);
-            //var ed_charged_no_er = ExpectedDamage.Single(data, AttackType.Charged, chargedAtkPerArray[0]);
+            var ed_status = GetExpectedDamageFromStatus(data, elementalReaction);
 
             // var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged, pluggedAtkPerArray[0], elementalReaction: elementalReaction);
 
-            // var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged,status.elementType,pluggedAtkPerArray);
-            // var expectedDamage_skill = ExpectedDamage.Single(data, AttackType.Skill, status.elementType,skillPerArray);
-            // var (expectedDamage_burst, crit_burst) = ExpectedDamage.Single(data, AttackType.Skill, status.elementType,null);
-
-
-
-
-
-            //  var ed = ed_charged;
-            var ed = ed_charged;
+            var ed = ed_status;
 
             //float sum = ed_charged.Result + ed_plugged.Result;
             float sum = ed.Result;
