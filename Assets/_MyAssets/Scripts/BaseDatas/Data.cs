@@ -33,7 +33,10 @@ public class Data : BaseData
 
         var baseDatas = new BaseData[] { weapon, artMainData, artSetData, partyData, artSubData, };
         var baseData = FastInstanceAdder.AddInstances(baseDatas);
-        Utils.CopyBaseFields(baseData, this);
+        FastFieldCopier.CopyBaseFields(baseData, this);
+
+
+
         SetFields();
         SetCharaData();
     }

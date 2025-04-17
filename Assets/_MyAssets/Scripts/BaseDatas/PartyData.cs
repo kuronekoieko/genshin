@@ -47,7 +47,7 @@ public class PartyData : BaseData, IComparable<PartyData>
         }
 
         MemberData sumMemberData = FastInstanceAdder.AddInstances(members);
-        Utils.CopyBaseFields<BaseData>(sumMemberData, this);
+        FastFieldCopier.CopyBaseFields<BaseData>(sumMemberData, this);
         string[] combinedNames = members.Select(memberData => memberData.CombinedName).ToArray();
         name = string.Join("+", combinedNames);
         SetElementalResonance(characterElementType);
