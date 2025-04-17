@@ -46,10 +46,10 @@ namespace so
 
 
             // var ed_normal = ExpectedDamage.Single(data, AttackType.Normal,  status.elementType,normalAtkPerArray);
-            // var ed_charged = ExpectedDamage.Single(data, AttackType.Charged, chargedAtkPerArray[0], elementalReaction: elementalReaction);
+            var ed_charged = ExpectedDamage.Single(data, AttackType.Charged, chargedAtkPerArray[0], elementalReaction: elementalReaction);
             //var ed_charged_no_er = ExpectedDamage.Single(data, AttackType.Charged, chargedAtkPerArray[0]);
 
-            var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged, pluggedAtkPerArray[0], elementalReaction: elementalReaction);
+            // var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged, pluggedAtkPerArray[0], elementalReaction: elementalReaction);
 
             // var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged,status.elementType,pluggedAtkPerArray);
             // var expectedDamage_skill = ExpectedDamage.Single(data, AttackType.Skill, status.elementType,skillPerArray);
@@ -60,7 +60,7 @@ namespace so
 
 
             //  var ed = ed_charged;
-            var ed = ed_plugged;
+            var ed = ed_charged;
 
             //float sum = ed_charged.Result + ed_plugged.Result;
             float sum = ed.Result;
