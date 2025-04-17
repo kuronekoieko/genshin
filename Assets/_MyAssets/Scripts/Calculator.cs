@@ -94,6 +94,10 @@ public static class Calculator
     static List<Data> GetDatas(Status status, Ascend ascend, WeaponData[] weaponDatas, PartyData[] partyDatas, List<ArtifactGroup> artifactGroups)
     {
         Debug.Log("組み合わせ作成開始");
+        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
+        int progress = 0;
+        int max = weaponDatas.Length * partyDatas.Length * artifactGroups.Count;
 
         List<Data> datas = new();
 
@@ -113,10 +117,23 @@ public static class Calculator
                     {
                         datas.Add(data);
                     }
+
+                    progress++;
+                    if (progress % 200000 == 0)
+                    {
+                        //await UniTask.DelayFrame(1);
+                        int per = (int)((float)progress / (float)max * 100f);
+
+                        Debug.Log("progress: " + progress + "/" + max + " " + per + "%");
+                    }
                 }
             }
 
         }
+        
+        sw.Stop();
+        Debug.Log("処理時間 " + sw.ElapsedMilliseconds / 1000f + "s");
+
         return datas;
     }
 
@@ -129,12 +146,10 @@ public static class Calculator
 
         System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
         sw.Start();
-
-
-        List<Dictionary<string, string>> results = new();
-
         int progress = 0;
         int max = datas.Count;
+
+        List<Dictionary<string, string>> results = new();
 
         foreach (var data in datas)
         {
