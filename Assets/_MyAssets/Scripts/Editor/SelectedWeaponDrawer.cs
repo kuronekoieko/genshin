@@ -17,7 +17,8 @@ public class SelectedWeaponDrawer : PropertyDrawer
 
         var isUseProp = property.FindPropertyRelative("isUse");
         var nameProp = property.FindPropertyRelative("name");
-
+        var refinementProp = property.FindPropertyRelative("refinement");
+        var optionProp = property.FindPropertyRelative("option");
 
         if (isUseProp == null || nameProp == null)
         {
@@ -37,11 +38,15 @@ public class SelectedWeaponDrawer : PropertyDrawer
 
         Rect isUseRect = new Rect(position.x, position.y, isUseWidth, EditorGUIUtility.singleLineHeight);
         Rect nameRect = new Rect(isUseRect.xMax + padding, position.y, fieldWidth, EditorGUIUtility.singleLineHeight);
+        Rect refinementRect = new Rect(nameRect.xMax + padding, position.y, isUseWidth, EditorGUIUtility.singleLineHeight);
+        Rect optionRect = new Rect(refinementRect.xMax + padding, position.y, fieldWidth, EditorGUIUtility.singleLineHeight);
 
 
         // フィールドを描画
         EditorGUI.PropertyField(isUseRect, isUseProp, GUIContent.none, false);
         EditorGUI.PropertyField(nameRect, nameProp, GUIContent.none, false);
+        EditorGUI.PropertyField(refinementRect, refinementProp, GUIContent.none, false);
+        EditorGUI.PropertyField(optionRect, optionProp, GUIContent.none, false);
 
         EditorGUI.EndProperty();
     }

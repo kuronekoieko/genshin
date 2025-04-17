@@ -28,6 +28,8 @@ public class CharacterSOManager
             {
                 WeaponData = weaponData,
                 name = weaponData.name,
+                refinement = weaponData.refinement,
+                option = weaponData.option,
             };
         }).ToList();
 

@@ -7,6 +7,8 @@ using UnityEngine;
 public class WeaponData : BaseData
 {
     public string type_name;
+    public int refinement = 1;
+    public string option = "";
     public float base_atk;
     public float homa;
     public float sekisha;
@@ -19,4 +21,5 @@ public class WeaponData : BaseData
     public float cinnabar;
 
     public WeaponType WeaponType => Utils.GetWeaponType(type_name);
+    public string Id => $"{name}+{type_name}+R{refinement}" + ((option == "") ? "" : $"+{option}");
 }

@@ -12,10 +12,10 @@ public class SelectedWeapon : ISelected
 {
     public bool isUse;
     public string name;
-    public bool isRequired;
-
+    public int refinement = 1;
+    public string option = "";
     public WeaponData WeaponData;
-    public string Id => WeaponData != null ? WeaponData.name : "";
+    public string Id => WeaponData != null ? WeaponData.Id : "";
     public bool IsUse { get => isUse; set => isUse = value; }
 }
 
