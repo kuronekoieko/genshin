@@ -22,7 +22,7 @@ public class SelectedDataGetter
         var weaponDatas = GetWeaponDatas();
         var partyDatas = GetPartyDatas();
         var artifactGroups = GetArtifactGroups();
-        return null;
+        //  return null;
 
         List<Data> datas = await DataManager.GetDatas(baseCharacterSO, weaponDatas, partyDatas, artifactGroups);
         return datas;

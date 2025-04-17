@@ -27,8 +27,12 @@ public class Artifacts_Sub
                         foreach (var circlet in circletList)
                         {
                             ArtSubData artSubData = new(flower, plume, sands, goblet, circlet);
-                            
-                            ArtifactGroup artifactGroup = GetArtifactGroup(artSubData, ArtSetDatas_notSkipped, artifactConfig);
+                            ArtSetData artSetData = GetArtSetData(artSubData.ArtifactCombination, ArtSetDatas_notSkipped);
+                            if (artSetData == null) continue;
+
+                            if (artifactConfig.isOnly4Set && artSetData.set == 2) continue;
+                            Debug.Log($"{flower.art_set_name} {plume.art_set_name} {sands.art_set_name} {goblet.art_set_name} {circlet.art_set_name} {artSetData.set}");
+                            ArtifactGroup artifactGroup = GetArtifactGroup(artSubData, ArtSetDatas_notSkipped);
                             if (artifactGroup != null) artifactGroups.Add(artifactGroup);
                         }
                     }
@@ -41,7 +45,10 @@ public class Artifacts_Sub
     }
 
 
-    static ArtifactGroup GetArtifactGroup(ArtSubData artSubData, ArtSetData[] ArtSetDatas_notSkipped, ArtifactConfig artifactConfig)
+
+
+
+    static ArtifactGroup GetArtifactGroup(ArtSubData artSubData, ArtSetData[] ArtSetDatas_notSkipped)
     {
         ArtifactGroup artifactGroup = new()
         {
@@ -98,12 +105,12 @@ public class Artifacts_Sub
 
             if (artSetData_2 == null)
             {
-                Debug.LogError($"{twoSetList[1]} 2セットが見つかりません");
+                // Debug.LogError($"{twoSetList[1]} 2セットが見つかりません");
                 return null;
             }
 
             var artSetData = FastInstanceAdder.AddInstances(new[] { artSetData_1, artSetData_2 });
-
+            artSetData.set = 2;
             return artSetData;
         }
 
@@ -121,6 +128,7 @@ public class Artifacts_Sub
             }
 
             var artSetData = FastInstanceAdder.AddInstances(new[] { artSetData_1, artSetData_2 });
+            artSetData.set = 4;
             artSetData.name = $"{artSetData_2.name}4";
 
             return artSetData;

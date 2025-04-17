@@ -80,11 +80,13 @@ public static class Calculator
             Dictionary<string, string> result = character.CalcDmg(data);
             if (result != null) results.Add(result);
 
+            
+            progress++;
             if (sw.ElapsedMilliseconds % 1000 == 0)
             {
                 await UniTask.DelayFrame(1);
 
-                progress++;
+              
                 //await UniTask.DelayFrame(1);
                 int per = (int)((float)progress / (float)max * 100f);
 
