@@ -145,12 +145,12 @@ public class SelectedDataGetter
             }
         }
 
-        var artifactDatas = CSVManager.ArtifactDatas;
+        var artifactDatas = baseCharacterSO.selectedArtifactDatas.Select(s => s.artifactData).ToArray();
         foreach (var item in artifactDatas)
         {
             if (string.IsNullOrEmpty(item.name))
             {
-                Debug.LogError(item.name);
+                // Debug.LogError(item.name);
             }
         }
         return Artifact.GetSubArtifactGroups(artSetDatas_notSkipped, artifactDatas);

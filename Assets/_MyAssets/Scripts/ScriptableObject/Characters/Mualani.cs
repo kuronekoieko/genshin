@@ -38,7 +38,7 @@ namespace so
 
 
 
-            var sum = ed_normal_1;
+            var ed = ed_normal_1;
 
             Dictionary<string, string> result = new()
             {
@@ -46,22 +46,22 @@ namespace so
                 ["聖遺物セット"] = data.artSetData.name,
                 ["聖遺物メイン"] = data.artMainData.name,
                 ["バフキャラ"] = data.partyData.name,
-                ["合計期待値"] = sum.ToString(),
-                ["一発目期待値"] = ed_normal_1.ToString(),
-                //["攻撃力"] = atk.ToString(),
-                // ["防御力"] = def.ToString(),
-                //["HP"] = hpSum.ToString(),
-                //["共通バフ"] = dmgBonus.ToString(),
-                // ["通常バフ"] = normalAtkDmgBonus.ToString(),
-                // ["会心ダメ期待値"] = crit_ChargedAttack.ExpectedCritDmg.ToString(),
-                //  ["熟知"] = elementalMastery.ToString(),
+                ["合計期待値"] = ed.Result.ToIntString(),
+                ["一発目期待値"] = ed.Result.ToIntString(),
+                //["攻撃力"] = atk.ToIntString(),
+                // ["防御力"] = def.ToIntString(),
+                //["HP"] = hpSum.ToIntString(),
+                //["共通バフ"] = dmgBonus.ToIntString(),
+                // ["通常バフ"] = normalAtkDmgBonus.ToIntString(),
+                // ["会心ダメ期待値"] = crit_ChargedAttack.ExpectedCritDmg.ToIntString(),
+                //  ["熟知"] = elementalMastery.ToIntString(),
                 // ["率ダメ"] = crit_normalAttack.RateDmg,
                 // ["会心ダメ比率"] = crit_ChargedAttack.CritProportion,
                 ["聖遺物組み合わせ"] = data.artSubData.name,
-                // ["サブステ"] = crit_normalAttack.SubCrit.ToString(),
-                // ["サブHP%"] = data.artSubData.hp_rate.ToString(),
-                // ["サブHP"] = data.artSubData.hp.ToString(),
-                ["スコア"] = data.artSubData.Score.ToString(),
+                // ["サブステ"] = crit_normalAttack.SubCrit,
+                // ["サブHP%"] = data.artSubData.hp_rate.ToIntString(),
+                // ["サブHP"] = data.artSubData.hp.ToIntString(),
+                ["スコア"] = data.artSubData.Score.ToIntString(),
             };
 
             //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));

@@ -49,6 +49,18 @@ public class SelectedArtSetData : ISelected
 }
 
 [Serializable]
+public class SelectedArtifactData : ISelected
+{
+    public bool isUse;
+    public string MainName;
+    public string SubName;
+    public bool isRequired;
+    public ArtifactData artifactData;
+    public string Id => MainName + "/" + SubName;
+    public bool IsUse { get => isUse; set => isUse = value; }
+}
+
+[Serializable]
 public class SelectedArtMainSand : ISelected
 {
     public bool isUse = true;

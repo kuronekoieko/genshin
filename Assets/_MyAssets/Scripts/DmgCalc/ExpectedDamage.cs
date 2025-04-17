@@ -11,7 +11,7 @@ public class ExpectedDamage
     public float DmgBonus { get; private set; }
     readonly float res;
     public Crit Crit { get; private set; }
-    public int Result { get; private set; }
+    public float Result { get; private set; }
 
 
     ExpectedDamage(AttackType attackType, ElementType elementType, Data data, ArtSubData artSub)
@@ -79,8 +79,7 @@ public class ExpectedDamage
     {
         if (elementType == ElementType.None) elementType = data.status.elementType;
         ExpectedDamage expectedDamage = new(attackType, elementType, data, data.artSubData);
-        var result = expectedDamage.GetExpectedDamageSum(referenceStatus, atkRates, elementalReaction);
-        expectedDamage.Result = Mathf.FloorToInt(result);
+        expectedDamage.Result = expectedDamage.GetExpectedDamageSum(referenceStatus, atkRates, elementalReaction);
         return expectedDamage;
     }
 
@@ -96,8 +95,7 @@ public class ExpectedDamage
 
         ExpectedDamage expectedDamage = new(attackType, elementType, data, data.artSubData);
 
-        var result = expectedDamage.GetExpectedDamage(referenceStatus, atkRate, elementalReaction);
-        expectedDamage.Result = Mathf.FloorToInt(result);
+        expectedDamage.Result = expectedDamage.GetExpectedDamage(referenceStatus, atkRate, elementalReaction);
         return expectedDamage;
     }
 

@@ -26,8 +26,8 @@ public class Chiori : BaseCharacterSO
         var ed_skill_atk = ExpectedDamage.Single(data, AttackType.Skill, skillPerAtk, referenceStatus: ReferenceStatus.Atk);
         var ed_skill_def = ExpectedDamage.Single(data, AttackType.Skill, skillPerDef, referenceStatus: ReferenceStatus.Def);
 
-        int sum_normal = ed_normal_atk.Result + ed_normal_def.Result;
-        int sum_skill = ed_skill_atk.Result + ed_skill_def.Result;
+        float sum_normal = ed_normal_atk.Result + ed_normal_def.Result;
+        float sum_skill = ed_skill_atk.Result + ed_skill_def.Result;
 
         var ed = ed_normal_def;
 
@@ -37,21 +37,21 @@ public class Chiori : BaseCharacterSO
             ["聖遺物セット"] = data.artSetData.name,
             ["聖遺物メイン"] = data.artMainData.name,
             ["バフキャラ"] = data.partyData.name,
-            ["通常期待値"] = sum_normal.ToString(),
-            ["スキル期待値"] = sum_skill.ToString(),
-            ["攻撃力"] = data.atk.ToString(),
-            ["防御力"] = data.def.ToString(),
-            //  ["HP"] = hpSum.ToString(),
-            ["バフ"] = ed.DmgBonus.ToString(),
-            ["会心ダメ期待値"] = ed.Crit.ExpectedCritDmg.ToString(),
-            // ["熟知"] = elementalMastery.ToString(),
+            ["通常期待値"] = sum_normal.ToIntString(),
+            ["スキル期待値"] = sum_skill.ToIntString(),
+            ["攻撃力"] = data.atk.ToIntString(),
+            ["防御力"] = data.def.ToIntString(),
+            //  ["HP"] = hpSum.ToIntString(),
+            ["バフ"] = ed.DmgBonus.ToIntString(),
+            ["会心ダメ期待値"] = ed.Crit.ExpectedCritDmg.ToIntString(),
+            // ["熟知"] = elementalMastery.ToIntString(),
             ["率ダメ"] = ed.Crit.RateDmg,
             ["会心ダメ比率"] = ed.Crit.CritProportion,
             ["聖遺物組み合わせ"] = data.artSubData.name,
-            ["サブステ"] = ed.Crit.SubCrit.ToString(),
-            ["サブHP%"] = data.artSubData.hp_rate.ToString(),
-            ["サブHP"] = data.artSubData.hp.ToString(),
-            ["スコア"] = data.artSubData.Score.ToString(),
+            ["サブステ"] = ed.Crit.SubCrit,
+            ["サブHP%"] = data.artSubData.hp_rate.ToIntString(),
+            ["サブHP"] = data.artSubData.hp.ToIntString(),
+            ["スコア"] = data.artSubData.Score.ToIntString(),
         };
 
         //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));

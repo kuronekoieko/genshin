@@ -23,6 +23,7 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
     public List<SelectedArtMainSand> selectedArtMainSands;
     public List<SelectedArtMainGoblet> selectedArtMainGoblets;
     public List<SelectedArtMainCirclet> selectedArtMainCirclets;
+    public List<SelectedArtifactData> selectedArtifactDatas;
 
     public string Name => name;
     public WeaponType WeaponType => status.weaponType;
@@ -41,7 +42,6 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
         List<Data> datas = await SelectedDataGetter.instance.GetDatas(this);
         Calculator.Calc(datas, this);
     }
-
 
 }
 

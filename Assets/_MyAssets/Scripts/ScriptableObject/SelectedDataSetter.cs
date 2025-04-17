@@ -66,6 +66,22 @@ public class SelectedDataSetter
         baseCharacterSO.selectedArtSets = AddDifference(baseCharacterSO.selectedArtSets, selectedArtSet);
 
 
+        var ArtifactDatas = CSVManager.ArtifactDatas;
+        var selectedArtifactDatas = ArtifactDatas.Select(artifactData =>
+        {
+            //  Debug.Log(artifactData.Id);
+            return new SelectedArtifactData()
+            {
+                isUse = true,
+                artifactData = artifactData,
+                MainName = artifactData.MainName,
+                SubName = artifactData.SubName,
+            };
+        }).ToList();
+        baseCharacterSO.selectedArtifactDatas = AddDifference(baseCharacterSO.selectedArtifactDatas, selectedArtifactDatas);
+
+
+
         var artMainHeader = new ArtMainHeader();
 
         var selectedArtMainSands = artMainHeader.sands.Select(name =>
@@ -169,26 +185,6 @@ public class SelectedDataSetter
         tmpList = tmpList.OrderBy(item => item.Id).ToList();
 
         return tmpList;
-    }
-
-}
-
-public static class Extension
-{
-
-    public static bool ContainsBy<T>(this List<T> self, Func<T, bool> contains, out int index) where T : ISelected
-    {
-        index = -1;
-
-        for (int i = 0; i < self.Count; i++)
-        {
-            if (contains(self[i]))
-            {
-                index = i;
-                return true;
-            }
-        }
-        return false;
     }
 
 }

@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public class ArtMainHeader
+{
+    public string[] sands = { "攻撃%", "防御%", "HP%", "元素熟知", "元チャ" };
+    public string[] goblets = { "攻撃%", "防御%", "HP%", "元素熟知", "炎バフ", "水バフ", "雷バフ", "氷バフ", "岩バフ", "風バフ", "草バフ", "物理バフ" };
+    public string[] circlets = { "攻撃%", "防御%", "HP%", "元素熟知", "会心率", "会心ダメージ", "治癒効果" };
+}
+
 public class ArtMainData : BaseData
 {
     readonly float artMainHpFixed = 4780;
