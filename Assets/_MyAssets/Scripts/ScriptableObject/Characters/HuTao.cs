@@ -41,7 +41,7 @@ namespace so
 
 
 
-            var sum = ed_charged;
+            var ed = ed_charged;
 
             Dictionary<string, string> result = new()
             {
@@ -49,19 +49,20 @@ namespace so
                 ["聖遺物セット"] = data.artSetData.name,
                 ["聖遺物メイン"] = data.artMainData.name,
                 ["バフキャラ"] = data.partyData.name,
-                ["合計期待値"] = sum.ToString(),
-                //  ["攻撃力"] = atk.ToString(),
+                ["合計期待値"] = ed.Result.ToString(),
+                ["攻撃力"] = data.atk.ToString(),
                 // ["防御力"] = def.ToString(),
-                // ["HP"] = hpSum.ToString(),
-                // ["バフ"] = dmgBonus.ToString(),
-                // ["会心ダメ期待値"] = crit_ChargedAttack.ExpectedCritDmg.ToString(),
-                // ["熟知"] = elementalMastery.ToString(),
-                // ["率ダメ"] = crit_ChargedAttack.RateDmg,
+                ["HP"] = data.hp.ToString(),
+                ["バフ"] = ed.DmgBonus.ToString(),
+                ["会心ダメ期待値"] = ed.Crit.ExpectedCritDmg.ToString(),
+                ["熟知"] = data.elemental_mastery.ToString(),
+                ["元素反応"] = elementalReaction.result_er_multi.ToString(),
+                ["率ダメ"] = ed.Crit.RateDmg,
                 // ["会心ダメ比率"] = crit_ChargedAttack.CritProportion,
                 ["聖遺物組み合わせ"] = data.artSubData.name,
-                //   ["サブステ"] = crit_ChargedAttack.SubCrit.ToString(),
-                // ["サブHP%"] = data.artSubData.hp_rate.ToString(),
-                // ["サブHP"] = data.artSubData.hp.ToString(),
+                ["サブステ"] = ed.Crit.SubCrit.ToString(),
+                ["サブHP%"] = data.artSubData.hp_rate.ToString(),
+                ["サブHP"] = data.artSubData.hp.ToString(),
                 ["スコア"] = data.artSubData.Score.ToString(),
             };
 
