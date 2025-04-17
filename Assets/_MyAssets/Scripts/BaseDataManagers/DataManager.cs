@@ -158,6 +158,11 @@ public class DataManager
             SetSkip("シロネン");
         }
 
+        if (IsSkipFrina(partyData))
+        {
+            SetSkip("フリーナ");
+        }
+
         if (IsSkipGorou(partyData, out string gorouReason))
         {
             SetSkip($"ゴロー{gorouReason}");
@@ -183,6 +188,20 @@ public class DataManager
         reason = skipReason;
 
         return isSkip;
+    }
+
+    static bool IsSkipFrina(PartyData partyData)
+    {
+        bool esxistFrina = partyData.members.Any((member) => member.name.Contains("フリーナ"));
+        if (esxistFrina)
+        {
+            bool esxistHealer = partyData.members
+                .Where((member) => member.name.Contains("フリーナ") == false)
+                .Any((member) => member.HealerType == HealerType.Selectable);
+
+            if (esxistHealer == false) return true;
+        }
+        return false;
     }
 
     static bool IsCitlali(PartyData partyData)

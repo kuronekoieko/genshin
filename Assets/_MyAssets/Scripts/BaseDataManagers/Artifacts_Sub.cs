@@ -88,28 +88,28 @@ public class Artifacts_Sub
         var artSetDatas_2set = ArtSetDatas_notSkipped
              .Where(artSetData => artSetData.set == 2);
 
-        ArtSetData artSetData_1 = artSetDatas_2set
+        ArtSetData artSetData_2set = artSetDatas_2set
             .Where(artSetData => artSetData.name.Contains(twoSetList[0]))
             .FirstOrDefault();
 
-        if (artSetData_1 == null)
+        if (artSetData_2set == null)
         {
             Debug.LogError($"{twoSetList[0]} 2セットが見つかりません");
         }
 
         if (twoSetList.Count == 2)
         {
-            ArtSetData artSetData_2 = artSetDatas_2set
+            ArtSetData artSetData_2set_2 = artSetDatas_2set
                 .Where(artSetData => artSetData.name.Contains(twoSetList[1]))
                 .FirstOrDefault();
 
-            if (artSetData_2 == null)
+            if (artSetData_2set_2 == null)
             {
                 // Debug.LogError($"{twoSetList[1]} 2セットが見つかりません");
                 return null;
             }
 
-            var artSetData = FastInstanceAdder.AddInstances(new[] { artSetData_1, artSetData_2 });
+            var artSetData = FastInstanceAdder.AddInstances(new[] { artSetData_2set, artSetData_2set_2 });
             artSetData.set = 2;
             return artSetData;
         }
@@ -117,19 +117,19 @@ public class Artifacts_Sub
         if (fourSetList.Count == 1)
         {
 
-            ArtSetData artSetData_2 = ArtSetDatas_notSkipped
+            ArtSetData artSetData_4set = ArtSetDatas_notSkipped
                 .Where(artSetData => artSetData.set == 4)
                 .Where(artSetData => artSetData.name.Contains(fourSetList[0]))
                 .FirstOrDefault();
 
-            if (artSetData_2 == null)
+            if (artSetData_4set == null)
             {
                 Debug.LogError($"{fourSetList[0]} 4セットが見つかりません");
             }
 
-            var artSetData = FastInstanceAdder.AddInstances(new[] { artSetData_1, artSetData_2 });
+            var artSetData = FastInstanceAdder.AddInstances(new[] { artSetData_2set, artSetData_4set });
             artSetData.set = 4;
-            artSetData.name = $"{artSetData_2.name}4";
+            artSetData.name = $"{artSetData_4set.name}4";
 
             return artSetData;
         }
