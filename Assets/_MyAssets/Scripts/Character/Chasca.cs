@@ -35,7 +35,7 @@ public class Chasca : BaseCharacter
 
     Dictionary<string, string> result = new()
     {
-      ["武器"] = data.weapon.name,
+      ["武器"] = data.weapon.DisplayName,
       ["聖遺物セット"] = data.artSetData.name,
       ["聖遺物メイン"] = data.artMainData.name,
       ["バフキャラ"] = data.partyData.name,

@@ -22,4 +22,17 @@ public class WeaponData : BaseData
 
     public WeaponType WeaponType => Utils.GetWeaponType(type_name);
     public string Id => $"{name}+{type_name}+R{refinement}" + ((option == "") ? "" : $"+{option}");
+
+    public string DisplayName
+    {
+        get
+        {
+            List<string> infos = new();
+            if (refinement > 1) infos.Add($"R{refinement}");
+            if (string.IsNullOrEmpty(option) == false) infos.Add(option);
+            string combinedInfo = string.Join("、", infos);
+            if (string.IsNullOrEmpty(combinedInfo)) return name;
+            return $"{name}({combinedInfo})";
+        }
+    }
 }
