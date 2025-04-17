@@ -31,7 +31,7 @@ public class Artifacts_Sub
                             if (artSetData == null) continue;
 
                             if (artifactConfig.isOnly4Set && artSetData.set == 2) continue;
-                            Debug.Log($"{flower.art_set_name} {plume.art_set_name} {sands.art_set_name} {goblet.art_set_name} {circlet.art_set_name} {artSetData.set}");
+                            //  Debug.Log($"{flower.art_set_name} {plume.art_set_name} {sands.art_set_name} {goblet.art_set_name} {circlet.art_set_name} {artSetData.set}");
                             ArtifactGroup artifactGroup = GetArtifactGroup(artSubData, ArtSetDatas_notSkipped);
                             if (artifactGroup != null) artifactGroups.Add(artifactGroup);
                         }

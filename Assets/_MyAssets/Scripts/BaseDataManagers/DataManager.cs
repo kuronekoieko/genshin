@@ -197,7 +197,7 @@ public class DataManager
         {
             bool esxistHealer = partyData.members
                 .Where((member) => member.name.Contains("フリーナ") == false)
-                .Any((member) => member.HealerType == HealerType.Selectable);
+                .Any((member) => member.HealerType != HealerType.None);
 
             if (esxistHealer == false) return true;
         }

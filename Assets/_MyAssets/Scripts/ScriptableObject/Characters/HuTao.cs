@@ -26,12 +26,17 @@ namespace so
             // if (data.weapon.name != "和璞鳶") return null;
 
 
-            bool isHealer = data.partyData.members.Any(m => m.HealerType == HealerType.Healer);
+            bool existsHealer = data.partyData.members.Any(m => m.HealerType != HealerType.None);
 
-            if (isHealer)
+            if (existsHealer == false)
             {
                 data.pyro_bonus += talent_dmgBonus_when_hp_lower;
+
+                bool existsShield = data.partyData.members.Any(m => m.has_shields);
+                if (existsShield == false) return null;
             }
+
+
             data.atk += data.hp * skill_addAtkPerHp;
 
 
@@ -41,6 +46,8 @@ namespace so
 
             // var ed_normal = ExpectedDamage.Single(data, AttackType.Normal,  status.elementType,normalAtkPerArray);
             var ed_charged = ExpectedDamage.Single(data, AttackType.Charged, chargedAtkPerArray[0], elementalReaction: elementalReaction);
+            //var ed_charged_no_er = ExpectedDamage.Single(data, AttackType.Charged, chargedAtkPerArray[0]);
+
             // var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged, pluggedAtkPerArray[0], elementalReaction: elementalReaction);
 
             // var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged,status.elementType,pluggedAtkPerArray);
