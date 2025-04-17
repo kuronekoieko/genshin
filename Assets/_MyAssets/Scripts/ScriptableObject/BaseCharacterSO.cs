@@ -28,39 +28,21 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
     public WeaponType WeaponType => status.weaponType;
     public abstract Dictionary<string, string> CalcDmg(Data data);
 
-    private void OnEnable()
-    {
-        // Debug.Log("OnEnable: " + Name);
-        // CharacterSOManager characterSOManager = new(this);
-        // await characterSOManager.LoadCSV();
-    }
 
     [ContextMenu("Load CSV")]
     private void LoadCSV()
     {
-        CharacterSOManager characterSOManager = new(this);
-        characterSOManager.LoadCSV().Forget();
+        SelectedDataSetter.instance.SetDatas(this);
     }
 
     [ContextMenu("Calc")]
-    public void Calc()
+    public async void Calc()
     {
-        CharacterSOManager characterSOManager = new(this);
-        characterSOManager.Calc().Forget();
+        List<Data> datas = await SelectedDataGetter.instance.GetDatas(this);
+        Calculator.Calc(datas, this);
     }
 
-    [ContextMenu("Test")]
-    public void Test()
-    {/*
-        var MemberDatas = await CSVManager.DeserializeAsync<MemberData>("Members");
 
-        foreach (var item in MemberDatas)
-        {
-            Debug.Log(item.element_type_name);
-            Debug.Log(item.ElementType);
-
-        }*/
-    }
 }
 
 

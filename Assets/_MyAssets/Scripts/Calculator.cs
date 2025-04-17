@@ -4,27 +4,28 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using System.Linq;
 using System.Threading.Tasks;
+using UnityEditor;
 
 
 public static class Calculator
 {
 
-    public static async UniTask Calc(BaseCharacterSO character, bool isSub)
+
+    async public static void Calc(List<Data> datas, BaseCharacterSO baseCharacterSO)
     {
-        await CSVManager.InitializeAsync();
-
-        var partyDatas = Party.GetPartyDatas(character.status.elementType, CSVManager.MemberDatas);
-        var weaponDatas = GetWeaponDatas(character);
-        var artifactGroups = GetArtifactGroups(isSub);
-
-        List<Data> datas = await DataManager.GetDatas(character, weaponDatas, partyDatas, artifactGroups);
-
-        var results = await GetResultsAsync(datas, character);
+        var results = await GetResultsAsync(datas, baseCharacterSO);
         var texts = ResultsToList(results);
-        FileWriter.Save(character.Name, texts);
+        Export(baseCharacterSO.name, texts);
     }
 
-    public static List<string> ResultsToList(List<Dictionary<string, string>> results)
+    static void Export(string fileName, List<string> texts)
+    {
+        FileWriter.Save(fileName, texts);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+    static List<string> ResultsToList(List<Dictionary<string, string>> results)
     {
         Debug.Log("計算終了: " + results.Count + " 件");
 
@@ -60,28 +61,8 @@ public static class Calculator
     }
 
 
-    static WeaponData[] GetWeaponDatas(BaseCharacterSO character)
-    {
-        var weaponDatas = CSVManager.WeaponDatas
-            .Where(weaponData => weaponData.WeaponType == character.WeaponType)
-            .ToArray();
-        return weaponDatas;
-    }
 
-    static List<ArtifactGroup> GetArtifactGroups(bool isSub)
-    {
-        if (isSub)
-        {
-            return Artifact.GetSubArtifactGroups(CSVManager.ArtSetDatas, CSVManager.ArtifactDatas);
-        }
-        else
-        {
-            return Artifact.GetFixedScoreArtifactGroups(CSVManager.ArtSetDatas, new());
-        }
-    }
-
-
-    public static async Task<List<Dictionary<string, string>>> GetResultsAsync<T>(List<Data> datas, T character) where T : ICalcDmg
+    static async Task<List<Dictionary<string, string>>> GetResultsAsync<T>(List<Data> datas, T character) where T : ICalcDmg
     {
         await UniTask.DelayFrame(1);
 
