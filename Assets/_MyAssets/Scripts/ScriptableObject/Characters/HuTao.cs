@@ -9,6 +9,7 @@ namespace so
     {
         // lv10
         float[] chargedAtkPerArray = { 2.426f, };
+        readonly float[] pluggedAtkPerArray = { 2.92f, };
 
         float skill_addAtkPerHp = 6.26f * 0.01f;
 
@@ -35,11 +36,12 @@ namespace so
 
 
             ElementalReaction elementalReaction = new(ElementType.Pyro, ElementType.Hydro, data);
-   
+
             // var melt = ElementalReaction.MeltForPyro(elementalMastery, 0);
 
             // var ed_normal = ExpectedDamage.Single(data, AttackType.Normal,  status.elementType,normalAtkPerArray);
             var ed_charged = ExpectedDamage.Single(data, AttackType.Charged, chargedAtkPerArray[0], elementalReaction: elementalReaction);
+            // var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged, pluggedAtkPerArray[0], elementalReaction: elementalReaction);
 
             // var ed_plugged = ExpectedDamage.Single(data, AttackType.Plugged,status.elementType,pluggedAtkPerArray);
             // var expectedDamage_skill = ExpectedDamage.Single(data, AttackType.Skill, status.elementType,skillPerArray);
@@ -49,7 +51,12 @@ namespace so
 
 
 
+            //  var ed = ed_charged;
             var ed = ed_charged;
+
+            //float sum = ed_charged.Result + ed_plugged.Result;
+            float sum = ed_charged.Result;
+
 
             Dictionary<string, string> result = new()
             {
@@ -57,7 +64,7 @@ namespace so
                 ["聖遺物セット"] = data.artSetData.name,
                 ["聖遺物メイン"] = data.artMainData.name,
                 ["バフキャラ"] = data.partyData.name,
-                ["合計期待値"] = ed.Result.ToString(isInt: true),
+                ["合計期待値"] = sum.ToString(isInt: true),
                 ["攻撃力"] = data.atk.ToString(isInt: true),
                 // ["防御力"] = def.ToString(),
                 ["HP"] = data.hp.ToString(isInt: true),
