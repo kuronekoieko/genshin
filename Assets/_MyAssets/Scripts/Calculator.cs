@@ -17,7 +17,7 @@ public static class Calculator
         var weaponDatas = GetWeaponDatas(character);
         var artifactGroups = GetArtifactGroups(isSub);
 
-        List<Data> datas = GetDatas(character, weaponDatas, partyDatas, artifactGroups);
+        List<Data> datas = DataManager.GetDatas(character, weaponDatas, partyDatas, artifactGroups);
 
         var results = await GetResultsAsync(datas, character);
         var texts = ResultsToList(results);
@@ -78,63 +78,6 @@ public static class Calculator
         {
             return Artifact.GetFixedScoreArtifactGroups(CSVManager.ArtSetDatas, new());
         }
-    }
-
-
-    public static List<Data> GetDatas(BaseCharacter character, WeaponData[] weaponDatas, PartyData[] partyDatas, List<ArtifactGroup> artifactGroups)
-    {
-        return GetDatas(character.status, character.ascend, weaponDatas, partyDatas, artifactGroups);
-    }
-
-    public static List<Data> GetDatas(BaseCharacterSO character, WeaponData[] weaponDatas, PartyData[] partyDatas, List<ArtifactGroup> artifactGroups)
-    {
-        return GetDatas(character.status, character.ascend, weaponDatas, partyDatas, artifactGroups);
-    }
-
-    static List<Data> GetDatas(Status status, Ascend ascend, WeaponData[] weaponDatas, PartyData[] partyDatas, List<ArtifactGroup> artifactGroups)
-    {
-        Debug.Log("組み合わせ作成開始");
-        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-        sw.Start();
-        int progress = 0;
-        int max = weaponDatas.Length * partyDatas.Length * artifactGroups.Count;
-
-        List<Data> datas = new();
-
-        foreach (var weapon in weaponDatas)
-        {
-            foreach (var partyData in partyDatas)
-            {
-                foreach (var artifactGroup in artifactGroups)
-                {
-                    Data data = new(weapon, artifactGroup, partyData, status, ascend);
-
-                    if (data.IsSkip(out string reason))
-                    {
-                        // Debug.Log("skip: " + reason);
-                    }
-                    else
-                    {
-                        datas.Add(data);
-                    }
-
-                    progress++;
-                    if (progress % 200000 == 0)
-                    {
-                        //await UniTask.DelayFrame(1);
-                        int per = (int)((float)progress / (float)max * 100f);
-
-                        Debug.Log("progress: " + progress + "/" + max + " " + per + "%");
-                    }
-                }
-            }
-
-        }
-        
-        sw.Stop();
-        Debug.Log("処理時間 " + sw.ElapsedMilliseconds / 1000f + "s");
-
-        return datas;
     }
 
 
