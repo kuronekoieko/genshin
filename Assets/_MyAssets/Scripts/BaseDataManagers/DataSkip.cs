@@ -88,6 +88,14 @@ public static class DataSkip
         {
             SetSkip("雷4");
         }
+        if (artSetData.name == "残響4")
+        {
+            int eCount = partyData.ElementCounts[ElementType.Pyro] + partyData.ElementCounts[ElementType.Cryo] + partyData.ElementCounts[ElementType.Electro] + partyData.ElementCounts[ElementType.Hydro];
+            if (eCount == 0)
+            {
+                SetSkip("残響4");
+            }
+        }
         if (artSetData.is_night_soul)
         {
             if (!status.isNightSoul)
@@ -128,7 +136,7 @@ public static class DataSkip
         }
 
 
-        if (IsSkipDuplicationSetER("灰燼4", out reason))
+        if (KaijinSkip.IsSkip(baseDataSet, out reason))
         {
             SetSkip(reason);
         }
