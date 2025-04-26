@@ -63,6 +63,7 @@ namespace so
                 ["バフ"] = ed.DmgBonus.ToString(),
                 ["バフ共通"] = data.dmg_bonus.ToString(),
                 ["元素バフ"] = data.pyro_bonus.ToString(),
+                ["バフ重撃"] = data.charged_atk_bonus.ToString(),
                 ["バフ落下"] = data.plugged_atk_bonus.ToString(),
                 ["会心ダメ期待値"] = ed.Crit.ExpectedCritDmg.ToString(),
                 ["熟知"] = data.elemental_mastery.ToString(),
