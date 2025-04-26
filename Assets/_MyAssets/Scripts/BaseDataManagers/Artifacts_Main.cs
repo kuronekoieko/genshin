@@ -52,8 +52,6 @@ public class Artifacts_Main
 
     List<ArtMainHash> GetArtMainHashes()
     {
-        Debug.Log("聖遺物メイン計算開始");
-
         // 同じ組み合わせの重複削除
         HashSet<ArtMainHash> artMainCombines = new();
 
