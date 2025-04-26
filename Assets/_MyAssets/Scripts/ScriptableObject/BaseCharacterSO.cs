@@ -46,11 +46,14 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
     [ContextMenu("Calc")]
     public async void Calc()
     {
-        damageMultiplierDic.Add(AttackType.Normal, damageMultiplier.normalAttacks);
-        damageMultiplierDic.Add(AttackType.Charged, damageMultiplier.chargedAttacks);
-        damageMultiplierDic.Add(AttackType.Plugged, damageMultiplier.pluggedAttacks);
-        damageMultiplierDic.Add(AttackType.Skill, damageMultiplier.skills);
-        damageMultiplierDic.Add(AttackType.Burst, damageMultiplier.bursts);
+        damageMultiplierDic = new()
+        {
+            { AttackType.Normal, damageMultiplier.normalAttacks },
+            { AttackType.Charged, damageMultiplier.chargedAttacks },
+            { AttackType.Plugged, damageMultiplier.pluggedAttacks },
+            { AttackType.Skill, damageMultiplier.skills },
+            { AttackType.Burst, damageMultiplier.bursts }
+        };
 
 
         List<Data> datas = await SelectedDataGetter.instance.GetDatas(this);
