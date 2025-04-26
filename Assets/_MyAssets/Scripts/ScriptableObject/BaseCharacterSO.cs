@@ -104,6 +104,8 @@ public class Status
 
     public readonly float defaultCritRate = 0.05f;
     public readonly float defaultCritDmg = 0.5f;
+    public readonly float defaultEnergyRecharge = 1f;
+
 }
 
 public enum HealerType

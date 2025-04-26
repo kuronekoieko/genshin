@@ -37,7 +37,7 @@ public class Data : BaseData
     {
         heal_bonus += ascend.heal_bonus;
         hp_rate += ascend.hpPer;
-        energy_recharge += 1 + ascend.energyRecharge;
+        energy_recharge += status.defaultEnergyRecharge + ascend.energyRecharge;
         elemental_mastery += ascend.elemental_mastery;
         def_rate += ascend.defPer;
         atk_rate += ascend.atkPer;
