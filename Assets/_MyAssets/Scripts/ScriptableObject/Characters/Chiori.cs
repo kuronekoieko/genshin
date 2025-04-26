@@ -33,10 +33,10 @@ public class Chiori : BaseCharacterSO
 
         Dictionary<string, string> result = new()
         {
-            ["武器"] = data.Weapon.DisplayName,
-            ["聖遺物セット"] = data.ArtSetData.name,
-            ["聖遺物メイン"] = data.ArtMainData.name,
-            ["バフキャラ"] = data.PartyData.name,
+            ["武器"] = data.weaponData.DisplayName,
+            ["聖遺物セット"] = data.artSetData.name,
+            ["聖遺物メイン"] = data.artMainData.name,
+            ["バフキャラ"] = data.partyData.name,
             ["通常期待値"] = sum_normal.ToString(isInt: true),
             ["スキル期待値"] = sum_skill.ToString(),
             ["攻撃力"] = data.atk.ToString(),
@@ -47,11 +47,11 @@ public class Chiori : BaseCharacterSO
             // ["熟知"] = elementalMastery.ToString(),
             ["率ダメ"] = ed.Crit.RateDmg,
             ["会心ダメ比率"] = ed.Crit.CritProportion,
-            ["聖遺物組み合わせ"] = data.ArtSubData.name,
+            ["聖遺物組み合わせ"] = data.artSubData.name,
             ["サブステ"] = ed.Crit.SubCrit,
-            ["サブHP%"] = data.ArtSubData.hp_rate.ToString(),
-            ["サブHP"] = data.ArtSubData.hp.ToString(),
-            ["スコア"] = data.ArtSubData.Score.ToString(),
+            ["サブHP%"] = data.artSubData.hp_rate.ToString(),
+            ["サブHP"] = data.artSubData.hp.ToString(),
+            ["スコア"] = data.artSubData.Score.ToString(),
         };
 
         //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));

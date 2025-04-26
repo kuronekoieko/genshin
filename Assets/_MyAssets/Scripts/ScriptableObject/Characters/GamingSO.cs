@@ -30,10 +30,10 @@ public class GamingSO : BaseCharacterSO
 
         Dictionary<string, string> result = new()
         {
-            ["武器"] = data.Weapon.DisplayName,
-            ["聖遺物セット"] = data.ArtSetData.name,
-            ["聖遺物メイン"] = data.ArtMainData.name,
-            ["バフキャラ"] = data.PartyData.name,
+            ["武器"] = data.weaponData.DisplayName,
+            ["聖遺物セット"] = data.artSetData.name,
+            ["聖遺物メイン"] = data.artMainData.name,
+            ["バフキャラ"] = data.partyData.name,
             //["バフキャラ1"] = data.partyData.GetMemberName(0),
             //["バフキャラ2"] = data.partyData.GetMemberName(1),
             //["バフキャラ3"] = data.partyData.GetMemberName(2),
@@ -52,7 +52,7 @@ public class GamingSO : BaseCharacterSO
             ["サブステ"] = ed.Crit.SubCrit,
             //["サブHP%"] = data.artSubData.hp_rate.ToString(),
             //["サブHP"] = data.artSubData.hp.ToString(),
-            ["スコア"] = data.ArtSubData.Score.ToString()
+            ["スコア"] = data.artSubData.Score.ToString()
         };
 
         //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));

@@ -15,7 +15,7 @@ public class ElementalReaction
 
     public ElementalReaction(ElementType from, ElementType to, Data data)
     {
-        if (data.PartyData.ElementCounts[to] == 0)
+        if (data.partyData.ElementCounts[to] == 0)
         {
             return;
         }

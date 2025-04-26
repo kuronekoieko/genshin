@@ -18,10 +18,10 @@ namespace so
 
             Dictionary<string, string> result = new()
             {
-                ["武器"] = data.Weapon.DisplayName,
-                ["聖遺物セット"] = data.ArtSetData.name,
-                ["聖遺物メイン"] = data.ArtMainData.name,
-                ["バフキャラ"] = data.PartyData.name,
+                ["武器"] = data.weaponData.DisplayName,
+                ["聖遺物セット"] = data.artSetData.name,
+                ["聖遺物メイン"] = data.artMainData.name,
+                ["バフキャラ"] = data.partyData.name,
                 ["スキル期待値"] = ed.Result.ToString(),
                 ["防御力"] = data.def.ToString(),
                 ["HP"] = data.hp.ToString(),
@@ -31,11 +31,11 @@ namespace so
                 ["熟知"] = data.elemental_mastery.ToString(),
                 ["率ダメ"] = ed.Crit.RateDmg,
                 ["会心ダメ比率"] = ed.Crit.CritProportion,
-                ["聖遺物組み合わせ"] = data.ArtSubData.name,
+                ["聖遺物組み合わせ"] = data.artSubData.name,
                 ["サブステ"] = ed.Crit.SubCrit,
-                ["サブHP%"] = data.ArtSubData.hp_rate.ToString(),
-                ["サブHP"] = data.ArtSubData.hp.ToString(),
-                ["スコア"] = data.ArtSubData.Score.ToString()
+                ["サブHP%"] = data.artSubData.hp_rate.ToString(),
+                ["サブHP"] = data.artSubData.hp.ToString(),
+                ["スコア"] = data.artSubData.Score.ToString()
             };
 
             //  Debug.Log(JsonConvert.SerializeObject(result, Formatting.Indented));

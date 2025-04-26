@@ -7,20 +7,25 @@ using System;
 [Serializable]
 public class Data : BaseData
 {
-    public BaseDataSet baseDataSet;
-
-    public WeaponData Weapon => baseDataSet.weaponData;
-    public ArtMainData ArtMainData => baseDataSet.artMainData;
-    public ArtSetData ArtSetData => baseDataSet.artSetData;
-    public ArtSubData ArtSubData => baseDataSet.artSubData;
-    public PartyData PartyData => baseDataSet.partyData;
-    public Status Status => baseDataSet.status;
-    public Ascend Ascend => baseDataSet.ascend;
-    public float BaseAtk => Status.baseAtk + Weapon.base_atk;
+    public WeaponData weaponData;
+    public PartyData partyData;
+    public Status status;
+    public Ascend ascend;
+    public ArtMainData artMainData;
+    public ArtSetData artSetData;
+    public ArtSubData artSubData;
+    public float BaseAtk => status.baseAtk + weaponData.base_atk;
 
     public Data(BaseDataSet baseDataSet)
     {
-        this.baseDataSet = baseDataSet;
+        weaponData = baseDataSet.weaponData;
+        artMainData = baseDataSet.artMainData;
+        artSetData = baseDataSet.artSetData;
+        artSubData = baseDataSet.artSubData;
+        partyData = baseDataSet.partyData;
+        status = baseDataSet.status;
+        ascend = baseDataSet.ascend;
+
         baseDataSet.SetInstance(this);
 
         SetFields();
@@ -30,41 +35,41 @@ public class Data : BaseData
 
     void SetFields()
     {
-        heal_bonus += Ascend.heal_bonus;
-        hp_rate += Ascend.hpPer;
-        energy_recharge += 1 + Ascend.energyRecharge;
-        elemental_mastery += Ascend.elemental_mastery;
-        def_rate += Ascend.defPer;
-        atk_rate += Ascend.atkPer;
+        heal_bonus += ascend.heal_bonus;
+        hp_rate += ascend.hpPer;
+        energy_recharge += 1 + ascend.energyRecharge;
+        elemental_mastery += ascend.elemental_mastery;
+        def_rate += ascend.defPer;
+        atk_rate += ascend.atkPer;
 
-        pyro_bonus += Ascend.pyro_bonus;
-        hydro_bonus += Ascend.hydro_bonus;
-        electro_bonus += Ascend.electro_bonus;
-        cryo_bonus += Ascend.cryo_bonus;
-        geo_bonus += Ascend.geo_bonus;
-        anemo_bonus += Ascend.anemo_bonus;
-        dendro_bonus += Ascend.dendro_bonus;
-        physics_bonus += Ascend.physics_bonus;
+        pyro_bonus += ascend.pyro_bonus;
+        hydro_bonus += ascend.hydro_bonus;
+        electro_bonus += ascend.electro_bonus;
+        cryo_bonus += ascend.cryo_bonus;
+        geo_bonus += ascend.geo_bonus;
+        anemo_bonus += ascend.anemo_bonus;
+        dendro_bonus += ascend.dendro_bonus;
+        physics_bonus += ascend.physics_bonus;
 
-        crit_rate += Status.defaultCritRate + Ascend.critRate;
-        crit_dmg += Status.defaultCritDmg + Ascend.critDmg;
+        crit_rate += status.defaultCritRate + ascend.critRate;
+        crit_dmg += status.defaultCritDmg + ascend.critDmg;
     }
 
     void SetCharaData()
     {
-        hp = Status.baseHp * (1 + hp_rate) + hp;
-        def = Status.baseDef * (1 + def_rate) + def;
+        hp = status.baseHp * (1 + hp_rate) + hp;
+        def = status.baseDef * (1 + def_rate) + def;
 
-        var dmgAdd_sekikaku = def * Weapon.sekikaku;
+        var dmgAdd_sekikaku = def * weaponData.sekikaku;
         add_normal_atk += dmgAdd_sekikaku;
         add_charged_atk += dmgAdd_sekikaku;
 
-        var dmgAdd_cinnabar = def * Weapon.cinnabar;
+        var dmgAdd_cinnabar = def * weaponData.cinnabar;
         add_skill += dmgAdd_cinnabar;
 
-        var homa_atkAdd = hp * Weapon.homa;
-        var sekisa_atkAdd = elemental_mastery * Weapon.sekisha;
-        var kusanagi_atkAdd = (energy_recharge - 1) * Weapon.kusanagi;
+        var homa_atkAdd = hp * weaponData.homa;
+        var sekisa_atkAdd = elemental_mastery * weaponData.sekisha;
+        var kusanagi_atkAdd = (energy_recharge - 1) * weaponData.kusanagi;
 
         atk
             = BaseAtk * (1 + atk_rate)
