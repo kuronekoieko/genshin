@@ -50,6 +50,8 @@ public static class DataSkip
             bool existsHealer = partyData.members.Any(m => m.is_healer);
             if (existsHealer)
             {
+                //var Healers = partyData.members.Where(m => m.is_healer).Select(m => m.CombinedName).ToArray();
+                //  Debug.Log(string.Join(",", Healers));
                 SetSkip("護摩 HP50%以下 ヒーラー強制あり " + partyData.name);
             }
         }
@@ -159,7 +161,7 @@ public static class DataSkip
             }
         }
 
-        if (!string.IsNullOrEmpty(skipReason)) Debug.Log("skip: " + skipReason);
+        // if (!string.IsNullOrEmpty(skipReason)) Debug.Log("skip: " + skipReason);
 
         return isSkip;
     }
