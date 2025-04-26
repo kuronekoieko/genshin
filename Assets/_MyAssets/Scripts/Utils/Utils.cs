@@ -6,17 +6,6 @@ using UnityEngine;
 
 public class Utils
 {
-
-    public static HealerType GetHealerType(string healer_type)
-    {
-        return healer_type switch
-        {
-            "Selectable " => HealerType.Selectable,
-            "Healer " => HealerType.Healer,
-            _ => HealerType.None,
-        };
-    }
-
     public static ElementType GetElementType(string element_type_name)
     {
         return element_type_name switch

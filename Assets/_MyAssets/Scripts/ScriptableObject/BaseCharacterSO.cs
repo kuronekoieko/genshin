@@ -100,21 +100,13 @@ public class Status
     public bool isNightSoul = false;
     public bool isRequiredShields = false;
     public bool canElementalApplication = true;
-    public HealerType healerType = HealerType.None;
+    public bool isHealer = false;
 
     public readonly float defaultCritRate = 0.05f;
     public readonly float defaultCritDmg = 0.5f;
     public readonly float defaultEnergyRecharge = 1f;
 
 }
-
-public enum HealerType
-{
-    None,
-    Selectable,
-    Healer,
-}
-
 
 [Serializable]
 public class Ascend

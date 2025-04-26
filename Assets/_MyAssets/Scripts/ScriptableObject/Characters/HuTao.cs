@@ -21,7 +21,7 @@ namespace so
         public override Dictionary<string, string> CalcDmg(Data data)
         {
 
-            bool existsHealer = data.partyData.members.Any(m => m.HealerType != HealerType.None);
+            bool existsHealer = data.partyData.members.Any(m => m.is_healer);
 
             if (existsHealer == false)
             {

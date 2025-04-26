@@ -45,12 +45,12 @@ public static class DataSkip
             SetSkip("しめ縄4");
         }
 
-        if (weaponData.name == "護摩" && weaponData.option == "HP50%以上")
+        if (weaponData.name == "護摩" && weaponData.option == "HP50%以下")
         {
-            bool existsHealer = partyData.members.Any(m => m.HealerType == HealerType.Healer);
+            bool existsHealer = partyData.members.Any(m => m.is_healer);
             if (existsHealer)
             {
-                SetSkip("護摩 HP50%以上 ヒーラー強制あり");
+                SetSkip("護摩 HP50%以下 ヒーラー強制あり " + partyData.name);
             }
         }
 
@@ -159,7 +159,7 @@ public static class DataSkip
             }
         }
 
-        // if (!string.IsNullOrEmpty(skipReason)) Debug.Log("skip: " + skipReason);
+        if (!string.IsNullOrEmpty(skipReason)) Debug.Log("skip: " + skipReason);
 
         return isSkip;
     }
@@ -168,12 +168,12 @@ public static class DataSkip
 
     static bool IsSkipFrina()
     {
-        bool esxistFrina = partyData.members.Any((member) => member.name.Contains("フリーナ"));
-        if (esxistFrina)
+        bool existFrina = partyData.members.Any((member) => member.name.Contains("フリーナ"));
+        if (existFrina)
         {
             bool esxistHealer = partyData.members
                 .Where((member) => member.name.Contains("フリーナ") == false)
-                .Any((member) => member.HealerType != HealerType.None);
+                .Any((member) => member.is_healer);
 
             if (esxistHealer == false) return true;
         }

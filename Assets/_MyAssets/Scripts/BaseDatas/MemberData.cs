@@ -17,7 +17,7 @@ public class MemberData : BaseData, IComparable<MemberData>
 
     public string healer_type = "";
 
-    public HealerType HealerType => Utils.GetHealerType(healer_type);
+    public bool is_healer = false;
 
     public ElementType ElementType => Utils.GetElementType(element_type_name);
 
