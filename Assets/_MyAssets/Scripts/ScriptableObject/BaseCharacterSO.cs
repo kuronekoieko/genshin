@@ -1,10 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Cysharp.Threading.Tasks;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public interface ICalcDmg
@@ -18,13 +14,13 @@ public abstract class BaseCharacterSO : ScriptableObject, ICalcDmg
     public Ascend ascend;
     public DamageMultiplier damageMultiplier;
     public ArtifactConfig artifactConfig;
-    public List<SelectedWeapon> selectedWeapons;
-    public List<SelectedMember> selectedMembers;
-    public List<SelectedArtSetData> selectedArtSets;
-    public List<SelectedArtMainSand> selectedArtMainSands;
-    public List<SelectedArtMainGoblet> selectedArtMainGoblets;
-    public List<SelectedArtMainCirclet> selectedArtMainCirclets;
-    public List<SelectedArtifactData> selectedArtifactDatas;
+    public SelectedWeapon[] selectedWeapons;
+    public SelectedMember[] selectedMembers;
+    public SelectedArtSetData[] selectedArtSets;
+    public SelectedArtMainSand[] selectedArtMainSands;
+    public SelectedArtMainGoblet[] selectedArtMainGoblets;
+    public SelectedArtMainCirclet[] selectedArtMainCirclets;
+    public SelectedArtifactData[] selectedArtifactDatas;
 
     public string Name => name;
     public WeaponType WeaponType => status.weaponType;

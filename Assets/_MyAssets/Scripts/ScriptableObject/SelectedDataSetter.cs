@@ -31,7 +31,7 @@ public class SelectedDataSetter
                 refinement = weaponData.refinement,
                 option = weaponData.option,
             };
-        }).ToList();
+        }).ToArray();
 
         baseCharacterSO.selectedWeapons = AddDifference(baseCharacterSO.selectedWeapons, selectedWeapon);
 
@@ -47,7 +47,7 @@ public class SelectedDataSetter
                 constellationName = member.ConstellationName,
                 option = member.option,
             };
-        }).ToList();
+        }).ToArray();
 
         baseCharacterSO.selectedMembers = AddDifference(baseCharacterSO.selectedMembers, selectedMember);
 
@@ -62,7 +62,7 @@ public class SelectedDataSetter
                 set = artSetData.set,
                 option = artSetData.option,
             };
-        }).ToList();
+        }).ToArray();
         baseCharacterSO.selectedArtSets = AddDifference(baseCharacterSO.selectedArtSets, selectedArtSet);
 
 
@@ -77,7 +77,7 @@ public class SelectedDataSetter
                 MainName = artifactData.MainName,
                 SubName = artifactData.SubName,
             };
-        }).ToList();
+        }).ToArray();
         baseCharacterSO.selectedArtifactDatas = AddDifference(baseCharacterSO.selectedArtifactDatas, selectedArtifactDatas);
 
 
@@ -93,7 +93,7 @@ public class SelectedDataSetter
             };
             if (name == "元チャ") instance.isUse = false;
             return instance;
-        }).ToList();
+        }).ToArray();
         baseCharacterSO.selectedArtMainSands = AddDifference(baseCharacterSO.selectedArtMainSands, selectedArtMainSands);
 
         var selectedArtMainGoblets = artMainHeader.goblets.Select(name =>
@@ -110,7 +110,7 @@ public class SelectedDataSetter
             }
 
             return instance;
-        }).ToList();
+        }).ToArray();
 
         baseCharacterSO.selectedArtMainGoblets = AddDifference(baseCharacterSO.selectedArtMainGoblets, selectedArtMainGoblets);
 
@@ -125,7 +125,7 @@ public class SelectedDataSetter
 
             if (name == "治癒効果") instance.isUse = false;
             return instance;
-        }).ToList();
+        }).ToArray();
 
         baseCharacterSO.selectedArtMainCirclets = AddDifference(baseCharacterSO.selectedArtMainCirclets, selectedArtMainCirclets);
 
@@ -152,7 +152,7 @@ public class SelectedDataSetter
         return false;
     }
 
-    List<T> AddDifference<T>(List<T> existingList, List<T> newList) where T : ISelected
+    T[] AddDifference<T>(T[] existingList, T[] newList) where T : ISelected
     {
         List<T> tmpList = new();
 
@@ -182,9 +182,7 @@ public class SelectedDataSetter
             }
         }
 
-        tmpList = tmpList.OrderBy(item => item.Id).ToList();
-
-        return tmpList;
+        return tmpList.OrderBy(item => item.Id).ToArray();
     }
 
 }
