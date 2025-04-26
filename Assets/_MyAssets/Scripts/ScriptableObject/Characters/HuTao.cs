@@ -56,6 +56,7 @@ namespace so
                 ["バフキャラ"] = data.partyData.name,
                 ["合計期待値"] = sum.ToString(isInt: true),
                 ["攻撃力"] = data.atk.ToString(isInt: true),
+                ["護摩攻撃力up"] = (data.hp * data.weaponData.homa).ToString(),
                 ["加算"] = ed.DmgAdd.ToString(),
                 // ["防御力"] = def.ToString(),
                 ["HP"] = data.hp.ToString(isInt: true),
