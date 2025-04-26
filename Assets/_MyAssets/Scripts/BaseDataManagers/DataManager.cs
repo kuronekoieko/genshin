@@ -56,6 +56,7 @@ public class DataManager
 
         sw.Stop();
         Debug.Log("処理時間 " + sw.ElapsedMilliseconds / 1000f + "s");
+        Debug.Log($"組み合わせ作成 終了: {datas.Count}件");
 
 
         return datas;
