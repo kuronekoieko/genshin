@@ -16,7 +16,7 @@ public static class KaijinSkip
     static ArtSubData artSubData;
 
 
-    public static bool IsSkip(BaseDataSet baseDataSet, out string reason)
+    public static bool IsSkip(BaseDataSet baseDataSet, string setName, out string reason)
     {
         weaponData = baseDataSet.weaponData;
         artMainData = baseDataSet.artMainData;
@@ -26,9 +26,7 @@ public static class KaijinSkip
         status = baseDataSet.status;
         ascend = baseDataSet.ascend;
 
-
-
-        return IsSkipDuplicationSetER("灰燼4", out reason);
+        return IsSkipDuplicationSetER(setName, out reason);
     }
 
 
@@ -68,17 +66,15 @@ public static class KaijinSkip
         }
 
         // メインキャラが元素付着できない場合
-        // メインキャラと同じ元素がパーティにいるとき
 
+        // メインキャラと同じ元素がパーティにいるとき
         int count = partyData.members.Count(m => m.ElementType == status.elementType);
         if (count == 0) return false;
 
         // fromがほかのメンバーと元素反応できるかどうか
         foreach (var to in partyData.members)
         {
-            //if (to.ElementType != status.elementType) continue;
             var elementalReactionType = ElementalReaction.GetElementalReactionType(from.ElementType, to.ElementType);
-            // Debug.Log(elementalReactionType);
             if (elementalReactionType != ElementalReactionType.None) return true;
         }
 
