@@ -45,6 +45,15 @@ public static class DataSkip
             SetSkip("しめ縄4");
         }
 
+        if (weaponData.name == "護摩" && weaponData.option == "HP50%以上")
+        {
+            bool existsHealer = partyData.members.Any(m => m.HealerType == HealerType.Healer);
+            if (existsHealer)
+            {
+                SetSkip("護摩 HP50%以上 ヒーラー強制あり");
+            }
+        }
+
         bool isGakudan = status.weaponType == WeaponType.Catalyst || status.weaponType == WeaponType.Bow;
 
         if (artSetData.name == "楽団4" && isGakudan == false)
@@ -150,7 +159,7 @@ public static class DataSkip
             }
         }
 
-        if (!string.IsNullOrEmpty(skipReason)) Debug.Log("skip: " + skipReason);
+        // if (!string.IsNullOrEmpty(skipReason)) Debug.Log("skip: " + skipReason);
 
         return isSkip;
     }

@@ -67,16 +67,16 @@ public class Data : BaseData
         var dmgAdd_cinnabar = def * weaponData.cinnabar;
         add_skill += dmgAdd_cinnabar;
 
-        var homa_atkAdd = hp * weaponData.homa;
-        var sekisa_atkAdd = elemental_mastery * weaponData.sekisha;
-        var kusanagi_atkAdd = (energy_recharge - 1) * weaponData.kusanagi;
+        var homa_atk = hp * weaponData.homa;
+        var sekisa_atk = elemental_mastery * weaponData.sekisha;
+        var kusanagi_atk = (energy_recharge - 1) * weaponData.kusanagi;
 
         atk
             = BaseAtk * (1 + atk_rate)
             + atk
-            + homa_atkAdd
-            + sekisa_atkAdd
-            + kusanagi_atkAdd;
+            + homa_atk
+            + sekisa_atk
+            + kusanagi_atk;
     }
 
     public void AddAtkRate(float rate)
