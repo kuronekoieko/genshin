@@ -120,7 +120,6 @@ public class Ascend
 {
     public float critRate = 0.192f;
     public float critDmg = 0;
-    public float dmgBonus = 0;
     public float atkPer = 0;
     public float energyRecharge = 0;
     public float hpPer = 0;
@@ -128,6 +127,14 @@ public class Ascend
     public float heal_bonus = 0;
     public float elemental_mastery = 0;
 
+    public float pyro_bonus;
+    public float hydro_bonus;
+    public float electro_bonus;
+    public float cryo_bonus;
+    public float geo_bonus;
+    public float anemo_bonus;
+    public float dendro_bonus;
+    public float physics_bonus;
 }
 
 public enum WeaponType

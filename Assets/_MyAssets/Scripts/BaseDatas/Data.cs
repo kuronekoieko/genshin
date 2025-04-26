@@ -36,7 +36,16 @@ public class Data : BaseData
         elemental_mastery += Ascend.elemental_mastery;
         def_rate += Ascend.defPer;
         atk_rate += Ascend.atkPer;
-        dmg_bonus += Ascend.dmgBonus;
+
+        pyro_bonus += Ascend.pyro_bonus;
+        hydro_bonus += Ascend.hydro_bonus;
+        electro_bonus += Ascend.electro_bonus;
+        cryo_bonus += Ascend.cryo_bonus;
+        geo_bonus += Ascend.geo_bonus;
+        anemo_bonus += Ascend.anemo_bonus;
+        dendro_bonus += Ascend.dendro_bonus;
+        physics_bonus += Ascend.physics_bonus;
+
         crit_rate += Status.defaultCritRate + Ascend.critRate;
         crit_dmg += Status.defaultCritDmg + Ascend.critDmg;
     }
