@@ -16,8 +16,7 @@ public class GamingSO : BaseCharacterSO
     public override Dictionary<string, string> CalcDmg(Data data)
     {
 
-        data.atk += data.BaseAtk * constellation_atkRate;
-
+        data.AddAtkRate(constellation_atkRate);
 
         data.crit_rate_plugged_atk += constellation_critRate;
         data.crit_dmg_plugged += constellation_critDmg;

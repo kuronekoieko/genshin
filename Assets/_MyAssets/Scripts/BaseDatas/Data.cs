@@ -74,4 +74,9 @@ public class Data : BaseData
             + kusanagi_atkAdd;
     }
 
+    public void AddAtkRate(float rate)
+    {
+        atk += BaseAtk * rate;
+    }
+
 }
