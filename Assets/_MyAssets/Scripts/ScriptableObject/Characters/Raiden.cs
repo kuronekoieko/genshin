@@ -6,8 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Raiden", menuName = "Scriptable Objects/Raiden")]
 public class Raiden : BaseCharacterSO
 {
-    float burstMultiplier_first = 7.21f;
-    float[] burstMultiplier_normalAtks = new[] { 0.798f, 0.784f, 0.960f, 0.551f, 0.553f, 1.319f, };
+    readonly float _burstMultiplier_first = 7.21f;
+    readonly float[] _burstMultiplier_normalAtks = new[] { 0.798f, 0.784f, 0.960f, 0.551f, 0.553f, 1.319f, };
 
     float skill_burstDmgBonusPerEnergyCost = 0.3f * 0.01f;
     float burst_ganrikiStuckPerMembersEnergyCost = 0.2f;
@@ -27,9 +27,10 @@ public class Raiden : BaseCharacterSO
         float ganrikiStuck = Mathf.Clamp(data.partyData.MembersEnergyCostSum * burst_ganrikiStuckPerMembersEnergyCost, 0, ganrikiStuckMax);
 
         float burst_multiplierAdd_first = burst_multiplierAddPerGanriki_first * ganrikiStuck;
-        burstMultiplier_first += burst_multiplierAdd_first;
+        float burstMultiplier_first = _burstMultiplier_first + burst_multiplierAdd_first;
 
         float burst_multiplierAdd_normalAtks = burst_multiplierAddPerGanriki_normalAtks * ganrikiStuck;
+        float[] burstMultiplier_normalAtks = new float[_burstMultiplier_normalAtks.Length];
         for (int i = 0; i < burstMultiplier_normalAtks.Length; i++)
         {
             burstMultiplier_normalAtks[i] += burst_multiplierAdd_normalAtks;
@@ -51,6 +52,7 @@ public class Raiden : BaseCharacterSO
             ["爆発一発目期待値"] = ed_burst_first.Result.ToString(true),
             ["爆発通常合計期待値"] = ed_burst_normal.Result.ToString(true),
             ["願力"] = ganrikiStuck.ToString(true),
+            ["爆発一発目倍率"] = burstMultiplier_first.ToString(),
             ["爆発一発目倍率アップ"] = burst_multiplierAdd_first.ToString(),
             ["爆発通常倍率アップ"] = burst_multiplierAdd_normalAtks.ToString(),
             ["元チャ"] = data.energy_recharge.ToString(),
