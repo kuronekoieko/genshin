@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
-using UnityEngine;
-using IekoLibrary;
 
 [Serializable]
 public class PartyData : BaseData, IComparable<PartyData>
@@ -12,29 +10,8 @@ public class PartyData : BaseData, IComparable<PartyData>
 
     public Dictionary<ElementType, int> ElementCounts { get; private set; } = new();
 
-    public string GetMemberName(int index)
-    {
-        if (members.TryGetValue(index, out var member))
-        {
-            return member.name;
-        }
-        return "";
-    }
-
-    public string Log
-    {
-        get
-        {
-            string log = "";
-            foreach (var kvp in ElementCounts)
-            {
-                if (kvp.Value > 0) log += kvp.Key + ":" + kvp.Value + "、";
-            }
-
-            return log;
-        }
-    }
-
+    public string Log { get; private set; }
+    public int MembersEnergyCostSum { get; private set; }
 
     public PartyData(MemberData[] members, ElementType characterElementType)
     {
@@ -46,12 +23,26 @@ public class PartyData : BaseData, IComparable<PartyData>
             return;
         }
 
+        MembersEnergyCostSum = members.Sum(x => x.energy_cost);
+        Log = GetLog();
+
         MemberData sumMemberData = FastInstanceAdder.AddInstances(members);
         FastFieldCopier.CopyBaseFields<BaseData>(sumMemberData, this);
         string[] combinedNames = members.Select(memberData => memberData.CombinedName).ToArray();
         name = string.Join("+", combinedNames);
         SetElementalResonance(characterElementType);
         // CheckDuplicateOptions();
+    }
+
+    string GetLog()
+    {
+        string log = "";
+        foreach (var kvp in ElementCounts)
+        {
+            if (kvp.Value > 0) log += kvp.Key + ":" + kvp.Value + "、";
+        }
+
+        return log;
     }
 
     void SetElementalResonance(ElementType characterElementType)

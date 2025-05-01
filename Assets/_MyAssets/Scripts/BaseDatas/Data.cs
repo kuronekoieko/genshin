@@ -67,6 +67,9 @@ public class Data : BaseData
         var dmgAdd_cinnabar = def * weaponData.cinnabar;
         add_skill += dmgAdd_cinnabar;
 
+        float zetsuen_burstBonus = Mathf.Clamp(artSetData.zetsuen * energy_recharge, 0, 0.75f);
+        burst_bonus += zetsuen_burstBonus;
+
         var homa_atk = hp * weaponData.homa;
         var sekisa_atk = elemental_mastery * weaponData.sekisha;
         var kusanagi_atk = (energy_recharge - 1) * weaponData.kusanagi;

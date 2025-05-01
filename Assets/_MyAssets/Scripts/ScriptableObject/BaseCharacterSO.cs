@@ -101,6 +101,7 @@ public class Status
     public bool isRequiredShields = false;
     public bool canElementalApplication = true;
     public bool isHealer = false;
+    public int energyCost = 90;
 
     public readonly float defaultCritRate = 0.05f;
     public readonly float defaultCritDmg = 0.5f;

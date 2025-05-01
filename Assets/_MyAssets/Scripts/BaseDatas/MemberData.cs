@@ -18,6 +18,7 @@ public class MemberData : BaseData, IComparable<MemberData>
     public string healer_type = "";
 
     public bool is_healer = false;
+    public int energy_cost = 0;
 
     public ElementType ElementType => Utils.GetElementType(element_type_name);
 
