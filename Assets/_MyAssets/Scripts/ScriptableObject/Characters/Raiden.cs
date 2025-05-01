@@ -56,6 +56,8 @@ public class Raiden : BaseCharacterSO
             ["元チャ"] = data.energy_recharge.ToString(),
             ["100%以上の元チャ[%]"] = energyRechargePercentageOver100.ToString(),
             ["天賦の雷バフ"] = talent_electroDmgBonus.ToString(),
+            ["草薙攻撃力%"] = data.kusanagi_atkRate.ToString(),
+            ["絶縁爆発バフ"] = data.zetsuen_burstBonus.ToString(),
             ["攻撃力"] = data.atk.ToString(true),
             ["加算"] = ed_burst_first.DmgAdd.ToString(true),
             ["バフ合計"] = ed_burst_first.DmgBonus.ToString(),

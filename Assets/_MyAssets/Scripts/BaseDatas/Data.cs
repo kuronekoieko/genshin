@@ -67,20 +67,20 @@ public class Data : BaseData
         var dmgAdd_cinnabar = def * weaponData.cinnabar;
         add_skill += dmgAdd_cinnabar;
 
-        float zetsuen_burstBonus = Mathf.Clamp(artSetData.zetsuen * energy_recharge, 0, 0.75f);
+        zetsuen_burstBonus = Mathf.Clamp(artSetData.zetsuen * energy_recharge, 0, 0.75f);
         burst_bonus += zetsuen_burstBonus;
 
         var homa_atk = hp * weaponData.homa;
         var sekisa_atk = elemental_mastery * weaponData.sekisha;
-        var kusanagi_atk = (energy_recharge - 1) * weaponData.kusanagi;
+        kusanagi_atkRate = Mathf.Clamp((energy_recharge - 1f) * weaponData.kusanagi, 0, weaponData.kusanagi_max);
 
-        atk
-            = BaseAtk * (1 + atk_rate)
+        atk = BaseAtk * (1 + atk_rate + kusanagi_atkRate)
             + atk
             + homa_atk
-            + sekisa_atk
-            + kusanagi_atk;
+            + sekisa_atk;
     }
+    public float kusanagi_atkRate { get; private set; }
+    public float zetsuen_burstBonus { get; private set; }
 
     public void AddAtkRate(float rate)
     {
