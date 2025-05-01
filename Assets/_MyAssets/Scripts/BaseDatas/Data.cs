@@ -79,18 +79,15 @@ public class Data : BaseData
         elemental_mastery += (partyData.members.Length - sameElementCount) * 50;
 
         // 護摩の杖
-        var homa_atk = hp * weaponData.homa;
+        atk += hp * weaponData.homa;
         // 赤砂
-        var sekisa_atk = elemental_mastery * weaponData.sekisha;
+        atk += elemental_mastery * weaponData.sekisha;
         // 草薙
         float kusanagi_atkRate = Mathf.Clamp((energy_recharge - 1f) * weaponData.kusanagi, 0, weaponData.kusanagi_max);
         atk_rate += kusanagi_atkRate;
 
 
-        atk = BaseAtk * (1 + atk_rate)
-            + atk
-            + homa_atk
-            + sekisa_atk;
+        atk += BaseAtk * (1 + atk_rate);
     }
 
 
