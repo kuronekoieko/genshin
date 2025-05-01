@@ -152,37 +152,26 @@ public class SelectedDataSetter
         return false;
     }
 
-    T[] AddDifference<T>(T[] existingList, T[] newList) where T : ISelected
+    T[] AddDifference<T>(T[] existingAry, T[] loadAry) where T : ISelected
     {
-        List<T> tmpList = new();
+        // 重複と空id削除、並び替え
+        T[] newAry = loadAry
+            .DistinctBy(item => item.Id)
+            .Where(item => !string.IsNullOrEmpty(item.Id))
+            .OrderBy(item => item.Id)
+            .ToArray();
 
-        // 重複と空id削除
-        var existingArray = existingList.DistinctBy(item => item.Id).ToArray();
 
-        foreach (var existingItem in existingArray)
+        // 上書き
+        foreach (var newItem in newAry)
         {
-            // Debug.Log("a: " + existingItem.Id);
-            if (string.IsNullOrEmpty(existingItem.Id) == false)
+            if (existingAry.ContainsBy(item => item.Id == newItem.Id, out var index))
             {
-                tmpList.Add(existingItem);
+                newItem.IsUse = existingAry[index].IsUse;
             }
         }
 
-        // 上書きor追加
-        foreach (var newItem in newList)
-        {
-            if (tmpList.ContainsBy(item => item.Id == newItem.Id, out var index))
-            {
-                newItem.IsUse = tmpList[index].IsUse;
-                tmpList[index] = newItem;
-            }
-            else
-            {
-                tmpList.Add(newItem);
-            }
-        }
-
-        return tmpList.OrderBy(item => item.Id).ToArray();
+        return newAry;
     }
 
 }
