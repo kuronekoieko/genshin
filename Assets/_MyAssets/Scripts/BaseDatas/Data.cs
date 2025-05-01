@@ -60,27 +60,45 @@ public class Data : BaseData
         hp = status.baseHp * (1 + hp_rate) + hp;
         def = status.baseDef * (1 + def_rate) + def;
 
+        // 赤角
         var dmgAdd_sekikaku = def * weaponData.sekikaku;
         add_normal_atk += dmgAdd_sekikaku;
         add_charged_atk += dmgAdd_sekikaku;
 
+        // シナバースピンドル
         var dmgAdd_cinnabar = def * weaponData.cinnabar;
         add_skill += dmgAdd_cinnabar;
 
-        zetsuen_burstBonus = Mathf.Clamp(artSetData.zetsuen * energy_recharge, 0, 0.75f);
+        // 絶縁
+        float zetsuen_burstBonus = Mathf.Clamp(artSetData.zetsuen * energy_recharge, 0, 0.75f);
         burst_bonus += zetsuen_burstBonus;
 
-        var homa_atk = hp * weaponData.homa;
-        var sekisa_atk = elemental_mastery * weaponData.sekisha;
-        kusanagi_atkRate = Mathf.Clamp((energy_recharge - 1f) * weaponData.kusanagi, 0, weaponData.kusanagi_max);
+        // 金メッキ
+        int sameElementCount = partyData.members.Count(m => m.ElementType == status.elementType);
+        atk_rate += sameElementCount * 0.14f;
+        elemental_mastery += (partyData.members.Length - sameElementCount) * 50;
 
-        atk = BaseAtk * (1 + atk_rate + kusanagi_atkRate)
+        // 護摩の杖
+        var homa_atk = hp * weaponData.homa;
+        // 赤砂
+        var sekisa_atk = elemental_mastery * weaponData.sekisha;
+        // 草薙
+        float kusanagi_atkRate = Mathf.Clamp((energy_recharge - 1f) * weaponData.kusanagi, 0, weaponData.kusanagi_max);
+        atk_rate += kusanagi_atkRate;
+
+
+        atk = BaseAtk * (1 + atk_rate)
             + atk
             + homa_atk
             + sekisa_atk;
     }
-    public float kusanagi_atkRate { get; private set; }
-    public float zetsuen_burstBonus { get; private set; }
+
+
+
+
+
+    // public float kusanagi_atkRate { get; private set; }
+    // public float zetsuen_burstBonus { get; private set; }
 
     public void AddAtkRate(float rate)
     {

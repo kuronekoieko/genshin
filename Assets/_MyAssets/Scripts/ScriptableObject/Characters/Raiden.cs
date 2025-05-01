@@ -45,8 +45,9 @@ public class Raiden : BaseCharacterSO
             burstMultiplier_normalAtks[i] += burst_multiplierAdd_normalAtks;
         }
 
+        ElementalReaction elementalReaction = new(ElementType.Electro, ElementType.Dendro, data);
 
-        var ed_burst_first = ExpectedDamage.Single(data, AttackType.Burst, burstMultiplier_first);
+        var ed_burst_first = ExpectedDamage.Single(data, AttackType.Burst, burstMultiplier_first, elementalReaction: elementalReaction);
         var ed_burst_normal = ExpectedDamage.Sum(data, AttackType.Burst, burstMultiplier_normalAtks);
 
 
@@ -60,13 +61,13 @@ public class Raiden : BaseCharacterSO
             ["爆発通常合計期待値"] = ed_burst_normal.Result.ToString(true),
             ["願力"] = ganrikiStuck.ToString(true),
             ["爆発一発目倍率"] = burstMultiplier_first.ToString(),
-            ["爆発一発目倍率アップ"] = burst_multiplierAdd_first.ToString(),
-            ["爆発通常倍率アップ"] = burst_multiplierAdd_normalAtks.ToString(),
+            //["爆発一発目倍率アップ"] = burst_multiplierAdd_first.ToString(),
+            //["爆発通常倍率アップ"] = burst_multiplierAdd_normalAtks.ToString(),
             ["元チャ"] = data.energy_recharge.ToString(),
-            ["100%以上の元チャ[%]"] = energyRechargePercentageOver100.ToString(),
-            ["天賦の雷バフ"] = talent_electroDmgBonus.ToString(),
-            ["草薙攻撃力%"] = data.kusanagi_atkRate.ToString(),
-            ["絶縁爆発バフ"] = data.zetsuen_burstBonus.ToString(),
+            //["100%以上の元チャ[%]"] = energyRechargePercentageOver100.ToString(),
+            //["天賦の雷バフ"] = talent_electroDmgBonus.ToString(),
+            //["草薙攻撃力%"] = data.kusanagi_atkRate.ToString(),
+            //["絶縁爆発バフ"] = data.zetsuen_burstBonus.ToString(),
             ["攻撃力"] = data.atk.ToString(true),
             ["加算"] = ed_burst_first.DmgAdd.ToString(true),
             ["バフ合計"] = ed_burst_first.DmgBonus.ToString(),
@@ -74,8 +75,8 @@ public class Raiden : BaseCharacterSO
             ["元素バフ"] = data.ElementalDmgBonus(ElementType.Electro).ToString(),
             ["バフ爆発"] = data.burst_bonus.ToString(),
             ["耐性ダウン"] = data.res.ToString(),
-            ["パーティ元素"] = data.partyData.Log,
             ["耐性ダウン計算後"] = ed_burst_first.Res.ToString(),
+            ["パーティ元素"] = data.partyData.Log,
             ["熟知"] = data.elemental_mastery.ToString(),
             ["率ダメ"] = ed_burst_first.Crit.RateDmg,
             //["聖遺物組み合わせ"] = data.artSubData.name,
