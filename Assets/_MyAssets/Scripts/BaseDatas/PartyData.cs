@@ -24,20 +24,25 @@ public class PartyData : BaseData, IComparable<PartyData>
         }
 
         MembersEnergyCostSum = members.Sum(x => x.energy_cost);
-        Log = GetLog();
+        SetFields();
+        ElementCounts = GetElementCounts(characterElementType);
+        SetElementalResonance(ElementCounts);
+        CheckXilonenConstellation(characterElementType);
+        Log = GetLog(ElementCounts);
+    }
 
+    void SetFields()
+    {
         MemberData sumMemberData = FastInstanceAdder.AddInstances(members);
         FastFieldCopier.CopyBaseFields<BaseData>(sumMemberData, this);
         string[] combinedNames = members.Select(memberData => memberData.CombinedName).ToArray();
         name = string.Join("+", combinedNames);
-        SetElementalResonance(characterElementType);
-        // CheckDuplicateOptions();
     }
 
-    string GetLog()
+    string GetLog(Dictionary<ElementType, int> elementCounts)
     {
         string log = "";
-        foreach (var kvp in ElementCounts)
+        foreach (var kvp in elementCounts)
         {
             if (kvp.Value > 0) log += kvp.Key + ":" + kvp.Value + "、";
         }
@@ -45,48 +50,50 @@ public class PartyData : BaseData, IComparable<PartyData>
         return log;
     }
 
-    void SetElementalResonance(ElementType characterElementType)
+    Dictionary<ElementType, int> GetElementCounts(ElementType characterElementType)
     {
-        //  Debug.Log("characterElementType: " + characterElementType);
-
+        Dictionary<ElementType, int> elementCounts = new();
         // 初期化
         foreach (ElementType et in Enum.GetValues(typeof(ElementType)))
         {
-            ElementCounts.Add(et, 0);
+            elementCounts.Add(et, 0);
         }
 
-        ElementCounts[characterElementType] += 1;
-
+        elementCounts[characterElementType] += 1;
 
         foreach (var memberData in members)
         {
-            ElementCounts[memberData.ElementType] += 1;
+            elementCounts[memberData.ElementType] += 1;
         }
+        return elementCounts;
+    }
 
+    void SetElementalResonance(Dictionary<ElementType, int> elementCounts)
+    {
+        //  Debug.Log("characterElementType: " + characterElementType);
 
-        if (ElementCounts[ElementType.Pyro] >= 2)
+        if (elementCounts[ElementType.Pyro] >= 2)
         {
             atk_rate += 0.25f;
         }
-        if (ElementCounts[ElementType.Hydro] >= 2)
+        if (elementCounts[ElementType.Hydro] >= 2)
         {
             hp_rate += 0.25f;
         }
-        if (ElementCounts[ElementType.Cryo] >= 2)
+        if (elementCounts[ElementType.Cryo] >= 2)
         {
             crit_rate += 0.15f;
         }
-        if (ElementCounts[ElementType.Geo] >= 2)
+        if (elementCounts[ElementType.Geo] >= 2)
         {
             dmg_bonus += 0.15f;
             geo_res += -0.2f;
         }
-        if (ElementCounts[ElementType.Dendro] >= 2)
+        if (elementCounts[ElementType.Dendro] >= 2)
         {
             elemental_mastery += 100;
         }
 
-        CheckXilonenConstellation(characterElementType);
     }
 
     void CheckXilonenConstellation(ElementType characterElementType)
